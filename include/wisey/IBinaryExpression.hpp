@@ -34,6 +34,10 @@ namespace wisey {
      */
     virtual std::string getOperation() const = 0;
     
+    static void printToStream(IRGenerationContext& context,
+                              std::iostream& stream,
+                              const IBinaryExpression* expression);
+
   };
 
 } /* namespace wisey */

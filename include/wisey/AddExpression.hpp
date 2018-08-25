@@ -27,15 +27,11 @@ namespace wisey {
     
     ~AddExpression();
     
-    /**
-     * Returns the left side of the expression
-     */
-    const IExpression* getLeft() const;
+    const IExpression* getLeft() const override;
     
-    /**
-     * Returns the right side of the expression
-     */
-    const IExpression* getRight() const;
+    const IExpression* getRight() const override;
+    
+    std::string getOperation() const override;
 
     int getLine() const override;
     

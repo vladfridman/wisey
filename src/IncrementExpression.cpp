@@ -20,7 +20,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-IncrementExpression::IncrementExpression(IExpression* expression,
+IncrementExpression::IncrementExpression(const IExpression* expression,
                                          long long incrementBy,
                                          string variableName,
                                          bool isPrefix,
@@ -45,15 +45,6 @@ IncrementExpression* IncrementExpression::newIncrementByOne(IExpression* express
 
 IncrementExpression* IncrementExpression::newDecrementByOne(IExpression* expression, int line) {
   return new IncrementExpression(expression, -1, "dec", false, line);
-}
-
-IVariable* IncrementExpression::getVariable(IRGenerationContext& context,
-                                            vector<const IExpression*>& arrayIndices) const {
-  if (!mExpression->isAssignable()) {
-    context.reportError(mLine, "Expression is not assignable");
-    throw 1;
-  }
-  return ((IExpressionAssignable*) mExpression)->getVariable(context, arrayIndices);
 }
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context,
@@ -85,7 +76,8 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
                                                           mVariableName);
 
   vector<const IExpression*> arrayIndices;
-  IVariable* variable = ((IExpressionAssignable*) mExpression)->getVariable(context, arrayIndices);
+  IVariable* variable = ((const IExpressionAssignable*) mExpression)->
+  getVariable(context, arrayIndices);
 
   FakeExpression fakeExpression(incrementResult, expressionType);
   variable->generateAssignmentIR(context, &fakeExpression, arrayIndices, mLine);
@@ -102,7 +94,7 @@ bool IncrementExpression::isConstant() const {
 }
 
 bool IncrementExpression::isAssignable() const {
-  return true;
+  return false;
 }
 
 void IncrementExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {

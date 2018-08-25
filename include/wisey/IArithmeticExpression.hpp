@@ -9,14 +9,14 @@
 #ifndef IArithmeticExpression_h
 #define IArithmeticExpression_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IBinaryExpression.hpp"
 
 namespace wisey {
   
   /**
    * This is used to fake an expression that returns a given value and cleans up its type
    */
-  class IArithmeticExpression : public IExpression {
+  class IArithmeticExpression : public IBinaryExpression {
     
   public:
     

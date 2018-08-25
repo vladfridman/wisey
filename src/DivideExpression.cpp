@@ -25,6 +25,18 @@ DivideExpression::~DivideExpression() {
   delete mRight;
 }
 
+const IExpression* DivideExpression::getLeft() const {
+  return mLeft;
+}
+
+const IExpression* DivideExpression::getRight() const {
+  return mRight;
+}
+
+string DivideExpression::getOperation() const {
+  return "/";
+}
+
 int DivideExpression::getLine() const {
   return mLine;
 }
@@ -71,9 +83,5 @@ bool DivideExpression::isAssignable() const {
 
 void DivideExpression::printToStream(IRGenerationContext& context,
                                      std::iostream& stream) const {
-  mLeft->printToStream(context, stream);
-  stream << " / ";
-  mRight->printToStream(context, stream);
+  IBinaryExpression::printToStream(context, stream, this);
 }
-
-

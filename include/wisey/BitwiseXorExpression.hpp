@@ -9,7 +9,7 @@
 #ifndef BitwiseXorExpression_h
 #define BitwiseXorExpression_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IBinaryExpression.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Represents bitwise XOR operation
    */
-  class BitwiseXorExpression : public IExpression {
+  class BitwiseXorExpression : public IBinaryExpression {
     const IExpression* mLeft;
     const IExpression* mRight;
     int mLine;
@@ -28,6 +28,12 @@ namespace wisey {
     
     ~BitwiseXorExpression();
     
+    const IExpression* getLeft() const override;
+    
+    const IExpression* getRight() const override;
+    
+    std::string getOperation() const override;
+
     int getLine() const override;
     
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;

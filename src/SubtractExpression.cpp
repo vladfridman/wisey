@@ -25,6 +25,18 @@ SubtractExpression::~SubtractExpression() {
   delete mRight;
 }
 
+const IExpression* SubtractExpression::getLeft() const {
+  return mLeft;
+}
+
+const IExpression* SubtractExpression::getRight() const {
+  return mRight;
+}
+
+string SubtractExpression::getOperation() const {
+  return "-";
+}
+
 int SubtractExpression::getLine() const {
   return mLine;
 }
@@ -87,9 +99,7 @@ bool SubtractExpression::isAssignable() const {
 
 void SubtractExpression::printToStream(IRGenerationContext& context,
                                        std::iostream& stream) const {
-  mLeft->printToStream(context, stream);
-  stream << " - ";
-  mRight->printToStream(context, stream);
+  IBinaryExpression::printToStream(context, stream, this);
 }
 
 Value* SubtractExpression::subtractTwoPointers(IRGenerationContext& context,

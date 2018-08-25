@@ -97,18 +97,6 @@ TEST_F(AddExpressionTest, isAssignableTest) {
   EXPECT_FALSE(expression.isAssignable());
 }
 
-TEST_F(AddExpressionTest, getLeftTest) {
-  AddExpression expression(mLeft, mRight, 11);
-  
-  EXPECT_EQ(mLeft, expression.getLeft());
-}
-
-TEST_F(AddExpressionTest, getRightTest) {
-  AddExpression expression(mLeft, mRight, 11);
-  
-  EXPECT_EQ(mRight, expression.getRight());
-}
-
 TEST_F(AddExpressionTest, generateIRTest) {
   AddExpression expression(mLeft, mRight, 11);
   
@@ -243,6 +231,21 @@ TEST_F(AddExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(1): Error: Incompatible types in '+' operation that require an explicit cast\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(AddExpressionTest, getLeftTest) {
+  AddExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mLeft, expression.getLeft());
+}
+
+TEST_F(AddExpressionTest, getRightTest) {
+  AddExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mRight, expression.getRight());
+}
+
+TEST_F(AddExpressionTest, getOperationTest) {
+  AddExpression expression(mLeft, mRight, 11);
+  EXPECT_STREQ("+", expression.getOperation().c_str());
 }
 
 TEST_F(TestFileRunner, additionRunTest) {

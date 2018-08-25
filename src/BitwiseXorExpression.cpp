@@ -24,6 +24,18 @@ BitwiseXorExpression::~BitwiseXorExpression() {
   delete mRight;
 }
 
+const IExpression* BitwiseXorExpression::getLeft() const {
+  return mLeft;
+}
+
+const IExpression* BitwiseXorExpression::getRight() const {
+  return mRight;
+}
+
+string BitwiseXorExpression::getOperation() const {
+  return "^";
+}
+
 int BitwiseXorExpression::getLine() const {
   return mLine;
 }
@@ -72,7 +84,5 @@ bool BitwiseXorExpression::isAssignable() const {
 
 void BitwiseXorExpression::printToStream(IRGenerationContext& context,
                                          std::iostream& stream) const {
-  mLeft->printToStream(context, stream);
-  stream << " ^ ";
-  mRight->printToStream(context, stream);
+  IBinaryExpression::printToStream(context, stream, this);
 }

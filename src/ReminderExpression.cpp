@@ -25,6 +25,18 @@ ReminderExpression::~ReminderExpression() {
   delete mRight;
 }
 
+const IExpression* ReminderExpression::getLeft() const {
+  return mLeft;
+}
+
+const IExpression* ReminderExpression::getRight() const {
+  return mRight;
+}
+
+string ReminderExpression::getOperation() const {
+  return "%";
+}
+
 int ReminderExpression::getLine() const {
   return mLine;
 }
@@ -75,9 +87,5 @@ bool ReminderExpression::isAssignable() const {
 
 void ReminderExpression::printToStream(IRGenerationContext& context,
                                        std::iostream& stream) const {
-  mLeft->printToStream(context, stream);
-  stream << " % ";
-  mRight->printToStream(context, stream);
+  IBinaryExpression::printToStream(context, stream, this);
 }
-
-

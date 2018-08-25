@@ -214,6 +214,21 @@ TEST_F(ReminderExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(ReminderExpressionTest, getLeftTest) {
+  ReminderExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mLeft, expression.getLeft());
+}
+
+TEST_F(ReminderExpressionTest, getRightTest) {
+  ReminderExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mRight, expression.getRight());
+}
+
+TEST_F(ReminderExpressionTest, getOperationTest) {
+  ReminderExpression expression(mLeft, mRight, 11);
+  EXPECT_STREQ("%", expression.getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, moduloRunTest) {
   runFile("tests/samples/test_modulo.yz", 3);
 }

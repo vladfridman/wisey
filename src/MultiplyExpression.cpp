@@ -25,6 +25,18 @@ MultiplyExpression::~MultiplyExpression() {
   delete mRight;
 }
 
+const IExpression* MultiplyExpression::getLeft() const {
+  return mLeft;
+}
+
+const IExpression* MultiplyExpression::getRight() const {
+  return mRight;
+}
+
+string MultiplyExpression::getOperation() const {
+  return "*";
+}
+
 int MultiplyExpression::getLine() const {
   return mLine;
 }
@@ -71,8 +83,5 @@ bool MultiplyExpression::isAssignable() const {
 
 void MultiplyExpression::printToStream(IRGenerationContext& context,
                                        std::iostream& stream) const {
-  mLeft->printToStream(context, stream);
-  stream << " * ";
-  mRight->printToStream(context, stream);
+  IBinaryExpression::printToStream(context, stream, this);
 }
-

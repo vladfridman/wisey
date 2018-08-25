@@ -69,13 +69,6 @@ public:
   }
 };
 
-TEST_F(IncrementExpressionTest, getVariableTest) {
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(expression->getVariable(mContext, arrayIndices), mVariable);
-}
-
 TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
   expression->generateIR(mContext, PrimitiveTypes::VOID);
@@ -150,7 +143,7 @@ TEST_F(IncrementExpressionTest, isConstantTest) {
 TEST_F(IncrementExpressionTest, isAssignableTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
   
-  EXPECT_TRUE(expression->isAssignable());
+  EXPECT_FALSE(expression->isAssignable());
 }
 
 TEST_F(IncrementExpressionTest, printToStreamTest) {

@@ -27,6 +27,12 @@ namespace wisey {
     
     ~DivideExpression();
     
+    const IExpression* getLeft() const override;
+    
+    const IExpression* getRight() const override;
+    
+    std::string getOperation() const override;
+
     int getLine() const override;
     
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;

@@ -36,10 +36,6 @@ ShiftByExpression::~ShiftByExpression() {
   delete mAdjustment;
 }
 
-int ShiftByExpression::getLine() const {
-  return mLine;
-}
-
 ShiftByExpression* ShiftByExpression::newShiftLeftBy(const IExpression* expression,
                                                      const IExpression* adjustment,
                                                      int line) {
@@ -50,6 +46,22 @@ ShiftByExpression* ShiftByExpression::newShiftRightBy(const IExpression* express
                                                       const IExpression* adjustment,
                                                       int line) {
   return new ShiftByExpression(expression, adjustment, false, line);
+}
+
+const IExpression* ShiftByExpression::getLeft() const {
+  return mExpression;
+}
+
+const IExpression* ShiftByExpression::getRight() const {
+  return mAdjustment;
+}
+
+string ShiftByExpression::getOperation() const {
+  return mIsLeftShift ? "<<=" : ">>=";
+}
+
+int ShiftByExpression::getLine() const {
+  return mLine;
 }
 
 Value* ShiftByExpression::generateIR(IRGenerationContext& context,
@@ -95,19 +107,5 @@ bool ShiftByExpression::isAssignable() const {
 }
 
 void ShiftByExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
-  mExpression->printToStream(context, stream);
-  stream << " " << getOperation() << " ";
-  mAdjustment->printToStream(context, stream);
-}
-
-const IExpression* ShiftByExpression::getLeft() const {
-  return mExpression;
-}
-
-const IExpression* ShiftByExpression::getRight() const {
-  return mAdjustment;
-}
-
-string ShiftByExpression::getOperation() const {
-  return mIsLeftShift ? "<<=" : ">>=";
+  IBinaryExpression::printToStream(context, stream, this);
 }

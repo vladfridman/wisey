@@ -37,6 +37,18 @@ AdjustByExpression::~AdjustByExpression() {
   delete mAdjustment;
 }
 
+const IExpression* AdjustByExpression::getLeft() const {
+  return mExpression;
+}
+
+const IExpression* AdjustByExpression::getRight() const {
+  return mAdjustment;
+}
+
+string AdjustByExpression::getOperation() const {
+  return mIsIncrement ? "+=" : "-=";
+}
+
 int AdjustByExpression::getLine() const {
   return mLine;
 }
@@ -106,19 +118,5 @@ bool AdjustByExpression::isAssignable() const {
 }
 
 void AdjustByExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
-  mExpression->printToStream(context, stream);
-  stream << " " << getOperation() << " ";
-  mAdjustment->printToStream(context, stream);
-}
-
-const IExpression* AdjustByExpression::getLeft() const {
-  return mExpression;
-}
-
-const IExpression* AdjustByExpression::getRight() const {
-  return mAdjustment;
-}
-
-string AdjustByExpression::getOperation() const {
-  return mIsIncrement ? "+=" : "-=";
+  IBinaryExpression::printToStream(context, stream, this);
 }

@@ -48,6 +48,12 @@ namespace wisey {
     static AdjustByExpression* newDecrementBy(const IExpression* expression,
                                               const IExpression* adjustment,
                                               int line);
+    
+    const IExpression* getLeft() const override;
+    
+    const IExpression* getRight() const override;
+    
+    std::string getOperation() const override;
 
     int getLine() const override;
     
@@ -60,12 +66,6 @@ namespace wisey {
     bool isAssignable() const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-    
-    const IExpression* getLeft() const override;
-    
-    const IExpression* getRight() const override;
-    
-    std::string getOperation() const override;
     
   };
   

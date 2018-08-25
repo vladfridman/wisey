@@ -28,6 +28,18 @@ ShiftRightExpression::~ShiftRightExpression() {
   delete mRightExpression;
 }
 
+const IExpression* ShiftRightExpression::getLeft() const {
+  return mLeftExpression;
+}
+
+const IExpression* ShiftRightExpression::getRight() const {
+  return mRightExpression;
+}
+
+string ShiftRightExpression::getOperation() const {
+  return ">>";
+}
+
 int ShiftRightExpression::getLine() const {
   return mLine;
 }
@@ -63,19 +75,5 @@ bool ShiftRightExpression::isAssignable() const {
 
 void ShiftRightExpression::printToStream(IRGenerationContext& context,
                                         std::iostream& stream) const {
-  mLeftExpression->printToStream(context, stream);
-  stream << " >> ";
-  mRightExpression->printToStream(context, stream);
-}
-
-const IExpression* ShiftRightExpression::getLeft() const {
-  return mLeftExpression;
-}
-
-const IExpression* ShiftRightExpression::getRight() const {
-  return mRightExpression;
-}
-
-string ShiftRightExpression::getOperation() const {
-  return ">>";
+  IBinaryExpression::printToStream(context, stream, this);
 }

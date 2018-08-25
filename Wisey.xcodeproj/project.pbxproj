@@ -842,6 +842,8 @@
 		F59692F02131958100F19C4E /* IntExpressionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692EF2131958100F19C4E /* IntExpressionChecker.cpp */; };
 		F59692F12131958100F19C4E /* IntExpressionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692EF2131958100F19C4E /* IntExpressionChecker.cpp */; };
 		F59692F421319ECA00F19C4E /* TestShiftByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692F321319ECA00F19C4E /* TestShiftByExpression.cpp */; };
+		F59692F62131B3E400F19C4E /* IBinaryExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692F52131B3E400F19C4E /* IBinaryExpression.cpp */; };
+		F59692F72131B3E400F19C4E /* IBinaryExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692F52131B3E400F19C4E /* IBinaryExpression.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1934,6 +1936,7 @@
 		F59692EF2131958100F19C4E /* IntExpressionChecker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IntExpressionChecker.cpp; path = src/IntExpressionChecker.cpp; sourceTree = "<group>"; };
 		F59692F22131970200F19C4E /* IBinaryExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBinaryExpression.hpp; path = include/wisey/IBinaryExpression.hpp; sourceTree = "<group>"; };
 		F59692F321319ECA00F19C4E /* TestShiftByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestShiftByExpression.cpp; path = tests/TestShiftByExpression.cpp; sourceTree = "<group>"; };
+		F59692F52131B3E400F19C4E /* IBinaryExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IBinaryExpression.cpp; path = src/IBinaryExpression.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -3031,6 +3034,7 @@
 				F5E6BD091F190B8500D59444 /* FakeExpression.cpp */,
 				F5CB7F6F2051532A007628B5 /* FakeExpressionWithCleanup.cpp */,
 				F596929921177E2B00F19C4E /* IArithmeticExpression.cpp */,
+				F59692F52131B3E400F19C4E /* IBinaryExpression.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
 				F51942F31FE302DC009C3158 /* IdentifierChain.cpp */,
 				F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */,
@@ -4426,6 +4430,7 @@
 				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
 				F50427AD1E4D2747001CB148 /* LocalReferenceVariable.cpp in Sources */,
 				F5325074202B9EE6007D8597 /* TestArraySpecificOwnerTypeSpecifier.cpp in Sources */,
+				F59692F72131B3E400F19C4E /* IBinaryExpression.cpp in Sources */,
 				F5A0DAFB207BE87700B0E479 /* TestWiseyModelType.cpp in Sources */,
 				F5F3F8D11FDEC637001BA5B9 /* ArrayTypeSpecifier.cpp in Sources */,
 				F5A0DAE9207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */,
@@ -5102,6 +5107,7 @@
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F59692C1211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */,
 				F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
+				F59692F62131B3E400F19C4E /* IBinaryExpression.cpp in Sources */,
 				F5E270731F98F6A4008D2EB7 /* Constant.cpp in Sources */,
 				F5A34F62209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp in Sources */,
 				F5A0DAE8207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */,

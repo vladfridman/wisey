@@ -148,6 +148,18 @@ TEST_F(BitwiseAndExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(BitwiseAndExpressionTest, getLeftTest) {
+  EXPECT_EQ(mLeft, mBitwiseAndExpression->getLeft());
+}
+
+TEST_F(BitwiseAndExpressionTest, getRightTest) {
+  EXPECT_EQ(mRight, mBitwiseAndExpression->getRight());
+}
+
+TEST_F(BitwiseAndExpressionTest, getOperationTest) {
+  EXPECT_STREQ("&", mBitwiseAndExpression->getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, bitwiseAndTest) {
   runFile("tests/samples/test_bitwise_and.yz", 3);
 }

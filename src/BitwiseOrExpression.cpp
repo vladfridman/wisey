@@ -24,6 +24,18 @@ BitwiseOrExpression::~BitwiseOrExpression() {
   delete mRight;
 }
 
+const IExpression* BitwiseOrExpression::getLeft() const {
+  return mLeft;
+}
+
+const IExpression* BitwiseOrExpression::getRight() const {
+  return mRight;
+}
+
+string BitwiseOrExpression::getOperation() const {
+  return "|";
+}
+
 int BitwiseOrExpression::getLine() const {
   return mLine;
 }
@@ -71,8 +83,6 @@ bool BitwiseOrExpression::isAssignable() const {
 }
 
 void BitwiseOrExpression::printToStream(IRGenerationContext& context,
-                                         std::iostream& stream) const {
-  mLeft->printToStream(context, stream);
-  stream << " | ";
-  mRight->printToStream(context, stream);
+                                        std::iostream& stream) const {
+  IBinaryExpression::printToStream(context, stream, this);
 }

@@ -23,16 +23,20 @@ AddExpression::~AddExpression() {
   delete mRight;
 }
 
-int AddExpression::getLine() const {
-  return mLine;
-}
-
 const IExpression* AddExpression::getLeft() const {
   return mLeft;
 }
 
 const IExpression* AddExpression::getRight() const {
   return mRight;
+}
+
+string AddExpression::getOperation() const {
+  return "+";
+}
+
+int AddExpression::getLine() const {
+  return mLine;
 }
 
 Value* AddExpression::generateIR(IRGenerationContext& context,
@@ -98,8 +102,5 @@ bool AddExpression::isAssignable() const {
 
 void AddExpression::printToStream(IRGenerationContext& context,
                                   std::iostream& stream) const {
-  mLeft->printToStream(context, stream);
-  stream << " + ";
-  mRight->printToStream(context, stream);
+  IBinaryExpression::printToStream(context, stream, this);
 }
-

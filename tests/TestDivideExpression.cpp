@@ -214,6 +214,21 @@ TEST_F(DivideExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(DivideExpressionTest, getLeftTest) {
+  DivideExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mLeft, expression.getLeft());
+}
+
+TEST_F(DivideExpressionTest, getRightTest) {
+  DivideExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mRight, expression.getRight());
+}
+
+TEST_F(DivideExpressionTest, getOperationTest) {
+  DivideExpression expression(mLeft, mRight, 11);
+  EXPECT_STREQ("/", expression.getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, divisionRunTest) {
   runFile("tests/samples/test_division.yz", 5);
 }

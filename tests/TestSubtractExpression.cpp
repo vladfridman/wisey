@@ -234,6 +234,21 @@ TEST_F(SubtractExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(SubtractExpressionTest, getLeftTest) {
+  SubtractExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mLeft, expression.getLeft());
+}
+
+TEST_F(SubtractExpressionTest, getRightTest) {
+  SubtractExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mRight, expression.getRight());
+}
+
+TEST_F(SubtractExpressionTest, getOperationTest) {
+  SubtractExpression expression(mLeft, mRight, 11);
+  EXPECT_STREQ("-", expression.getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, subtractionRunTest) {
   runFile("tests/samples/test_subtraction.yz", 14);
 }

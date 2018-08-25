@@ -29,6 +29,12 @@ namespace wisey {
     
     ~ShiftRightExpression();
     
+    const IExpression* getLeft() const override;
+    
+    const IExpression* getRight() const override;
+    
+    std::string getOperation() const override;
+
     int getLine() const override;
     
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
@@ -40,12 +46,6 @@ namespace wisey {
     bool isAssignable() const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-    
-    const IExpression* getLeft() const override;
-    
-    const IExpression* getRight() const override;
-    
-    std::string getOperation() const override;
 
   };
   

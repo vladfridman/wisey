@@ -9,7 +9,7 @@
 #ifndef IncrementExpression_h
 #define IncrementExpression_h
 
-#include "wisey/IExpressionAssignable.hpp"
+#include "wisey/IExpression.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IHasType.hpp"
 
@@ -18,14 +18,14 @@ namespace wisey {
   /**
    * Represents an increment or decrement expression such as i++ or i--
    */
-  class IncrementExpression : public IExpressionAssignable {
-    IExpression* mExpression;
+  class IncrementExpression : public IExpression {
+    const IExpression* mExpression;
     long long mIncrementBy;
     std::string mVariableName;
     bool mIsPrefix;
     int mLine;
     
-    IncrementExpression(IExpression* expression,
+    IncrementExpression(const IExpression* expression,
                         long long incrementBy,
                         std::string variableName,
                         bool isPrefix,
@@ -46,9 +46,6 @@ namespace wisey {
     static IncrementExpression* newDecrementByOne(IExpression* expression, int line);
 
     int getLine() const override;
-
-    IVariable* getVariable(IRGenerationContext& context,
-                           std::vector<const IExpression*>& arrayIndices) const override;
     
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     

@@ -148,6 +148,18 @@ TEST_F(BitwiseXorExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(BitwiseXorExpressionTest, getLeftTest) {
+  EXPECT_EQ(mLeft, mBitwiseXorExpression->getLeft());
+}
+
+TEST_F(BitwiseXorExpressionTest, getRightTest) {
+  EXPECT_EQ(mRight, mBitwiseXorExpression->getRight());
+}
+
+TEST_F(BitwiseXorExpressionTest, getOperationTest) {
+  EXPECT_STREQ("^", mBitwiseXorExpression->getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, bitwiseXorTest) {
   runFile("tests/samples/test_bitwise_xor.yz", 5);
 }

@@ -214,6 +214,21 @@ TEST_F(MultiplyExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(MultiplyExpressionTest, getLeftTest) {
+  MultiplyExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mLeft, expression.getLeft());
+}
+
+TEST_F(MultiplyExpressionTest, getRightTest) {
+  MultiplyExpression expression(mLeft, mRight, 11);
+  EXPECT_EQ(mRight, expression.getRight());
+}
+
+TEST_F(MultiplyExpressionTest, getOperationTest) {
+  MultiplyExpression expression(mLeft, mRight, 11);
+  EXPECT_STREQ("*", expression.getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, multiplicationRunTest) {
   runFile("tests/samples/test_multiplication.yz", 50);
 }

@@ -150,6 +150,18 @@ TEST_F(ShiftRightExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(ShiftRightExpressionTest, getLeftTest) {
+  EXPECT_EQ(mLeftExpression, mShiftRightExpression->getLeft());
+}
+
+TEST_F(ShiftRightExpressionTest, getRightTest) {
+  EXPECT_EQ(mRightExpression, mShiftRightExpression->getRight());
+}
+
+TEST_F(ShiftRightExpressionTest, getOperationTest) {
+  EXPECT_STREQ(">>", mShiftRightExpression->getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, shiftRightTest) {
   runFile("tests/samples/test_shiftright.yz", 1);
 }
