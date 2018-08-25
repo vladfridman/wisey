@@ -179,6 +179,21 @@ TEST_F(ShiftByExpressionTest, printToStreamTest) {
   EXPECT_STREQ("foo >>= 3", stringStreamDecrement.str().c_str());
 }
 
+TEST_F(ShiftByExpressionTest, getLeftTest) {
+  ShiftByExpression* expression = ShiftByExpression::newShiftRightBy(mIdentifier, mAdjustment, 0);
+  EXPECT_EQ(mIdentifier, expression->getLeft());
+}
+
+TEST_F(ShiftByExpressionTest, getRightTest) {
+  ShiftByExpression* expression = ShiftByExpression::newShiftRightBy(mIdentifier, mAdjustment, 0);
+  EXPECT_EQ(mAdjustment, expression->getRight());
+}
+
+TEST_F(ShiftByExpressionTest, getOperationTest) {
+  ShiftByExpression* expression = ShiftByExpression::newShiftRightBy(mIdentifier, mAdjustment, 0);
+  EXPECT_STREQ(">>=", expression->getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, shiftLeftByRunTest) {
   runFile("tests/samples/test_shift_left_by.yz", 8);
 }
