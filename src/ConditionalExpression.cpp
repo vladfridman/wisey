@@ -19,9 +19,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ConditionalExpression::ConditionalExpression(IExpression* conditionExpression,
-                                             IExpression* ifTrueExpression,
-                                             IExpression* ifFalseExpression,
+ConditionalExpression::ConditionalExpression(const IExpression* conditionExpression,
+                                             const IExpression* ifTrueExpression,
+                                             const IExpression* ifFalseExpression,
                                              int line) :
 mConditionExpression(conditionExpression),
 mIfTrueExpression(ifTrueExpression),

@@ -20,7 +20,7 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-IdentifierChain::IdentifierChain(IExpression* objectExpression, std::string name, int line) :
+IdentifierChain::IdentifierChain(const IExpression* objectExpression, std::string name, int line) :
 mObjectExpression(objectExpression), mName(name), mLine(line) {
 }
 

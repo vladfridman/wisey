@@ -25,13 +25,13 @@ namespace wisey {
    */
   class IdentifierChain : public IExpression {
     
-    IExpression* mObjectExpression;
+    const IExpression* mObjectExpression;
     const std::string mName;
     int mLine;
     
   public:
     
-    IdentifierChain(IExpression* objectExpression, std::string name, int line);
+    IdentifierChain(const IExpression* objectExpression, std::string name, int line);
     
     ~IdentifierChain();
     

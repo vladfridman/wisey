@@ -18,7 +18,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-DereferenceExpression::DereferenceExpression(IExpression* expression, int line) :
+DereferenceExpression::DereferenceExpression(const IExpression* expression, int line) :
 mExpression(expression), mLine(line) {
 }
 

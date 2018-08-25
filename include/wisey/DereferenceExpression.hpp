@@ -18,12 +18,12 @@ namespace wisey {
    * Represents ::llvm::dereference expression
    */
   class DereferenceExpression : public IExpression {
-    IExpression* mExpression;
+    const IExpression* mExpression;
     int mLine;
     
   public:
     
-    DereferenceExpression(IExpression* expression, int line);
+    DereferenceExpression(const IExpression* expression, int line);
     
     ~DereferenceExpression();
     

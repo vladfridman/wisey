@@ -19,13 +19,13 @@ namespace wisey {
    * Represents an m expression for type comparision
    */
   class TypeComparisionExpression : public IExpression {
-    IExpression* mExpression;
+    const IExpression* mExpression;
     const ITypeSpecifier* mTypeSpecifier;
     int mLine;
     
   public:
     
-    TypeComparisionExpression(IExpression* expression,
+    TypeComparisionExpression(const IExpression* expression,
                               const ITypeSpecifier* typeSpecifier,
                               int line);
     

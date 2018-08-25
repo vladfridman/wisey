@@ -21,16 +21,16 @@ namespace wisey {
    */
   class ConditionalExpression : public IExpression {
     
-    IExpression* mConditionExpression;
-    IExpression* mIfTrueExpression;
-    IExpression* mIfFalseExpression;
+    const IExpression* mConditionExpression;
+    const IExpression* mIfTrueExpression;
+    const IExpression* mIfFalseExpression;
     int mLine;
     
   public:
     
-    ConditionalExpression(IExpression* conditionExpression,
-                          IExpression* ifTrueExpression,
-                          IExpression* ifFalseExpression,
+    ConditionalExpression(const IExpression* conditionExpression,
+                          const IExpression* ifTrueExpression,
+                          const IExpression* ifFalseExpression,
                           int line);
     
     ~ConditionalExpression();

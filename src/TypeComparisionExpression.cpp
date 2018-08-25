@@ -18,7 +18,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-TypeComparisionExpression::TypeComparisionExpression(IExpression* expression,
+TypeComparisionExpression::TypeComparisionExpression(const IExpression* expression,
                                                      const ITypeSpecifier* typeSpecifier,
                                                      int line) :
 mExpression(expression), mTypeSpecifier(typeSpecifier), mLine(line) { }

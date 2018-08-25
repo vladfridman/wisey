@@ -19,12 +19,12 @@ namespace wisey {
    */
   class CastExpression : public IExpression {
     const ITypeSpecifier* mTypeSpecifier;
-    IExpression* mExpression;
+    const IExpression* mExpression;
     int mLine;
     
   public:
     
-    CastExpression(const ITypeSpecifier* typeSpecifier, IExpression* expression, int line);
+    CastExpression(const ITypeSpecifier* typeSpecifier, const IExpression* expression, int line);
     
     ~CastExpression();
     

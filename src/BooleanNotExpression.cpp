@@ -20,7 +20,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BooleanNotExpression::BooleanNotExpression(IExpression* expression, int line) :
+BooleanNotExpression::BooleanNotExpression(const IExpression* expression, int line) :
 mExpression(expression), mLine(line) { }
 
 BooleanNotExpression::~BooleanNotExpression() {

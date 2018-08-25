@@ -18,12 +18,12 @@ namespace wisey {
    * Represents negate operation
    */
   class NegateExpression : public IExpression {
-    IExpression* mExpression;
+    const IExpression* mExpression;
     int mLine;
     
   public:
     
-    NegateExpression(IExpression* expression, int line);
+    NegateExpression(const IExpression* expression, int line);
     
     ~NegateExpression();
     

@@ -18,12 +18,12 @@ namespace wisey {
    * Represents a boolean NOT operation
    */
   class BooleanNotExpression : public IExpression {
-    IExpression* mExpression;
+    const IExpression* mExpression;
     int mLine;
     
   public:
     
-    BooleanNotExpression(IExpression* expression, int line);
+    BooleanNotExpression(const IExpression* expression, int line);
     
     ~BooleanNotExpression();
     

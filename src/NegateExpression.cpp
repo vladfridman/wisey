@@ -19,7 +19,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NegateExpression::NegateExpression(IExpression* expression, int line) :
+NegateExpression::NegateExpression(const IExpression* expression, int line) :
 mExpression(expression), mLine(line) { }
 
 NegateExpression::~NegateExpression() {

@@ -20,8 +20,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LogicalAndExpression::LogicalAndExpression(IExpression* leftExpression,
-                                           IExpression* rightExpression,
+LogicalAndExpression::LogicalAndExpression(const IExpression* leftExpression,
+                                           const IExpression* rightExpression,
                                            int line) :
 mLeftExpression(leftExpression),
 mRightExpression(rightExpression),

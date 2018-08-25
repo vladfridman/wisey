@@ -18,13 +18,15 @@ namespace wisey {
    * Represents a logical AND expression such as 'a && b'
    */
   class LogicalAndExpression : public IExpression {
-    IExpression* mLeftExpression;
-    IExpression* mRightExpression;
+    const IExpression* mLeftExpression;
+    const IExpression* mRightExpression;
     int mLine;
     
   public:
     
-    LogicalAndExpression(IExpression* leftExpression, IExpression* rightExpression, int line);
+    LogicalAndExpression(const IExpression* leftExpression,
+                         const IExpression* rightExpression,
+                         int line);
     
     ~LogicalAndExpression();
     

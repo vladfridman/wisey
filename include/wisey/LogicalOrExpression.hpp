@@ -18,13 +18,15 @@ namespace wisey {
    * Represents a logical OR expression such as 'a || b'
    */
   class LogicalOrExpression : public IExpression {
-    IExpression* mLeftExpression;
-    IExpression* mRightExpression;
+    const IExpression* mLeftExpression;
+    const IExpression* mRightExpression;
     int mLine;
     
   public:
     
-    LogicalOrExpression(IExpression* leftExpression, IExpression* rightExpression, int line);
+    LogicalOrExpression(const IExpression* leftExpression,
+                        const IExpression* rightExpression,
+                        int line);
     
     ~LogicalOrExpression();
     
