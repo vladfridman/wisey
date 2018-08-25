@@ -18,19 +18,40 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-RelationalExpression::RelationalExpression(IExpression* leftExpression,
+RelationalExpression::RelationalExpression(const IExpression* left,
                                            RelationalOperation operation,
-                                           IExpression* rightExpression,
+                                           const IExpression* right,
                                            int line) :
-mLeftExpression(leftExpression),
-mRightExpression(rightExpression),
+mLeft(left),
+mRight(right),
 mOperation(operation),
 mLine(line) { }
 
 RelationalExpression::~RelationalExpression() {
-  delete mLeftExpression;
-  delete mRightExpression;
+  delete mLeft;
+  delete mRight;
 }
+
+const IExpression* RelationalExpression::getLeft() const {
+  return mLeft;
+}
+
+const IExpression* RelationalExpression::getRight() const {
+  return mRight;
+}
+
+string RelationalExpression::getOperation() const {
+  switch (mOperation) {
+    case RELATIONAL_OPERATION_LT : return "<"; break;
+    case RELATIONAL_OPERATION_GT : return ">"; break;
+    case RELATIONAL_OPERATION_LE : return "<="; break;
+    case RELATIONAL_OPERATION_GE : return ">="; break;
+    case RELATIONAL_OPERATION_EQ : return "=="; break;
+    case RELATIONAL_OPERATION_NE : return "!="; break;
+  }
+  assert(false && "unknown relational operation");
+}
+
 
 int RelationalExpression::getLine() const {
   return mLine;
@@ -38,8 +59,8 @@ int RelationalExpression::getLine() const {
 
 Value* RelationalExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
-  const IType* leftType = mLeftExpression->getType(context);
-  const IType* rightType = mRightExpression->getType(context);
+  const IType* leftType = mLeft->getType(context);
+  const IType* rightType = mRight->getType(context);
   if ((!leftType->isPrimitive() && rightType->isPrimitive()) ||
       (leftType->isPrimitive() && !rightType->isPrimitive())) {
     context.reportError(mLine, "Can not compare objects to primitive types");
@@ -72,11 +93,11 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context,
       throw 1;
   }
   
-  const IType* leftType = mLeftExpression->getType(context);
-  const IType* rightType = mRightExpression->getType(context);
+  const IType* leftType = mLeft->getType(context);
+  const IType* rightType = mRight->getType(context);
   
-  Value* leftValue = mLeftExpression->generateIR(context, assignToType);
-  Value* rightValue = mRightExpression->generateIR(context, assignToType);
+  Value* leftValue = mLeft->generateIR(context, assignToType);
+  Value* rightValue = mRight->generateIR(context, assignToType);
   
   if (leftType == rightType) {
     return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
@@ -108,11 +129,11 @@ Value* RelationalExpression::generateIRForFloats(IRGenerationContext& context,
     case RELATIONAL_OPERATION_NE : predicate = FCmpInst::FCMP_ONE; break;
   }
   
-  const IType* leftType = mLeftExpression->getType(context);
-  const IType* rightType = mRightExpression->getType(context);
+  const IType* leftType = mLeft->getType(context);
+  const IType* rightType = mRight->getType(context);
   
-  Value* leftValue = mLeftExpression->generateIR(context, assignToType);
-  Value* rightValue = mRightExpression->generateIR(context, assignToType);
+  Value* leftValue = mLeft->generateIR(context, assignToType);
+  Value* rightValue = mRight->generateIR(context, assignToType);
   
   if (leftType == rightType) {
     return IRWriter::newFCmpInst(context, predicate, leftValue, rightValue, "cmp");
@@ -144,11 +165,11 @@ Value* RelationalExpression::generateIRForInts(IRGenerationContext& context,
     case RELATIONAL_OPERATION_NE : predicate = ICmpInst::ICMP_NE; break;
   }
 
-  const IType* leftType = mLeftExpression->getType(context);
-  const IType* rightType = mRightExpression->getType(context);
+  const IType* leftType = mLeft->getType(context);
+  const IType* rightType = mRight->getType(context);
 
-  Value* leftValue = mLeftExpression->generateIR(context, assignToType);
-  Value* rightValue = mRightExpression->generateIR(context, assignToType);
+  Value* leftValue = mLeft->generateIR(context, assignToType);
+  Value* rightValue = mRight->generateIR(context, assignToType);
   
   if (leftType == rightType) {
     return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
@@ -185,14 +206,5 @@ bool RelationalExpression::isAssignable() const {
 
 void RelationalExpression::printToStream(IRGenerationContext& context,
                                          std::iostream& stream) const {
-  mLeftExpression->printToStream(context, stream);
-  switch (mOperation) {
-    case RELATIONAL_OPERATION_LT : stream << " < "; break;
-    case RELATIONAL_OPERATION_GT : stream << " > "; break;
-    case RELATIONAL_OPERATION_LE : stream << " <= "; break;
-    case RELATIONAL_OPERATION_GE : stream << " >= "; break;
-    case RELATIONAL_OPERATION_EQ : stream << " == "; break;
-    case RELATIONAL_OPERATION_NE : stream << " != "; break;
-  }
-  mRightExpression->printToStream(context, stream);
+  IBinaryExpression::printToStream(context, stream, this);
 }

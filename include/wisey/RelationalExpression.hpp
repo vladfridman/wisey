@@ -9,7 +9,7 @@
 #ifndef RelationalExpression_h
 #define RelationalExpression_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IBinaryExpression.hpp"
 #include "wisey/IHasType.hpp"
 #include "wisey/RelationalOperation.hpp"
 
@@ -18,21 +18,27 @@ namespace wisey {
   /**
    * Represents a relational expression such as a >= b
    */
-  class RelationalExpression : public IExpression {
-    IExpression* mLeftExpression;
-    IExpression* mRightExpression;
+  class RelationalExpression : public IBinaryExpression {
+    const IExpression* mLeft;
+    const IExpression* mRight;
     RelationalOperation mOperation;
     int mLine;
     
   public:
     
-    RelationalExpression(IExpression* leftExpression,
+    RelationalExpression(const IExpression* left,
                          RelationalOperation operation,
-                         IExpression* rightExpression,
+                         const IExpression* right,
                          int line);
     
     ~RelationalExpression();
     
+    const IExpression* getLeft() const override;
+    
+    const IExpression* getRight() const override;
+    
+    std::string getOperation() const override;
+
     int getLine() const override;
 
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;

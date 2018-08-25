@@ -247,6 +247,21 @@ TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(RelationalExpressionTest, getLeftTest) {
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 7);
+  EXPECT_EQ(mLeftExpression, expression.getLeft());
+}
+
+TEST_F(RelationalExpressionTest, getRightTest) {
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 7);
+  EXPECT_EQ(mRightExpression, expression.getRight());
+}
+
+TEST_F(RelationalExpressionTest, getOperationTest) {
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 7);
+  EXPECT_STREQ("==", expression.getOperation().c_str());
+}
+
 TEST_F(TestFileRunner, lessThanRunTest) {
   runFile("tests/samples/test_less_than.yz", 1);
 }
