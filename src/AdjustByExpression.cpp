@@ -21,8 +21,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-AdjustByExpression::AdjustByExpression(IExpression* expression,
-                                       IExpression* adjustment,
+AdjustByExpression::AdjustByExpression(const IExpression* expression,
+                                       const IExpression* adjustment,
                                        string variableName,
                                        bool isIncrement,
                                        int line) :
@@ -41,25 +41,16 @@ int AdjustByExpression::getLine() const {
   return mLine;
 }
 
-AdjustByExpression* AdjustByExpression::newIncrementBy(IExpression* expression,
-                                                       IExpression* adjustment,
+AdjustByExpression* AdjustByExpression::newIncrementBy(const IExpression* expression,
+                                                       const IExpression* adjustment,
                                                        int line) {
   return new AdjustByExpression(expression, adjustment, "inc", true, line);
 }
 
-AdjustByExpression* AdjustByExpression::newDecrementBy(IExpression* expression,
-                                                       IExpression* adjustment,
+AdjustByExpression* AdjustByExpression::newDecrementBy(const IExpression* expression,
+                                                       const IExpression* adjustment,
                                                        int line) {
   return new AdjustByExpression(expression, adjustment, "dec", false, line);
-}
-
-IVariable* AdjustByExpression::getVariable(IRGenerationContext& context,
-                                           vector<const IExpression*>& arrayIndices) const {
-  if (!mExpression->isAssignable()) {
-    context.reportError(mLine, "Expression left of the increment/decrement is not assignable");
-    throw 1;
-  }
-  return ((IExpressionAssignable*) mExpression)->getVariable(context, arrayIndices);
 }
 
 Value* AdjustByExpression::generateIR(IRGenerationContext& context,
@@ -93,7 +84,8 @@ Value* AdjustByExpression::generateIR(IRGenerationContext& context,
                                  mVariableName);
 
   vector<const IExpression*> arrayIndices;
-  IVariable* variable = ((IExpressionAssignable*) mExpression)->getVariable(context, arrayIndices);
+  IVariable* variable = ((const IExpressionAssignable*) mExpression)->
+  getVariable(context, arrayIndices);
   
   FakeExpression fakeExpression(incrementResult, expressionType);
   variable->generateAssignmentIR(context, &fakeExpression, arrayIndices, mLine);
@@ -115,10 +107,18 @@ bool AdjustByExpression::isAssignable() const {
 
 void AdjustByExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   mExpression->printToStream(context, stream);
-  if (mIsIncrement) {
-    stream << " += ";
-  } else {
-    stream << " -= ";
-  }
+  stream << " " << getOperation() << " ";
   mAdjustment->printToStream(context, stream);
+}
+
+const IExpression* AdjustByExpression::getLeft() const {
+  return mExpression;
+}
+
+const IExpression* AdjustByExpression::getRight() const {
+  return mAdjustment;
+}
+
+string AdjustByExpression::getOperation() const {
+  return mIsIncrement ? "+=" : "-=";
 }

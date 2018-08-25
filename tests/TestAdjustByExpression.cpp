@@ -86,13 +86,6 @@ public:
   }
 };
 
-TEST_F(AdjustByExpressionTest, getVariableTest) {
-  AdjustByExpression* expression = AdjustByExpression::newIncrementBy(mIdentifier, mAdjustment, 0);
-  vector<const IExpression*> arrayIndices;
-  
-  EXPECT_EQ(expression->getVariable(mContext, arrayIndices), mVariable);
-}
-
 TEST_F(AdjustByExpressionTest, incrementByExpressionTest) {
   AdjustByExpression* expression = AdjustByExpression::newIncrementBy(mIdentifier, mAdjustment, 0);
   expression->generateIR(mContext, PrimitiveTypes::VOID);
@@ -184,6 +177,21 @@ TEST_F(AdjustByExpressionTest, printToStreamTest) {
   stringstream stringStreamDecrement;
   decrementExpression->printToStream(mContext, stringStreamDecrement);
   EXPECT_STREQ("foo -= 3", stringStreamDecrement.str().c_str());
+}
+
+TEST_F(AdjustByExpressionTest, getLeftTest) {
+  AdjustByExpression* expression = AdjustByExpression::newIncrementBy(mIdentifier, mAdjustment, 0);
+  EXPECT_EQ(mIdentifier, expression->getLeft());
+}
+
+TEST_F(AdjustByExpressionTest, getRightTest) {
+  AdjustByExpression* expression = AdjustByExpression::newIncrementBy(mIdentifier, mAdjustment, 0);
+  EXPECT_EQ(mAdjustment, expression->getRight());
+}
+
+TEST_F(AdjustByExpressionTest, getOperationTest) {
+  AdjustByExpression* expression = AdjustByExpression::newIncrementBy(mIdentifier, mAdjustment, 0);
+  EXPECT_STREQ("+=", expression->getOperation().c_str());
 }
 
 TEST_F(TestFileRunner, incrementByRunTest) {
