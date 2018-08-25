@@ -837,6 +837,11 @@
 		F59692E6212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */; };
 		F59692E7212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */; };
 		F59692E9212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E8212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp */; };
+		F59692EC21318FB000F19C4E /* ShiftByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692EB21318FB000F19C4E /* ShiftByExpression.cpp */; };
+		F59692ED21318FB000F19C4E /* ShiftByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692EB21318FB000F19C4E /* ShiftByExpression.cpp */; };
+		F59692F02131958100F19C4E /* IntExpressionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692EF2131958100F19C4E /* IntExpressionChecker.cpp */; };
+		F59692F12131958100F19C4E /* IntExpressionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692EF2131958100F19C4E /* IntExpressionChecker.cpp */; };
+		F59692F421319ECA00F19C4E /* TestShiftByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692F321319ECA00F19C4E /* TestShiftByExpression.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1923,6 +1928,12 @@
 		F59692E4212EA74500F19C4E /* ThrowArrayIndexExceptionFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowArrayIndexExceptionFunction.hpp; path = include/wisey/ThrowArrayIndexExceptionFunction.hpp; sourceTree = "<group>"; };
 		F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowArrayIndexExceptionFunction.cpp; path = src/ThrowArrayIndexExceptionFunction.cpp; sourceTree = "<group>"; };
 		F59692E8212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowArrayIndexExceptionFunction.cpp; path = tests/TestThrowArrayIndexExceptionFunction.cpp; sourceTree = "<group>"; };
+		F59692EA21318F0800F19C4E /* ShiftByExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ShiftByExpression.hpp; path = include/wisey/ShiftByExpression.hpp; sourceTree = "<group>"; };
+		F59692EB21318FB000F19C4E /* ShiftByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ShiftByExpression.cpp; path = src/ShiftByExpression.cpp; sourceTree = "<group>"; };
+		F59692EE2131952200F19C4E /* IntExpressionChecker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IntExpressionChecker.hpp; path = include/wisey/IntExpressionChecker.hpp; sourceTree = "<group>"; };
+		F59692EF2131958100F19C4E /* IntExpressionChecker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IntExpressionChecker.cpp; path = src/IntExpressionChecker.cpp; sourceTree = "<group>"; };
+		F59692F22131970200F19C4E /* IBinaryExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBinaryExpression.hpp; path = include/wisey/IBinaryExpression.hpp; sourceTree = "<group>"; };
+		F59692F321319ECA00F19C4E /* TestShiftByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestShiftByExpression.cpp; path = tests/TestShiftByExpression.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2971,6 +2982,7 @@
 				F5E6BD081F190B7800D59444 /* FakeExpression.hpp */,
 				F5CB7F6E205152DC007628B5 /* FakeExpressionWithCleanup.hpp */,
 				F596929821177C3B00F19C4E /* IArithmeticExpression.hpp */,
+				F59692F22131970200F19C4E /* IBinaryExpression.hpp */,
 				F59692BD211BBE0A00F19C4E /* IConstantExpression.hpp */,
 				F5089C6E1ECD01D9004A1223 /* Identifier.hpp */,
 				F51942F21FE302C3009C3158 /* IdentifierChain.hpp */,
@@ -2978,6 +2990,7 @@
 				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
 				F5752ABE208893BB00C00DE1 /* IExpressionAssignable.hpp */,
 				F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */,
+				F59692EE2131952200F19C4E /* IntExpressionChecker.hpp */,
 				F55DB05D1F7911320009942C /* IPrintable.hpp */,
 				F5B12E74207E4AB500677C63 /* LLVMFunctionIdentifier.hpp */,
 				F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */,
@@ -2988,6 +3001,7 @@
 				F5089C9F1ECD01D9004A1223 /* RelationalExpression.hpp */,
 				F5089CA01ECD01D9004A1223 /* RelationalOperation.hpp */,
 				F59692A52117BEEC00F19C4E /* ReminderExpression.hpp */,
+				F59692EA21318F0800F19C4E /* ShiftByExpression.hpp */,
 				F50D5E4020B6FCBD00A025E9 /* ShiftLeftExpression.hpp */,
 				F50D5E4420B7065A00A025E9 /* ShiftRightExpression.hpp */,
 				F59692AB21189A5600F19C4E /* SubtractExpression.hpp */,
@@ -3021,6 +3035,7 @@
 				F51942F31FE302DC009C3158 /* IdentifierChain.cpp */,
 				F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
+				F59692EF2131958100F19C4E /* IntExpressionChecker.cpp */,
 				F5B12E75207E4BC600677C63 /* LLVMFunctionIdentifier.cpp */,
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
 				F57411581E01A09B009809FF /* LogicalOrExpression.cpp */,
@@ -3029,6 +3044,7 @@
 				F53A2C481F029BA500E76A9E /* NullExpression.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
 				F59692A62117BF2500F19C4E /* ReminderExpression.cpp */,
+				F59692EB21318FB000F19C4E /* ShiftByExpression.cpp */,
 				F50D5E4120B6FD0600A025E9 /* ShiftLeftExpression.cpp */,
 				F50D5E4520B7068B00A025E9 /* ShiftRightExpression.cpp */,
 				F59692AC21189A9E00F19C4E /* SubtractExpression.cpp */,
@@ -3678,6 +3694,7 @@
 				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
 				F59692A92117C00800F19C4E /* TestReminderExpression.cpp */,
+				F59692F321319ECA00F19C4E /* TestShiftByExpression.cpp */,
 				F50D5E4820B7079200A025E9 /* TestShiftLeftExpression.cpp */,
 				F50D5E4B20B70ACA00A025E9 /* TestShiftRightExpression.cpp */,
 				F59692AF21189D9C00F19C4E /* TestSubtractExpression.cpp */,
@@ -4314,6 +4331,7 @@
 				F5CB7FCA20529DE3007628B5 /* ReceivedFieldDefinition.cpp in Sources */,
 				F50FF86A208B66BD008EDC40 /* ImmutableArrayOwnerType.cpp in Sources */,
 				F54B148F205EC79D0030773F /* TestLLVMi32Type.cpp in Sources */,
+				F59692F12131958100F19C4E /* IntExpressionChecker.cpp in Sources */,
 				F5CB7F712051532A007628B5 /* FakeExpressionWithCleanup.cpp in Sources */,
 				F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
@@ -4380,6 +4398,7 @@
 				F5A0DAF7207BE7BD00B0E479 /* TestWiseyModelOwnerType.cpp in Sources */,
 				F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
+				F59692F421319ECA00F19C4E /* TestShiftByExpression.cpp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,
 				F5C7D15A1F7C270800D65584 /* TestExternalNodeDefinition.cpp in Sources */,
 				F50FA2B81E28BA5600435EEA /* DoStatement.cpp in Sources */,
@@ -4536,6 +4555,7 @@
 				F50FF876208B6DDD008EDC40 /* TestImmutableArrayOwnerTypeSpecifier.cpp in Sources */,
 				F59692B021189D9C00F19C4E /* TestSubtractExpression.cpp in Sources */,
 				F5378F6E2058F11500E5B5FD /* IdentifierReference.cpp in Sources */,
+				F59692ED21318FB000F19C4E /* ShiftByExpression.cpp in Sources */,
 				F5BF0C8A2080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp in Sources */,
 				F513DE082018A0F7001A075B /* ParameterArrayReferenceVariable.cpp in Sources */,
 				F513DE0420186CFC001A075B /* TestParameterArrayOwnerVariable.cpp in Sources */,
@@ -4906,6 +4926,7 @@
 				F57780B91ECA81750049542D /* ProgramSuffix.cpp in Sources */,
 				F508E06F1E73076E005D6115 /* Environment.cpp in Sources */,
 				F51581281E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
+				F59692F02131958100F19C4E /* IntExpressionChecker.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F5436DB31FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
 				F53A2C041EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */,
@@ -4955,6 +4976,7 @@
 				F59692C7211E0B9300F19C4E /* ByteType.cpp in Sources */,
 				F5F396DB1E34BFE000F34296 /* BuilderArgument.cpp in Sources */,
 				F54DC5C12073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */,
+				F59692EC21318FB000F19C4E /* ShiftByExpression.cpp in Sources */,
 				F50FF86D208B68B4008EDC40 /* ImmutableArrayTypeSpecifier.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,

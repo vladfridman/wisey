@@ -127,7 +127,7 @@ TEST_F(ShiftRightExpressionTest, leftExpressionNotIntegerTypeDeathTest) {
   
   EXPECT_ANY_THROW(mShiftRightExpression->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ("/tmp/source.yz(9): Error: "
-               "Left expression in shift right operation must be integer type\n",
+               "Left expression in >> operation must be integer type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -145,7 +145,7 @@ TEST_F(ShiftRightExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
   
   EXPECT_ANY_THROW(mShiftRightExpression->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ("/tmp/source.yz(9): Error: "
-               "Right expression in shift right operation must be integer type\n",
+               "Right expression in >> operation must be integer type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

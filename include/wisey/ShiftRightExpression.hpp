@@ -9,14 +9,14 @@
 #ifndef ShiftRightExpression_h
 #define ShiftRightExpression_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IBinaryExpression.hpp"
 
 namespace wisey {
   
   /**
    * Represents shift right '>>' wisey operation
    */
-  class ShiftRightExpression : public IExpression {
+  class ShiftRightExpression : public IBinaryExpression {
     const IExpression* mLeftExpression;
     const IExpression* mRightExpression;
     int mLine;
@@ -41,10 +41,12 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
-  private:
+    const IExpression* getLeft() const override;
     
-    void checkTypes(IRGenerationContext& context) const;
+    const IExpression* getRight() const override;
     
+    std::string getOperation() const override;
+
   };
   
 } /* namespace wisey */

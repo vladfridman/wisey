@@ -6,10 +6,9 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/InstrTypes.h>
-
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IntExpressionChecker.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ShiftRightExpression.hpp"
 
@@ -35,7 +34,7 @@ int ShiftRightExpression::getLine() const {
 
 Value* ShiftRightExpression::generateIR(IRGenerationContext& context,
                                        const IType* assignToType) const {
-  checkTypes(context);
+  IntExpressionChecker::checkTypes(context, this);
   
   Value* leftValue = mLeftExpression->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRightExpression->generateIR(context, PrimitiveTypes::VOID);
@@ -49,22 +48,9 @@ Value* ShiftRightExpression::generateIR(IRGenerationContext& context,
 }
 
 const IType* ShiftRightExpression::getType(IRGenerationContext& context) const {
-  checkTypes(context);
-  
-  return mLeftExpression->getType(context);
-}
+  IntExpressionChecker::checkTypes(context, this);
 
-void ShiftRightExpression::checkTypes(IRGenerationContext& context) const {
-  Type* leftLLVMType = mLeftExpression->getType(context)->getLLVMType(context);
-  Type* rightLLVMType = mRightExpression->getType(context)->getLLVMType(context);
-  if (!leftLLVMType->isIntegerTy()) {
-    context.reportError(mLine, "Left expression in shift right operation must be integer type");
-    throw 1;
-  }
-  if (!rightLLVMType->isIntegerTy()) {
-    context.reportError(mLine, "Right expression in shift right operation must be integer type");
-    throw 1;
-  }
+  return mLeftExpression->getType(context);
 }
 
 bool ShiftRightExpression::isConstant() const {
@@ -80,4 +66,16 @@ void ShiftRightExpression::printToStream(IRGenerationContext& context,
   mLeftExpression->printToStream(context, stream);
   stream << " >> ";
   mRightExpression->printToStream(context, stream);
+}
+
+const IExpression* ShiftRightExpression::getLeft() const {
+  return mLeftExpression;
+}
+
+const IExpression* ShiftRightExpression::getRight() const {
+  return mRightExpression;
+}
+
+string ShiftRightExpression::getOperation() const {
+  return ">>";
 }

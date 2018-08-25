@@ -137,6 +137,8 @@ WS  [ \t\v\n\f]
 "void"                        return TOKEN(TTYPEVOID);
 "while"                       return TOKEN(TWHILE);
 "..."                         return TOKEN(TELIPSIS);
+"<<="                         return TOKEN(TSHIFTLEFTBY);
+">>="                         return TOKEN(TSHIFTRIGHTBY);
 "<<"                          return TOKEN(TSHIFTLEFT);
 ">>"                          return TOKEN(TSHIFTRIGHT);
 "="                           return TOKEN('=');

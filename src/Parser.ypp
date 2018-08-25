@@ -130,6 +130,7 @@
   #include "wisey/ReminderExpression.hpp"
   #include "wisey/ReturnStatement.hpp"
   #include "wisey/ReturnVoidStatement.hpp"
+  #include "wisey/ShiftByExpression.hpp"
   #include "wisey/ShiftLeftExpression.hpp"
   #include "wisey/ShiftRightExpression.hpp"
   #include "wisey/StringLiteral.hpp"
@@ -250,7 +251,7 @@
 %token <token> TLLVMI32 TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
-%token <token> TINSCOPE TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
+%token <token> TINSCOPE TSHIFTLEFT TSHIFTLEFTBY TSHIFTRIGHT TSHIFTRIGHTBY TSTATE TSTATIC TSWITCH 
 %token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPEBYTE 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 %token <token> TWISEY TWISEYMODEL TWISEYOBJECT
@@ -269,7 +270,7 @@
 %type <expression> static_method_call field_identifier increment_by_expression
 %type <expression> llvm_function_call llvm_reference llvm_dereference call_argument
 %type <expression> bitwise_and_expression bitwise_or_expression bitwise_xor_expression 
-%type <expression> llvm_global_identifier
+%type <expression> llvm_global_identifier shift_by_expression
 %type <constant_expression> unsigned_constant_expression constant_value string_literal  
 %type <constant_expression> constant_reference static_array_allocation unsigned_constant_number
 %type <constant_expression> signed_constant_expression
@@ -1510,15 +1511,23 @@ shift_expression
     { $$ = new ShiftRightExpression($1, $3, yylineno); }
   ;
 
-relational_expression
+shift_by_expression
   : shift_expression
-  | relational_expression '<' shift_expression
+  | postfix_expression TSHIFTLEFTBY shift_expression
+    { $$ = ShiftByExpression::newShiftLeftBy($1, $3, yylineno); }
+  | postfix_expression TSHIFTRIGHTBY shift_expression
+    { $$ = ShiftByExpression::newShiftRightBy($1, $3, yylineno); }
+  ;
+
+relational_expression
+  : shift_by_expression
+  | relational_expression '<' shift_by_expression
     { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LT, $3, yylineno); }
-  | relational_expression '>' shift_expression
+  | relational_expression '>' shift_by_expression
     { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GT, $3, yylineno); }
-  | relational_expression TCLE shift_expression
+  | relational_expression TCLE shift_by_expression
     { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LE, $3, yylineno); }
-  | relational_expression TCGE shift_expression
+  | relational_expression TCGE shift_by_expression
     { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GE, $3, yylineno); }
   ;
 
