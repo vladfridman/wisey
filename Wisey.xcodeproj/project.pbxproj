@@ -853,6 +853,9 @@
 		F5969306213293C500F19C4E /* BitwiseXorByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5969305213293C500F19C4E /* BitwiseXorByExpression.cpp */; };
 		F5969307213293C500F19C4E /* BitwiseXorByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5969305213293C500F19C4E /* BitwiseXorByExpression.cpp */; };
 		F59693092132940500F19C4E /* TestBitwiseXorByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59693082132940500F19C4E /* TestBitwiseXorByExpression.cpp */; };
+		F596930C213305E200F19C4E /* MultiplyByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596930B213305E200F19C4E /* MultiplyByExpression.cpp */; };
+		F596930D213305E200F19C4E /* MultiplyByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596930B213305E200F19C4E /* MultiplyByExpression.cpp */; };
+		F596930F2133086800F19C4E /* TestMultiplyByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596930E2133086800F19C4E /* TestMultiplyByExpression.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1955,6 +1958,9 @@
 		F59693042132939100F19C4E /* BitwiseXorByExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BitwiseXorByExpression.hpp; path = include/wisey/BitwiseXorByExpression.hpp; sourceTree = "<group>"; };
 		F5969305213293C500F19C4E /* BitwiseXorByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BitwiseXorByExpression.cpp; path = src/BitwiseXorByExpression.cpp; sourceTree = "<group>"; };
 		F59693082132940500F19C4E /* TestBitwiseXorByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestBitwiseXorByExpression.cpp; path = tests/TestBitwiseXorByExpression.cpp; sourceTree = "<group>"; };
+		F596930A213305AB00F19C4E /* MultiplyByExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MultiplyByExpression.hpp; path = include/wisey/MultiplyByExpression.hpp; sourceTree = "<group>"; };
+		F596930B213305E200F19C4E /* MultiplyByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MultiplyByExpression.cpp; path = src/MultiplyByExpression.cpp; sourceTree = "<group>"; };
+		F596930E2133086800F19C4E /* TestMultiplyByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMultiplyByExpression.cpp; path = tests/TestMultiplyByExpression.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -3019,6 +3025,7 @@
 				F5B12E74207E4AB500677C63 /* LLVMFunctionIdentifier.hpp */,
 				F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */,
 				F5089C891ECD01D9004A1223 /* LogicalOrExpression.hpp */,
+				F596930A213305AB00F19C4E /* MultiplyByExpression.hpp */,
 				F59692942117796000F19C4E /* MultiplyExpression.hpp */,
 				F5089C981ECD01D9004A1223 /* NegateExpression.hpp */,
 				F53A2C471F029AF700E76A9E /* NullExpression.hpp */,
@@ -3067,6 +3074,7 @@
 				F5B12E75207E4BC600677C63 /* LLVMFunctionIdentifier.cpp */,
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
 				F57411581E01A09B009809FF /* LogicalOrExpression.cpp */,
+				F596930B213305E200F19C4E /* MultiplyByExpression.cpp */,
 				F5969295211779CC00F19C4E /* MultiplyExpression.cpp */,
 				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
 				F53A2C481F029BA500E76A9E /* NullExpression.cpp */,
@@ -3720,6 +3728,7 @@
 				F5B12E78207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
+				F596930E2133086800F19C4E /* TestMultiplyByExpression.cpp */,
 				F596929C2117AA7200F19C4E /* TestMultiplyExpression.cpp */,
 				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
 				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
@@ -4477,6 +4486,7 @@
 				F59692DF212533E700F19C4E /* LLVMGlobalIdentifier.cpp in Sources */,
 				F59362A220CFE98800A8C67A /* TestPoolBuilder.cpp in Sources */,
 				F507D2661E43551900495E2D /* Model.cpp in Sources */,
+				F596930D213305E200F19C4E /* MultiplyByExpression.cpp in Sources */,
 				F531B65B1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
 				F54B1485205D737B0030773F /* LLVMStructDefinition.cpp in Sources */,
 				F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
@@ -4720,6 +4730,7 @@
 				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
 				F593627A20C424D600A8C67A /* TestCMemoryPool.cpp in Sources */,
 				F50FF893208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp in Sources */,
+				F596930F2133086800F19C4E /* TestMultiplyByExpression.cpp in Sources */,
 				F596927E2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
 				F593628D20C5CCF200A8C67A /* DereferenceExpression.cpp in Sources */,
@@ -5068,6 +5079,7 @@
 				F593629F20CC25C300A8C67A /* PoolBuilder.cpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
 				F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */,
+				F596930C213305E200F19C4E /* MultiplyByExpression.cpp in Sources */,
 				F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F523D509206BD1E70017D5B4 /* WiseyObjectOwnerTypeSpecifier.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,

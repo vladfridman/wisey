@@ -45,6 +45,11 @@ namespace wisey {
      */
     static bool isFloatType(const IType* type);
     
+    /**
+     * Tells whether the given type is a number type
+     */
+    static bool isNumberType(const IType* type);
+
   };
   
 } /* namespace wisey */

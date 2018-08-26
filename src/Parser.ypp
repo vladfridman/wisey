@@ -113,6 +113,7 @@
   #include "wisey/ModelDefinition.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/ModelTypeSpecifierFull.hpp"
+  #include "wisey/MultiplyByExpression.hpp"
   #include "wisey/MultiplyExpression.hpp"
   #include "wisey/NegateExpression.hpp"
   #include "wisey/NodeDefinition.hpp"
@@ -252,7 +253,7 @@
 %token <token> TIMPLEMENTS TIMPORT TINCOP TINCBYOP TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMGLOBAL TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 
 %token <token> TLLVMI32 TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
-%token <token> TMODEL TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
+%token <token> TMODEL TMULTIPLYBY TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
 %token <token> TINSCOPE TSHIFTLEFT TSHIFTLEFTBY TSHIFTRIGHT TSHIFTRIGHTBY TSTATE TSTATIC TSWITCH 
 %token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPEBYTE 
@@ -274,7 +275,7 @@
 %type <expression> llvm_function_call llvm_reference llvm_dereference call_argument
 %type <expression> bitwise_and_expression bitwise_or_expression bitwise_xor_expression 
 %type <expression> llvm_global_identifier shift_by_expression bitwise_and_by_expression
-%type <expression> bitwise_or_by_expression bitwise_xor_by_expression
+%type <expression> bitwise_or_by_expression bitwise_xor_by_expression multiply_by_expression
 %type <constant_expression> unsigned_constant_expression constant_value string_literal  
 %type <constant_expression> constant_reference static_array_allocation unsigned_constant_number
 %type <constant_expression> signed_constant_expression
@@ -1491,11 +1492,17 @@ multiply_divide_expression
     { $$ = new ReminderExpression($1, $3, yylineno); }
   ;
 
-add_subtract_expression
+multiply_by_expression
   : multiply_divide_expression
-  | add_subtract_expression '+' multiply_divide_expression
+  | postfix_expression TMULTIPLYBY multiply_divide_expression 
+    { $$ = new MultiplyByExpression($1, $3, yylineno); }
+  ;
+
+add_subtract_expression
+  : multiply_by_expression
+  | add_subtract_expression '+' multiply_by_expression
     { $$ = new AddExpression($1, $3, yylineno); }
-  | add_subtract_expression '-' multiply_divide_expression
+  | add_subtract_expression '-' multiply_by_expression
     { $$ = new SubtractExpression($1, $3, yylineno); }
   ;
 

@@ -33,3 +33,7 @@ StringFormatType* PrimitiveTypes::STRING_FORMAT = new StringFormatType();
 bool PrimitiveTypes::isFloatType(const IType* type) {
   return type == FLOAT || type == DOUBLE;
 }
+
+bool PrimitiveTypes::isNumberType(const IType* type) {
+  return type == FLOAT || type == DOUBLE || type == BYTE || type == INT || type == LONG;
+}
