@@ -126,7 +126,7 @@ TEST_F(BitwiseOrExpressionTest, leftExpressionNotIntegerTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mBitwiseOrExpression->generateIR(mContext, PrimitiveTypes::VOID));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Left expression in bitwise OR operation must be integer type\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Left expression in | operation must be integer type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -143,7 +143,7 @@ TEST_F(BitwiseOrExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mBitwiseOrExpression->generateIR(mContext, PrimitiveTypes::VOID));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Right expression in bitwise OR operation must be integer type\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Right expression in | operation must be integer type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

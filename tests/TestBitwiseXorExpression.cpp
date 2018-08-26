@@ -126,7 +126,7 @@ TEST_F(BitwiseXorExpressionTest, leftExpressionNotIntegerTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mBitwiseXorExpression->generateIR(mContext, PrimitiveTypes::VOID));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Left expression in bitwise XOR operation must be integer type\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Left expression in ^ operation must be integer type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -143,7 +143,7 @@ TEST_F(BitwiseXorExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mBitwiseXorExpression->generateIR(mContext, PrimitiveTypes::VOID));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Right expression in bitwise XOR operation must be integer type\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Right expression in ^ operation must be integer type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

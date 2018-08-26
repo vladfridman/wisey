@@ -46,10 +46,6 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
-  private:
-    
-    void checkTypes(IRGenerationContext& context) const;
-    
   };
   
 } /* namespace wisey */

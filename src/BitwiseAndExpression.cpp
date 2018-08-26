@@ -8,6 +8,7 @@
 
 #include "wisey/BitwiseAndExpression.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IntExpressionChecker.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -42,8 +43,8 @@ int BitwiseAndExpression::getLine() const {
 
 Value* BitwiseAndExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
-  checkTypes(context);
-  
+  IntExpressionChecker::checkTypes(context, this);
+
   Value* leftValue = mLeft->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRight->generateIR(context, PrimitiveTypes::VOID);
   const IType* leftType = mLeft->getType(context);
@@ -55,21 +56,8 @@ Value* BitwiseAndExpression::generateIR(IRGenerationContext& context,
   return IRWriter::createBinaryOperator(context, Instruction::And, leftValue, rightValue, "");
 }
 
-void BitwiseAndExpression::checkTypes(IRGenerationContext& context) const {
-  Type* leftLLVMType = mLeft->getType(context)->getLLVMType(context);
-  Type* rightLLVMType = mRight->getType(context)->getLLVMType(context);
-  if (!leftLLVMType->isIntegerTy()) {
-    context.reportError(mLine, "Left expression in bitwise AND operation must be integer type");
-    throw 1;
-  }
-  if (!rightLLVMType->isIntegerTy()) {
-    context.reportError(mLine, "Right expression in bitwise AND operation must be integer type");
-    throw 1;
-  }
-}
-
 const IType* BitwiseAndExpression::getType(IRGenerationContext& context) const {
-  checkTypes(context);
+  IntExpressionChecker::checkTypes(context, this);
   
   return mLeft->getType(context);
 }
