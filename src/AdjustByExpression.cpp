@@ -72,13 +72,8 @@ Value* AdjustByExpression::generateIR(IRGenerationContext& context,
     context.reportError(mLine, "Increment/decrement operation may only be applied to variables");
     throw 1;
   }
-  if (expressionType != PrimitiveTypes::INT &&
-      expressionType != PrimitiveTypes::CHAR &&
-      expressionType != PrimitiveTypes::BYTE &&
-      expressionType != PrimitiveTypes::LONG) {
-    context.reportError(mLine,
-                        "Expression is of a type that is incompatible with "
-                        "increment/decrement operation");
+  if (!PrimitiveTypes::isNumberType(expressionType)) {
+    context.reportError(mLine, getOperation() + " operation may only be applied to number types");
     throw 1;
   }
   
@@ -88,9 +83,19 @@ Value* AdjustByExpression::generateIR(IRGenerationContext& context,
   Value* adjustmentCast =
   AutoCast::maybeCast(context, adjustmentType, adjustment, expressionType, mLine);
 
+  Instruction::BinaryOps instruction;
+  
+  if (mIsIncrement) {
+    instruction = PrimitiveTypes::isFloatType(expressionType)
+    ? Instruction::FAdd : Instruction::Add;
+  } else {
+    instruction = PrimitiveTypes::isFloatType(expressionType)
+    ? Instruction::FSub : Instruction::Sub;
+  }
+
   Value* incrementResult =
   IRWriter::createBinaryOperator(context,
-                                 mIsIncrement ? Instruction::Add : Instruction::Sub,
+                                 instruction,
                                  originalValue,
                                  adjustmentCast,
                                  mVariableName);

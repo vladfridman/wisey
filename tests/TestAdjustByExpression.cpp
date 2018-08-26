@@ -129,13 +129,14 @@ TEST_F(AdjustByExpressionTest, decrementByExpressionTest) {
 TEST_F(AdjustByExpressionTest, incorrectIdentifierTypeDeathTest) {
   Identifier* identifier = new Identifier("bar", 0);
   
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getFloatTy(mLLVMContext), "");
   AdjustByExpression* expression = AdjustByExpression::newIncrementBy(identifier, mAdjustment, 5);
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",
                                                                 PrimitiveTypes::FLOAT,
-                                                                NULL,
+                                                                alloc,
                                                                 5);
   mContext.getScopes().setVariable(mContext, variable);
-  string expected = "/tmp/source.yz(5): Error: Expression is of a type that is incompatible with increment/decrement operation\n";
+  string expected = "/tmp/source.yz(5): Error: Incompatible types: need explicit cast from type int to float\n";
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -196,6 +197,10 @@ TEST_F(AdjustByExpressionTest, getOperationTest) {
 
 TEST_F(TestFileRunner, incrementByRunTest) {
   runFile("tests/samples/test_increment_by.yz", 7);
+}
+
+TEST_F(TestFileRunner, incrementByFloatRunTest) {
+  runFile("tests/samples/test_increment_by_float.yz", 3);
 }
 
 TEST_F(TestFileRunner, decrementByRunTest) {
