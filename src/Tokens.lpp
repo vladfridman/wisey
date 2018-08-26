@@ -165,6 +165,7 @@ WS  [ \t\v\n\f]
 "-"                           return TOKEN('-');
 "*="                          return TOKEN(TMULTIPLYBY);
 "*"                           return TOKEN('*');
+"/="                          return TOKEN(TDIVIDEBY);
 "/"                           return TOKEN('/');
 "%"                           return TOKEN('%');
 ":"                           return TOKEN(':');
