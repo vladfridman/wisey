@@ -22,12 +22,10 @@ using namespace wisey;
 
 IncrementExpression::IncrementExpression(const IExpression* expression,
                                          long long incrementBy,
-                                         string variableName,
                                          bool isPrefix,
                                          int line) :
 mExpression(expression),
 mIncrementBy(incrementBy),
-mVariableName(variableName),
 mIsPrefix(isPrefix),
 mLine(line) { }
 
@@ -40,11 +38,11 @@ int IncrementExpression::getLine() const {
 }
 
 IncrementExpression* IncrementExpression::newIncrementByOne(IExpression* expression, int line) {
-  return new IncrementExpression(expression, 1, "inc", false, line);
+  return new IncrementExpression(expression, 1, false, line);
 }
 
 IncrementExpression* IncrementExpression::newDecrementByOne(IExpression* expression, int line) {
-  return new IncrementExpression(expression, -1, "dec", false, line);
+  return new IncrementExpression(expression, -1, false, line);
 }
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context,
@@ -73,7 +71,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
                                                           Instruction::Add,
                                                           originalValue,
                                                           increment,
-                                                          mVariableName);
+                                                          "");
 
   vector<const IExpression*> arrayIndices;
   IVariable* variable = ((const IExpressionAssignable*) mExpression)->

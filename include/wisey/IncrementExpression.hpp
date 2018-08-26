@@ -21,13 +21,11 @@ namespace wisey {
   class IncrementExpression : public IExpression {
     const IExpression* mExpression;
     long long mIncrementBy;
-    std::string mVariableName;
     bool mIsPrefix;
     int mLine;
     
     IncrementExpression(const IExpression* expression,
                         long long incrementBy,
-                        std::string variableName,
                         bool isPrefix,
                         int line);
     
