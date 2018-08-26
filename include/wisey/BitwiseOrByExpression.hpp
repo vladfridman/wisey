@@ -1,13 +1,13 @@
 //
-//  BitwiseAndByExpression.hpp
+//  BitwiseOrByExpression.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/26/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef BitwiseAndByExpression_h
-#define BitwiseAndByExpression_h
+#ifndef BitwiseOrByExpression_h
+#define BitwiseOrByExpression_h
 
 #include "wisey/IBinaryExpression.hpp"
 #include "wisey/Identifier.hpp"
@@ -16,18 +16,18 @@
 namespace wisey {
   
   /**
-   * Represents a &= b operation
+   * Represents a |= b operation
    */
-  class BitwiseAndByExpression : public IBinaryExpression {
+  class BitwiseOrByExpression : public IBinaryExpression {
     const IExpression* mExpression;
     const IExpression* mAdjustment;
     int mLine;
     
   public:
     
-    BitwiseAndByExpression(const IExpression* expression, const IExpression* adjustment, int line);
-
-    ~BitwiseAndByExpression();
+    BitwiseOrByExpression(const IExpression* expression, const IExpression* adjustment, int line);
+    
+    ~BitwiseOrByExpression();
     
     const IExpression* getLeft() const override;
     
@@ -51,4 +51,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* BitwiseAndByExpression_h */
+#endif /* BitwiseOrByExpression_h */

@@ -173,6 +173,7 @@ WS  [ \t\v\n\f]
 "&="                          return TOKEN(TBITWISEANDBY);
 "&"                           return TOKEN('&');
 "^"                           return TOKEN('^');
+"|="                          return TOKEN(TBITWISEORBY);
 "|"                           return TOKEN('|');
 "&&"                          return TOKEN(TANDOP);
 "||"                          return TOKEN(TOROP);
