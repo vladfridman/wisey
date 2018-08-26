@@ -850,6 +850,9 @@
 		F59693002132919D00F19C4E /* BitwiseOrByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692FF2132919C00F19C4E /* BitwiseOrByExpression.cpp */; };
 		F59693012132919D00F19C4E /* BitwiseOrByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692FF2132919C00F19C4E /* BitwiseOrByExpression.cpp */; };
 		F59693032132921800F19C4E /* TestBitwiseOrByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59693022132921800F19C4E /* TestBitwiseOrByExpression.cpp */; };
+		F5969306213293C500F19C4E /* BitwiseXorByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5969305213293C500F19C4E /* BitwiseXorByExpression.cpp */; };
+		F5969307213293C500F19C4E /* BitwiseXorByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5969305213293C500F19C4E /* BitwiseXorByExpression.cpp */; };
+		F59693092132940500F19C4E /* TestBitwiseXorByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59693082132940500F19C4E /* TestBitwiseXorByExpression.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1949,6 +1952,9 @@
 		F59692FE2132915D00F19C4E /* BitwiseOrByExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BitwiseOrByExpression.hpp; path = include/wisey/BitwiseOrByExpression.hpp; sourceTree = "<group>"; };
 		F59692FF2132919C00F19C4E /* BitwiseOrByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BitwiseOrByExpression.cpp; path = src/BitwiseOrByExpression.cpp; sourceTree = "<group>"; };
 		F59693022132921800F19C4E /* TestBitwiseOrByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestBitwiseOrByExpression.cpp; path = tests/TestBitwiseOrByExpression.cpp; sourceTree = "<group>"; };
+		F59693042132939100F19C4E /* BitwiseXorByExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BitwiseXorByExpression.hpp; path = include/wisey/BitwiseXorByExpression.hpp; sourceTree = "<group>"; };
+		F5969305213293C500F19C4E /* BitwiseXorByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BitwiseXorByExpression.cpp; path = src/BitwiseXorByExpression.cpp; sourceTree = "<group>"; };
+		F59693082132940500F19C4E /* TestBitwiseXorByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestBitwiseXorByExpression.cpp; path = tests/TestBitwiseXorByExpression.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2988,6 +2994,7 @@
 				F5969281211615D700F19C4E /* BitwiseAndExpression.hpp */,
 				F59692FE2132915D00F19C4E /* BitwiseOrByExpression.hpp */,
 				F596928D2116479700F19C4E /* BitwiseOrExpression.hpp */,
+				F59693042132939100F19C4E /* BitwiseXorByExpression.hpp */,
 				F59692872116442300F19C4E /* BitwiseXorExpression.hpp */,
 				F5089C511ECD01D9004A1223 /* BooleanNotExpression.hpp */,
 				F5089C551ECD01D9004A1223 /* Cast.hpp */,
@@ -3039,6 +3046,7 @@
 				F59692822116166B00F19C4E /* BitwiseAndExpression.cpp */,
 				F59692FF2132919C00F19C4E /* BitwiseOrByExpression.cpp */,
 				F596928E211647DD00F19C4E /* BitwiseOrExpression.cpp */,
+				F5969305213293C500F19C4E /* BitwiseXorByExpression.cpp */,
 				F59692882116445600F19C4E /* BitwiseXorExpression.cpp */,
 				F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */,
 				F5ADB60F1E5DA08200FFC941 /* Cast.cpp */,
@@ -3694,6 +3702,7 @@
 				F596928521162F6400F19C4E /* TestBitwiseAndExpression.cpp */,
 				F59693022132921800F19C4E /* TestBitwiseOrByExpression.cpp */,
 				F59692912117761C00F19C4E /* TestBitwiseOrExpression.cpp */,
+				F59693082132940500F19C4E /* TestBitwiseXorByExpression.cpp */,
 				F596928B211644EA00F19C4E /* TestBitwiseXorExpression.cpp */,
 				F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */,
 				F5ADB6121E5DA13600FFC941 /* TestCast.cpp */,
@@ -4730,6 +4739,7 @@
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,
 				F59692A82117BF2500F19C4E /* ReminderExpression.cpp in Sources */,
 				F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */,
+				F5969307213293C500F19C4E /* BitwiseXorByExpression.cpp in Sources */,
 				F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F58748311F921F6B0088F1E3 /* Injector.cpp in Sources */,
@@ -4819,6 +4829,7 @@
 				F5BF0C822080F4F9005AF4E5 /* LLVMPointerOwnerType.cpp in Sources */,
 				F582706E205FE5CA00839EC7 /* TestLLVMFunctionTypeSpecifier.cpp in Sources */,
 				F54B1489205EC5CD0030773F /* TestLLVMi1Type.cpp in Sources */,
+				F59693092132940500F19C4E /* TestBitwiseXorByExpression.cpp in Sources */,
 				F50427AF1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp in Sources */,
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F50D5E4C20B70ACA00A025E9 /* TestShiftRightExpression.cpp in Sources */,
@@ -4970,6 +4981,7 @@
 				F52FF1851F1C570C003F4D37 /* Names.cpp in Sources */,
 				F53A2C281EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F5CB7FD82052AA49007628B5 /* InjectedField.cpp in Sources */,
+				F5969306213293C500F19C4E /* BitwiseXorByExpression.cpp in Sources */,
 				F59692E6212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */,
 				F58725521F6D749100FA25E6 /* StringType.cpp in Sources */,
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
