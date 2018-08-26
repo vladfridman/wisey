@@ -34,14 +34,24 @@ namespace wisey {
     ~IncrementExpression();
 
     /**
-     * Create increment by one expression
+     * Create increment by one expression, e.g. i++
      */
     static IncrementExpression* newIncrementByOne(IExpression* expression, int line);
-    
+
+    /**
+     * Create increment by one prefix expression, e.g. ++i
+     */
+    static IncrementExpression* newIncrementByOnePrefix(IExpression* expression, int line);
+
     /**
      * Create decrement by one expression
      */
     static IncrementExpression* newDecrementByOne(IExpression* expression, int line);
+
+    /**
+     * Create increment by one prefix expression, e.g. --i
+     */
+    static IncrementExpression* newDecrementByOnePrefix(IExpression* expression, int line);
 
     int getLine() const override;
     
@@ -54,6 +64,10 @@ namespace wisey {
     bool isAssignable() const override;
 
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  private:
+    
+    void printIncrementToStream(IRGenerationContext& context, std::iostream& stream) const;
     
   };
   

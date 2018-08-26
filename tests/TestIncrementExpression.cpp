@@ -152,18 +152,38 @@ TEST_F(IncrementExpressionTest, printToStreamTest) {
   incrementExpression->printToStream(mContext, stringStreamIncrement);
   EXPECT_STREQ("foo++", stringStreamIncrement.str().c_str());
 
+  IncrementExpression* incrementPrefixExpression =
+  IncrementExpression::newIncrementByOnePrefix(mIdentifier, 0);
+  stringstream stringStreamIncrementPrefix;
+  incrementPrefixExpression->printToStream(mContext, stringStreamIncrementPrefix);
+  EXPECT_STREQ("++foo", stringStreamIncrementPrefix.str().c_str());
+
   IncrementExpression* decrementExpression = IncrementExpression::newDecrementByOne(mIdentifier, 0);
   stringstream stringStreamDecrement;
   decrementExpression->printToStream(mContext, stringStreamDecrement);
   EXPECT_STREQ("foo--", stringStreamDecrement.str().c_str());
+
+  IncrementExpression* decrementPrefixExpression =
+  IncrementExpression::newDecrementByOnePrefix(mIdentifier, 0);
+  stringstream stringStreamDecrementPrefix;
+  decrementPrefixExpression->printToStream(mContext, stringStreamDecrementPrefix);
+  EXPECT_STREQ("--foo", stringStreamDecrementPrefix.str().c_str());
 }
 
 TEST_F(TestFileRunner, incrementByOneRunTest) {
   runFile("tests/samples/test_increment_by_one.yz", 3);
 }
 
+TEST_F(TestFileRunner, incrementByOnePrefixRunTest) {
+  runFile("tests/samples/test_increment_by_one_prefix.yz", 3);
+}
+
 TEST_F(TestFileRunner, decrementByOneRunTest) {
   runFile("tests/samples/test_decrement_by_one.yz", 5);
+}
+
+TEST_F(TestFileRunner, decrementByOnePrefixRunTest) {
+  runFile("tests/samples/test_decrement_by_one_prefix.yz", 5);
 }
 
 TEST_F(TestFileRunner, incrementByOneWrappedIdentifierRunTest) {

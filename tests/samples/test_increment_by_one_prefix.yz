@@ -5,10 +5,9 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    int i = 6;
-    i--;
-    return i--;
+    int i = 2;
+    return ++i;
   }
-}
+} 
 
 bind(IProgram).to(CProgram);

@@ -41,8 +41,18 @@ IncrementExpression* IncrementExpression::newIncrementByOne(IExpression* express
   return new IncrementExpression(expression, 1, false, line);
 }
 
+IncrementExpression* IncrementExpression::newIncrementByOnePrefix(IExpression* expression,
+                                                                  int line) {
+  return new IncrementExpression(expression, 1, true, line);
+}
+
 IncrementExpression* IncrementExpression::newDecrementByOne(IExpression* expression, int line) {
   return new IncrementExpression(expression, -1, false, line);
+}
+
+IncrementExpression* IncrementExpression::newDecrementByOnePrefix(IExpression* expression,
+                                                                  int line) {
+  return new IncrementExpression(expression, -1, true, line);
 }
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context,
@@ -96,7 +106,17 @@ bool IncrementExpression::isAssignable() const {
 }
 
 void IncrementExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
-  mExpression->printToStream(context, stream);
+  if (mIsPrefix) {
+    printIncrementToStream(context, stream);
+    mExpression->printToStream(context, stream);
+  } else {
+    mExpression->printToStream(context, stream);
+    printIncrementToStream(context, stream);
+  }
+}
+
+void IncrementExpression::printIncrementToStream(IRGenerationContext& context,
+                                                 std::iostream& stream) const {
   if (mIncrementBy > 0) {
     stream << "++";
   } else {

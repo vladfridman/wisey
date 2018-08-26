@@ -1477,6 +1477,8 @@ unary_expression
   : postfix_expression
   | '-' cast_expression { $$ = new NegateExpression($2, yylineno); }
   | '!' cast_expression { $$ = new BooleanNotExpression($2, yylineno); }
+  | TINCOP unary_expression { $$ = IncrementExpression::newIncrementByOnePrefix($2, yylineno); }
+  | TDECOP unary_expression { $$ = IncrementExpression::newDecrementByOnePrefix($2, yylineno); }
   ;
 
 cast_expression

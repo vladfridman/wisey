@@ -6,8 +6,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     int i = 6;
-    i--;
-    return i--;
+    return --i;
   }
 }
 
