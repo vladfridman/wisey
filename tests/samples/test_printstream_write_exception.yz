@@ -1,13 +1,13 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.io.CFile;
+import wisey.io.CTextStreamWriter;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
-  inject CFile* mFile;
+  inject CTextStreamWriter* mWriter.withStream(null);
 
   public int run(immutable string[] arguments) override {
-    mFile.close();
+    print(mWriter, "foo");
     return 1;
   }
 }

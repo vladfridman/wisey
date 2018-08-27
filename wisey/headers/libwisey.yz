@@ -67,30 +67,6 @@ external model wisey.data.MMapEntryDoesNotExistException
   void report() override;
 }
 
-external model wisey.io.MFileAccessException
-  implements
-    wisey.lang.IException {
-
-  void report() override;
-}
-
-external model wisey.io.MFileCloseException
-  implements
-    wisey.lang.IException {
-
-  void report() override;
-}
-
-external model wisey.io.MFileCouldNotCloseException
-  implements
-    wisey.lang.IException {
-
-  receive wisey.lang.MString* mFileName;
-
-  void report() override;
-  wisey.lang.MString getFileName();
-}
-
 external model wisey.io.MFileCouldNotOpenException
   implements
     wisey.lang.IException {
@@ -99,18 +75,6 @@ external model wisey.io.MFileCouldNotOpenException
 
   void report() override;
   wisey.lang.MString getFileName();
-}
-
-external model wisey.io.MFileOpenException
-  implements
-    wisey.lang.IException {
-
-  receive wisey.lang.MString* mCurrentFile;
-  receive wisey.lang.MString* mNewFile;
-
-  void report() override;
-  wisey.lang.MString getCurrentFile();
-  wisey.lang.MString getNewFile();
 }
 
 external model wisey.io.MStreamClosedException
@@ -379,17 +343,6 @@ external controller wisey.data.CReferenceVector {
     wisey.data.IObjectComparator comparator);
 }
 
-external controller wisey.io.CFile {
-
-  boolean isOpened();
-  void openForWriting(
-    wisey.lang.CString fileName) throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
-  void openForReading(
-    wisey.lang.CString fileName) throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
-  void close() throws wisey.io.MFileCloseException, wisey.io.MFileCouldNotCloseException;
-  ::llvm::struct::__sFILE::pointer getFileStruct() throws wisey.io.MFileAccessException;
-}
-
 external controller wisey.io.CTextStreamReader {
 
   constant int BUFFER_SIZE = 256;
@@ -401,6 +354,17 @@ external controller wisey.io.CTextStreamReader {
   static wisey.io.CTextStreamReader* openSystemIn();
   wisey.lang.CString* readLine() throws wisey.io.MStreamClosedException;
   void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
+}
+
+external controller wisey.io.CTextStreamWriter {
+
+  receive ::llvm::struct::__sFILE::pointer mStream;
+
+  static wisey.io.CTextStreamWriter* open(
+    wisey.lang.CString fileName) throws wisey.io.MFileCouldNotOpenException;
+  static wisey.io.CTextStreamWriter* openSystemOut();
+  void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
+  ::llvm::struct::__sFILE::pointer getStream();
 }
 
 external controller wisey.lang.CMemoryPool {
@@ -684,3 +648,4 @@ external ::llvm::function int "strncmp"(::llvm::i8::pointer, ::llvm::i8::pointer
 
 external ::llvm::struct::__sFILE::pointer __stderrp;
 external ::llvm::struct::__sFILE::pointer __stdinp;
+external ::llvm::struct::__sFILE::pointer __stdoutp;

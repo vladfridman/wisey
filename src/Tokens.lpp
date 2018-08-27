@@ -118,8 +118,8 @@ WS  [ \t\v\n\f]
 "onPool"                      return TOKEN(TONPOOL);
 "override"                    return TOKEN(TOVERRIDE);
 "package"                     return TOKEN(TPACKAGE);
+"print"                       return TOKEN(TPRINT);
 "printerr"                    return TOKEN(TPRINTERR);
-"printfile"                   return TOKEN(TPRINTFILE);
 "printout"                    return TOKEN(TPRINTOUT);
 "private"                     return TOKEN(TPRIVATE);
 "public"                      return TOKEN(TPUBLIC);

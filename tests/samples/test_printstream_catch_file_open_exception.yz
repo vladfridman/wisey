@@ -1,16 +1,18 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.io.CFile;
+import wisey.io.CTextStreamWriter;
+import wisey.io.MFileCouldNotOpenException;
 import wisey.lang.CString;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
-  inject CFile* mFile;
 
   public int run(immutable string[] arguments) override {
-    mFile.openForWriting(CString.createFromString("build/test.txt"));
-    mFile.openForWriting(CString.createFromString("build/foo.txt"));
-    mFile.close();
+    try {
+      CTextStreamWriter.open(CString.createFromString("nonexisting/test.txt"));
+    } catch (MFileCouldNotOpenException* exception) {
+      return 5;
+    }
     return 1;
   }
 }

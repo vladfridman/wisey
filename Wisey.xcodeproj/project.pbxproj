@@ -755,6 +755,9 @@
 		F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
+		F58C34FF213489C1000F1D69 /* PrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58C34FE213489C1000F1D69 /* PrintStatement.cpp */; };
+		F58C3500213489C1000F1D69 /* PrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58C34FE213489C1000F1D69 /* PrintStatement.cpp */; };
+		F58C3502213491FA000F1D69 /* TestPrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58C3501213491FA000F1D69 /* TestPrintStatement.cpp */; };
 		F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */; };
 		F58FA2F9206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */; };
 		F58FA2FA206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */; };
@@ -975,9 +978,6 @@
 		F5C0E7E52099B6E40028BBD0 /* StringFormatType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7E32099B6E40028BBD0 /* StringFormatType.cpp */; };
 		F5C0E7E72099E1C20028BBD0 /* TestStringFormatType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7E62099E1C20028BBD0 /* TestStringFormatType.cpp */; };
 		F5C0E7E92099E4560028BBD0 /* TestIPrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */; };
-		F5C0E7EC209A03A20028BBD0 /* PrintFileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7EB209A03A20028BBD0 /* PrintFileStatement.cpp */; };
-		F5C0E7ED209A03A20028BBD0 /* PrintFileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7EB209A03A20028BBD0 /* PrintFileStatement.cpp */; };
-		F5C0E7EF209A0A640028BBD0 /* TestPrintFileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7EE209A0A640028BBD0 /* TestPrintFileStatement.cpp */; };
 		F5C2B80C20764DA3008CB77F /* TestBindAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C2B80B20764DA3008CB77F /* TestBindAction.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
@@ -1859,6 +1859,9 @@
 		F58A83551F798B6300369388 /* ExternalNodeDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalNodeDefinition.cpp; path = src/ExternalNodeDefinition.cpp; sourceTree = "<group>"; };
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
+		F58C34FD2134897E000F1D69 /* PrintStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrintStatement.hpp; path = include/wisey/PrintStatement.hpp; sourceTree = "<group>"; };
+		F58C34FE213489C1000F1D69 /* PrintStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PrintStatement.cpp; path = src/PrintStatement.cpp; sourceTree = "<group>"; };
+		F58C3501213491FA000F1D69 /* TestPrintStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrintStatement.cpp; path = tests/TestPrintStatement.cpp; sourceTree = "<group>"; };
 		F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodCall.cpp; path = tests/TestStaticMethodCall.cpp; sourceTree = "<group>"; };
 		F58FA2F7206E653A00C86D33 /* DestroyObjectOwnerFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyObjectOwnerFunction.hpp; path = include/wisey/DestroyObjectOwnerFunction.hpp; sourceTree = "<group>"; };
 		F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyObjectOwnerFunction.cpp; path = src/DestroyObjectOwnerFunction.cpp; sourceTree = "<group>"; };
@@ -2072,9 +2075,6 @@
 		F5C0E7E32099B6E40028BBD0 /* StringFormatType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StringFormatType.cpp; path = src/StringFormatType.cpp; sourceTree = "<group>"; };
 		F5C0E7E62099E1C20028BBD0 /* TestStringFormatType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringFormatType.cpp; path = tests/TestStringFormatType.cpp; sourceTree = "<group>"; };
 		F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIPrintStatement.cpp; path = tests/TestIPrintStatement.cpp; sourceTree = "<group>"; };
-		F5C0E7EA209A03000028BBD0 /* PrintFileStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrintFileStatement.hpp; path = include/wisey/PrintFileStatement.hpp; sourceTree = "<group>"; };
-		F5C0E7EB209A03A20028BBD0 /* PrintFileStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PrintFileStatement.cpp; path = src/PrintFileStatement.cpp; sourceTree = "<group>"; };
-		F5C0E7EE209A0A640028BBD0 /* TestPrintFileStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrintFileStatement.cpp; path = tests/TestPrintFileStatement.cpp; sourceTree = "<group>"; };
 		F5C2B80B20764DA3008CB77F /* TestBindAction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestBindAction.cpp; path = tests/TestBindAction.cpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
 		F5C6FD671E48B16F0054209D /* TestCharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharType.cpp; path = tests/TestCharType.cpp; sourceTree = "<group>"; };
@@ -3145,8 +3145,8 @@
 				F58725601F70131D00FA25E6 /* IPrintStatement.hpp */,
 				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
 				F587255C1F6FFAEE00FA25E6 /* PrintErrStatement.hpp */,
-				F5C0E7EA209A03000028BBD0 /* PrintFileStatement.hpp */,
 				F5E3D6481F6C00DC00FC37CB /* PrintOutStatement.hpp */,
+				F58C34FD2134897E000F1D69 /* PrintStatement.hpp */,
 				F5089C9C1ECD01D9004A1223 /* ProgramFile.hpp */,
 				F5089C9E1ECD01D9004A1223 /* ProgramSuffix.hpp */,
 				F5089CA11ECD01D9004A1223 /* ReturnStatement.hpp */,
@@ -3180,8 +3180,8 @@
 				F58725611F70143100FA25E6 /* IPrintStatement.cpp */,
 				F5A82089209CB23A003DA505 /* IStatement.cpp */,
 				F587255D1F6FFB2D00FA25E6 /* PrintErrStatement.cpp */,
-				F5C0E7EB209A03A20028BBD0 /* PrintFileStatement.cpp */,
 				F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */,
+				F58C34FE213489C1000F1D69 /* PrintStatement.cpp */,
 				F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */,
 				F57780B81ECA81750049542D /* ProgramSuffix.cpp */,
 				F57411411E015961009809FF /* ReturnStatement.cpp */,
@@ -3878,8 +3878,8 @@
 				F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */,
 				F5A8208C209CB2F3003DA505 /* TestIStatement.cpp */,
 				F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */,
-				F5C0E7EE209A0A640028BBD0 /* TestPrintFileStatement.cpp */,
 				F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */,
+				F58C3501213491FA000F1D69 /* TestPrintStatement.cpp */,
 				F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */,
 				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
 				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
@@ -4413,7 +4413,6 @@
 				F5A0DAF9207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp in Sources */,
 				F51D2BAF1F68453500510784 /* StaticMethod.cpp in Sources */,
 				F59692CE211E29A000F19C4E /* ByteConstant.cpp in Sources */,
-				F5C0E7EF209A0A640028BBD0 /* TestPrintFileStatement.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F5ADB61D1E5F587300FFC941 /* TestNegateExpression.cpp in Sources */,
@@ -4466,6 +4465,7 @@
 				F5603B492021219200BBA05D /* TestArraySpecificOwnerType.cpp in Sources */,
 				F593628F20C6D48400A8C67A /* TestDereferenceExpression.cpp in Sources */,
 				F582705A205FC88600839EC7 /* LLVMPointerTypeSpecifier.cpp in Sources */,
+				F58C3502213491FA000F1D69 /* TestPrintStatement.cpp in Sources */,
 				F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */,
 				F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F5436DAE1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp in Sources */,
@@ -4833,6 +4833,7 @@
 				F50FA2EA1E2E3B1200435EEA /* FloatConstant.cpp in Sources */,
 				F5827045205EECAB00839EC7 /* LLVMStructType.cpp in Sources */,
 				F5A363581F376C90005880B3 /* IFieldVariable.cpp in Sources */,
+				F58C3500213489C1000F1D69 /* PrintStatement.cpp in Sources */,
 				F53A2C121EEEC56700E76A9E /* TestControllerOwner.cpp in Sources */,
 				F5BD74641EE15BD00035E8FC /* TestDefaultCaseStatement.cpp in Sources */,
 				F5D159A420A7020D00107E84 /* TestCOwnerList.cpp in Sources */,
@@ -4919,7 +4920,6 @@
 				F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */,
 				F5436DB71FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F5A67DB920171D060018068F /* TestFieldArrayOwnerVariable.cpp in Sources */,
-				F5C0E7ED209A03A20028BBD0 /* PrintFileStatement.cpp in Sources */,
 				F596928A2116445600F19C4E /* BitwiseXorExpression.cpp in Sources */,
 				F523D519206C28AE0017D5B4 /* TestWiseyObjectOwnerTypeSpecifier.cpp in Sources */,
 				F5969290211647DD00F19C4E /* BitwiseOrExpression.cpp in Sources */,
@@ -4960,7 +4960,6 @@
 				F53A2C301EFFD91200E76A9E /* NodeOwner.cpp in Sources */,
 				F5D4660D20614CAF00C1047A /* LLVMFunctionCall.cpp in Sources */,
 				F57086021E5317E8007D627E /* AutoCast.cpp in Sources */,
-				F5C0E7EC209A03A20028BBD0 /* PrintFileStatement.cpp in Sources */,
 				F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
 				F5A363531F376A23005880B3 /* FieldPrimitiveVariable.cpp in Sources */,
 				F5BF0C852080F6E3005AF4E5 /* LLVMPointerOwnerTypeSpecifier.cpp in Sources */,
@@ -5197,6 +5196,7 @@
 				F5F2F3771EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */,
 				F5A0DADF2078082300B0E479 /* LLVMGlobalDeclaration.cpp in Sources */,
 				F50FF869208B66BD008EDC40 /* ImmutableArrayOwnerType.cpp in Sources */,
+				F58C34FF213489C1000F1D69 /* PrintStatement.cpp in Sources */,
 				F5A67DA520120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
 				F51701A4200E992200A10B7C /* ArrayOwnerType.cpp in Sources */,
 				F50D5E4220B6FD0600A025E9 /* ShiftLeftExpression.cpp in Sources */,

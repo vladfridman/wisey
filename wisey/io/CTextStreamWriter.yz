@@ -1,0 +1,54 @@
+package wisey.io;
+
+import wisey.lang.CString;
+
+/**
+ * Writes to a text stream
+ */
+controller CTextStreamWriter {
+
+  receive ::llvm::struct::__sFILE::pointer mStream;
+
+  /**
+   * Create an instance of the CTextStreamWriter to write to the the given file
+   */
+  public static CTextStreamWriter* open(CString fileName) throws MFileCouldNotOpenException {
+    ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent(), "w");
+    if (stream == null) {
+      throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap();
+    }
+    return inject(CTextStreamWriter).withStream(stream).onHeap();
+  }
+
+  /**
+   * Create an instance of the CTextStreamWriter to write to the standard output
+   */
+  public static CTextStreamWriter* openSystemOut() {
+    return inject(CTextStreamWriter).withStream(::llvm::global::__stdoutp).onHeap();    
+  }
+
+  /**
+   * Close the stream
+   */
+  public void close() throws MStreamClosedException, MStreamCouldNotCloseException {
+    if (mStream == null) {
+      throw build(MStreamClosedException).onHeap();
+    }
+
+    int result = ::llvm::function::fclose(mStream);
+
+    if (result != 0) {
+      throw build(MStreamCouldNotCloseException).onHeap();
+    }
+  }
+
+  /**
+   * Get the pointer to the stream
+   */
+  public ::llvm::struct::__sFILE::pointer getStream() {
+    if (mStream == null) {
+      throw build(MStreamClosedException).onHeap();
+    }
+    return mStream;
+  }
+}

@@ -15,12 +15,12 @@ string Names::getMainThreadWorkerShortName() {
   return "MMainThreadWorker";
 }
 
-string Names::getFileControllerFullName() {
-  return getIOPackageName() + ".CFile";
+string Names::getTextStreamControllerFullName() {
+  return getIOPackageName() + ".CTextStreamWriter";
 }
 
-string Names::getFileStructMethodName() {
-  return "getFileStruct";
+string Names::getStreamMethodName() {
+  return "getStream";
 }
 
 string Names::getExceptionInterfaceFullName() {

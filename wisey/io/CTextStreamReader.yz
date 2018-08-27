@@ -1,10 +1,9 @@
 package wisey.io;
 
 import wisey.lang.CString;
-import wisey.lang.MString;
 
 /**
- * Reads lines from a text file
+ * Reads lines from a text stream
  */
 controller CTextStreamReader {
 

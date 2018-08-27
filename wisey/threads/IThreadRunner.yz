@@ -1,11 +1,7 @@
 package wisey.threads;
 
 import wisey.data.MMapEntryDoesNotExistException;
-import wisey.io.MFileAccessException;
-import wisey.io.MFileCloseException;
-import wisey.io.MFileCouldNotCloseException;
 import wisey.io.MFileCouldNotOpenException;
-import wisey.io.MFileOpenException;
 import wisey.io.MStreamClosedException;
 import wisey.io.MStreamCouldNotCloseException;
 import wisey.lang.MArrayIndexOutOfBoundsException;
@@ -44,15 +40,7 @@ interface IThreadRunner {
       exception.report();
     } catch (MThreadBoundaryException* exception) {
       exception.report();
-    } catch (MFileOpenException* exception) {
-      exception.report();
-    } catch (MFileCloseException* exception) {
-      exception.report();
-    } catch (MFileAccessException* exception) {
-      exception.report();
     } catch (MFileCouldNotOpenException* exception) {
-      exception.report();
-    } catch (MFileCouldNotCloseException* exception) {
       exception.report();
     } catch (MStreamClosedException* exception) {
       exception.report();

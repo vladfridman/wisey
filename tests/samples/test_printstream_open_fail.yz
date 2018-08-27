@@ -1,14 +1,13 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.io.CFile;
+import wisey.io.CTextStreamWriter;
 import wisey.lang.CString;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
-  inject CFile* mFile;
 
   public int run(immutable string[] arguments) override {
-    mFile.openForWriting(CString.createFromString("nonexisting/test.txt"));
+    CTextStreamWriter.open(CString.createFromString("nonexisting/test.txt"));
     return 1;
   }
 }

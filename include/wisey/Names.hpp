@@ -26,14 +26,14 @@ namespace wisey {
     static std::string getMainThreadWorkerShortName();
     
     /**
-     * Returns name of the CFile controller
+     * Returns name of the CTextStreamWriter controller
      */
-    static std::string getFileControllerFullName();
+    static std::string getTextStreamControllerFullName();
     
     /**
-     * Get the name of the method returning a pointer to the __sFile struct from CFile controller
+     * Get the name of the method returning a pointer to stream from CTextStreamWriter
      */
-    static std::string getFileStructMethodName();
+    static std::string getStreamMethodName();
     
     /**
      * Retuns IException inteface name

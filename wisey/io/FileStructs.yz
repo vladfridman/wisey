@@ -34,6 +34,8 @@
 
 ::llvm::struct::__sFILE::pointer __stdinp;
 
+::llvm::struct::__sFILE::pointer __stdoutp;
+
 /**
  * Function that opens a file
  */
