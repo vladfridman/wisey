@@ -113,6 +113,20 @@ external model wisey.io.MFileOpenException
   wisey.lang.MString getNewFile();
 }
 
+external model wisey.io.MStreamClosedException
+  implements
+    wisey.lang.IException {
+
+  void report() override;
+}
+
+external model wisey.io.MStreamCouldNotCloseException
+  implements
+    wisey.lang.IException {
+
+  void report() override;
+}
+
 external model wisey.lang.MArrayIndexOutOfBoundsException
   implements
     wisey.lang.IException {
@@ -376,23 +390,17 @@ external controller wisey.io.CFile {
   ::llvm::struct::__sFILE::pointer getFileStruct() throws wisey.io.MFileAccessException;
 }
 
-external controller wisey.io.CFileReader {
+external controller wisey.io.CTextStreamReader {
 
   constant int BUFFER_SIZE = 256;
 
-  receive wisey.lang.MString* mFileName;
+  receive ::llvm::struct::__sFILE::pointer mStream;
 
-  static wisey.io.CFileReader* create(
-    wisey.lang.CString fileName);
-  wisey.lang.CString* readLine() throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
-  static wisey.lang.CString* readLineFromFile(
-    ::llvm::struct::__sFILE::pointer fileStruct);
-}
-
-external controller wisey.io.CInputReader {
-
-  wisey.io.CInputReader* create();
-  wisey.lang.CString* readLine();
+  static wisey.io.CTextStreamReader* open(
+    wisey.lang.CString fileName) throws wisey.io.MFileCouldNotOpenException;
+  static wisey.io.CTextStreamReader* openSystemIn();
+  wisey.lang.CString* readLine() throws wisey.io.MStreamClosedException;
+  void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
 }
 
 external controller wisey.lang.CMemoryPool {
@@ -422,8 +430,6 @@ external controller wisey.lang.CString {
     char[] input);
   static wisey.lang.CString* createFromImmutableCharArray(
     immutable char[] input);
-  static wisey.lang.CString* createFromByteArray(
-    byte[] input);
   static wisey.lang.CString* createFromBoolean(
     boolean input);
   static wisey.lang.CString* createFromInt(

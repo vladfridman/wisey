@@ -1,5 +1,6 @@
 package wisey.performance.testing;
 
+import wisey.io.CTextStreamReader;
 import wisey.data.COwnerVector;
 import wisey.data.CLongToIntMap;
 import wisey.data.IObjectComparator;
@@ -7,14 +8,12 @@ import wisey.lang.CString;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 import wisey.lang.MSystem;
-import wisey.io.CInputReader;
 
 controller CProgram implements IProgram, IObjectComparator {
   private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
   inject CMemoryPool* mMemoryPool;
-  inject CInputReader* mInputReader;
 
   public int run(immutable string[] arguments) override {
     byte[]* sequence = read();
@@ -183,7 +182,8 @@ controller CProgram implements IProgram, IObjectComparator {
 
   private byte[]* read() {
     CString* line;
-    while ((line = mInputReader.readLine()) != null) {
+    CTextStreamReader* stream = CTextStreamReader.openSystemIn();
+    while ((line = stream.readLine()) != null) {
       if (line.startsWith(">THREE")) {
         break;
       }
@@ -191,7 +191,7 @@ controller CProgram implements IProgram, IObjectComparator {
 
     byte[]* bytes = new byte[1048576];
     long position = 0;
-    while ((line = mInputReader.readLine()) != null && line.charAt(0) != '>') {
+    while ((line = stream.readLine()) != null && line.charAt(0) != '>') {
       if (line.getLength() + position > bytes.getSize()) {
         byte[]* newBytes = new byte[bytes.getSize() * 2];
         MSystem.copyMemory(newBytes, bytes, position);
@@ -201,6 +201,7 @@ controller CProgram implements IProgram, IObjectComparator {
         bytes[position++] = (byte) line.charAt(i);
       }
     }
+    stream.close();
 
     return toCodes(bytes, position);
   }

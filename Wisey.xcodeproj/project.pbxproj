@@ -833,7 +833,6 @@
 		F59692DE212533E700F19C4E /* LLVMGlobalIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */; };
 		F59692DF212533E700F19C4E /* LLVMGlobalIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */; };
 		F59692E121254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E021254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp */; };
-		F59692E321256B0200F19C4E /* TestCInputReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E221256B0100F19C4E /* TestCInputReader.cpp */; };
 		F59692E6212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */; };
 		F59692E7212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */; };
 		F59692E9212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E8212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp */; };
@@ -1042,7 +1041,7 @@
 		F5CE2D4F1F180B89002ABB85 /* TryCatchInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */; };
 		F5CE2D501F180B89002ABB85 /* TryCatchInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */; };
 		F5D1599420A32C0B00107E84 /* TestIConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599320A32C0B00107E84 /* TestIConcreteObjectDefinition.cpp */; };
-		F5D1599720A48E5E00107E84 /* TestCFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */; };
+		F5D1599720A48E5E00107E84 /* TestCTextStreamReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599620A48E5E00107E84 /* TestCTextStreamReader.cpp */; };
 		F5D1599920A498A900107E84 /* TestCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599820A498A900107E84 /* TestCString.cpp */; };
 		F5D1599B20A498EC00107E84 /* TestMString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599A20A498EC00107E84 /* TestMString.cpp */; };
 		F5D159A020A5F0E500107E84 /* TestCReferenceList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */; };
@@ -1941,7 +1940,6 @@
 		F59692DC212533A000F19C4E /* LLVMGlobalIdentifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMGlobalIdentifier.hpp; path = include/wisey/LLVMGlobalIdentifier.hpp; sourceTree = "<group>"; };
 		F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMGlobalIdentifier.cpp; path = src/LLVMGlobalIdentifier.cpp; sourceTree = "<group>"; };
 		F59692E021254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMGlobalIdentifier.cpp; path = tests/TestLLVMGlobalIdentifier.cpp; sourceTree = "<group>"; };
-		F59692E221256B0100F19C4E /* TestCInputReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCInputReader.cpp; path = tests/TestCInputReader.cpp; sourceTree = "<group>"; };
 		F59692E4212EA74500F19C4E /* ThrowArrayIndexExceptionFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowArrayIndexExceptionFunction.hpp; path = include/wisey/ThrowArrayIndexExceptionFunction.hpp; sourceTree = "<group>"; };
 		F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowArrayIndexExceptionFunction.cpp; path = src/ThrowArrayIndexExceptionFunction.cpp; sourceTree = "<group>"; };
 		F59692E8212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowArrayIndexExceptionFunction.cpp; path = tests/TestThrowArrayIndexExceptionFunction.cpp; sourceTree = "<group>"; };
@@ -2132,7 +2130,7 @@
 		F5CE2D4D1F1809EE002ABB85 /* TryCatchInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TryCatchInfo.hpp; path = include/wisey/TryCatchInfo.hpp; sourceTree = "<group>"; };
 		F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchInfo.cpp; path = src/TryCatchInfo.cpp; sourceTree = "<group>"; };
 		F5D1599320A32C0B00107E84 /* TestIConcreteObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIConcreteObjectDefinition.cpp; path = tests/TestIConcreteObjectDefinition.cpp; sourceTree = "<group>"; };
-		F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCFileReader.cpp; path = tests/TestCFileReader.cpp; sourceTree = "<group>"; };
+		F5D1599620A48E5E00107E84 /* TestCTextStreamReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCTextStreamReader.cpp; path = tests/TestCTextStreamReader.cpp; sourceTree = "<group>"; };
 		F5D1599820A498A900107E84 /* TestCString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCString.cpp; path = tests/TestCString.cpp; sourceTree = "<group>"; };
 		F5D1599A20A498EC00107E84 /* TestMString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMString.cpp; path = tests/TestMString.cpp; sourceTree = "<group>"; };
 		F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceList.cpp; path = tests/TestCReferenceList.cpp; sourceTree = "<group>"; };
@@ -4221,8 +4219,6 @@
 			isa = PBXGroup;
 			children = (
 				F5D159A720A7133500107E84 /* TestCContextManager.cpp */,
-				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
-				F59692E221256B0100F19C4E /* TestCInputReader.cpp */,
 				F596927F211502D000F19C4E /* TestCLongToIntMap.cpp */,
 				F593627920C424D600A8C67A /* TestCMemoryPool.cpp */,
 				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
@@ -4233,6 +4229,7 @@
 				F596927C2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp */,
 				F50D5E3920B4CF1900A025E9 /* TestCReferenceVector.cpp */,
 				F5D1599820A498A900107E84 /* TestCString.cpp */,
+				F5D1599620A48E5E00107E84 /* TestCTextStreamReader.cpp */,
 				F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */,
 				F5D1599A20A498EC00107E84 /* TestMString.cpp */,
 				F534644E20AF1F35006369D4 /* TestMSystem.cpp */,
@@ -4552,7 +4549,6 @@
 				F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */,
 				F534644D20AF16DB006369D4 /* EssentialFunctions.cpp in Sources */,
 				F54B1477205D6BFD0030773F /* LLVMi64Type.cpp in Sources */,
-				F59692E321256B0200F19C4E /* TestCInputReader.cpp in Sources */,
 				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
 				F50FF866208B6422008EDC40 /* ImmutableArrayType.cpp in Sources */,
@@ -4929,7 +4925,7 @@
 				F5969290211647DD00F19C4E /* BitwiseOrExpression.cpp in Sources */,
 				F593629120C6D93100A8C67A /* TestStoreInReference.cpp in Sources */,
 				F5D4660220611BEF00C1047A /* TestLLVMFunctionDefinition.cpp in Sources */,
-				F5D1599720A48E5E00107E84 /* TestCFileReader.cpp in Sources */,
+				F5D1599720A48E5E00107E84 /* TestCTextStreamReader.cpp in Sources */,
 				F51701BD2010649C00A10B7C /* ArrayOwnerType.cpp in Sources */,
 				F59692E7212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */,
 				F596927D2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp in Sources */,

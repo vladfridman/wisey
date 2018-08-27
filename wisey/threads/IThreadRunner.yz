@@ -6,6 +6,8 @@ import wisey.io.MFileCloseException;
 import wisey.io.MFileCouldNotCloseException;
 import wisey.io.MFileCouldNotOpenException;
 import wisey.io.MFileOpenException;
+import wisey.io.MStreamClosedException;
+import wisey.io.MStreamCouldNotCloseException;
 import wisey.lang.MArrayIndexOutOfBoundsException;
 import wisey.lang.MCastException;
 import wisey.lang.MInterfaceNotBoundException;
@@ -51,6 +53,10 @@ interface IThreadRunner {
     } catch (MFileCouldNotOpenException* exception) {
       exception.report();
     } catch (MFileCouldNotCloseException* exception) {
+      exception.report();
+    } catch (MStreamClosedException* exception) {
+      exception.report();
+    } catch (MStreamCouldNotCloseException* exception) {
       exception.report();
     } catch (MContextNonExistantException* exception) {
       exception.report();
