@@ -363,6 +363,7 @@ external controller wisey.io.CTextStreamWriter {
   static wisey.io.CTextStreamWriter* open(
     wisey.lang.CString fileName) throws wisey.io.MFileCouldNotOpenException;
   static wisey.io.CTextStreamWriter* openSystemOut();
+  static wisey.io.CTextStreamWriter* openSystemErr();
   void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
   ::llvm::struct::__sFILE::pointer getStream();
 }

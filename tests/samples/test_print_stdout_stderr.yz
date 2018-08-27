@@ -1,0 +1,17 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.io.CTextStreamWriter;
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    CTextStreamWriter* out = CTextStreamWriter.openSystemOut();
+    CTextStreamWriter* err = CTextStreamWriter.openSystemErr();
+    print(out, "stdout\n");
+    print(err, "stderr\n");
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

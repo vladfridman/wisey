@@ -28,6 +28,13 @@ TEST_F(TestFileRunner, printStreamCatchFileOpenExceptionRunTest) {
                                "");
 }
 
+TEST_F(TestFileRunner, printStreamStdoutStderrRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_print_stdout_stderr.yz",
+                               1,
+                               "stdout\n",
+                               "stderr\n");
+}
+
 TEST_F(TestFileRunner, streamOpenFailDeathRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_printstream_open_fail.yz",
                                1,

@@ -28,6 +28,13 @@ controller CTextStreamWriter {
   }
 
   /**
+   * Create an instance of the CTextStreamWriter to write to the error output
+   */
+  public static CTextStreamWriter* openSystemErr() {
+    return inject(CTextStreamWriter).withStream(::llvm::global::__stderrp).onHeap();    
+  }
+
+  /**
    * Close the stream
    */
   public void close() throws MStreamClosedException, MStreamCouldNotCloseException {
