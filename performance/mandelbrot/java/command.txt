@@ -1,0 +1,2 @@
+javac mandelbrot.java 
+time java mandelbrot 16000 > out

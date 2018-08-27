@@ -422,6 +422,8 @@ external controller wisey.lang.CString {
     char[] input);
   static wisey.lang.CString* createFromImmutableCharArray(
     immutable char[] input);
+  static wisey.lang.CString* createFromByteArray(
+    byte[] input);
   static wisey.lang.CString* createFromBoolean(
     boolean input);
   static wisey.lang.CString* createFromInt(
