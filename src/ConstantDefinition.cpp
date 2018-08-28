@@ -30,11 +30,6 @@ ConstantDefinition::~ConstantDefinition() {
 wisey::Constant* ConstantDefinition::define(IRGenerationContext& context,
                                             const IObjectType* objectType) const {
   const IType* constantType = mTypeSpecifier->getType(context);
-  const IType* expressionType = mExpression->getType(context);
-  if (expressionType->isArray() &&
-      expressionType->getArrayType(context, 0) == constantType->getArrayType(context, 0)) {
-    constantType = expressionType;
-  }
   return new Constant(mAccessLevel, constantType, mName, mExpression, mLine);
 }
 

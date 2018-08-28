@@ -11,6 +11,7 @@
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
+#include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayType.hpp"
@@ -45,9 +46,12 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   }
   const ArrayType* arrayType = expressionType->getArrayType(context, mLine);
   Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID);
+  Value* array = expressionType->isImmutable()
+  ? arrayStructPointer
+  : AutoCast::maybeCast(context, expressionType, arrayStructPointer, arrayType, mLine);
   
-  Composer::checkForNull(context, arrayStructPointer, mLine);
-  Value* pointer = getArrayElement(context, arrayStructPointer, mArrayIndexExpresion, mLine);
+  Composer::checkForNull(context, array, mLine);
+  Value* pointer = getArrayElement(context, array, mArrayIndexExpresion, mLine);
   
   if (arrayType->getNumberOfDimensions() > 1) {
     Type* resultType = getType(context)->getLLVMType(context);

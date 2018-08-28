@@ -54,15 +54,17 @@ void Constant::printToStream(IRGenerationContext& context, iostream& stream) con
 llvm::Value* Constant::define(IRGenerationContext& context, const IObjectType* objectType) const {
   assert(mExpression && "Constant definition does not have an initialization expression");
 
-  llvm::Type* llvmType = mType->getLLVMType(context);
+  const IType* expressionType = mExpression->getType(context);
+  llvm::Type* llvmType = expressionType->isArray() &&
+  expressionType->getArrayType(context, mLine) == mType
+  ? expressionType->getLLVMType(context) : mType->getLLVMType(context);
   
   if (!mExpression->isConstant()) {
     context.reportError(mLine, "Constant is initialized with a non-constant expression");
     throw 1;
   }
   
-  const IType* expressionType = mExpression->getType(context);
-  if (expressionType != mType) {
+  if (expressionType->getLLVMType(context) != llvmType) {
     context.reportError(mLine, "Constant value type does not match declared constant type");
     throw 1;
   }

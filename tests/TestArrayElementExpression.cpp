@@ -263,6 +263,10 @@ TEST_F(TestFileRunner, ownerArrayNulledOnWholeArrayAssignTest) {
   runFile("tests/samples/test_owner_array_nulled_on_whole_array_assign.yz", 1);
 }
 
+TEST_F(TestFileRunner, staticArrayElementTest) {
+  runFile("tests/samples/test_static_array_element.yz", 5);
+}
+
 TEST_F(TestFileRunner, arrayElementGetOnNullArrayRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_array_element_get_on_null_array.yz",
                                1,
