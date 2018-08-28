@@ -1,7 +1,5 @@
 
-~/wisey/bin/wiseyc ~/wisey/libwisey/libwisey.yz ~/wisey/performance/binarytrees/wisey/binarytrees.yz
-g++ -L/Users/vlad/wisey/libwisey -lwisey -lapr-1.0 -o runnable compiled.o 
+~/wisey/bin/wiseyc ~/wisey/wisey/headers/libwisey.yz ~/wisey/performance/binarytrees/wisey/binarytrees.yz
+g++ -L/Users/vlad/wisey/lib -lwisey -lapr-1.0 -o runnable compiled.o 
 rm ./compiled.o
-time ./runnable 21
-time ./runnable 21
-time ./runnable 21
+time ./runnable 23

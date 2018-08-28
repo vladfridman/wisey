@@ -1,2 +1,2 @@
 javac binarytrees.java
-time java binarytrees 21
+time java -Xmx2500m binarytrees 23
