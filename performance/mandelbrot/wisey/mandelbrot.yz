@@ -1,5 +1,6 @@
 package wisey.performance.testing;
 
+import wisey.io.CBinaryStreamWriter;
 import wisey.lang.CString;
 import wisey.lang.MString;
 import wisey.lang.IProgram;
@@ -75,10 +76,12 @@ controller CMandelbrot implements IProgram {
         putLine(i, mOut[i]);
       }      
 
-      // OutputStream stream = new BufferedOutputStream(System.out);
-      // stream.write(("P4\n"+N+" "+N+"\n").getBytes());
-      // for(int i=0;i<N;i++) stream.write(out[i]);
-      // stream.close();
+      CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut();
+      printout("P4\n" + n + " " + n + "\n");
+      for (int i = 0; i < n; i++) {
+        stream.write(mOut[i]);
+      }
+      stream.close();
 
       return 1;
    }

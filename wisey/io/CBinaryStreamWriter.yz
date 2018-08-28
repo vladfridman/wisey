@@ -1,0 +1,64 @@
+package wisey.io;
+
+import wisey.lang.CString;
+
+/**
+ * Writes array of bytes to a stream
+ */
+controller CBinaryStreamWriter {
+
+  receive ::llvm::struct::__sFILE::pointer mStream;
+
+  /**
+   * Create an instance of the CBinaryStreamWriter to write binary data to the the given file
+   */
+  public static CBinaryStreamWriter* open(CString fileName) throws MFileCouldNotOpenException {
+    ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent(), "wb");
+    if (stream == null) {
+      throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap();
+    }
+    return inject(CBinaryStreamWriter).withStream(stream).onHeap();
+  }
+
+  /**
+   * Create an instance of the CBinaryStreamWriter to write binary data to the standard output
+   */
+  public static CBinaryStreamWriter* openSystemOut() {
+    return inject(CBinaryStreamWriter).withStream(::llvm::global::__stdoutp).onHeap();    
+  }
+
+  /**
+   * Create an instance of the CBinaryStreamWriter to write binary data to the error output
+   */
+  public static CBinaryStreamWriter* openSystemErr() {
+    return inject(CBinaryStreamWriter).withStream(::llvm::global::__stderrp).onHeap();    
+  }
+
+  /**
+   * Read one line up to the new line character or end of file
+   * 
+   * New line character will not be part of the returned string
+   */
+  public void write(byte[] array) throws MStreamClosedException {
+    if (!mStream) {
+      throw build(MStreamClosedException).onHeap();
+    }
+
+    ::llvm::function::fwrite(array, 1l, array.getSize(), mStream);
+  }
+
+  /**
+   * Closes the binary write stream
+   */
+  public void close() throws MStreamClosedException, MStreamCouldNotCloseException {
+    if (mStream == null) {
+      throw build(MStreamClosedException).onHeap();
+    }
+
+    int result = ::llvm::function::fclose(mStream);
+
+    if (result != 0) {
+      throw build(MStreamCouldNotCloseException).onHeap();
+    }
+  }
+}
