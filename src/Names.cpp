@@ -111,20 +111,12 @@ string Names::getContextManagerName() {
   return "CContextManager";
 }
 
-string Names::getInitializeMethodName() {
-  return "initialize";
-}
-
 string Names::getPallocateMethodName() {
   return "pallocate";
 }
 
 string Names::getClearMethodName() {
   return "clear";
-}
-
-string Names::getDestroyMethodName() {
-  return "destroy";
 }
 
 string Names::getContextManagerFullName() {

@@ -468,6 +468,11 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
   
+  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
+  if (concreteObject == cMemoryPool) {
+    addMemoryPoolDestructor(context, function, exception, thisValue);
+  }
+
   decrementReferenceFields(context, thisValue, concreteObject);
   freeOwnerFields(context, thisValue, concreteObject, exception, 0);
   
@@ -485,11 +490,6 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   IRWriter::newUnreachableInst(context);
 
   context.setBasicBlock(refCountZeroBlock);
-  
-  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
-  if (concreteObject == cMemoryPool) {
-    addMemoryPoolDestructor(context, function, exception, thisValue);
-  }
   
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
@@ -1003,6 +1003,7 @@ void IConcreteObjectType::addMemoryPoolDestructor(IRGenerationContext& context,
   Value* objectCountStore = IRWriter::createGetElementPtrInst(context, memoryPool, index);
   Value* objectCount = IRWriter::newLoadInst(context, objectCountStore, "objectCount");
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, objectCount, zero, "");
+
   IRWriter::createConditionalBranch(context, objectCountZeroBlock, objectCountNotZeroBlock, isZero);
 
   context.setBasicBlock(objectCountNotZeroBlock);
@@ -1028,13 +1029,4 @@ void IConcreteObjectType::addMemoryPoolDestructor(IRGenerationContext& context,
   IRWriter::newUnreachableInst(context);
 
   context.setBasicBlock(objectCountZeroBlock);
-  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
-  FakeExpression* poolMapExpression = new FakeExpression(object, cMemoryPool);
-  IdentifierChain* destroyMethod =
-  new IdentifierChain(poolMapExpression, Names::getDestroyMethodName(), 0);
-  ExpressionList destroyArguments;
-  MethodCall* destroyCall = MethodCall::create(destroyMethod, destroyArguments, 0);
-  destroyCall->generateIR(context, PrimitiveTypes::VOID);
-  
-  delete destroyCall;
 }

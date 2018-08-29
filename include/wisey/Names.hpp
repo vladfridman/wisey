@@ -151,11 +151,6 @@ namespace wisey {
     static std::string getCMemoryPoolFullName();
 
     /**
-     * Returns name of the initialize method of CMemoryPool
-     */
-    static std::string getInitializeMethodName();
-
-    /**
      * Returns name of the pallocate method of CMemoryPool
      */
     static std::string getPallocateMethodName();
@@ -164,11 +159,6 @@ namespace wisey {
      * Returns name of the clear method of CMemoryPool
      */
     static std::string getClearMethodName();
-
-    /**
-     * Returns name of the destroy method of CMemoryPool
-     */
-    static std::string getDestroyMethodName();
 
     /**
      * Returns name of the getInstance method of CContextManager

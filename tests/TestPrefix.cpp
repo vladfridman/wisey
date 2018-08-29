@@ -342,20 +342,6 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  LLVMPointerTypeSpecifier* pointerSpecifier =
-  new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
-  MethodDefinition* methodAllocate = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                          pointerSpecifier,
-                                                          Names::getInitializeMethodName(),
-                                                          arguments,
-                                                          exceptions,
-                                                          new MethodQualifiers(0),
-                                                          compoundStatement,
-                                                          0);
-  
-  arguments.clear();
-  block = new Block();
-  compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* methodClear = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                        PrimitiveTypes::VOID->newTypeSpecifier(0),
                                                        Names::getClearMethodName(),
@@ -365,19 +351,7 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
                                                        compoundStatement,
                                                        0);
   
-  arguments.clear();
-  block = new Block();
-  compoundStatement = new CompoundStatement(block, 0);
-  MethodDefinition* methodDestroy = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                         PrimitiveTypes::VOID->newTypeSpecifier(0),
-                                                         Names::getDestroyMethodName(),
-                                                         arguments,
-                                                         exceptions,
-                                                         new MethodQualifiers(0),
-                                                         compoundStatement,
-                                                         0);
-  
-  pointerSpecifier =
+  LLVMPointerTypeSpecifier* pointerSpecifier =
   new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
   arguments.clear();
   LLVMPointerTypeSpecifier* poolSpecifier =
@@ -402,9 +376,7 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, Names::getCMemoryPoolName(), 0);
   vector<IObjectElementDefinition*> elementDeclarations;
-  elementDeclarations.push_back(methodAllocate);
   elementDeclarations.push_back(methodClear);
-  elementDeclarations.push_back(methodDestroy);
   elementDeclarations.push_back(methodPalloc);
 
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;

@@ -320,30 +320,12 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   controller->injectInjectedFields(context, objectStart);
   initializeVTable(context, controller, objectStart);
   
-  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
-  if (controller == cMemoryPool) {
-    addMemoryPoolSpecificInjection(context, objectStart);
-  }
-
   IRWriter::createReturnInst(context, objectStart);
 
   context.setBasicBlock(declareBlock);
   IRWriter::createBranch(context, entryBlock);
 
   context.getScopes().popScope(context, 0);
-}
-
-void Controller::addMemoryPoolSpecificInjection(IRGenerationContext& context, Value* object) {
-  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
-  FakeExpression* poolMapExpression = new FakeExpression(object, cMemoryPool);
-  IdentifierChain* allocate = new IdentifierChain(poolMapExpression,
-                                                  Names::getInitializeMethodName(),
-                                                  0);
-  ExpressionList initializeCallArguments;
-  MethodCall* initializeCall = MethodCall::createCantThrow(allocate, initializeCallArguments, 0);
-  initializeCall->generateIR(context, PrimitiveTypes::VOID);
-  
-  delete initializeCall;
 }
 
 void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,

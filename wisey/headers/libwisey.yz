@@ -389,8 +389,6 @@ external controller wisey.lang.CMemoryPool {
     ::llvm::struct::AprPool::pointer pool,
     long size);
   void clear();
-  void destroy();
-  void initialize();
 }
 
 external controller wisey.lang.CString {

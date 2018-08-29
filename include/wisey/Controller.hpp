@@ -298,8 +298,6 @@ namespace wisey {
 
     bool isThread(IRGenerationContext& context) const;
     
-    static void addMemoryPoolSpecificInjection(IRGenerationContext& context, llvm::Value* object);
-    
   };
   
 } /* namespace wisey */
