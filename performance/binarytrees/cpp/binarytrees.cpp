@@ -1,3 +1,4 @@
+#include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 #include <apr_pools.h>
@@ -28,7 +29,6 @@ struct Node
         if (l)
             return l->check() + 1 + r->check();
         else return 1;
-        // return 1;
     }
 };
 
@@ -77,15 +77,16 @@ int main(int argc, char *argv[])
 {
     Apr apr;
     int min_depth = 4;
-    int depth = argc == 2 ? atoi(argv[1]) : 10;
-    int max_depth = min_depth+2 < depth ? depth : min_depth+2;
+    int max_depth = std::max(min_depth+2,
+                             (argc == 2 ? atoi(argv[1]) : 10));
     int stretch_depth = max_depth+1;
 
     // Alloc then dealloc stretchdepth tree
     {
         NodePool store;
         Node *c = make(stretch_depth, store);
-        printf("stretch tree of depth %d\t check: %d\n", stretch_depth, c->check());
+        std::cout << "stretch tree of depth " << stretch_depth << "\t "
+                  << "check: " << c->check() << std::endl;
     }
 
     NodePool long_lived_store;
@@ -94,7 +95,6 @@ int main(int argc, char *argv[])
     // buffer to store output of each thread
     char *outputstr = (char*)malloc(LINE_SIZE * (max_depth +1) * sizeof(char));
 
-    #pragma omp parallel for 
     for (int d = min_depth; d <= max_depth; d += 2) 
     {
         int iterations = 1 << (max_depth - d + min_depth);
@@ -120,7 +120,8 @@ int main(int argc, char *argv[])
         printf("%s", outputstr + (d * LINE_SIZE) );
     free(outputstr);
 
-    printf("long lived tree of depth %d\t check: %d\n", max_depth, (long_lived_tree->check()));
+    std::cout << "long lived tree of depth " << max_depth << "\t "
+              << "check: " << (long_lived_tree->check()) << "\n";
 
     return 0;
 }

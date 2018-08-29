@@ -34,6 +34,13 @@ interface IThread {
   CContextManager getContextManager() throws MThreadBoundaryException;
 
   /**
+   * Method for yielding the CPU to the next thread
+   */
+  public static void yield() {
+    ::llvm::function::sched_yield();
+  }
+
+  /**
    * Method for putting the current thread to sleep
    */
   public static void sleep(int seconds) {

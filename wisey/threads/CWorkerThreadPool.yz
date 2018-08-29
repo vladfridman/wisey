@@ -1,0 +1,50 @@
+package wisey.threads;
+
+import wisey.data.COwnerVector;
+
+controller CWorkerThreadPool {
+  receive int mPoolSize;
+  inject immediate CWorkerThread*[mPoolSize]* mThreads;
+  inject immediate COwnerVector* mResults;
+  state int mNumberOfWorkers;
+
+  public void submit(IWorker* worker) {
+    CWorkerThread workerThread = findThread();
+    mNumberOfWorkers++;
+    workerThread.start(worker);
+  }
+
+  public COwnerVector* execute() {
+    while (mResults.getSize() < mNumberOfWorkers) {
+      for (int i = 0; i < mThreads.getSize(); i++) {
+        if (mThreads[i] == null || !mThreads[i].isStarted() || !mThreads[i].isFinished()) {
+          continue;
+        }
+        mResults.pushBack(mThreads[i].awaitResult());
+        mThreads[i].reset();
+      }
+      thread.usleep(100000);
+    }
+
+    return mResults;
+  }
+
+  private CWorkerThread findThread() {
+    while (true) {
+      for (int i = 0; i < mThreads.getSize(); i++) {
+        if (mThreads[i] == null) {
+          mThreads[i] = inject(CWorkerThread).onHeap();
+          return mThreads[i];
+        }
+        if (mThreads[i].isStarted() && !mThreads[i].isFinished()) {
+          continue;
+        }
+        mResults.pushBack(mThreads[i].awaitResult());
+        mThreads[i].reset();
+        return mThreads[i];
+      }
+      thread.usleep(100000);
+    }
+    return null;
+  }
+}

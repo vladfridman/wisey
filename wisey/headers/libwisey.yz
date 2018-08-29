@@ -42,6 +42,7 @@ external interface wisey.threads.IThread {
   void exit() throws wisey.threads.MThreadBoundaryException;
   wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException;
   wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException;
+  static void yield();
   static void sleep(
     int seconds);
   static void usleep(
@@ -543,6 +544,15 @@ external controller wisey.threads.CWorkerThread
   wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
   wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException override;
   void run() throws wisey.threads.MThreadBoundaryException override;
+}
+
+external controller wisey.threads.CWorkerThreadPool {
+
+  receive int mPoolSize;
+
+  void submit(
+    wisey.threads.IWorker* worker);
+  wisey.data.COwnerVector* execute();
 }
 
 external controller wisey.threads.CWorkerThreadRunner

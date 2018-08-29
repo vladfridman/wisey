@@ -1,13 +1,9 @@
 package wisey.performance.testing;
 
-import wisey.data.COwnerVector;
 import wisey.lang.CMemoryPool;
 import wisey.lang.CString;
 import wisey.lang.MString;
 import wisey.lang.IProgram;
-import wisey.threads.IWorker;
-import wisey.threads.CWorkerThread;
-import wisey.threads.CWorkerThreadPool;
 
 controller CBinaryTrees implements IProgram {
 
@@ -15,29 +11,6 @@ controller CBinaryTrees implements IProgram {
 
   inject immediate CMemoryPool* mLongLivedPool;
   inject immediate CMemoryPool* mAprPool;
-  inject immediate CWorkerThreadPool* mThreadPool.withPoolSize(8);
-
-  public model MWorker implements IWorker {
-    int mMaxDepth;
-    int mDepth;
-
-    public void work() override {
-      CMemoryPool* pool = inject(CMemoryPool).onHeap();
-      int check = 0;
-
-      int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
-      for (int i = 1; i <= iterations; i++) {
-        check = check + CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
-      }
-      CString* resultString = CString.createFromInt(iterations);
-      resultString.appendString("\t trees of depth ");
-      resultString.appendCString(CString.createFromInt(mDepth));
-      resultString.appendString("\t check: ");
-      resultString.appendCString(CString.createFromInt(check));
-      resultString.appendString("\n");
-      thread.send(resultString.toModel());
-    }
-  }
 
   public int run(immutable string[] arguments) override {
     int n = CString.createFromString(arguments[1]).toInt();
@@ -50,17 +23,26 @@ controller CBinaryTrees implements IProgram {
        + treeNode.itemCheck() + "\n");
 
     treeNode = bottomUpTree(maxDepth, mLongLivedPool);
+    CString*[]* results = new CString*[(maxDepth - MIN_DEPTH) / 2 + 1];
 
     for (int depth = MIN_DEPTH; depth <= maxDepth; depth = depth + 2) {
-      IWorker* worker = build(CBinaryTrees.MWorker)
-        .withMaxDepth(maxDepth)
-        .withDepth(depth)
-        .onHeap();
-      mThreadPool.submit(worker);
+      int check = 0;
+
+      int iterations = 1 << (maxDepth - depth + CBinaryTrees.MIN_DEPTH);
+      for (int i = 1; i <= iterations; i++) {
+        check = check + CBinaryTrees.bottomUpTree(depth, mAprPool).itemCheck();
+      }
+      CString* resultString = CString.createFromInt(iterations);
+      resultString.appendString("\t trees of depth ");
+      resultString.appendCString(CString.createFromInt(depth));
+      resultString.appendString("\t check: ");
+      resultString.appendCString(CString.createFromInt(check));
+      resultString.appendString("\n");
+      results[(depth - MIN_DEPTH) / 2] = resultString;
     }
-    COwnerVector* results = mThreadPool.execute();
+
     for (int i = 0; i < results.getSize(); i++) {
-      printout((MString) results.getAt(i));
+      printout(results[i]);
     }
     printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode.itemCheck() + "\n");
 
