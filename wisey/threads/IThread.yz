@@ -41,6 +41,13 @@ interface IThread {
   }
 
   /**
+   * Method for putting the current thread to sleep in microseconds
+   */
+  public static void usleep(int microseconds) {
+    ::llvm::function::usleep(microseconds);
+  }
+
+  /**
    * Throws an exception when passed object is not the current thread
    */
   public static void insideThreadGuard(IThread object) throws MThreadBoundaryException {

@@ -44,6 +44,8 @@ external interface wisey.threads.IThread {
   wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException;
   static void sleep(
     int seconds);
+  static void usleep(
+    int microseconds);
   static void insideThreadGuard(
     wisey.threads.IThread object) throws wisey.threads.MThreadBoundaryException;
   static void outsideThreadGuard(
