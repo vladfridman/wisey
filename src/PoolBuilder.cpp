@@ -14,6 +14,7 @@
 #include "wisey/FakeExpressionWithCleanup.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IdentifierChain.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
@@ -119,7 +120,7 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.pool.null", function);
   BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.pool.notnull", function);
   
-  Value* null = ConstantPointerNull::get((PointerType*) pool->getType());
+  Value* null = ConstantPointerNull::get((llvm::PointerType*) pool->getType());
   Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, pool, null, "");
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
@@ -161,9 +162,8 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, Names::getCMemoryPoolName(), 0);
   ExpressionList pallocCallArguments;
-  LLVMStructType* aprPoolStruct = context.getLLVMStructType("AprPool", 0);
   pallocCallArguments.push_back(new FakeExpression(aprPool,
-                                                   aprPoolStruct->getPointerType(context, 0)));
+                                LLVMPrimitiveTypes::I8->getPointerType(context, 0)));
   pallocCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
   StaticMethodCall* pallocCall = StaticMethodCall::createCantThrow(controllerTypeSpecifier,
                                                                    Names::getPallocateMethodName(),

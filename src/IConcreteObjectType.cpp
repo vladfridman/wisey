@@ -973,13 +973,11 @@ StructType* IConcreteObjectType::getCMemoryPoolStruct(IRGenerationContext& conte
   }
 
   LLVMContext& llvmContext = context.getLLVMContext();
-  StructType* aprPool = context.getModule()->getTypeByName("AprPool");
-  assert(aprPool && "Could not find AprPool struct");
   structType = StructType::create(llvmContext, structName);
   vector<Type*> types;
   types.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   types.push_back(Type::getInt64Ty(llvmContext));
-  types.push_back(aprPool->getPointerTo());
+  types.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   structType->setBody(types);
   
   return structType;

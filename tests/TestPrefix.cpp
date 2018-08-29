@@ -95,8 +95,6 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeMethods(context);
   contextManagerDefinition->prototypeMethods(context);
-  
-  defineStructs(context);
 
   ControllerDefinition* memoryPoolDefinition = defineCMemoryPool(context);
   memoryPoolDefinition->prototypeObject(context, importProfile);
@@ -354,8 +352,8 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
   LLVMPointerTypeSpecifier* pointerSpecifier =
   new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
   arguments.clear();
-  LLVMPointerTypeSpecifier* poolSpecifier =
-  new LLVMPointerTypeSpecifier(new LLVMStructSpecifier("AprPool", 0), 0);
+  LLVMPointerTypeSpecifier* poolSpecifier = 
+  new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
   arguments.push_back(VariableDeclaration::create(poolSpecifier, new Identifier("pool", 0), 0));
   longSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   VariableDeclaration* declaration =
@@ -440,10 +438,4 @@ InterfaceDefinition* TestPrefix::defineIException(IRGenerationContext& context) 
                                  elementDeclarations,
                                  innerObjectDefinitions,
                                  0);
-}
-
-void TestPrefix::defineStructs(IRGenerationContext& context) {
-  StructType* aprPool = StructType::create(context.getLLVMContext(), "AprPool");
-  LLVMStructType* aprPoolLLVM = LLVMStructType::newLLVMStructType(aprPool);
-  context.addLLVMStructType(aprPoolLLVM, 0);
 }

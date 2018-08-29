@@ -64,3 +64,11 @@ external ::llvm::function ::llvm::void stl_reference_vector_push_back(::llvm::i8
 external ::llvm::function ::wisey::object stl_reference_vector_pop_back(::llvm::i8::pointer);
 
 external ::llvm::function ::llvm::void stl_object_vector_sort(::llvm::i8::pointer, wisey.data.IObjectComparator, wisey.threads.IThread, wisey.threads.CCallStack);
+
+external ::llvm::function ::llvm::i8::pointer mem_pool_create();
+
+external ::llvm::function ::llvm::i8::pointer mem_pool_alloc(::llvm::i8::pointer, long);
+
+external ::llvm::function ::llvm::i8::pointer mem_pool_clear(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::i8::pointer mem_pool_destroy(::llvm::i8::pointer);

@@ -386,7 +386,7 @@ external controller wisey.io.CTextStreamWriter {
 external controller wisey.lang.CMemoryPool {
 
   static ::llvm::i8::pointer pallocate(
-    ::llvm::struct::AprPool::pointer pool,
+    ::llvm::i8::pointer pool,
     long size);
   void clear();
 }
@@ -568,9 +568,6 @@ external controller wisey.threads.CWorkerThreadRunner
 /* Bindings */
 
 /* llvm Structs */
-
-external ::llvm::struct AprPool {
-}
 
 external ::llvm::struct __darwin_pthread_handler_rec {
   ::llvm::void (::llvm::i8::pointer)::pointer,

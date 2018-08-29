@@ -51,8 +51,6 @@ private:
 
   static void defineIntrinsicFunctions(wisey::IRGenerationContext& context);
   
-  static void defineStructs(wisey::IRGenerationContext& context);
-  
 };
 
 #endif /* TestPrefix_h */

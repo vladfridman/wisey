@@ -13,29 +13,25 @@ controller CMemoryPool {
   state long mCount;
   inject immediate ::llvm::i8::pointer* mPool.withConstructor(create).withDestructor(destroy);
 
-
   /**
    * Allocate memory of a given size on a given memory pool
    */
-  public static ::llvm::i8::pointer pallocate(::llvm::struct::AprPool::pointer pool, long size) {
-    return ::llvm::function::apr_palloc(pool, size);
+  public static ::llvm::i8::pointer pallocate(::llvm::i8::pointer pool, long size) {
+    return ::llvm::function::mem_pool_alloc(pool, size);
   }
 
   /**
    * Clears the pool of all objects; this is called when mCount gets to zero
    */
   public void clear() {
-    ::llvm::function::apr_pool_clear(mPool);
+    ::llvm::function::mem_pool_clear(mPool);
   }
 
   private ::llvm::function ::llvm::i8::pointer create() {
-    ::llvm::struct::AprPool::pointer pool;
-    ::llvm::function::apr_initialize();
-    ::llvm::function::apr_pool_create_ex(::llvm::reference(pool), null, null, null);
-    return pool;
+    return ::llvm::function::mem_pool_create();
   }
 
   private ::llvm::function ::llvm::void destroy(::llvm::i8::pointer pool) {
-    ::llvm::function::apr_pool_destroy(pool);
+    ::llvm::function::mem_pool_destroy(pool);
   }
 }
