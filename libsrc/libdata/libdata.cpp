@@ -388,7 +388,7 @@ void* mem_pool_alloc_cont(int64_t* pool, int64_t size) {
   current_block = LONG_TO_POINTER(current_block_address);
   int64_t current_block_size = current_block[1];
   int64_t min_size = size + sizeof(int64_t) * 2;
-  int64_t next_size = current_block_size * 2;
+  int64_t next_size = current_block_size * 4;
   int64_t new_block_size = next_size > min_size ? next_size : min_size;
 
   int64_t* new_block = (int64_t*) malloc(new_block_size);

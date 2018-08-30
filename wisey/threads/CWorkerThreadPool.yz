@@ -2,18 +2,29 @@ package wisey.threads;
 
 import wisey.data.COwnerVector;
 
+/**
+ * Simple implementation of a thread pool
+ */
 controller CWorkerThreadPool {
   receive int mPoolSize;
   inject immediate CWorkerThread*[mPoolSize]* mThreads;
   inject immediate COwnerVector* mResults;
   state int mNumberOfWorkers;
 
+  /**
+   * Submit a model that implements a worker interface on the queue of threads
+   *
+   * The worker starts executing right away if there are idle threads
+   */
   public void submit(IWorker* worker) {
     CWorkerThread workerThread = findThread();
     mNumberOfWorkers++;
     workerThread.start(worker);
   }
 
+  /**
+   * Execute all submitted workers and return back results
+   */
   public COwnerVector* execute() {
     while (mResults.getSize() < mNumberOfWorkers) {
       for (int i = 0; i < mThreads.getSize(); i++) {
@@ -23,7 +34,7 @@ controller CWorkerThreadPool {
         mResults.pushBack(mThreads[i].awaitResult());
         mThreads[i].reset();
       }
-      thread.usleep(100000);
+      IThread.usleep(10000);
     }
 
     return mResults;
@@ -43,7 +54,7 @@ controller CWorkerThreadPool {
         mThreads[i].reset();
         return mThreads[i];
       }
-      thread.usleep(100000);
+      IThread.usleep(10000);
     }
     return null;
   }

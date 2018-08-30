@@ -14,7 +14,7 @@ controller CBinaryTrees implements IProgram {
   public constant int MIN_DEPTH = 4;
 
   inject immediate CMemoryPool* mLongLivedPool;
-  inject immediate CWorkerThreadPool* mThreadPool.withPoolSize(8);
+  inject immediate CWorkerThreadPool* mThreadPool.withPoolSize(6);
 
   public model MWorker implements IWorker {
     int mMaxDepth;
@@ -28,18 +28,22 @@ controller CBinaryTrees implements IProgram {
       for (int i = 1; i <= iterations; i++) {
         check = check + CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
       }
-      CString* resultString = CString.createFromInt(iterations);
-      resultString.appendString("\t trees of depth ");
-      resultString.appendCString(CString.createFromInt(mDepth));
-      resultString.appendString("\t check: ");
-      resultString.appendCString(CString.createFromInt(check));
-      resultString.appendString("\n");
-      thread.send(resultString.toModel());
+      thread.send(build(CBinaryTrees.MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
+    }
+  }
+
+  public model MResult {
+    int mIterations;
+    int mDepth;
+    int mCheck;
+
+    public void printme() {
+      printout(mIterations + "\t trees of depth " + mDepth + "\t check: " + mCheck + "\n");
     }
   }
 
   public int run(immutable string[] arguments) override {
-    int n = CString.createFromString(arguments[1]).toInt();
+    int n = 21;//CString.createFromString(arguments[1]).toInt();
 
     int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
     int stretchDepth = maxDepth + 1;
@@ -47,7 +51,6 @@ controller CBinaryTrees implements IProgram {
     NTreeNode* treeNode = bottomUpTree(stretchDepth, mLongLivedPool);
     printout("stretch tree of depth " + stretchDepth + "\t check: " 
        + treeNode.itemCheck() + "\n");
-    CWorkerThread*[]* threadArray = new CWorkerThread*[(maxDepth - MIN_DEPTH) / 2 + 1];
 
     treeNode = bottomUpTree(maxDepth, mLongLivedPool);
 
@@ -56,17 +59,12 @@ controller CBinaryTrees implements IProgram {
         .withMaxDepth(maxDepth)
         .withDepth(depth)
         .onHeap();
-      threadArray[(depth - MIN_DEPTH) / 2] = inject(CWorkerThread).onHeap();
-      threadArray[(depth - MIN_DEPTH) / 2].start(worker);
-      // mThreadPool.submit(worker);
+      mThreadPool.submit(worker);
     }
-    // COwnerVector* results = mThreadPool.execute();
-    for (int i = 0; i < threadArray.getSize(); i++) {
-      printout((MString) threadArray[i].awaitResult());
+    COwnerVector* results = mThreadPool.execute();
+    for (int i = 0; i < results.getSize(); i++) {
+      ((CBinaryTrees.MResult) results.getAt(i)).printme();
     }
-    // for (int i = 0; i < results.getSize(); i++) {
-    //   printout((MString) results.getAt(i));
-    // }
     printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode.itemCheck() + "\n");
 
     return 1;
