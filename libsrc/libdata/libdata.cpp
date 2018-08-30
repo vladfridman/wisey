@@ -328,12 +328,12 @@ extern "C" void* stl_reference_vector_pop_back(void* vector) {
  * 
  * Memory pool object contains
  * ---------
- * i64 0 - unsued
- * i64* - currect block where to look for free memory
+ * i64* - pointer to the free memory slot
+ * i64* - pointer to the end of the current block
+ * i64* - pointer to the current block
  * --------- start of the first block which is part of memory pool object itself
  * i64* - next memory pool block
  * i64 this block size in bytes
- * i64 address of the place in the block where next memory should be reserved
  * ... - memory for allocation
  * --------- 
  * 
@@ -341,75 +341,79 @@ extern "C" void* stl_reference_vector_pop_back(void* vector) {
  * ---------
  * i64* - next memory pool block
  * i64 this block size in bytes
- * i64 address of the place in the block where next memory should be reserved
  * ... - memory for allocation
  * --------- 
  */
 extern "C" void* mem_pool_create() {
   int64_t* pool = (int64_t*) malloc(MEM_POOL_START_SIZE);
-  pool[0] = 0;
-  pool[1] = POINTER_TO_LONG(pool) + sizeof(int64_t) * 2;
-  pool[2] = 0;
-  pool[3] = MEM_POOL_START_SIZE - sizeof(int64_t) * 5;
-  pool[4] = POINTER_TO_LONG(pool) + sizeof(int64_t) * 5;
+  pool[0] = POINTER_TO_LONG(pool) + sizeof(int64_t) * 5;
+  pool[1] = POINTER_TO_LONG(pool) + MEM_POOL_START_SIZE;
+  pool[2] = POINTER_TO_LONG(pool) + sizeof(int64_t) * 3;
+  pool[3] = 0;
+  pool[4] = MEM_POOL_START_SIZE - sizeof(int64_t) * 5;
   return pool;
 }
 
+void* mem_pool_alloc_cont(int64_t* pool, int64_t size);
+
 extern "C" void* mem_pool_alloc(void* memory_pool, int64_t size) {
   int64_t* pool = (int64_t*) memory_pool;
-  int64_t block_address = pool[1];
-  int64_t* block = NULL;
-  int64_t block_size = 0;
+  int64_t next_space_address = pool[0];
+  if (next_space_address + size <= pool[1]) {
+    pool[0] += size;
+    return LONG_TO_POINTER(next_space_address);
+  }
+  return mem_pool_alloc_cont(pool, size);
+}
+
+void* mem_pool_alloc_cont(int64_t* pool, int64_t size) {
+  int64_t current_block_address = pool[2];
+  int64_t* current_block = LONG_TO_POINTER(current_block_address);
+  int64_t block_address = current_block[0];
+
   while (block_address != 0) {
-    block = LONG_TO_POINTER(block_address);
-    block_size = block[1];
-    int64_t next_space_address = block[2];
-    int64_t space_left = block_address + block_size - next_space_address;
-  
-    if (space_left >= size) {
-      block[2] += size;
+    int64_t* block = LONG_TO_POINTER(block_address);
+    pool[0] = block_address + sizeof(int64_t) * 2;
+    pool[1] = pool[0] + block[1];
+    pool[2] = block_address;
+    int64_t next_space_address = pool[0];
+    if (next_space_address + size <= pool[1]) {
+      pool[0] += size;
       return LONG_TO_POINTER(next_space_address);
     }
     block_address = block[0];
-    if (block_address != 0) {
-      pool[1] = block_address;
-    }
   }
 
-  int64_t min_size = size + sizeof(int64_t) * 3;
-  int64_t next_size = block_size * 2;
+  current_block_address = pool[2];
+  current_block = LONG_TO_POINTER(current_block_address);
+  int64_t current_block_size = current_block[1];
+  int64_t min_size = size + sizeof(int64_t) * 2;
+  int64_t next_size = current_block_size * 2;
   int64_t new_block_size = next_size > min_size ? next_size : min_size;
 
   int64_t* new_block = (int64_t*) malloc(new_block_size);
+  int64_t new_block_address = POINTER_TO_LONG(new_block);
+  current_block[0] = POINTER_TO_LONG(new_block);
   new_block[0] = 0;
-  block[0] = POINTER_TO_LONG(new_block);
-  pool[1] = POINTER_TO_LONG(new_block);
-  new_block[1] = new_block_size;
-  new_block[2] = POINTER_TO_LONG(new_block) + sizeof(int64_t) * 3 + size;
-  return &(new_block[3]);
+  new_block[1] = new_block_size - 2 * sizeof(int64_t);
+  pool[0] = new_block_address + 2 * sizeof(int64_t) + size;
+  pool[1] = new_block_address + new_block_size;
+  pool[2] = new_block_address;
+  return &(new_block[2]);
 }
 
 extern "C" void mem_pool_clear(void* memory_pool) {
   int64_t* pool = (int64_t*) memory_pool;
-  int64_t first_block_address = POINTER_TO_LONG(pool) + sizeof(int64_t) * 2;
-  int64_t block_address = first_block_address;
-  while (block_address != 0) {
-    int64_t* block = LONG_TO_POINTER(block_address);
-    block[2] = block_address + sizeof(int64_t) * 3;
-    block_address = block[0];
-  }
-  pool[1] = first_block_address;
+  pool[0] = POINTER_TO_LONG(pool) + sizeof(int64_t) * 5;
+  pool[1] = POINTER_TO_LONG(pool) + MEM_POOL_START_SIZE;
+  pool[2] = POINTER_TO_LONG(pool) + sizeof(int64_t) * 3;
 }
 
 extern "C" void mem_pool_destroy(void* memory_pool) {
   int64_t* pool = (int64_t*) memory_pool;
-  int64_t block_address = POINTER_TO_LONG(pool) + sizeof(int64_t) * 2;
-  int64_t* block = LONG_TO_POINTER(block_address);
-  block[2] = block_address + sizeof(int64_t) * 3;
-  block_address = block[0];
+  int64_t block_address = pool[3];
   while (block_address != 0) {
     int64_t* block = LONG_TO_POINTER(block_address);
-    block[2] = block_address + sizeof(int64_t) * 3;
     block_address = block[0];
     free(block);
   }
