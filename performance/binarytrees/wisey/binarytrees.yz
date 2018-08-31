@@ -1,4 +1,4 @@
-package wisey.performance.testing;
+package wisey.data;
 
 import wisey.data.COwnerVector;
 import wisey.lang.CMemoryPool;
@@ -43,7 +43,7 @@ controller CBinaryTrees implements IProgram {
   }
 
   public int run(immutable string[] arguments) override {
-    int n = 21;//CString.createFromString(arguments[1]).toInt();
+    int n = CString.createFromString(arguments[1]).toInt();
 
     int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
     int stretchDepth = maxDepth + 1;
