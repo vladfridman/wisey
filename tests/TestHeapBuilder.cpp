@@ -168,7 +168,7 @@ TEST_F(HeapBuilderTest, generateIRTest) {
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MShape.refCounter*"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape.refCounter* %buildervar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64), i1 false)"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %buildervar, i32 0, i32 1"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %2, i32 0, i32 1"
   "\n  store i32 3, i32* %3"

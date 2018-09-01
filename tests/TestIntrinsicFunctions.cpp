@@ -114,8 +114,7 @@ TEST_F(IntrinsicFunctionsTest, setMemoryToZeroTest) {
   "\n"
   "\nentry:                                            ; preds = %declare"
   "\n  %1 = bitcast i32* %0 to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (i32* getelementptr "
-  "(i32, i32* null, i32 1) to i64), i32 4, i1 false)\n";
+  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64), i1 false)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

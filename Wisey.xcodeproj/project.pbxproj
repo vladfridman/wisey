@@ -1109,6 +1109,14 @@
 		F5F435C91FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */; };
 		F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */; };
 		F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */; };
+		F5F55E96213AF63900FF3A28 /* libLLVMBPFAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E95213AF63900FF3A28 /* libLLVMBPFAsmParser.a */; };
+		F5F55E98213AF66900FF3A28 /* libLLVMARMUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */; };
+		F5F55E9A213AF6E600FF3A28 /* libLLVMBinaryFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */; };
+		F5F55E9C213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */; };
+		F5F55E9D213AFA5F00FF3A28 /* libLLVMBPFAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E95213AF63900FF3A28 /* libLLVMBPFAsmParser.a */; };
+		F5F55E9E213AFA7100FF3A28 /* libLLVMARMUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */; };
+		F5F55E9F213AFAA400FF3A28 /* libLLVMBinaryFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */; };
+		F5F55EA0213AFAC800FF3A28 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */; };
 		F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */; };
 		F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */; };
 		F5F61AA0201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9F201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp */; };
@@ -2201,6 +2209,10 @@
 		F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterPrimitiveVariable.hpp; path = include/wisey/ParameterPrimitiveVariable.hpp; sourceTree = "<group>"; };
 		F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterPrimitiveVariable.cpp; path = src/ParameterPrimitiveVariable.cpp; sourceTree = "<group>"; };
 		F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterPrimitiveVariable.cpp; path = tests/TestParameterPrimitiveVariable.cpp; sourceTree = "<group>"; };
+		F5F55E95213AF63900FF3A28 /* libLLVMBPFAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBPFAsmParser.a; path = ../../../usr/local/lib/libLLVMBPFAsmParser.a; sourceTree = "<group>"; };
+		F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMUtils.a; path = ../../../usr/local/lib/libLLVMARMUtils.a; sourceTree = "<group>"; };
+		F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBinaryFormat.a; path = ../../../usr/local/lib/libLLVMBinaryFormat.a; sourceTree = "<group>"; };
+		F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAggressiveInstCombine.a; path = ../../../usr/local/lib/libLLVMAggressiveInstCombine.a; sourceTree = "<group>"; };
 		F5F61A9A201DDBE400EF9EB7 /* ArraySpecificType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificType.hpp; path = include/wisey/ArraySpecificType.hpp; sourceTree = "<group>"; };
 		F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArraySpecificType.cpp; path = src/ArraySpecificType.cpp; sourceTree = "<group>"; };
 		F5F61A9E201DDEBC00EF9EB7 /* ArraySpecificTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificTypeSpecifier.hpp; path = include/wisey/ArraySpecificTypeSpecifier.hpp; sourceTree = "<group>"; };
@@ -2233,6 +2245,7 @@
 				F53400E01DFBE7ED0002BF7E /* libm.dylib in Frameworks */,
 				F53400E11DFBE7ED0002BF7E /* libz.dylib in Frameworks */,
 				F593629C20CC033500A8C67A /* libapr-1.dylib in Frameworks */,
+				F5F55EA0213AFAC800FF3A28 /* libLLVMAggressiveInstCombine.a in Frameworks */,
 				F58A82EC1F79657300369388 /* libLLVMAArch64AsmParser.a in Frameworks */,
 				F58A82ED1F79657300369388 /* libLLVMAArch64AsmPrinter.a in Frameworks */,
 				F58A82EE1F79657300369388 /* libLLVMAArch64CodeGen.a in Frameworks */,
@@ -2254,10 +2267,13 @@
 				F58A82FD1F7965B600369388 /* libLLVMARMDesc.a in Frameworks */,
 				F58A82FE1F7965B600369388 /* libLLVMARMDisassembler.a in Frameworks */,
 				F58A82FF1F7965B600369388 /* libLLVMARMInfo.a in Frameworks */,
+				F5F55E9E213AFA7100FF3A28 /* libLLVMARMUtils.a in Frameworks */,
 				F50D5E3F20B5A03800A025E9 /* libLLVMAsmParser.a in Frameworks */,
 				F53400C81DFBE3370002BF7E /* libLLVMAsmPrinter.a in Frameworks */,
+				F5F55E9F213AFAA400FF3A28 /* libLLVMBinaryFormat.a in Frameworks */,
 				F53400C91DFBE3370002BF7E /* libLLVMBitReader.a in Frameworks */,
 				F53400CA1DFBE3370002BF7E /* libLLVMBitWriter.a in Frameworks */,
+				F5F55E9D213AFA5F00FF3A28 /* libLLVMBPFAsmParser.a in Frameworks */,
 				F58A83001F7965DE00369388 /* libLLVMBPFAsmPrinter.a in Frameworks */,
 				F58A83011F7965DE00369388 /* libLLVMBPFCodeGen.a in Frameworks */,
 				F58A83021F7965DE00369388 /* libLLVMBPFDesc.a in Frameworks */,
@@ -2372,6 +2388,7 @@
 				F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */,
 				F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */,
 				F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */,
+				F5F55E9C213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a in Frameworks */,
 				F530616D1F794C290098D637 /* libLLVMAArch64CodeGen.a in Frameworks */,
 				F530616E1F794C290098D637 /* libLLVMAArch64AsmParser.a in Frameworks */,
 				F530616F1F794C290098D637 /* libLLVMAArch64Utils.a in Frameworks */,
@@ -2387,17 +2404,20 @@
 				F53061641F794C030098D637 /* libLLVMAMDGPUInfo.a in Frameworks */,
 				F53061651F794C030098D637 /* libLLVMAMDGPUAsmParser.a in Frameworks */,
 				F54625EB1DE5EB7200074D66 /* libLLVMAnalysis.a in Frameworks */,
+				F53061561F794BD90098D637 /* libLLVMARMAsmParser.a in Frameworks */,
+				F53061551F794BD90098D637 /* libLLVMARMAsmPrinter.a in Frameworks */,
+				F5F55E98213AF66900FF3A28 /* libLLVMARMUtils.a in Frameworks */,
+				F53061571F794BD90098D637 /* libLLVMARMCodeGen.a in Frameworks */,
+				F53061541F794BD90098D637 /* libLLVMARMDesc.a in Frameworks */,
 				F53061521F794BD90098D637 /* libLLVMARMDisassembler.a in Frameworks */,
 				F53061531F794BD90098D637 /* libLLVMARMInfo.a in Frameworks */,
-				F53061541F794BD90098D637 /* libLLVMARMDesc.a in Frameworks */,
-				F53061551F794BD90098D637 /* libLLVMARMAsmPrinter.a in Frameworks */,
-				F53061561F794BD90098D637 /* libLLVMARMAsmParser.a in Frameworks */,
-				F53061571F794BD90098D637 /* libLLVMARMCodeGen.a in Frameworks */,
 				F53061891F794DA20098D637 /* libLLVMAsmParser.a in Frameworks */,
 				F54625C71DE5EA6300074D66 /* libLLVMAsmPrinter.a in Frameworks */,
+				F5F55E9A213AF6E600FF3A28 /* libLLVMBinaryFormat.a in Frameworks */,
 				F54625F51DE5EBBB00074D66 /* libLLVMBitReader.a in Frameworks */,
 				F54625D71DE5EAC200074D66 /* libLLVMBitWriter.a in Frameworks */,
 				F53061471F794BB20098D637 /* libLLVMBPFCodeGen.a in Frameworks */,
+				F5F55E96213AF63900FF3A28 /* libLLVMBPFAsmParser.a in Frameworks */,
 				F53061491F794BB20098D637 /* libLLVMBPFAsmPrinter.a in Frameworks */,
 				F530614A1F794BB20098D637 /* libLLVMBPFDesc.a in Frameworks */,
 				F530614B1F794BB20098D637 /* libLLVMBPFInfo.a in Frameworks */,
@@ -2561,6 +2581,10 @@
 		F53060C71F7947800098D637 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */,
+				F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */,
+				F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */,
+				F5F55E95213AF63900FF3A28 /* libLLVMBPFAsmParser.a */,
 				F547DDC3210FA0D0000ABE13 /* libwisey.so */,
 				F593629B20CC033500A8C67A /* libapr-1.dylib */,
 				F5CB7F6C20514C84007628B5 /* libpthread.dylib */,
@@ -5246,7 +5270,7 @@
 					/usr/lib,
 					"$(PROJECT_DIR)/lib",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-isystem",
 					/usr/local/include,
@@ -5314,7 +5338,7 @@
 					/usr/lib,
 					"$(PROJECT_DIR)/lib",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-isystem",
 					/usr/local/include,
@@ -5481,7 +5505,7 @@
 					/usr/lib,
 					"$(PROJECT_DIR)/lib",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-isystem",
 					/usr/local/include,
@@ -5527,7 +5551,7 @@
 					/usr/lib,
 					"$(PROJECT_DIR)/lib",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-isystem",
 					/usr/local/include,

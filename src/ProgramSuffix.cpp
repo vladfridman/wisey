@@ -131,11 +131,9 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   Value* argvBitcast = IRWriter::newBitCastInst(context, argv, int8PointerType);
 
   vector<Value*> memCopyArguments;
-  unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
   memCopyArguments.push_back(arrayStoreBitcast);
   memCopyArguments.push_back(argvBitcast);
   memCopyArguments.push_back(size);
-  memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
   IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "");

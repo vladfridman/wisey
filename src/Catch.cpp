@@ -69,11 +69,9 @@ bool Catch::generateIR(IRGenerationContext& context,
   BitCastInst* mallocBitcast = IRWriter::newBitCastInst(context, malloc, int8PointerType);
 
   vector<Value*> memCopyArguments;
-  unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
   memCopyArguments.push_back(mallocBitcast);
   memCopyArguments.push_back(exceptionPointer);
   memCopyArguments.push_back(mallocSize);
-  memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
   IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "");

@@ -176,14 +176,12 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   functionType = TypeBuilder<void (types::i<8>*,
                                    types::i<8>*,
                                    types::i<64>,
-                                   types::i<32>,
                                    types::i<1>), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memcpy.p0i8.p0i8.i64", module);
 
   functionType = TypeBuilder<void (types::i<8>*,
                                    types::i<8>,
                                    types::i<64>,
-                                   types::i<32>,
                                    types::i<1>), false>::get(llvmContext);
   
   Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memset.p0i8.i64", module);

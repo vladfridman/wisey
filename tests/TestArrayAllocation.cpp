@@ -109,7 +109,7 @@ TEST_F(ArrayAllocationTest, generateIRTest) {
   "\n  %2 = load i64, i64* %arraySize"
   "\n  %malloccall = tail call i8* @malloc(i64 %2)"
   "\n  %3 = bitcast i8* %malloccall to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %3, i8 0, i64 %2, i32 4, i1 false)"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %3, i8 0, i64 %2, i1 false)"
   "\n  %4 = bitcast i8* %malloccall to [0 x i64]*"
   "\n  %5 = getelementptr [0 x i64], [0 x i64]* %4, i64 0, i64 1"
   "\n  store i64 %conv, i64* %5"

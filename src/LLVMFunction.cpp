@@ -162,7 +162,7 @@ bool LLVMFunction::isLLVMFunction() const {
 }
 
 void LLVMFunction::createArguments(IRGenerationContext& context, Function* function) const {
-  if (!function->getArgumentList().size()) {
+  if (!function->arg_size()) {
     return;
   }
 

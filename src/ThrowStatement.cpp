@@ -76,11 +76,9 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
                                                     "");
 
   vector<Value*> memCopyArguments;
-  unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
   memCopyArguments.push_back(exceptionAlloca);
   memCopyArguments.push_back(excpetionShellStart);
   memCopyArguments.push_back(mallocSize);
-  memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
   IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "");

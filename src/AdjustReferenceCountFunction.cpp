@@ -116,7 +116,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
                     counter,
                     adjustment,
                     AtomicOrdering::Monotonic,
-                    SynchronizationScope::CrossThread,
+                    SyncScope::System,
                     safeAdjustBlock);
   IRWriter::createReturnInst(context, NULL);
 

@@ -138,7 +138,7 @@ void Compiler::saveBinary(string outputFile) {
   
   legacy::PassManager passManager;
   
-  if (targetMachine->addPassesToEmitFile(passManager, destinationRawStream, fileType)) {
+  if (targetMachine->addPassesToEmitFile(passManager, destinationRawStream, nullptr, fileType)) {
     errs() << "TargetMachine can't emit a file of this type";
     return;
   }

@@ -100,7 +100,7 @@ void AdjustReferenceCounterForImmutableArrayFunction::compose(IRGenerationContex
                     counter,
                     adjustment,
                     AtomicOrdering::Monotonic,
-                    SynchronizationScope::CrossThread,
+                    SyncScope::System,
                     ifNotNullBlock);
   IRWriter::createReturnInst(context, NULL);
   

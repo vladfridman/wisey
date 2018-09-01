@@ -299,7 +299,7 @@ void Composer::adjustReferenceCountSafely(IRGenerationContext& context,
                     counter,
                     adjustment,
                     AtomicOrdering::Monotonic,
-                    SynchronizationScope::CrossThread,
+                    SyncScope::System,
                     ifNotNullBlock);
   IRWriter::createBranch(context, ifEndBlock);
   

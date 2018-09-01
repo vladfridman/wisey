@@ -188,7 +188,7 @@ AllocaInst* IRWriter::newAllocaInst(IRGenerationContext& context, Type* type, st
     return NULL;
   }
   
-  return new AllocaInst(type, variableName, currentBlock);
+  return new AllocaInst(type, 0, variableName, currentBlock);
 }
 
 LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
