@@ -2,14 +2,14 @@
 #include <vector>
 
 /**
- * Library of functions that work with STL data structures
+ * Library of functions that work with STL data structures and memory pool
  */
 
 void adjust_wisey_object_reference_count(void* objectPointer, int adjustment);
 void destroy_wisey_object(void* objectPointer);
 
 /**
- * Hashmap where key is an object reference and value is an object reference
+ * Function to support hashmaps where key is an object reference and value is an object reference
  */
 extern "C" void* stl_reference_to_object_map_create() {
   return new std::unordered_map<void*, void*>();
@@ -59,7 +59,7 @@ extern "C" int64_t stl_reference_to_object_map_size(void* map) {
 }
 
 /**
- * Hashmap where key is an object reference and value is an object owner
+ * Function to support hashmaps where key is an object reference and value is an object owner
  */
 extern "C" void stl_reference_to_owner_map_erase(void* map, void* key) {
   std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
@@ -96,7 +96,7 @@ extern "C" void stl_reference_to_owner_map_clear(void* map) {
 }
 
 /**
- * Hashmap where key is of type long and value is of type int
+ * Function to support hashmaps where key is of type long and value is of type int
  */
 extern "C" void* stl_long_to_int_map_create() {
   std::unordered_map<int64_t, int32_t>* map = new std::unordered_map<int64_t, int32_t>();
@@ -200,6 +200,9 @@ extern "C" void* stl_long_to_int_map_get_keys_array(void *map) {
   return memory;
 }
 
+/**
+ * Destroys a wisey object by finding a destructor method in its vtable and calling it
+ */
 void destroy_wisey_object(void* objectPointer) {
   int8_t** object = (int8_t**) objectPointer;
   int8_t* vTablePortion = *object;
@@ -215,6 +218,9 @@ void destroy_wisey_object(void* objectPointer) {
   destructor(objectStart, NULL, NULL, NULL);
 }
 
+/**
+ * Adjust reference count of a wisey object
+ */
 void adjust_wisey_object_reference_count(void* objectPointer, int adjustment) {
   int8_t** object = (int8_t**) objectPointer;
   int8_t* vTablePortion = *object;
@@ -237,7 +243,7 @@ void adjust_wisey_object_reference_count(void* objectPointer, int adjustment) {
 }
 
 /**
- * Vector of owner references
+ * Functions to support wisey vector of owner references
  */
 extern "C" void* stl_object_vector_create() {
   return new std::vector<void*>();
@@ -295,7 +301,7 @@ extern "C" void stl_object_vector_sort(void* vector,
 }
 
 /**
- * Vector of object references
+ * Functions to support wisey vector of object references
  */
 extern "C" void stl_reference_vector_clear(void* vector) {
   std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
@@ -356,6 +362,9 @@ extern "C" void* mem_pool_create() {
 
 void* mem_pool_alloc_cont(int64_t* pool, int64_t size);
 
+/**
+ * Allocate an object of given size on the given memory pool
+ */
 extern "C" void* mem_pool_alloc(void* memory_pool, int64_t size) {
   int64_t* pool = (int64_t*) memory_pool;
   int64_t next_space_address = pool[0];
@@ -366,6 +375,9 @@ extern "C" void* mem_pool_alloc(void* memory_pool, int64_t size) {
   return mem_pool_alloc_cont(pool, size);
 }
 
+/**
+ * Allocates an object of the given size on the given memory pool in a reused or a new block
+ */
 void* mem_pool_alloc_cont(int64_t* pool, int64_t size) {
   int64_t current_block_address = pool[2];
   int64_t* current_block = LONG_TO_POINTER(current_block_address);
@@ -402,6 +414,9 @@ void* mem_pool_alloc_cont(int64_t* pool, int64_t size) {
   return &(new_block[2]);
 }
 
+/**
+ * Clears the memory pool without destroying any of the blocks
+ */
 extern "C" void mem_pool_clear(void* memory_pool) {
   int64_t* pool = (int64_t*) memory_pool;
   pool[0] = POINTER_TO_LONG(pool) + sizeof(int64_t) * 5;
@@ -409,6 +424,9 @@ extern "C" void mem_pool_clear(void* memory_pool) {
   pool[2] = POINTER_TO_LONG(pool) + sizeof(int64_t) * 3;
 }
 
+/**
+ * Destroys the memory pool and all allocated blocks
+ */
 extern "C" void mem_pool_destroy(void* memory_pool) {
   int64_t* pool = (int64_t*) memory_pool;
   int64_t block_address = pool[3];
