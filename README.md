@@ -1,6 +1,6 @@
 ## Wisey Language Compiler ##
 
-### Set up instructions ###
+### Developer set up instructions ###
 
 Prerequisites: Mac OS X 64 bit
 
@@ -16,8 +16,8 @@ Prerequisites: Mac OS X 64 bit
   `sudo make install;`
 4. Otionally make Xcode project for LLVM for reference to LLVM usage
   `mkdir ~/llvm/llvmxcodebuild; cd ~/llvm/llvmxcodebuild;`
-  `cmake -G Xcode CMAKE_BUILD_TYPE="Debug" /Users/vlad/llvm/llvm`
-  `open LLVM.xcodeproj`
+  `cmake -G Xcode CMAKE_BUILD_TYPE="Debug" /Users/vlad/llvm/llvm;`
+  `open LLVM.xcodeproj;`
   Create a scheme only for clang
 5. Install homebrew
 6. Install bison
