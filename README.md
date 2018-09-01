@@ -1,6 +1,6 @@
 ## Wisey Language Compiler ##
 
-### Set up steps ###
+### Set up instructions ###
 
 Prerequisites: Mac OS X 64 bit
 
