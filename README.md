@@ -33,10 +33,10 @@ Prerequisites: Mac OS X 64 bit
   `make -j8; make -j8 tests;`
 9. Compile wisey library
   `cd ~/wisey;`
-  `bin/wiseyc wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz`
-  `g++ -shared -o /Users/vlad/wisey/lib/libwisey.so lib/libdata.a compiled.o `
-  `bin/wiseyc wisey/lang/*.yz  wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -H /Users/vlad/wisey/wisey/headers/libwisey.yz`
-  `rm ./compiled.o`
+  `bin/wiseyc wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz;`
+  `g++ -shared -o /Users/vlad/wisey/lib/libwisey.so lib/libdata.a compiled.o;`
+  `bin/wiseyc wisey/lang/*.yz  wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -H /Users/vlad/wisey/wisey/headers/libwisey.yz;`
+  `rm ./compiled.o;`
 10. Test installation correctness:
   `cd ~/wisey;`
   `bin/runtests;`
