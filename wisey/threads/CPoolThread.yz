@@ -1,0 +1,64 @@
+package wisey.threads;
+
+/**
+ * A thread that runs in a pool of threads. 
+ *
+ * In its run method it constantly polls the thread pool for a new worker and when it finds it
+ * it runs the work() method of the returned worker. The worker is responsible for sending 
+ * a result back if there are any by calling thread.send(::wisey::model*) method. Once worker is 
+ * finished the thread waits for a new worker in the thread pool. 
+ *
+ * The thread never ends until it is canceled through cancel() method.
+ */
+controller CPoolThread implements IThread {
+  inject immediate CPoolThreadRunner* mPoolThreadRunner;
+  inject immediate CCallStack* mCallStack;
+  inject immediate CContextManager* mContextManager;
+  state CThreadPool mThreadPool;
+
+  /**
+   * Starts the given thread with the given worker implementation
+   */
+  public void start(CThreadPool threadPool) throws MThreadBoundaryException {
+    outsideThreadGuard(this);
+    mThreadPool = threadPool;
+    mPoolThreadRunner.createThread(this);
+  }
+
+  /**
+   * Cancel thread execution from antoher thread
+   */
+  public void cancel() throws MThreadBoundaryException {
+    outsideThreadGuard(this);
+    mPoolThreadRunner.cancelThread();
+  }
+
+  public void exit() throws MThreadBoundaryException override {
+    insideThreadGuard(this);
+    mPoolThreadRunner.exitThread();
+  }
+
+  public ::wisey::model* send(::wisey::model* message) throws MThreadBoundaryException override {
+    insideThreadGuard(this);
+    mThreadPool.addResult(message);
+    return null;
+  }
+
+  public CCallStack getCallStack() throws MThreadBoundaryException override {
+    insideThreadGuard(this);
+    return mCallStack;
+  }
+
+  public CContextManager getContextManager() throws MThreadBoundaryException override {
+    insideThreadGuard(this);
+    return mContextManager;    
+  }
+
+  public void run() throws MThreadBoundaryException override {
+    insideThreadGuard(this);
+    while (true) {
+      IWorker* worker = mThreadPool.getWorker();
+      worker.work();
+    }
+  }
+}

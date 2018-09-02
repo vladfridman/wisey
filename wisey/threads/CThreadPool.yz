@@ -1,0 +1,91 @@
+package wisey.threads;
+
+import wisey.data.CConcurrentModelOwnerQueue;
+
+/**
+ * Simple implementation of a thread pool
+ *
+ * Here is how to use it:
+ *
+ * controller CYourController {
+ *   inject CThreadPool* mThreadPool.withPoolSize(4);
+ *
+ *   public void yourMethod() {
+ *     // submit your workers 
+ *     mThreadPool.submit(build(MyWorker1).onHeap());
+ *     mThreadPool.submit(build(MyWorker2).onHeap());
+ *     ...
+ *     // start threads on the thread pool, can also be called before workers are submitted
+ *     mThreadPool.start();
+ *     MyModel* result = (MyModel*) mThreadPool.getResult();
+ *     // do something with the results
+ *     ...
+ *     // once all results are received stop the thread pool
+ *     mThreadPool.stop();
+ *     // you can then reuse the thread pool by calling start() method again
+ *   }
+ * }
+ */
+controller CThreadPool {
+  receive int mPoolSize;
+  inject immediate CPoolThread*[mPoolSize]* mThreads;
+  inject immediate CConcurrentModelOwnerQueue* mWorkers;
+  inject immediate CConcurrentModelOwnerQueue* mResults;
+
+  /**
+   * Submit a model that implements a worker interface on the queue of workers
+   */
+  public void submit(IWorker* worker) {
+    mWorkers.push(worker);
+  }
+
+  /**
+   * Start all threads on the thread pool, each thread will poll the thread pool for workers to run
+   */
+  public void start() {
+    for (int i = 0; i < mPoolSize; i++) {
+      mThreads[i] = inject(CPoolThread).onHeap();
+      mThreads[i].start(this);
+    }
+  }
+
+  /**
+   * Cancel and destroy all threads on the pool immediately
+   */
+  public void stop() {
+    for (int i = 0; i < mThreads.getSize(); i++) {
+      if (mThreads[i] == null) {
+        continue;
+      }
+      mThreads[i].cancel();
+      mThreads[i] = null;
+    }
+  }
+
+  /**
+   * Get the next result from a queue of results.
+   *
+   * This blocks until result becomes available
+   */
+  public ::wisey::model* getResult() {
+     return mResults.pop();
+  }
+
+  /**
+   * This returns a worker from a worker queue or blocks the current thread until a worker appears
+   *
+   * This is called by individual pool threads and should not be called directly
+   */
+  public IWorker* getWorker() {
+    return (IWorker*) mWorkers.pop();
+  }
+
+  /**
+   * This adds a new result to the list of results.
+   *
+   * This is called by individual pool threads and should not be called directly
+   */
+  public void addResult(::wisey::model* result) {
+    mResults.push(result);
+  }
+}

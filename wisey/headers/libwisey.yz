@@ -236,6 +236,13 @@ external model wisey.threads.MThreadBoundaryException
 
 /* Controllers */
 
+external controller wisey.data.CConcurrentModelOwnerQueue {
+
+  void push(
+    ::wisey::model* object);
+  ::wisey::model* pop();
+}
+
 external controller wisey.data.CLongToIntMap {
 
   void put(
@@ -484,6 +491,32 @@ external controller wisey.threads.CContextManager {
     ::wisey::object* instance);
 }
 
+external controller wisey.threads.CPoolThread
+  implements
+    wisey.threads.IThread {
+
+  void start(
+    wisey.threads.CThreadPool threadPool) throws wisey.threads.MThreadBoundaryException;
+  void cancel() throws wisey.threads.MThreadBoundaryException;
+  void exit() throws wisey.threads.MThreadBoundaryException override;
+  ::wisey::model* send(
+    ::wisey::model* message) throws wisey.threads.MThreadBoundaryException override;
+  wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
+  wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException override;
+  void run() throws wisey.threads.MThreadBoundaryException override;
+}
+
+external controller wisey.threads.CPoolThreadRunner
+  implements
+    wisey.threads.IThreadRunner {
+
+  void createThread(
+    wisey.threads.IThread poolThread);
+  boolean isStarted();
+  void cancelThread();
+  void exitThread();
+}
+
 external controller wisey.threads.CProducerThread
   implements
     wisey.threads.IThread {
@@ -526,6 +559,20 @@ external controller wisey.threads.CProducerThreadRunner
   boolean hasRoom();
 }
 
+external controller wisey.threads.CThreadPool {
+
+  receive int mPoolSize;
+
+  void submit(
+    wisey.threads.IWorker* worker);
+  void start();
+  void stop();
+  ::wisey::model* getResult();
+  wisey.threads.IWorker* getWorker();
+  void addResult(
+    ::wisey::model* result);
+}
+
 external controller wisey.threads.CWorkerThread
   implements
     wisey.threads.IThread {
@@ -544,15 +591,6 @@ external controller wisey.threads.CWorkerThread
   wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
   wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException override;
   void run() throws wisey.threads.MThreadBoundaryException override;
-}
-
-external controller wisey.threads.CWorkerThreadPool {
-
-  receive int mPoolSize;
-
-  void submit(
-    wisey.threads.IWorker* worker);
-  wisey.data.COwnerVector* execute();
 }
 
 external controller wisey.threads.CWorkerThreadRunner

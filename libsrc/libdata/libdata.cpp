@@ -1,3 +1,7 @@
+#include <queue>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #include <unordered_map>
 #include <vector>
 
@@ -436,4 +440,57 @@ extern "C" void mem_pool_destroy(void* memory_pool) {
     free(block);
   }
   free(memory_pool);
+}
+
+/**
+ * Simple concurrent queue implementation
+ * 
+ * The concurrent queue is used for thread pool implementation, it is used to store model owners
+ */
+class ConcurrentQueue {
+  std::queue<void*> queue;
+  std::mutex mutex;
+  std::condition_variable cond;
+
+public:
+ 
+  void push(void* item) {
+    std::unique_lock<std::mutex> mlock(mutex);
+    queue.push(item);
+    mlock.unlock();
+    cond.notify_one();
+  }
+ 
+  void* pop() {
+    std::unique_lock<std::mutex> mlock(mutex);
+    while (queue.empty())
+    {
+      cond.wait(mlock);
+    }
+    auto item = queue.front();
+    queue.pop();
+    return item;
+  }
+};
+
+/**
+ * Api functions to operate the concurrent queue
+ */
+extern "C" void* concurrent_model_owner_queue_create() {
+  return new ConcurrentQueue();
+}
+
+extern "C" void concurrent_model_owner_queue_destroy(void* queue) {
+  ConcurrentQueue* queueCast = (ConcurrentQueue*) queue;
+  delete queueCast;
+}
+
+extern "C" void concurrent_model_owner_queue_push(void* queue, void* item) {
+  ConcurrentQueue* queueCast = (ConcurrentQueue*) queue;
+  queueCast->push(item);
+}
+
+extern "C" void* concurrent_model_owner_queue_pop(void* queue) {
+  ConcurrentQueue* queueCast = (ConcurrentQueue*) queue;
+  return queueCast->pop();
 }
