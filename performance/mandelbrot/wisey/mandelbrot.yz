@@ -4,13 +4,25 @@ import wisey.io.CBinaryStreamWriter;
 import wisey.lang.CString;
 import wisey.lang.MString;
 import wisey.lang.IProgram;
+import wisey.threads.IWorker;
+import wisey.threads.CThreadPool;
 
-controller CMandelbrot implements IProgram {
-  state byte[][]* mOut;
-  state double[]* mCrb;
-  state double[]* mCib;
+model MWorker implements IWorker {
+  immutable double[] mCrb;
+  immutable double[] mCib;
+  int mY;
+  int mWidth;
 
-  private int getByte(int x, int y){
+  public void work() override {
+    byte[]* line = new byte[mWidth]; 
+    for (int xb = 0; xb < mWidth; xb++) {
+      int result = getByte(xb * 8, mY);
+      line[xb] = (byte) result;
+    }
+    thread.send(build(MResult).withArray(line).withY(mY).onHeap());
+  }
+
+  private int getByte(int x, int y) {
     int res = 0;
     for (int i = 0; i < 8; i += 2) {
       double Zr1 = mCrb[x + i];
@@ -22,69 +34,97 @@ controller CMandelbrot implements IProgram {
       int b = 0;
       int j = 49;
 
-      do{
-      double nZr1 = Zr1 * Zr1 - Zi1 * Zi1 + mCrb[x + i];
-      double nZi1 = Zr1 * Zi1 + Zr1 * Zi1 + mCib[y];
-      Zr1 = nZr1;
-      Zi1 = nZi1;
+      do {
+        double nZr1 = Zr1 * Zr1 - Zi1 * Zi1 + mCrb[x + i];
+        double nZi1 = Zr1 * Zi1 + Zr1 * Zi1 + mCib[y];
+        Zr1 = nZr1;
+        Zi1 = nZi1;
 
-      double nZr2 = Zr2 * Zr2 - Zi2 * Zi2 + mCrb[x + i + 1];
-      double nZi2 = Zr2 * Zi2 + Zr2 * Zi2 + mCib[y];
-      Zr2 = nZr2;
-      Zi2 = nZi2;
+        double nZr2 = Zr2 * Zr2 - Zi2 * Zi2 + mCrb[x + i + 1];
+        double nZi2 = Zr2 * Zi2 + Zr2 * Zi2 + mCib[y];
+        Zr2 = nZr2;
+        Zi2 = nZi2;
 
-      if (Zr1 * Zr1 + Zi1 * Zi1 > 4) {
-        b |= 2;
-        if (b == 3) {
-          break;
+        if (Zr1 * Zr1 + Zi1 * Zi1 > 4) {
+          b |= 2;
+          if (b == 3) {
+            break;
+          }
         }
-      }
-      if (Zr2 * Zr2 + Zi2 * Zi2 > 4) {
-        b |= 1;
-        if (b == 3) {
-          break;
+        if (Zr2 * Zr2 + Zi2 * Zi2 > 4) {
+          b |= 1;
+          if (b == 3) {
+            break;
+          }
         }
-      }
       } while(--j > 0);
       res = (res << 2) + b;
     }
     return res ^ -1;
-   }
+  }
+}
 
-   private void putLine(int y, byte[] line){
-      for (int xb = 0; xb < line.getSize(); xb++) {
-        line[xb] = (byte) getByte(xb * 8, y);
-      }
-   }
+model MResult {
+  immutable byte[]* mArray;
+  int mY;
 
-   public int run(immutable string[] arguments) override {
-      int n = 6000;
-      if (arguments.getSize() >= 2) {
-        n = CString.createFromString(arguments[1]).toInt();
-      }
+  public immutable byte[] getArray() {
+    return mArray;
+  }
 
-      mCrb = new double[n + 7]; 
-      mCib = new double[n + 7];
-      double invN = 2.0d / n; 
-      for (int i = 0; i < n; i++) { 
-        mCib[i] = i * invN - 1.0; 
-        mCrb[i] = i * invN - 1.5; 
-      }
-      mOut = new byte[n][(n+7) / 8];
+  public int getY() {
+    return mY;
+  }
+}
 
-      for (int i = 0; i < mOut.getSize(); i++) {
-        putLine(i, mOut[i]);
-      }      
+controller CMandelbrot implements IProgram {
+  inject immediate CThreadPool* mThreadPool.withPoolSize(8);
+  state immutable double[]* mCrb;
+  state immutable double[]* mCib;
 
-      CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut();
-      printout("P4\n" + n + " " + n + "\n");
-      for (int i = 0; i < n; i++) {
-        stream.write(mOut[i]);
-      }
-      stream.close();
+  public int run(immutable string[] arguments) override {
+    int n = 6000;
+    if (arguments.getSize() >= 2) {
+      n = CString.createFromString(arguments[1]).toInt();
+    }
 
-      return 1;
-   }
+    double[]* crb = new double[n + 7]; 
+    double[]* cib = new double[n + 7];
+    double invN = 2.0d / n; 
+    for (int i = 0; i < n; i++) { 
+      cib[i] = i * invN - 1.0; 
+      crb[i] = i * invN - 1.5; 
+    }
+    mCrb = crb;
+    mCib = cib;
+
+    int width = (n + 7) / 8;
+    for (int i = 0; i < n; i++) {
+      IWorker* worker = build(MWorker)
+        .withCrb(mCrb)
+        .withCib(mCib)
+        .withWidth(width)
+        .withY(i)
+        .onHeap();
+      mThreadPool.submit(worker);
+    }
+    mThreadPool.start();
+    MResult*[]* results = new MResult*[n];
+    for (int resultCount = 0; resultCount < n; resultCount++) {
+      MResult* result = (MResult*) mThreadPool.getResult();
+      results[result.getY()] = result;
+    }
+    mThreadPool.stop();
+
+    CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut();
+    printout("P4\n" + n + " " + n + "\n");
+    for (int i = 0; i < n; i++) {
+      stream.writeImmutable(results[i].getArray());
+    }
+    stream.close();
+
+    return 1;
+  }
 }
 
 bind(IProgram).to(CMandelbrot);

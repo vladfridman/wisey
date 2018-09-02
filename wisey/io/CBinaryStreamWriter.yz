@@ -35,9 +35,7 @@ controller CBinaryStreamWriter {
   }
 
   /**
-   * Read one line up to the new line character or end of file
-   * 
-   * New line character will not be part of the returned string
+   * Write byte array into a stream
    */
   public void write(byte[] array) throws MStreamClosedException {
     if (!mStream) {
@@ -47,6 +45,18 @@ controller CBinaryStreamWriter {
     ::llvm::function::fwrite(array, 1l, array.getSize(), mStream);
   }
 
+ 
+  /**
+   * Write an immutable byte array into a stream
+   */
+  public void writeImmutable(immutable byte[] array) throws MStreamClosedException {
+    if (!mStream) {
+      throw build(MStreamClosedException).onHeap();
+    }
+
+    ::llvm::function::fwrite(array, 1l, array.getSize(), mStream);
+  }
+ 
   /**
    * Closes the binary write stream
    */

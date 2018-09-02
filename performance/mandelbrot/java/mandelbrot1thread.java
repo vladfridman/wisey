@@ -1,9 +1,8 @@
 import java.io.*;
 import java.util.concurrent.atomic.*;
 
-public final class mandelbrot {
+public final class mandelbrot1thread {
    static byte[][] out;
-   static AtomicInteger yCt;
    static double[] Crb;
    static double[] Cib;
 
@@ -45,18 +44,11 @@ public final class mandelbrot {
 
       Crb=new double[N+7]; Cib=new double[N+7];
       double invN=2.0/N; for(int i=0;i<N;i++){ Cib[i]=i*invN-1.0; Crb[i]=i*invN-1.5; }
-      yCt=new AtomicInteger();
       out=new byte[N][(N+7)/8];
 
-      Thread[] pool=new Thread[2*Runtime.getRuntime().availableProcessors()];
-      for (int i=0;i<pool.length;i++)
-         pool[i]=new Thread(){
-            public void run() {
-                int y; while((y=yCt.getAndIncrement())<out.length) putLine(y,out[y]);
-            }
-         };
-      for (Thread t:pool) t.start();
-      for (Thread t:pool) t.join();
+      for (int i = 0; i < out.length; i++) {
+         putLine(i,out[i]);
+      }
 
       OutputStream stream = new BufferedOutputStream(System.out);
       stream.write(("P4\n"+N+" "+N+"\n").getBytes());
@@ -64,4 +56,3 @@ public final class mandelbrot {
       stream.close();
    }
 }
- 
