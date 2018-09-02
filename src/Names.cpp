@@ -111,8 +111,8 @@ string Names::getContextManagerName() {
   return "CContextManager";
 }
 
-string Names::getPallocateMethodName() {
-  return "pallocate";
+string Names::getAllocateMethodName() {
+  return "allocate";
 }
 
 string Names::getClearMethodName() {

@@ -16,7 +16,7 @@ controller CMemoryPool {
   /**
    * Allocate memory of a given size on a given memory pool
    */
-  public static ::llvm::i8::pointer pallocate(::llvm::i8::pointer pool, long size) {
+  public static ::llvm::i8::pointer allocate(::llvm::i8::pointer pool, long size) {
     return ::llvm::function::mem_pool_alloc(pool, size);
   }
 

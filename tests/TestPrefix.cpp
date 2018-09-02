@@ -361,7 +361,7 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
   compoundStatement = new CompoundStatement(block, 0);
   StaticMethodDefinition* methodPalloc = new StaticMethodDefinition(PUBLIC_ACCESS,
                                                                     pointerSpecifier,
-                                                                    Names::getPallocateMethodName(),
+                                                                    Names::getAllocateMethodName(),
                                                                     arguments,
                                                                     exceptions,
                                                                     compoundStatement,

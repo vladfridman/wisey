@@ -393,7 +393,7 @@ external controller wisey.io.CTextStreamWriter {
 
 external controller wisey.lang.CMemoryPool {
 
-  static ::llvm::i8::pointer pallocate(
+  static ::llvm::i8::pointer allocate(
     ::llvm::i8::pointer pool,
     long size);
   void clear();

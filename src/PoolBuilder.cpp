@@ -166,7 +166,7 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
                                 LLVMPrimitiveTypes::I8->getPointerType(context, 0)));
   pallocCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
   StaticMethodCall* pallocCall = StaticMethodCall::createCantThrow(controllerTypeSpecifier,
-                                                                   Names::getPallocateMethodName(),
+                                                                   Names::getAllocateMethodName(),
                                                                    pallocCallArguments,
                                                                    0);
   Value* memory = pallocCall->generateIR(context, PrimitiveTypes::VOID);

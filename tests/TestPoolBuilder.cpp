@@ -197,7 +197,7 @@ TEST_F(PoolBuilderTest, generateIRTest) {
   "\n  %6 = load i64, i64* %5"
   "\n  %7 = add i64 %6, 1"
   "\n  store i64 %7, i64* %5"
-  "\n  %call = call i8* @wisey.lang.CMemoryPool.method.pallocate(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* %4, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64))"
+  "\n  %call = call i8* @wisey.lang.CMemoryPool.method.allocate(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* %4, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64))"
   "\n  %8 = bitcast i8* %call to %systems.vos.wisey.compiler.tests.MShape.refCounter*"
   "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %8, i32 0, i32 0"
   "\n  store i64 0, i64* %9"

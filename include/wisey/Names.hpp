@@ -151,9 +151,9 @@ namespace wisey {
     static std::string getCMemoryPoolFullName();
 
     /**
-     * Returns name of the pallocate method of CMemoryPool
+     * Returns name of the allocate method of CMemoryPool
      */
-    static std::string getPallocateMethodName();
+    static std::string getAllocateMethodName();
 
     /**
      * Returns name of the clear method of CMemoryPool
