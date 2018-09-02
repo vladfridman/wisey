@@ -392,11 +392,6 @@ external controller wisey.io.CTextStreamWriter {
 }
 
 external controller wisey.lang.CMemoryPool {
-
-  static ::llvm::i8::pointer allocate(
-    ::llvm::i8::pointer pool,
-    long size);
-  void clear();
 }
 
 external controller wisey.lang.CString {
@@ -697,6 +692,8 @@ external ::llvm::function ::llvm::i32 "llvm.eh.typeid.for"(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void "llvm.memcpy.p0i8.p0i8.i64"(::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i64, ::llvm::i1);
 external ::llvm::function ::llvm::void "llvm.memset.p0i8.i64"(::llvm::i8::pointer, ::llvm::i8, ::llvm::i64, ::llvm::i1);
 external ::llvm::function ::llvm::i8::pointer "malloc"(::llvm::i64);
+external ::llvm::function ::llvm::i8::pointer "mem_pool_alloc"(::llvm::i8::pointer, long);
+external ::llvm::function ::llvm::i8::pointer "mem_pool_clear"(::llvm::i8::pointer);
 external ::llvm::function ::llvm::i32 "printf"(::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "sprintf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "sscanf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);

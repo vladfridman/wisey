@@ -151,14 +151,14 @@ namespace wisey {
     static std::string getCMemoryPoolFullName();
 
     /**
-     * Returns name of the allocate method of CMemoryPool
+     * Returns name of the function that allocates memory on a memory pool
      */
-    static std::string getAllocateMethodName();
+    static std::string getMemoryPoolAllocateFunctionName();
 
     /**
-     * Returns name of the clear method of CMemoryPool
+     * Returns name of the function that clears a memory pool
      */
-    static std::string getClearMethodName();
+    static std::string getMemoryPoolClearFunctionName();
 
     /**
      * Returns name of the getInstance method of CContextManager

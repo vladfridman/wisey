@@ -31,6 +31,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunction.hpp"
+#include "wisey/LLVMFunctionCall.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/MethodCall.hpp"
@@ -620,13 +621,15 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
   IRWriter::createConditionalBranch(context, poolCountZeroBlock, poolCountNotZeroBlock, isZero);
 
   context.setBasicBlock(poolCountZeroBlock);
-  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
-  FakeExpression* poolMapExpression = new FakeExpression(poolUncast, cMemoryPool);
-  IdentifierChain* clearMethod =
-  new IdentifierChain(poolMapExpression, Names::getClearMethodName(), 0);
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
+  Value* aprPoolStore = IRWriter::createGetElementPtrInst(context, pool, index);
+  Value* aprPool = IRWriter::newLoadInst(context, aprPoolStore, "");
   ExpressionList clearArguments;
-  MethodCall* clearCall = MethodCall::create(clearMethod, clearArguments, 0);
-  clearCall->generateIR(context, PrimitiveTypes::VOID);
+  clearArguments.push_back(new FakeExpression(aprPool, LLVMPrimitiveTypes::I8->
+                                              getPointerType(context, 0)));
+  LLVMFunctionCall clearCall(Names::getMemoryPoolClearFunctionName(), clearArguments, 0);
+  clearCall.generateIR(context, PrimitiveTypes::VOID);
   IRWriter::createBranch(context, poolCountNotZeroBlock);
   
   context.setBasicBlock(poolCountNotZeroBlock);
@@ -641,8 +644,6 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
   IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);
-  
-  delete clearCall;
 }
 
 void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,

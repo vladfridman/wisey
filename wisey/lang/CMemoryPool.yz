@@ -6,26 +6,12 @@ import wisey.threads.IThread;
  * Memory pool implementation using APR memory pools
  *
  * This controller is used by the system and should not be called directly.
- * Some of its methods are optmized out of the cotrnoller and are implmented directly in compiler
+ * Its methods are optmized out of the cotrnoller and are implmented directly in the compiler
  */
 controller CMemoryPool {
 
   state long mCount;
   inject immediate ::llvm::i8::pointer* mPool.withConstructor(create).withDestructor(destroy);
-
-  /**
-   * Allocate memory of a given size on a given memory pool
-   */
-  public static ::llvm::i8::pointer allocate(::llvm::i8::pointer pool, long size) {
-    return ::llvm::function::mem_pool_alloc(pool, size);
-  }
-
-  /**
-   * Clears the pool of all objects; this is called when mCount gets to zero
-   */
-  public void clear() {
-    ::llvm::function::mem_pool_clear(mPool);
-  }
 
   private ::llvm::function ::llvm::i8::pointer create() {
     return ::llvm::function::mem_pool_create();

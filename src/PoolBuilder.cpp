@@ -14,6 +14,7 @@
 #include "wisey/FakeExpressionWithCleanup.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IdentifierChain.hpp"
+#include "wisey/LLVMFunctionCall.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/Log.hpp"
@@ -157,19 +158,13 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, objectCount, oneLong, "");
   IRWriter::newStoreInst(context, sum, objectCountStore);
   
-  PackageType* packageType = new PackageType(Names::getLangPackageName());
-  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
-  ControllerTypeSpecifierFull* controllerTypeSpecifier =
-  new ControllerTypeSpecifierFull(packageExpression, Names::getCMemoryPoolName(), 0);
-  ExpressionList pallocCallArguments;
-  pallocCallArguments.push_back(new FakeExpression(aprPool,
-                                LLVMPrimitiveTypes::I8->getPointerType(context, 0)));
-  pallocCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
-  StaticMethodCall* pallocCall = StaticMethodCall::createCantThrow(controllerTypeSpecifier,
-                                                                   Names::getAllocateMethodName(),
-                                                                   pallocCallArguments,
-                                                                   0);
-  Value* memory = pallocCall->generateIR(context, PrimitiveTypes::VOID);
+  ExpressionList allocateArguments;
+  allocateArguments.push_back(new FakeExpression(aprPool, LLVMPrimitiveTypes::I8->
+                                                 getPointerType(context, 0)));
+  allocateArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
+  LLVMFunctionCall allocateCall(Names::getMemoryPoolAllocateFunctionName(), allocateArguments, 0);
+  Value* memory = allocateCall.generateIR(context, PrimitiveTypes::VOID);
+
   index[0] = zero;
   index[1] = zero;
   Value* shellObject = IRWriter::newBitCastInst(context, memory, refStruct->getPointerTo());
@@ -203,8 +198,6 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
   }
   
   IConcreteObjectType::initializeVTable(context, buildable, objectStart);
-  
-  delete pallocCall;
   
   return objectStart;
 }

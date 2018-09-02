@@ -111,12 +111,12 @@ string Names::getContextManagerName() {
   return "CContextManager";
 }
 
-string Names::getAllocateMethodName() {
-  return "allocate";
+string Names::getMemoryPoolAllocateFunctionName() {
+  return "mem_pool_alloc";
 }
 
-string Names::getClearMethodName() {
-  return "clear";
+string Names::getMemoryPoolClearFunctionName() {
+  return "mem_pool_clear";
 }
 
 string Names::getContextManagerFullName() {

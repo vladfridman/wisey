@@ -185,6 +185,24 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
                                    types::i<1>), false>::get(llvmContext);
   
   Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memset.p0i8.i64", module);
+
+  functionType = TypeBuilder<types::i<8>* (types::i<8>*, types::i<64>), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "mem_pool_alloc", module);
+
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64);
+  LLVMFunctionType* llvmFunctionType =
+  context.getLLVMFunctionType(LLVMPrimitiveTypes::I8->getPointerType(context, 0), argumentTypes);
+  context.registerLLVMExternalFunctionNamedType("mem_pool_alloc", llvmFunctionType, 0);
+
+  functionType = TypeBuilder<void(types::i<8>*), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "mem_pool_clear", module);
+
+  argumentTypes.clear();
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+  llvmFunctionType = context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
+  context.registerLLVMExternalFunctionNamedType("mem_pool_clear", llvmFunctionType, 0);
 }
 
 void TestPrefix::defineExceptionModel(IRGenerationContext& context,
@@ -333,47 +351,11 @@ ControllerDefinition* TestPrefix::defineCContextManager(IRGenerationContext& con
 }
 
 ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context) {
-  const PrimitiveTypeSpecifier* longSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
-  VariableList arguments;
-  vector<IModelTypeSpecifier*> exceptions;
-  Block* block = new Block();
-  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodDefinition* methodClear = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                       PrimitiveTypes::VOID->newTypeSpecifier(0),
-                                                       Names::getClearMethodName(),
-                                                       arguments,
-                                                       exceptions,
-                                                       new MethodQualifiers(0),
-                                                       compoundStatement,
-                                                       0);
-  
-  LLVMPointerTypeSpecifier* pointerSpecifier =
-  new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
-  arguments.clear();
-  LLVMPointerTypeSpecifier* poolSpecifier = 
-  new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
-  arguments.push_back(VariableDeclaration::create(poolSpecifier, new Identifier("pool", 0), 0));
-  longSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
-  VariableDeclaration* declaration =
-  VariableDeclaration::create(longSpecifier, new Identifier("size", 0), 0);
-  arguments.push_back(declaration);
-  block = new Block();
-  compoundStatement = new CompoundStatement(block, 0);
-  StaticMethodDefinition* methodPalloc = new StaticMethodDefinition(PUBLIC_ACCESS,
-                                                                    pointerSpecifier,
-                                                                    Names::getAllocateMethodName(),
-                                                                    arguments,
-                                                                    exceptions,
-                                                                    compoundStatement,
-                                                                    0);
-
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, Names::getCMemoryPoolName(), 0);
   vector<IObjectElementDefinition*> elementDeclarations;
-  elementDeclarations.push_back(methodClear);
-  elementDeclarations.push_back(methodPalloc);
 
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   vector<IObjectDefinition*> innerObjectDefinitions;
