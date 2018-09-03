@@ -67,41 +67,48 @@ TEST_F(IObjectTypeTest, checkAccessToObjectIsPublicTest) {
   NiceMock<MockObjectType> toObject;
   ON_CALL(toObject, isPublic()).WillByDefault(Return(true));
 
-  EXPECT_TRUE(IObjectType::checkAccess("", &fromObject, &toObject, 0));
+  EXPECT_TRUE(IObjectType::checkAccess(&mContext, "", &fromObject, &toObject, 0));
 }
 
 TEST_F(IObjectTypeTest, checkAccessFromAndToAreSameObjectTest) {
   NiceMock<MockObjectType> object;
   ON_CALL(object, isPublic()).WillByDefault(Return(false));
 
-  EXPECT_TRUE(IObjectType::checkAccess("", &object, &object, 0));
+  EXPECT_TRUE(IObjectType::checkAccess(&mContext, "", &object, &object, 0));
 }
 
 TEST_F(IObjectTypeTest, checkAccessToIsInnerOfFromTest) {
-  NiceMock<MockObjectType> toObject;
-  ON_CALL(toObject, isPublic()).WillByDefault(Return(false));
-  NiceMock<MockObjectType> fromObject;
-  ON_CALL(fromObject, isPublic()).WillByDefault(Return(true));
-  ON_CALL(fromObject, getInnerObject(_)).WillByDefault(Return(&toObject));
-  
-  EXPECT_TRUE(IObjectType::checkAccess("", &fromObject, &toObject, 0));
+  NiceMock<MockObjectType>* toObject = new NiceMock<MockObjectType>();
+  ON_CALL(*toObject, isPublic()).WillByDefault(Return(false));
+  ON_CALL(*toObject, getTypeName()).WillByDefault(Return("wisey.test.MFromObject.MToObject"));
+  NiceMock<MockObjectType>* fromObject = new NiceMock<MockObjectType>();
+  ON_CALL(*fromObject, isPublic()).WillByDefault(Return(true));
+  ON_CALL(*fromObject, getTypeName()).WillByDefault(Return("wisey.test.MFromObject"));
+  mContext.addModel((Model*) fromObject, 0);
+  mContext.addModel((Model*) toObject, 0);
+
+  EXPECT_TRUE(IObjectType::checkAccess(&mContext, "", fromObject, toObject, 0));
 }
 
 TEST_F(IObjectTypeTest, checkAccessToIsNotAccessableDeathTest) {
-  NiceMock<MockObjectType> toObject;
-  Mock::AllowLeak(&toObject);
-  ON_CALL(toObject, isPublic()).WillByDefault(Return(false));
-  ON_CALL(toObject, getTypeName()).WillByDefault(Return("MToObject"));
-  NiceMock<MockObjectType> fromObject;
-  Mock::AllowLeak(&fromObject);
-  ON_CALL(fromObject, isPublic()).WillByDefault(Return(true));
-  ON_CALL(fromObject, getTypeName()).WillByDefault(Return("MFromObject"));
-  
+  NiceMock<MockObjectType>* toObject = new NiceMock<MockObjectType>();
+  ON_CALL(*toObject, isPublic()).WillByDefault(Return(false));
+  ON_CALL(*toObject, getTypeName()).WillByDefault(Return("wisey.test.MToObject"));
+  NiceMock<MockObjectType>* fromObject = new NiceMock<MockObjectType>();
+  ON_CALL(*fromObject, isPublic()).WillByDefault(Return(true));
+  ON_CALL(*fromObject, getTypeName()).WillByDefault(Return("wisey.test.MFromObject"));
+  mContext.addModel((Model*) fromObject, 0);
+  mContext.addModel((Model*) toObject, 0);
+
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(IObjectType::checkAccess("/tmp/source.yz", &fromObject, &toObject, 1));
-  EXPECT_STREQ("/tmp/source.yz(1): Error: Object MToObject is not accessable from object MFromObject\n",
+  EXPECT_ANY_THROW(IObjectType::checkAccess(&mContext,
+                                            "/tmp/source.yz",
+                                            fromObject,
+                                            toObject,
+                                            1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Object wisey.test.MToObject is not accessable from object wisey.test.MFromObject\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

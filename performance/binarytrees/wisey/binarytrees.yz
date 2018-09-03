@@ -15,10 +15,10 @@ controller CBinaryTrees implements IProgram {
   public constant int MIN_DEPTH = 4;
 
   inject immediate CMemoryPool* mLongLivedPool;
-  inject immediate CThreadPool* mThreadPool.withPoolSize(4);
+  inject immediate CThreadPool* mThreadPool.withPoolSize(8);
   inject immediate COwnerVector* mWorkers;
 
-  public model MWorker implements IWorker {
+  private model MWorker implements IWorker {
     int mMaxDepth;
     int mDepth;
 
@@ -34,7 +34,7 @@ controller CBinaryTrees implements IProgram {
     }
   }
 
-  public controller CThreadMemoryPool inScope IThread {
+  private controller CThreadMemoryPool inScope IThread {
     inject immediate CMemoryPool* mMemeryPool;
 
     public CMemoryPool getMemoryPool() {
@@ -42,7 +42,7 @@ controller CBinaryTrees implements IProgram {
     }
   }
 
-  public model MResult {
+  private model MResult {
     int mIterations;
     int mDepth;
     int mCheck;
@@ -107,8 +107,7 @@ controller CBinaryTrees implements IProgram {
     return build(NTreeNode).withLeft(null).withRight(null).onPool(pool);
   }
 
-  public node NTreeNode onPool {
-
+  private node NTreeNode onPool {
     receive NTreeNode* mLeft;
     receive NTreeNode* mRight;
 

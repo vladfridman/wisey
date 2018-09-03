@@ -141,10 +141,18 @@ namespace wisey {
     /**
      * Check that the private object is accessable
      */
-    static bool checkAccess(std::string sourceFile,
+    static bool checkAccess(const IRGenerationContext* context,
+                            std::string sourceFile,
                             const IObjectType* from,
                             const IObjectType* to,
                             int line);
+    
+    /**
+     * Returns the parent object or itself if the object does not have a parent
+     */
+    static const IObjectType* getParentOrSelf(const IRGenerationContext* context,
+                                              const IObjectType* object,
+                                              int line);
 
   };
   

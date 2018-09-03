@@ -46,7 +46,24 @@ Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Val
   return IRWriter::newLoadInst(context, counterPointer, "refCounter");
 }
 
-bool IObjectType::checkAccess(string sourceFile,
+const IObjectType* IObjectType::getParentOrSelf(const IRGenerationContext* context,
+                                                const IObjectType* object,
+                                                int line) {
+  string name = object->getTypeName();
+  string parentName = name.substr(0, name.find_last_of('.'));
+  string parentShortName = parentName.substr(parentName.find_last_of('.') + 1);
+  char firstLetter = parentShortName.c_str()[0];
+  switch (firstLetter) {
+    case 'C' : return context->getController(parentName, line);
+    case 'M' : return context->getModel(parentName, line);
+    case 'N' : return context->getNode(parentName, line);
+    case 'I' : return context->getInterface(parentName, line);
+  }
+  return object;
+}
+
+bool IObjectType::checkAccess(const IRGenerationContext* context,
+                              string sourceFile,
                               const IObjectType* from,
                               const IObjectType* to,
                               int line) {
@@ -58,10 +75,13 @@ bool IObjectType::checkAccess(string sourceFile,
     return true;
   }
   
-  if (from->getInnerObject(to->getShortName()) == to) {
+  const IObjectType* fromParent = getParentOrSelf(context, from, line);
+  const IObjectType* toParent = getParentOrSelf(context, to, line);
+  
+  if (fromParent == toParent) {
     return true;
   }
-  
+
   Log::e(sourceFile, line, "Object " + to->getTypeName() + " is not accessable from object " +
          from->getTypeName());
   throw 1;
