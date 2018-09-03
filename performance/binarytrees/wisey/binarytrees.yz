@@ -6,6 +6,7 @@ import wisey.lang.CString;
 import wisey.lang.MString;
 import wisey.lang.IProgram;
 import wisey.threads.IWorker;
+import wisey.threads.CPoolThread;
 import wisey.threads.CThreadPool;
 
 controller CBinaryTrees implements IProgram {
@@ -14,18 +15,19 @@ controller CBinaryTrees implements IProgram {
 
   inject immediate CMemoryPool* mLongLivedPool;
   inject immediate CThreadPool* mThreadPool.withPoolSize(4);
+  inject immediate COwnerVector* mWorkers;
 
   public model MWorker implements IWorker {
     int mMaxDepth;
     int mDepth;
 
     public void work() override {
-      CMemoryPool* pool = inject(CMemoryPool).onHeap();
+      CMemoryPool pool = ((CPoolThread) thread).getMemoryPool();
       int check = 0;
 
       int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
       for (int i = 1; i <= iterations; i++) {
-        check = check + CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
+        check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
       }
       thread.send(build(CBinaryTrees.MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
     }
@@ -57,14 +59,18 @@ controller CBinaryTrees implements IProgram {
 
     treeNode = bottomUpTree(maxDepth, mLongLivedPool);
 
-    mThreadPool.start();
     for (int depth = MIN_DEPTH; depth <= maxDepth; depth = depth + 2) {
       IWorker* worker = build(CBinaryTrees.MWorker)
         .withMaxDepth(maxDepth)
         .withDepth(depth)
         .onHeap();
+      mWorkers.pushBack(worker);
+    }
+    while (mWorkers.getSize()) {
+      IWorker* worker = (IWorker*) mWorkers.popBack();
       mThreadPool.submit(worker);
     }
+    mThreadPool.start();
     CBinaryTrees.MResult*[]* results = new CBinaryTrees.MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
     int resultCount = 0;
     while (resultCount < results.getSize()) {

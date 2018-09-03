@@ -495,6 +495,7 @@ external controller wisey.threads.CPoolThread
   void start(
     wisey.threads.CThreadPool threadPool) throws wisey.threads.MThreadBoundaryException;
   void cancel() throws wisey.threads.MThreadBoundaryException;
+  wisey.lang.CMemoryPool getMemoryPool();
   void exit() throws wisey.threads.MThreadBoundaryException override;
   ::wisey::model* send(
     ::wisey::model* message) throws wisey.threads.MThreadBoundaryException override;
