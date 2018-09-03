@@ -412,6 +412,7 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
 
   controller->initializeReceivedFields(context, function, objectStart);
+  controller->injectInjectedFields(context, objectStart);
   initializeVTable(context, controller, objectStart);
   
   methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
@@ -785,6 +786,10 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
 void Controller::injectInjectedFields(IRGenerationContext& context,
                                       Instruction* objectStart) const {
   LLVMContext& llvmContext = context.getLLVMContext();
+  
+  if (!mInjectedFields.size()) {
+    return;
+  }
   
   for (IField* field : mReceivedFields) {
     field->getType()->createFieldVariable(context, field->getName(), this, field->getLine());

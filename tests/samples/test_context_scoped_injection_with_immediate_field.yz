@@ -1,0 +1,28 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.threads.IThread;
+
+controller CService {
+  public int getValue() {
+    return 1;
+  }
+}
+
+controller CScopedService inScope IThread {
+  inject immediate CService* mService;
+
+  public CService getService() {
+    return mService;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CScopedService mScopedService;
+
+  public int run(immutable string[] arguments) override {
+    return mScopedService.getService().getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);
