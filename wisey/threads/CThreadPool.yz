@@ -27,7 +27,7 @@ import wisey.data.CConcurrentModelOwnerQueue;
  * }
  */
 controller CThreadPool {
-  receive int mPoolSize;
+  receive long mPoolSize;
   inject immediate CPoolThread*[mPoolSize]* mThreads;
   inject immediate CConcurrentModelOwnerQueue* mWorkers;
   inject immediate CConcurrentModelOwnerQueue* mResults;

@@ -198,6 +198,7 @@ external model wisey.lang.MSystem {
 
   static string getOriginalObjectTypeName(
     ::wisey::object object);
+  static long getProcessorCount();
   static void copyMemory(
     ::llvm::i8::pointer destination,
     ::llvm::i8::pointer source,
@@ -558,7 +559,7 @@ external controller wisey.threads.CProducerThreadRunner
 
 external controller wisey.threads.CThreadPool {
 
-  receive int mPoolSize;
+  receive long mPoolSize;
 
   void submit(
     wisey.threads.IWorker* worker);

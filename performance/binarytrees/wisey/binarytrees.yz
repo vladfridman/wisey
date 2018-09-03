@@ -4,10 +4,10 @@ import wisey.data.COwnerVector;
 import wisey.lang.CMemoryPool;
 import wisey.lang.CString;
 import wisey.lang.MString;
+import wisey.lang.MSystem;
 import wisey.lang.IProgram;
 import wisey.threads.IWorker;
 import wisey.threads.IThread;
-import wisey.threads.CPoolThread;
 import wisey.threads.CThreadPool;
 
 controller CBinaryTrees implements IProgram {
@@ -15,46 +15,8 @@ controller CBinaryTrees implements IProgram {
   public constant int MIN_DEPTH = 4;
 
   inject immediate CMemoryPool* mLongLivedPool;
-  inject immediate CThreadPool* mThreadPool.withPoolSize(8);
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
   inject immediate COwnerVector* mWorkers;
-
-  private model MWorker implements IWorker {
-    int mMaxDepth;
-    int mDepth;
-
-    public void work() override {
-      CMemoryPool pool = inject(CBinaryTrees.CThreadMemoryPool).onHeap().getMemoryPool();
-      int check = 0;
-
-      int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
-      for (int i = 1; i <= iterations; i++) {
-        check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
-      }
-      thread.send(build(CBinaryTrees.MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
-    }
-  }
-
-  private controller CThreadMemoryPool inScope IThread {
-    inject immediate CMemoryPool* mMemeryPool;
-
-    public CMemoryPool getMemoryPool() {
-      return mMemeryPool;
-    }
-  }
-
-  private model MResult {
-    int mIterations;
-    int mDepth;
-    int mCheck;
-
-    public void printme() {
-      printout(mIterations + "\t trees of depth " + mDepth + "\t check: " + mCheck + "\n");
-    }
-
-    public int getDepth() {
-      return mDepth;
-    }
-  }
 
   public int run(immutable string[] arguments) override {
     int n = CString.createFromString(arguments[1]).toInt();
@@ -116,6 +78,44 @@ controller CBinaryTrees implements IProgram {
         return 1;
       }
       return 1 + mLeft.itemCheck() + mRight.itemCheck();
+    }
+  }
+
+  private controller CThreadMemoryPool inScope IThread {
+    inject immediate CMemoryPool* mMemeryPool;
+
+    public CMemoryPool getMemoryPool() {
+      return mMemeryPool;
+    }
+  }
+
+  private model MWorker implements IWorker {
+    int mMaxDepth;
+    int mDepth;
+
+    public void work() override {
+      CMemoryPool pool = inject(CBinaryTrees.CThreadMemoryPool).onHeap().getMemoryPool();
+      int check = 0;
+
+      int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
+      for (int i = 1; i <= iterations; i++) {
+        check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
+      }
+      thread.send(build(CBinaryTrees.MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
+    }
+  }
+
+  private model MResult {
+    int mIterations;
+    int mDepth;
+    int mCheck;
+
+    public void printme() {
+      printout(mIterations + "\t trees of depth " + mDepth + "\t check: " + mCheck + "\n");
+    }
+
+    public int getDepth() {
+      return mDepth;
     }
   }
 }

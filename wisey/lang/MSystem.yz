@@ -12,6 +12,13 @@ model MSystem {
   }
 
   /**
+   * Returns system configuration value for the number of processors
+   */
+  public static long getProcessorCount() {
+    return ::llvm::function::sysconf(58);
+  }
+
+  /**
    * Forwards the call to memcopy function for needed architecture
    */
   public static void copyMemory(::llvm::i8::pointer destination, 
