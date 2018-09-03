@@ -64,6 +64,7 @@ controller CPoolThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
+    mContextManager.setContext(IThread.getTypeName(), thread);
     while (true) {
       IWorker* worker = mThreadPool.getWorker();
       worker.work();

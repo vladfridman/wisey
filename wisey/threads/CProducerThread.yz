@@ -106,6 +106,8 @@ controller CProducerThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
+    mContextManager.setContext(IThread.getTypeName(), thread);
     mProducer.produce();
+    mContextManager.eraseContext(IThread.getTypeName());
   }
 }

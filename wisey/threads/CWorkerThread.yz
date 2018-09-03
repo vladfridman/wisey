@@ -100,6 +100,8 @@ controller CWorkerThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
+    mContextManager.setContext(IThread.getTypeName(), thread);
     mWorker.work();
+    mContextManager.eraseContext(IThread.getTypeName());
   }
 }

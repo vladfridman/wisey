@@ -35,12 +35,10 @@ model MMainThreadWorker implements IWorker {
 
   public void work() throws MThreadBoundaryException override {
     IProgram* program = inject(IProgram).onHeap();
-    thread.getContextManager().setContext(IThread.getTypeName(), thread);
     MProgramResult* programResult = build(MProgramResult)
       .withResult(program.run(mArguments))
       .onHeap();
     program = null;
-    thread.getContextManager().eraseContext(IThread.getTypeName());
     thread.send(programResult);
   }
 
