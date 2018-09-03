@@ -6,6 +6,7 @@ import wisey.lang.CString;
 import wisey.lang.MString;
 import wisey.lang.IProgram;
 import wisey.threads.IWorker;
+import wisey.threads.IThread;
 import wisey.threads.CPoolThread;
 import wisey.threads.CThreadPool;
 
@@ -22,7 +23,7 @@ controller CBinaryTrees implements IProgram {
     int mDepth;
 
     public void work() override {
-      CMemoryPool pool = ((CPoolThread) thread).getMemoryPool();
+      CMemoryPool pool = inject(CBinaryTrees.CThreadMemoryPool).onHeap().getMemoryPool();
       int check = 0;
 
       int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
@@ -30,6 +31,14 @@ controller CBinaryTrees implements IProgram {
         check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
       }
       thread.send(build(CBinaryTrees.MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
+    }
+  }
+
+  public controller CThreadMemoryPool inScope IThread {
+    inject immediate CMemoryPool* mMemeryPool;
+
+    public CMemoryPool getMemoryPool() {
+      return mMemeryPool;
     }
   }
 

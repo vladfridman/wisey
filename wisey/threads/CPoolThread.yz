@@ -16,7 +16,6 @@ controller CPoolThread implements IThread {
   inject immediate CPoolThreadRunner* mPoolThreadRunner;
   inject immediate CCallStack* mCallStack;
   inject immediate CContextManager* mContextManager;
-  inject immediate CMemoryPool* mMemoryPool;
   state CThreadPool mThreadPool;
 
   /**
@@ -34,11 +33,6 @@ controller CPoolThread implements IThread {
   public void cancel() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mPoolThreadRunner.cancelThread();
-  }
-
-  public CMemoryPool getMemoryPool() {
-    insideThreadGuard(this);
-    return mMemoryPool;
   }
 
   public void exit() throws MThreadBoundaryException override {
