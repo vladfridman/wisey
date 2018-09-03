@@ -87,8 +87,9 @@ bool StaticMethodCall::checkAccess(IRGenerationContext& context,
     return true;
   }
   const IObjectType* currentObjectType = context.getObjectType();
-  
-  return currentObjectType != NULL && currentObjectType == mObjectTypeSpecifier->getType(context);
+  const IObjectType* methodObjectType = mObjectTypeSpecifier->getType(context);
+  return IObjectType::getParentOrSelf(&context, currentObjectType, mLine) ==
+  IObjectType::getParentOrSelf(&context, methodObjectType, mLine);
 }
 
 Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
