@@ -40,7 +40,7 @@ public class binarytrees {
         }
 
         EXECUTOR_SERVICE.shutdown();
-        EXECUTOR_SERVICE.awaitTermination(120L, TimeUnit.SECONDS);
+        EXECUTOR_SERVICE.awaitTermination(120000L, TimeUnit.SECONDS);
 
         for (final String str : results) {
             System.out.println(str);
