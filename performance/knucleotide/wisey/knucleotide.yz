@@ -8,28 +8,30 @@ import wisey.lang.CString;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 import wisey.lang.MSystem;
-import wisey.threads.IThread;
+import wisey.threads.IWorker;
+import wisey.threads.CThreadPool;
 
 controller CProgram implements IProgram, IObjectComparator {
   private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
-  inject CMemoryPool* mMemoryPool;
+  inject immediate CMemoryPool* mMemoryPool;
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
 
   public int run(immutable string[] arguments) override {
     immutable byte[]* sequence = read();
 
     int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
-    COwnerVector* fragments = createFragments(sequence, fragmentLengths);
+    CFragment*[]* fragments = createFragments(sequence, fragmentLengths);
 
     CString stringBuilder = CString.create();
 
-    CFragment result = fragments.getAt(0);
+    CFragment result = fragments[0];
     long[]* keysArray = result.getMap().getKeys();
     int[]* valuesArray = result.getMap().getValues();
 
-    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize(), fragments.getAt(0)));
-    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize() - 1.0, sumTwoMaps(fragments.getAt(1), fragments.getAt(2))));
+    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize(), fragments[0]));
+    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize() - 1.0, sumTwoMaps(fragments[1], fragments[2])));
 
     string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
     for (int i = 0; i < nucleotideFragments.getSize(); i++) {
@@ -45,13 +47,20 @@ controller CProgram implements IProgram, IObjectComparator {
     immutable long[]* mKeys;
     immutable int[]* mValues;
     int mKeyLength;
+    int mArrayIndex;
 
     public CProgram.CFragment* toController() {
-      CProgram.CFragment* fragment = inject(CProgram.CFragment).withKeyLength(mKeyLength).onHeap();
+      CProgram.CFragment* fragment = inject(CProgram.CFragment)
+        .withKeyLength(mKeyLength)
+        .onHeap();
       for (int i = 0; i < mKeys.getSize(); i++) {
         fragment.getMap().put(mKeys[i], mValues[i]);
       }
       return fragment;
+    }
+
+    public int getArrayIndex() {
+      return mArrayIndex;
     }
   }
 
@@ -81,29 +90,33 @@ controller CProgram implements IProgram, IObjectComparator {
     }
   }
 
-  private COwnerVector* createFragments(immutable byte[] sequence, int[] fragmentLengths) {
-    COwnerVector* results = inject(COwnerVector).onHeap();
+  private CFragment*[]* createFragments(immutable byte[] sequence, int[] fragmentLengths) {
+    int arrayIndex = 0;
     for (int i = 0; i < fragmentLengths.getSize(); i++) {
       int fragmentLength = fragmentLengths[i];
       for (int index = 0; index < fragmentLength; index++) {
         int offset = index;
-        results.pushBack(createFragmentMap(sequence, offset, fragmentLength));
+        createFragmentMap(sequence, offset, fragmentLength, arrayIndex);
+        arrayIndex++;
       }
     }
-    COwnerVector* fragments = inject(COwnerVector).onHeap();
-    for (int i = 0; i < results.getSize(); i++) {
-      MResult result = results.getAt(i);
-      fragments.pushBack(result.toController());
+    mThreadPool.start();
+    CFragment*[]* fragments = new CFragment*[arrayIndex];
+    for (int i = 0; i < fragments.getSize(); i++) {
+      MResult* result = mThreadPool.getResult();
+      fragments[result.getArrayIndex()] = result.toController();
     }
+    mThreadPool.stop();
     return fragments;
   }
 
-  public model MFragmentWorker {
+  public model MFragmentWorker implements IWorker {
     immutable byte[] mSequence;
     int mOffset;
     int mFragmentLength;
+    int mArrayIndex;
 
-    public CProgram.MResult* work() {
+    public void work() override {
       CLongToIntMap map = inject(CLongToIntMap).onHeap();
       int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1;
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
@@ -111,21 +124,28 @@ controller CProgram implements IProgram, IObjectComparator {
         map.addTo(key, 1);
       }
 
-      return build(CProgram.MResult)
+      CProgram.MResult* result = build(CProgram.MResult)
         .withKeys(map.getKeys())
         .withValues(map.getValues())
         .withKeyLength(mFragmentLength)
+        .withArrayIndex(mArrayIndex)
         .onHeap();
+      thread.send(result);
     }
   }
 
-  private MResult* createFragmentMap(immutable byte[] sequence, int offset, int fragmentLength) {
+  private void createFragmentMap(
+      immutable byte[] sequence, 
+      int offset, 
+      int fragmentLength, 
+      int arrayIndex) {
     MFragmentWorker* worker = build(MFragmentWorker)
       .withSequence(sequence)
       .withOffset(offset)
       .withFragmentLength(fragmentLength)
+      .withArrayIndex(arrayIndex)
       .onHeap();
-    return worker.work();
+    mThreadPool.submit(worker);
   }
 
   private static long getKey(immutable byte[] arr, int offset, int length) {
@@ -170,12 +190,12 @@ controller CProgram implements IProgram, IObjectComparator {
     return sb;
   }
 
-  private CString* writeCount(COwnerVector fragments, string nucleotideFragment) {
+  private CString* writeCount(CFragment*[] fragments, string nucleotideFragment) {
     immutable byte[]* key = toCodesFromString(nucleotideFragment);
     long k = getKey(key, 0, (int) nucleotideFragment.getLength());
     int count = 0;
     for (int i = 0; i < fragments.getSize(); i++) {
-      CFragment fragment = (CFragment) fragments.getAt(i);
+      CFragment fragment = (CFragment) fragments[i];
       if (fragment.getKeyLength() == nucleotideFragment.getLength()) {
         if (fragment.getMap().has(k)) {
           count += fragment.getMap().get(k);
