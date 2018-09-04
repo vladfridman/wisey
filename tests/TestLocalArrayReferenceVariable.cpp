@@ -41,6 +41,7 @@ struct LocalArrayReferenceVariableTest : public Test {
   LLVMContext& mLLVMContext;
   BasicBlock* mDeclareBlock;
   BasicBlock* mEntryBlock;
+  Function* mFunction;
   const wisey::ArrayType* mArrayType;
   const wisey::ArrayType* mAnotherArrayType;
   string mStringBuffer;
@@ -57,12 +58,12 @@ public:
     mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::FLOAT, 1u);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
-    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
-    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
@@ -123,20 +124,39 @@ TEST_F(LocalArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   EXPECT_CALL(mockExpression, generateIR(_, mArrayType));
   variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
 
-  *mStringStream << *mDeclareBlock;
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
 
   string expected =
+  "\ndefine internal i32 @test() {"
   "\ndeclare:"
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
   "\n"
   "\nentry:                                            ; No predecessors!"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
-  "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i8*"
-  "\n  call void @__adjustReferenceCounterForArray(i8* %1, i64 -1)"
-  "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
-  "\n  call void @__adjustReferenceCounterForArray(i8* %2, i64 1)"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo\n";
+  "\n  %1 = icmp eq { i64, i64, i64, [0 x i32] }* %0, null"
+  "\n  br i1 %1, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n  %2 = icmp eq { i64, i64, i64, [0 x i32] }* null, null"
+  "\n  br i1 %2, label %if.end1, label %if.notnull2"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %3 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
+  "\n  %count = load i64, i64* %3"
+  "\n  %4 = add i64 %count, -1"
+  "\n  store i64 %4, i64* %3"
+  "\n  br label %if.end"
+  "\n"
+  "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo"
+  "\n"
+  "\nif.notnull2:                                      ; preds = %if.end"
+  "\n  %5 = bitcast { i64, i64, i64, [0 x i32] }* null to i64*"
+  "\n  %count3 = load i64, i64* %5"
+  "\n  %6 = add i64 %count3, 1"
+  "\n  store i64 %6, i64* %5"
+  "\n  br label %if.end1"
+  "\n}\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

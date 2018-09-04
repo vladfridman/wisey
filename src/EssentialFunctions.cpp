@@ -6,7 +6,6 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
 #include "wisey/AdjustReferenceCounterForImmutableArrayFunction.hpp"
 #include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/CastObjectFunction.hpp"
@@ -35,7 +34,6 @@ EssentialFunctions::~EssentialFunctions() {
 }
 
 void EssentialFunctions::generateIR(IRGenerationContext& context) const {
-  AdjustReferenceCounterForArrayFunction::get(context);
   AdjustReferenceCounterForImmutableArrayFunction::get(context);
   AdjustReferenceCountFunction::get(context);
   CastObjectFunction::get(context);

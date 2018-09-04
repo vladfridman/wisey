@@ -762,9 +762,6 @@
 		F58FA2F9206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */; };
 		F58FA2FA206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */; };
 		F58FA2FD206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FB206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp */; };
-		F58FA300206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */; };
-		F58FA301206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */; };
-		F58FA30320710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */; };
 		F58FA3062072776500C86D33 /* TestLocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA3052072776500C86D33 /* TestLocalOwnerVariable.cpp */; };
 		F58FA30920728D2200C86D33 /* WiseyObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA30820728D2200C86D33 /* WiseyObjectTypeSpecifier.cpp */; };
 		F58FA30A20728D2200C86D33 /* WiseyObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA30820728D2200C86D33 /* WiseyObjectTypeSpecifier.cpp */; };
@@ -1874,9 +1871,6 @@
 		F58FA2F7206E653A00C86D33 /* DestroyObjectOwnerFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyObjectOwnerFunction.hpp; path = include/wisey/DestroyObjectOwnerFunction.hpp; sourceTree = "<group>"; };
 		F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyObjectOwnerFunction.cpp; path = src/DestroyObjectOwnerFunction.cpp; sourceTree = "<group>"; };
 		F58FA2FB206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyObjectOwnerFunction.cpp; path = tests/TestDestroyObjectOwnerFunction.cpp; sourceTree = "<group>"; };
-		F58FA2FE206FC7CB00C86D33 /* AdjustReferenceCounterForArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForArrayFunction.hpp; path = include/wisey/AdjustReferenceCounterForArrayFunction.hpp; sourceTree = "<group>"; };
-		F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForArrayFunction.cpp; path = src/AdjustReferenceCounterForArrayFunction.cpp; sourceTree = "<group>"; };
-		F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForArrayFunction.cpp; path = tests/TestAdjustReferenceCounterForArrayFunction.cpp; sourceTree = "<group>"; };
 		F58FA3052072776500C86D33 /* TestLocalOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalOwnerVariable.cpp; path = tests/TestLocalOwnerVariable.cpp; sourceTree = "<group>"; };
 		F58FA30720728CCD00C86D33 /* WiseyObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WiseyObjectTypeSpecifier.hpp; path = include/wisey/WiseyObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F58FA30820728D2200C86D33 /* WiseyObjectTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WiseyObjectTypeSpecifier.cpp; path = src/WiseyObjectTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -2529,7 +2523,6 @@
 		F52C66541FBF320C00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
-				F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */,
 				F50FF8A1208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp */,
 				F52C66651FBF446400E89B04 /* AdjustReferenceCountFunction.cpp */,
 				F5190A492088DA3400BC2D93 /* CastObjectFunction.cpp */,
@@ -2555,7 +2548,6 @@
 		F52C66551FBF322A00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
-				F58FA2FE206FC7CB00C86D33 /* AdjustReferenceCounterForArrayFunction.hpp */,
 				F50FF8A0208C9EE9008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.hpp */,
 				F52C66641FBF441A00E89B04 /* AdjustReferenceCountFunction.hpp */,
 				F5190A482088D93300BC2D93 /* CastObjectFunction.hpp */,
@@ -3686,7 +3678,6 @@
 		F5CB7F93205279A2007628B5 /* composer */ = {
 			isa = PBXGroup;
 			children = (
-				F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */,
 				F50FF8A4208CA059008EDC40 /* TestAdjustReferenceCounterForImmutableArrayFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp */,
 				F5190A4C2088E0A000BC2D93 /* TestCastObjectFunction.cpp */,
@@ -4740,7 +4731,6 @@
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
 				F52C665B1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
-				F58FA30320710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp in Sources */,
 				F5827062205FD0D300839EC7 /* TestLLVMPointerTypeSpecifier.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */,
@@ -4799,7 +4789,6 @@
 				F50FF87A208B702E008EDC40 /* TestImmutableArrayOwnerType.cpp in Sources */,
 				F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F58725651F70178D00FA25E6 /* TestPrintErrStatement.cpp in Sources */,
-				F58FA301206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */,
 				F55DB0601F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */,
 				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
 				F5A0DAFD207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp in Sources */,
@@ -5013,7 +5002,6 @@
 				F53A2C041EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */,
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
-				F58FA300206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */,
 				F59692892116445600F19C4E /* BitwiseXorExpression.cpp in Sources */,
 				F5B9B1531E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
 				F593628820C5C3BD00A8C67A /* StoreInReference.cpp in Sources */,

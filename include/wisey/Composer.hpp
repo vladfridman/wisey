@@ -62,7 +62,19 @@ namespace wisey {
      * Decrements reference count safely for an object that is either a model or a thread controller
      */
     static void decrementReferenceCountSafely(IRGenerationContext& context, llvm::Value* object);
+ 
+    /**
+     * Increments reference count unsafely for an array
+     */
+    static void incrementArrayReferenceCountUnsafely(IRGenerationContext& context,
+                                                     llvm::Value* array);
     
+    /**
+     * Decrements reference count unsafely for an array
+     */
+    static void decrementArrayReferenceCountUnsafely(IRGenerationContext& context,
+                                                     llvm::Value* array);
+
     /**
      * Checks if the value is null and throws npe if so
      */
@@ -89,6 +101,10 @@ namespace wisey {
     static void adjustReferenceCountSafely(IRGenerationContext& context,
                                            llvm::Value* object,
                                            int adjustmentValue);
+
+    static void adjustArrayReferenceCountUnsafely(IRGenerationContext& context,
+                                                  llvm::Value* array,
+                                                  int adjustmentValue);
 
   };
   

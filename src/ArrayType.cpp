@@ -9,9 +9,9 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/DerivedTypes.h>
 
-#include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/FieldArrayReferenceVariable.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayType.hpp"
@@ -115,12 +115,12 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
 
 void ArrayType::incrementReferenceCount(IRGenerationContext& context,
                                         llvm::Value* arrayPointer) const {
-  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, 1);
+  Composer::incrementArrayReferenceCountUnsafely(context, arrayPointer);
 }
 
 void ArrayType::decrementReferenceCount(IRGenerationContext& context,
                                         llvm::Value* arrayPointer) const {
-  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, -1);
+  Composer::decrementArrayReferenceCountUnsafely(context, arrayPointer);
 }
 
 unsigned long ArrayType::getNumberOfDimensions() const {

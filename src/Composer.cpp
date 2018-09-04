@@ -247,6 +247,14 @@ void Composer::decrementReferenceCountSafely(IRGenerationContext& context, Value
   return adjustReferenceCountSafely(context, object, -1);
 }
 
+void Composer::incrementArrayReferenceCountUnsafely(IRGenerationContext& context, Value* array) {
+  return adjustArrayReferenceCountUnsafely(context, array, 1);
+}
+
+void Composer::decrementArrayReferenceCountUnsafely(IRGenerationContext& context, Value* array) {
+  return adjustArrayReferenceCountUnsafely(context, array, -1);
+}
+
 void Composer::adjustReferenceCountUnsafely(IRGenerationContext& context,
                                             Value* object,
                                             int adjustmentValue) {
@@ -301,6 +309,31 @@ void Composer::adjustReferenceCountSafely(IRGenerationContext& context,
                     AtomicOrdering::Monotonic,
                     SyncScope::System,
                     ifNotNullBlock);
+  IRWriter::createBranch(context, ifEndBlock);
+  
+  context.setBasicBlock(ifEndBlock);
+}
+
+void Composer::adjustArrayReferenceCountUnsafely(IRGenerationContext& context,
+                                                 Value* array,
+                                                 int adjustmentValue) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function* function = context.getBasicBlock()->getParent();
+  
+  BasicBlock* ifEndBlock = BasicBlock::Create(llvmContext, "if.end", function);
+  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
+  
+  Value* null = ConstantPointerNull::get((llvm::PointerType*) array->getType());
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, array, null, "");
+  IRWriter::createConditionalBranch(context, ifEndBlock, ifNotNullBlock, condition);
+  
+  context.setBasicBlock(ifNotNullBlock);
+  Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
+  Value* counter = IRWriter::newBitCastInst(context, array, int64Pointer);
+  Value* count = IRWriter::newLoadInst(context, counter, "count");
+  llvm::Constant* adjustment = ConstantInt::get(Type::getInt64Ty(llvmContext), adjustmentValue);
+  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
+  IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createBranch(context, ifEndBlock);
   
   context.setBasicBlock(ifEndBlock);
