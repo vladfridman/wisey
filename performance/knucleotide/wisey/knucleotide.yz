@@ -8,6 +8,7 @@ import wisey.lang.CString;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 import wisey.lang.MSystem;
+import wisey.threads.IThread;
 import wisey.threads.IWorker;
 import wisey.threads.CThreadPool;
 
@@ -16,7 +17,7 @@ controller CProgram implements IProgram, IObjectComparator {
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
   inject immediate CMemoryPool* mMemoryPool;
-  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+  inject immediate CThreadPool* mThreadPool.withPoolSize(8);
 
   public int run(immutable string[] arguments) override {
     immutable byte[]* sequence = read();
@@ -117,10 +118,10 @@ controller CProgram implements IProgram, IObjectComparator {
     int mArrayIndex;
 
     public void work() override {
-      CLongToIntMap map = inject(CLongToIntMap).onHeap();
+      CLongToIntMap map = inject(CProgram.CThreadContext).onHeap().getMap();
       int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1;
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
-        long key = CProgram.getKey(mSequence, index, mFragmentLength);
+        long key = getKey(index, mFragmentLength);
         map.addTo(key, 1);
       }
 
@@ -130,7 +131,24 @@ controller CProgram implements IProgram, IObjectComparator {
         .withKeyLength(mFragmentLength)
         .withArrayIndex(mArrayIndex)
         .onHeap();
+      map.clear();
       thread.send(result);
+    }
+ 
+    private long getKey(int offset, int length) {
+      long key = 0;
+      for (int i = offset; i < offset + length; i++) {
+        key = key * 4 + mSequence[i];
+      }
+      return key;
+    }
+  }
+
+  public controller CThreadContext inScope IThread {
+    inject immediate CLongToIntMap* mMap;
+
+    public CLongToIntMap getMap() {
+      return mMap;
     }
   }
 
@@ -148,7 +166,7 @@ controller CProgram implements IProgram, IObjectComparator {
     mThreadPool.submit(worker);
   }
 
-  private static long getKey(immutable byte[] arr, int offset, int length) {
+  private static long getKey(byte[] arr, int offset, int length) {
     long key = 0;
     for (int i = offset; i < offset + length; i++) {
       key = key * 4 + arr[i];
@@ -191,7 +209,7 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   private CString* writeCount(CFragment*[] fragments, string nucleotideFragment) {
-    immutable byte[]* key = toCodesFromString(nucleotideFragment);
+    byte[]* key = toCodesFromString(nucleotideFragment);
     long k = getKey(key, 0, (int) nucleotideFragment.getLength());
     int count = 0;
     for (int i = 0; i < fragments.getSize(); i++) {

@@ -5,7 +5,7 @@ package wisey.lang;
  */
 controller CString {
 
-  public constant long DEFAULT_INITIAL_CAPACITY = 16l;
+  public constant long DEFAULT_INITIAL_CAPACITY = 64l;
 
   receive char[]* mBuffer;
   receive long mCapacity; 

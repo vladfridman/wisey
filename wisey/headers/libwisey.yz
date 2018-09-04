@@ -399,7 +399,7 @@ external controller wisey.lang.CMemoryPool {
 
 external controller wisey.lang.CString {
 
-  constant long DEFAULT_INITIAL_CAPACITY = 16l;
+  constant long DEFAULT_INITIAL_CAPACITY = 64l;
 
   receive char[]* mBuffer;
   receive long mCapacity;
