@@ -115,12 +115,12 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
 
 void ArrayType::incrementReferenceCount(IRGenerationContext& context,
                                         llvm::Value* arrayPointer) const {
-  Composer::incrementArrayReferenceCountUnsafely(context, arrayPointer);
+  Composer::incrementArrayReferenceCount(context, arrayPointer);
 }
 
 void ArrayType::decrementReferenceCount(IRGenerationContext& context,
                                         llvm::Value* arrayPointer) const {
-  Composer::decrementArrayReferenceCountUnsafely(context, arrayPointer);
+  Composer::decrementArrayReferenceCount(context, arrayPointer);
 }
 
 unsigned long ArrayType::getNumberOfDimensions() const {

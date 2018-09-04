@@ -38,6 +38,7 @@ struct ParameterImmutableArrayReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
+  Function* mFunction;
   const wisey::ArrayType* mArrayType;
   const ImmutableArrayType* mImmutableArrayType;
   Value* mArrayPointer;
@@ -54,12 +55,12 @@ public:
     mImmutableArrayType = mArrayType->getImmutable();
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
-    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
@@ -88,13 +89,23 @@ TEST_F(ParameterImmutableArrayReferenceVariableTest, generateIdentifierIRTest) {
 TEST_F(ParameterImmutableArrayReferenceVariableTest, decrementReferenceCounterTest) {
   mVariable->decrementReferenceCounter(mContext);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mFunction;
   
   string expected =
+  "\ndefine internal i32 @test() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
-  "\n  call void @__adjustReferenceCounterForImmutableArray(i8* %0, i64 -1)"
-  "\n";
+  "\n  %0 = icmp eq { i64, i64, i64, [0 x i32] }* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* null to i64*"
+  "\n  %2 = atomicrmw add i64* %1, i64 -1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

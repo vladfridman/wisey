@@ -66,14 +66,24 @@ namespace wisey {
     /**
      * Increments reference count unsafely for an array
      */
-    static void incrementArrayReferenceCountUnsafely(IRGenerationContext& context,
-                                                     llvm::Value* array);
+    static void incrementArrayReferenceCount(IRGenerationContext& context, llvm::Value* array);
     
     /**
      * Decrements reference count unsafely for an array
      */
-    static void decrementArrayReferenceCountUnsafely(IRGenerationContext& context,
-                                                     llvm::Value* array);
+    static void decrementArrayReferenceCount(IRGenerationContext& context, llvm::Value* array);
+    
+    /**
+     * Increments reference count safely for an immutable array
+     */
+    static void incrementImmutableArrayReferenceCount(IRGenerationContext& context,
+                                                      llvm::Value* array);
+    
+    /**
+     * Decrements reference count safely for an immutable array
+     */
+    static void decrementImmutableArrayReferenceCount(IRGenerationContext& context,
+                                                      llvm::Value* array);
 
     /**
      * Checks if the value is null and throws npe if so
@@ -105,6 +115,10 @@ namespace wisey {
     static void adjustArrayReferenceCountUnsafely(IRGenerationContext& context,
                                                   llvm::Value* array,
                                                   int adjustmentValue);
+
+    static void adjustArrayReferenceCountSafely(IRGenerationContext& context,
+                                                llvm::Value* array,
+                                                int adjustmentValue);
 
   };
   

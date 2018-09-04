@@ -110,9 +110,6 @@
 		F50FF89B208C8CBA008EDC40 /* ParameterImmutableArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF899208C8CBA008EDC40 /* ParameterImmutableArrayReferenceVariable.cpp */; };
 		F50FF89D208C8EF8008EDC40 /* TestParameterImmutableArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF89C208C8EF8008EDC40 /* TestParameterImmutableArrayOwnerVariable.cpp */; };
 		F50FF89F208C9093008EDC40 /* TestParameterImmutableArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF89E208C9093008EDC40 /* TestParameterImmutableArrayReferenceVariable.cpp */; };
-		F50FF8A2208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF8A1208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp */; };
-		F50FF8A3208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF8A1208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp */; };
-		F50FF8A5208CA059008EDC40 /* TestAdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF8A4208CA059008EDC40 /* TestAdjustReferenceCounterForImmutableArrayFunction.cpp */; };
 		F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */; };
 		F5105FAC1FD02F6900ACF57B /* ImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */; };
 		F5105FAE1FD0553900ACF57B /* TestImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */; };
@@ -1327,9 +1324,6 @@
 		F50FF899208C8CBA008EDC40 /* ParameterImmutableArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterImmutableArrayReferenceVariable.cpp; path = src/ParameterImmutableArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F50FF89C208C8EF8008EDC40 /* TestParameterImmutableArrayOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterImmutableArrayOwnerVariable.cpp; path = tests/TestParameterImmutableArrayOwnerVariable.cpp; sourceTree = "<group>"; };
 		F50FF89E208C9093008EDC40 /* TestParameterImmutableArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterImmutableArrayReferenceVariable.cpp; path = tests/TestParameterImmutableArrayReferenceVariable.cpp; sourceTree = "<group>"; };
-		F50FF8A0208C9EE9008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForImmutableArrayFunction.hpp; path = include/wisey/AdjustReferenceCounterForImmutableArrayFunction.hpp; sourceTree = "<group>"; };
-		F50FF8A1208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForImmutableArrayFunction.cpp; path = src/AdjustReferenceCounterForImmutableArrayFunction.cpp; sourceTree = "<group>"; };
-		F50FF8A4208CA059008EDC40 /* TestAdjustReferenceCounterForImmutableArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForImmutableArrayFunction.cpp; path = tests/TestAdjustReferenceCounterForImmutableArrayFunction.cpp; sourceTree = "<group>"; };
 		F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImportProfile.cpp; path = src/ImportProfile.cpp; sourceTree = "<group>"; };
 		F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ImportProfile.hpp; path = include/wisey/ImportProfile.hpp; sourceTree = "<group>"; };
 		F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestImportProfile.cpp; path = tests/TestImportProfile.cpp; sourceTree = "<group>"; };
@@ -2523,7 +2517,6 @@
 		F52C66541FBF320C00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
-				F50FF8A1208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp */,
 				F52C66651FBF446400E89B04 /* AdjustReferenceCountFunction.cpp */,
 				F5190A492088DA3400BC2D93 /* CastObjectFunction.cpp */,
 				F50FF85E208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp */,
@@ -2548,7 +2541,6 @@
 		F52C66551FBF322A00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
-				F50FF8A0208C9EE9008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.hpp */,
 				F52C66641FBF441A00E89B04 /* AdjustReferenceCountFunction.hpp */,
 				F5190A482088D93300BC2D93 /* CastObjectFunction.hpp */,
 				F50FF85D208A2C73008EDC40 /* CheckArrayNotReferencedFunction.hpp */,
@@ -3678,7 +3670,6 @@
 		F5CB7F93205279A2007628B5 /* composer */ = {
 			isa = PBXGroup;
 			children = (
-				F50FF8A4208CA059008EDC40 /* TestAdjustReferenceCounterForImmutableArrayFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp */,
 				F5190A4C2088E0A000BC2D93 /* TestCastObjectFunction.cpp */,
 				F50FF861208A39CB008EDC40 /* TestCheckArrayNotReferencedFunction.cpp */,
@@ -4445,7 +4436,6 @@
 				F5F210CB20F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp in Sources */,
 				F55CF1881F850EEB00A11426 /* TestPrefix.cpp in Sources */,
 				F5A67DA620120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
-				F50FF8A5208CA059008EDC40 /* TestAdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */,
 				F54B146F205D6ACB0030773F /* LLVMi16Type.cpp in Sources */,
 				F592C9961ED323F7007FB2D0 /* TestWiseyc.cpp in Sources */,
 				F53A2C091EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
@@ -4513,7 +4503,6 @@
 				F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
 				F50FA2EB1E2E3B1500435EEA /* IntConstant.cpp in Sources */,
 				F59692C2211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */,
-				F50FF8A3208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */,
 				F53A2C0D1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,
 				F5A67DAC20134C920018068F /* TestArrayElementAssignment.cpp in Sources */,
 				F531B65D1E0DEB26008304F3 /* TestCharConstant.cpp in Sources */,
@@ -5178,7 +5167,6 @@
 				F5A34F62209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp in Sources */,
 				F5A0DAE8207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */,
 				F50FF85F208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp in Sources */,
-				F50FF8A2208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */,
 				F5170197200DCB5700A10B7C /* DestroyReferenceArrayFunction.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
