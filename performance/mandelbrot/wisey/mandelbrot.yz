@@ -2,83 +2,14 @@ package wisey.performance.testing;
 
 import wisey.io.CBinaryStreamWriter;
 import wisey.lang.CString;
-import wisey.lang.MString;
 import wisey.lang.IProgram;
+import wisey.lang.MString;
+import wisey.lang.MSystem;
 import wisey.threads.IWorker;
 import wisey.threads.CThreadPool;
 
-model MWorker implements IWorker {
-  immutable double[] mCrb;
-  immutable double[] mCib;
-  int mY;
-  int mWidth;
-
-  public void work() override {
-    byte[]* line = new byte[mWidth]; 
-    for (int xb = 0; xb < mWidth; xb++) {
-      int result = getByte(xb * 8, mY);
-      line[xb] = (byte) result;
-    }
-    thread.send(build(MResult).withArray(line).withY(mY).onHeap());
-  }
-
-  private int getByte(int x, int y) {
-    int res = 0;
-    for (int i = 0; i < 8; i += 2) {
-      double Zr1 = mCrb[x + i];
-      double Zi1 = mCib[y];
-
-      double Zr2 = mCrb[x + i + 1];
-      double Zi2 = mCib[y];
-
-      int b = 0;
-      int j = 49;
-
-      do {
-        double nZr1 = Zr1 * Zr1 - Zi1 * Zi1 + mCrb[x + i];
-        double nZi1 = Zr1 * Zi1 + Zr1 * Zi1 + mCib[y];
-        Zr1 = nZr1;
-        Zi1 = nZi1;
-
-        double nZr2 = Zr2 * Zr2 - Zi2 * Zi2 + mCrb[x + i + 1];
-        double nZi2 = Zr2 * Zi2 + Zr2 * Zi2 + mCib[y];
-        Zr2 = nZr2;
-        Zi2 = nZi2;
-
-        if (Zr1 * Zr1 + Zi1 * Zi1 > 4) {
-          b |= 2;
-          if (b == 3) {
-            break;
-          }
-        }
-        if (Zr2 * Zr2 + Zi2 * Zi2 > 4) {
-          b |= 1;
-          if (b == 3) {
-            break;
-          }
-        }
-      } while(--j > 0);
-      res = (res << 2) + b;
-    }
-    return res ^ -1;
-  }
-}
-
-model MResult {
-  immutable byte[]* mArray;
-  int mY;
-
-  public immutable byte[] getArray() {
-    return mArray;
-  }
-
-  public int getY() {
-    return mY;
-  }
-}
-
 controller CMandelbrot implements IProgram {
-  inject immediate CThreadPool* mThreadPool.withPoolSize(8);
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
   state immutable double[]* mCrb;
   state immutable double[]* mCib;
 
@@ -100,7 +31,7 @@ controller CMandelbrot implements IProgram {
 
     int width = (n + 7) / 8;
     for (int i = 0; i < n; i++) {
-      IWorker* worker = build(MWorker)
+      IWorker* worker = build(CMandelbrot.MWorker)
         .withCrb(mCrb)
         .withCib(mCib)
         .withWidth(width)
@@ -109,9 +40,9 @@ controller CMandelbrot implements IProgram {
       mThreadPool.submit(worker);
     }
     mThreadPool.start();
-    MResult*[]* results = new MResult*[n];
+    CMandelbrot.MResult*[]* results = new CMandelbrot.MResult*[n];
     for (int resultCount = 0; resultCount < n; resultCount++) {
-      MResult* result = (MResult*) mThreadPool.getResult();
+      CMandelbrot.MResult* result = (CMandelbrot.MResult*) mThreadPool.getResult();
       results[result.getY()] = result;
     }
     mThreadPool.stop();
@@ -124,6 +55,76 @@ controller CMandelbrot implements IProgram {
     stream.close();
 
     return 1;
+  }
+
+  private model MWorker implements IWorker {
+    immutable double[] mCrb;
+    immutable double[] mCib;
+    int mY;
+    int mWidth;
+
+    public void work() override {
+      byte[]* line = new byte[mWidth]; 
+      for (int xb = 0; xb < mWidth; xb++) {
+        int result = getByte(xb * 8, mY);
+        line[xb] = (byte) result;
+      }
+      thread.send(build(CMandelbrot.MResult).withArray(line).withY(mY).onHeap());
+    }
+
+    private int getByte(int x, int y) {
+      int res = 0;
+      for (int i = 0; i < 8; i += 2) {
+        double Zr1 = mCrb[x + i];
+        double Zi1 = mCib[y];
+
+        double Zr2 = mCrb[x + i + 1];
+        double Zi2 = mCib[y];
+
+        int b = 0;
+        int j = 49;
+
+        do {
+          double nZr1 = Zr1 * Zr1 - Zi1 * Zi1 + mCrb[x + i];
+          double nZi1 = Zr1 * Zi1 + Zr1 * Zi1 + mCib[y];
+          Zr1 = nZr1;
+          Zi1 = nZi1;
+
+          double nZr2 = Zr2 * Zr2 - Zi2 * Zi2 + mCrb[x + i + 1];
+          double nZi2 = Zr2 * Zi2 + Zr2 * Zi2 + mCib[y];
+          Zr2 = nZr2;
+          Zi2 = nZi2;
+
+          if (Zr1 * Zr1 + Zi1 * Zi1 > 4) {
+            b |= 2;
+            if (b == 3) {
+              break;
+            }
+          }
+          if (Zr2 * Zr2 + Zi2 * Zi2 > 4) {
+            b |= 1;
+            if (b == 3) {
+              break;
+            }
+          }
+        } while(--j > 0);
+        res = (res << 2) + b;
+      }
+      return res ^ -1;
+    }
+  }
+
+  private model MResult {
+    immutable byte[]* mArray;
+    int mY;
+
+    public immutable byte[] getArray() {
+      return mArray;
+    }
+
+    public int getY() {
+      return mY;
+    }
   }
 }
 
