@@ -23,7 +23,7 @@ controller CProgram implements IProgram, IObjectComparator {
 
     CString stringBuilder = CString.create();
 
-    CResult result = fragments.getAt(0);
+    CFragment result = fragments.getAt(0);
     long[]* keysArray = result.getMap().getKeys();
     int[]* valuesArray = result.getMap().getValues();
 
@@ -40,7 +40,21 @@ controller CProgram implements IProgram, IObjectComparator {
     return 1;
   }
 
-  public controller CResult {
+  public model MResult {
+    immutable long[]* mKeys;
+    immutable int[]* mValues;
+    int mKeyLength;
+
+    public CProgram.CFragment* toController() {
+      CProgram.CFragment* fragment = inject(CProgram.CFragment).withKeyLength(mKeyLength).onHeap();
+      for (int i = 0; i < mKeys.getSize(); i++) {
+        fragment.getMap().put(mKeys[i], mValues[i]);
+      }
+      return fragment;
+    }
+  }
+
+  public controller CFragment {
     inject CLongToIntMap* mMap;
     receive int mKeyLength;
 
@@ -67,27 +81,35 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   private COwnerVector* createFragments(byte[] sequence, int[] fragmentLengths) {
-    COwnerVector* vector = inject(COwnerVector).onHeap();
+    COwnerVector* results = inject(COwnerVector).onHeap();
     for (int i = 0; i < fragmentLengths.getSize(); i++) {
       int fragmentLength = fragmentLengths[i];
       for (int index = 0; index < fragmentLength; index++) {
         int offset = index;
-        vector.pushBack(createFragmentMap(sequence, offset, fragmentLength));
+        results.pushBack(createFragmentMap(sequence, offset, fragmentLength));
       }
     }
-    return vector;
+    COwnerVector* fragments = inject(COwnerVector).onHeap();
+    for (int i = 0; i < results.getSize(); i++) {
+      MResult result = results.getAt(i);
+      fragments.pushBack(result.toController());
+    }
+    return fragments;
   }
 
-  private CResult* createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
-    CResult* res = inject(CResult).withKeyLength(fragmentLength).onHeap();
-    CLongToIntMap map = res.getMap();
+  private MResult* createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
+    CLongToIntMap map = inject(CLongToIntMap).onHeap();
     int lastIndex = (int) sequence.getSize() - fragmentLength + 1;
     for (int index = offset; index < lastIndex; index += fragmentLength) {
       long key = getKey(sequence, index, fragmentLength);
       map.addTo(key, 1);
     }
 
-    return res;
+    return build(MResult)
+      .withKeys(map.getKeys())
+      .withValues(map.getValues())
+      .withKeyLength(fragmentLength)
+      .onHeap();
   }
 
   private static long getKey(byte[] arr, int offset, int length) {
@@ -98,21 +120,21 @@ controller CProgram implements IProgram, IObjectComparator {
     return key;
   }
 
-  private CResult sumTwoMaps(CResult result1, CResult result2) {
-    long[]* keysArray = result2.getMap().getKeys();
-    int[]* valuesArray = result2.getMap().getValues();
+  private CFragment sumTwoMaps(CFragment fragment1, CFragment fragment2) {
+    long[]* keysArray = fragment2.getMap().getKeys();
+    int[]* valuesArray = fragment2.getMap().getValues();
     for (int i = 0; i < keysArray.getSize(); i++) {
       long key = keysArray[i];
-      result1.getMap().addTo(key, valuesArray[i]);
+      fragment1.getMap().addTo(key, valuesArray[i]);
     }
-    return result1;
+    return fragment1;
   }
 
   private boolean compare(NKeyValuePair left, NKeyValuePair right) override {
     return left.getValue() < right.getValue();
   }
 
-  private CString* writeFrequencies(float totalCount, CResult frequencies) {
+  private CString* writeFrequencies(float totalCount, CFragment frequencies) {
     long[]* keysArray = frequencies.getMap().getKeys();
     int[]* valuesArray = frequencies.getMap().getValues();
     COwnerVector* vector = inject(COwnerVector).onHeap();
@@ -132,15 +154,15 @@ controller CProgram implements IProgram, IObjectComparator {
     return sb;
   }
 
-  private CString* writeCount(COwnerVector results, string nucleotideFragment) {
+  private CString* writeCount(COwnerVector fragments, string nucleotideFragment) {
     byte[]* key = toCodesFromString(nucleotideFragment);
     long k = getKey(key, 0, (int) nucleotideFragment.getLength());
     int count = 0;
-    for (int i = 0; i < results.getSize(); i++) {
-      CResult result = (CResult) results.getAt(i);
-      if (result.getKeyLength() == nucleotideFragment.getLength()) {
-        if (result.getMap().has(k)) {
-          count += result.getMap().get(k);
+    for (int i = 0; i < fragments.getSize(); i++) {
+      CFragment fragment = (CFragment) fragments.getAt(i);
+      if (fragment.getKeyLength() == nucleotideFragment.getLength()) {
+        if (fragment.getMap().has(k)) {
+          count += fragment.getMap().get(k);
         }
       }
     }
