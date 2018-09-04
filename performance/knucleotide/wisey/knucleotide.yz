@@ -17,7 +17,7 @@ controller CProgram implements IProgram, IObjectComparator {
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
   inject immediate CMemoryPool* mMemoryPool;
-  inject immediate CThreadPool* mThreadPool.withPoolSize(8);
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
 
   public int run(immutable string[] arguments) override {
     immutable byte[]* sequence = read();
