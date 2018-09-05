@@ -251,8 +251,8 @@ Function* IConcreteObjectType::declareDestructor(IRGenerationContext& context,
 void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext& context,
                                                             const IConcreteObjectType* object) {
   Function* function = context.getModule()->getFunction(getObjectDestructorFunctionName(object));
-  if (object->isPooled()) {
-    context.addComposingCallback1Objects(composePooledObjectDestructorBody, function, object);
+  if (object->isNode()) {
+    context.addComposingCallback1Objects(composeNodeDestructorBody, function, object);
   } else {
     context.addComposingCallback1Objects(composeDestructorBody, function, object);
   }
@@ -500,7 +500,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
     StringLiteral* stringLiteral =
-    new StringLiteral("done destructing " + concreteObject->getTypeName() + "\n", 0);
+    new StringLiteral("done destructing heap object " + concreteObject->getTypeName() + "\n", 0);
     printOutArguments.push_back(stringLiteral);
     PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
@@ -509,9 +509,9 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   context.getScopes().popScope(context, 0);
 }
 
-void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext& context,
-                                                            Function* function,
-                                                            const void* object) {
+void IConcreteObjectType::composeNodeDestructorBody(IRGenerationContext& context,
+                                                    Function* function,
+                                                    const void* object) {
   const IConcreteObjectType* concreteObject = (const IConcreteObjectType*) object;
   LLVMContext& llvmContext = context.getLLVMContext();
   context.setObjectType(concreteObject);
@@ -550,10 +550,8 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
 
   Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) thisGeneric->getType());
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");
-  
   BasicBlock* ifThisIsNullBlock = BasicBlock::Create(llvmContext, "if.this.null", function);
   BasicBlock* ifThisIsNotNullBlock = BasicBlock::Create(llvmContext, "if.this.notnull", function);
-  
   IRWriter::createConditionalBranch(context, ifThisIsNullBlock, ifThisIsNotNullBlock, isNull);
   
   context.setBasicBlock(ifThisIsNullBlock);
@@ -568,7 +566,7 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
     StringLiteral* stringLiteral =
-    new StringLiteral("destructor pooled object " + concreteObject->getTypeName() + "\n", 0);
+    new StringLiteral("destructor node object " + concreteObject->getTypeName() + "\n", 0);
     printOutArguments.push_back(stringLiteral);
     PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
@@ -599,6 +597,28 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
   Value* poolStore = IRWriter::createGetElementPtrInst(context, thisValue, index);
   Value* poolUncast = IRWriter::newLoadInst(context, poolStore, "");
   
+  nullValue = ConstantPointerNull::get((llvm::PointerType*) poolUncast->getType());
+  isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, poolUncast, nullValue, "");
+  BasicBlock* poolIsNullBlock = BasicBlock::Create(llvmContext, "pool.is.null", function);
+  BasicBlock* poolIsNotNullBlock = BasicBlock::Create(llvmContext, "pool.is.notnull", function);
+  IRWriter::createConditionalBranch(context, poolIsNullBlock, poolIsNotNullBlock, isNull);
+
+  context.setBasicBlock(poolIsNullBlock);
+  Value* idx[1];
+  idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -Environment::getAddressSizeInBytes());
+  Value* shellObject = IRWriter::createGetElementPtrInst(context, thisGeneric, idx);
+  IRWriter::createFree(context, shellObject);
+  if (context.isDestructorDebugOn()) {
+    ExpressionList printOutArguments;
+    StringLiteral* stringLiteral =
+    new StringLiteral("done destructing heap object " + concreteObject->getTypeName() + "\n", 0);
+    printOutArguments.push_back(stringLiteral);
+    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+  }
+  IRWriter::createReturnInst(context, NULL);
+
+  
+  context.setBasicBlock(poolIsNotNullBlock);
   Value* pool = IRWriter::newBitCastInst(context,
                                          poolUncast,
                                          getCMemoryPoolStruct(context)->getPointerTo());
@@ -637,7 +657,7 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
     StringLiteral* stringLiteral =
-    new StringLiteral("done destructing pooled object " + concreteObject->getTypeName() + "\n", 0);
+    new StringLiteral("done destructing pool object " + concreteObject->getTypeName() + "\n", 0);
     printOutArguments.push_back(stringLiteral);
     PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
@@ -827,9 +847,6 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   printTypeKind(object, stream);
   stream << " ";
   stream << object->getTypeName();
-  if (object->isPooled()) {
-    stream << " onPool";
-  }
   if (!object->isPublic()) {
     stream << " {" << endl << "}" << endl;
     return;

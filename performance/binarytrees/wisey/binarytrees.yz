@@ -69,7 +69,7 @@ controller CBinaryTrees implements IProgram {
     return build(NTreeNode).withLeft(null).withRight(null).onPool(pool);
   }
 
-  private node NTreeNode onPool {
+  private node NTreeNode {
     receive NTreeNode* mLeft;
     receive NTreeNode* mRight;
 

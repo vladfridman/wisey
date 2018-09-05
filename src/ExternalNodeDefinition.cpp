@@ -19,13 +19,11 @@ ExternalNodeDefinition::ExternalNodeDefinition(NodeTypeSpecifierFull* nodeTypeSp
                                                vector<IInterfaceTypeSpecifier*>
                                                interfaceSpecifiers,
                                                vector<IObjectDefinition*> innerObjectDefinitions,
-                                               bool isPooled,
                                                int line) :
 mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions),
-mIsPooled(isPooled),
 mLine(line) { }
 
 ExternalNodeDefinition::~ExternalNodeDefinition() {
@@ -49,9 +47,7 @@ Node* ExternalNodeDefinition::prototypeObject(IRGenerationContext& context,
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Node* node = mIsPooled
-  ? Node::newPooledExternalNode(fullName, structType, importProfile, mLine)
-  : Node::newExternalNode(fullName, structType, importProfile, mLine);
+  Node* node = Node::newExternalNode(fullName, structType, importProfile, mLine);
   context.addNode(node, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();

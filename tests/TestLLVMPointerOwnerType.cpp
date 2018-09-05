@@ -200,6 +200,6 @@ TEST_F(TestFileRunner, customConstructorDestructorRunTest) {
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "freeing systems.vos.wisey.compiler.tests.CProgram.mPointerFied\n"
                                         "Custom destructor\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

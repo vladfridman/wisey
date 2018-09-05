@@ -229,16 +229,16 @@ TEST_F(TestFileRunner, arrayTypeAutocastToBoolean) {
 TEST_F(TestFileRunner, llvmArrayDebugDestructorsRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_llvm_array.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MElement\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MElement\n"
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MElement\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MElement\n"
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MElement\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MElement\n"
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MElement\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MElement\n"
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MElement\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MElement\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

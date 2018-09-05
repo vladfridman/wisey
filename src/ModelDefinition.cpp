@@ -23,14 +23,12 @@ ModelDefinition::ModelDefinition(AccessLevel accessLevel,
                                  vector<IObjectElementDefinition*> objectElementDeclarations,
                                  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                  vector<IObjectDefinition*> innerObjectDefinitions,
-                                 bool isPooled,
                                  int line) :
 mAccessLevel(accessLevel),
 mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions),
-mIsPooled(isPooled),
 mLine(line) { }
 
 ModelDefinition::~ModelDefinition() {
@@ -51,17 +49,10 @@ ModelDefinition::~ModelDefinition() {
 
 Model* ModelDefinition::prototypeObject(IRGenerationContext& context,
                                         ImportProfile* importProfile) const {
-  if (mIsPooled) {
-    context.reportError(mModelTypeSpecifierFull->getLine(),
-                        "Models can not be allocated on memory pools");
-    throw 1;
-  }
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = mIsPooled
-  ? Model::newPooledModel(mAccessLevel, fullName, structType, importProfile, mLine)
-  : Model::newModel(mAccessLevel, fullName, structType, importProfile, mLine);
+  Model* model = Model::newModel(mAccessLevel, fullName, structType, importProfile, mLine);
   context.addModel(model, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();

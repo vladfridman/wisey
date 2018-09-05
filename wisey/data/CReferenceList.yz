@@ -36,7 +36,7 @@ controller CReferenceList {
   /**
    * Represents list element where value field is of object reference type
    */
-  public node NElement onPool implements CPointerList.IListElement {
+  public node NElement implements CPointerList.IListElement {
     receive ::llvm::i8::pointer mKey;
     receive ::wisey::object mValue;
     state NElement* mNext;

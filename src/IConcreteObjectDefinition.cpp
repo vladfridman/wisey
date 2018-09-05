@@ -29,7 +29,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>> elements =
     createElements(context, object, elementDeclarations);
   unsigned long numberOfVtables = interfaces.size() ? interfaces.size() : 1u;
-  unsigned long fieldStartIndex = object->isPooled() ? numberOfVtables + 1 : numberOfVtables;
+  unsigned long fieldStartIndex = object->isNode() ? numberOfVtables + 1 : numberOfVtables;
   object->setFields(context, get<1>(elements), fieldStartIndex);
   object->setInterfaces(interfaces);
   object->setMethods(get<2>(elements));
@@ -177,7 +177,7 @@ void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
 void IConcreteObjectDefinition::maybeAddPoolStore(IRGenerationContext& context,
                                                   vector<llvm::Type*>& types,
                                                   const IConcreteObjectType* concreteObjectType) {
-  if (!concreteObjectType->isPooled()) {
+  if (!concreteObjectType->isNode()) {
     return;
   }
   

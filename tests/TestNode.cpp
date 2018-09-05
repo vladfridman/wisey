@@ -63,7 +63,6 @@ struct NodeTest : public Test {
   Node* mSimpleNode;
   Node* mSimplerNode;
   Node* mOwnerNode;
-  Node* mPooledNode;
   Model* mReferenceModel;
   Interface* mComplicatedElementInterface;
   Interface* mElementInterface;
@@ -337,28 +336,6 @@ struct NodeTest : public Test {
     Value* field2Value = ConstantPointerNull::get(mReferenceModel->getLLVMType(mContext));
     ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mReferenceModel));
-
-    const Controller* cMemoryPool = mContext.getController(Names::getCMemoryPoolFullName(), 0);
-    vector<Type*> pooledNodeTypes;
-    pooledNodeTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
-                               ->getPointerTo()->getPointerTo());
-    pooledNodeTypes.push_back(cMemoryPool->getLLVMType(mContext));
-    pooledNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    pooledNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    string pooledNodeFullName = "systems.vos.wisey.compiler.tests.MPooledNode";
-    StructType* pooledNodeStruct = StructType::create(mLLVMContext, pooledNodeFullName);
-    pooledNodeStruct->setBody(pooledNodeTypes);
-    vector<IField*> pooledNodefields;
-    pooledNodefields.push_back(new ReceivedField(PrimitiveTypes::INT, "mWidth", 0));
-    pooledNodefields.push_back(new ReceivedField(PrimitiveTypes::INT, "mHeight", 0));
-    mPooledNode = Node::newPooledNode(AccessLevel::PUBLIC_ACCESS,
-                                      pooledNodeFullName,
-                                      pooledNodeStruct,
-                                      mContext.getImportProfile(),
-                                      3);
-    mPooledNode->setFields(mContext, pooledNodefields, 2u);
-    IConcreteObjectType::declareTypeNameGlobal(mContext, mPooledNode);
-    IConcreteObjectType::declareVTable(mContext, mPooledNode);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -673,19 +650,6 @@ TEST_F(NodeTest, printToStreamTest) {
                "  receive int mRight;\n"
                "\n"
                "  int getElement();\n"
-               "}\n",
-               stringStream.str().c_str());
-}
-
-TEST_F(NodeTest, printToStreamPooledTest) {
-  stringstream stringStream;
-  
-  mPooledNode->printToStream(mContext, stringStream);
-  
-  EXPECT_STREQ("external node systems.vos.wisey.compiler.tests.MPooledNode onPool {\n"
-               "\n"
-               "  receive int mWidth;\n"
-               "  receive int mHeight;\n"
                "}\n",
                stringStream.str().c_str());
 }

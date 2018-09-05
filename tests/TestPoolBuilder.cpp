@@ -22,8 +22,8 @@
 #include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/PoolBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReceivedField.hpp"
@@ -42,12 +42,12 @@ using ::testing::Test;
 struct PoolBuilderTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Model* mModel;
+  Node* mNode;
   PoolBuilder* mPoolBuilder;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   NiceMock<MockExpression>* mPoolExpression;
-  ModelTypeSpecifier* mModelTypeSpecifier;
+  NodeTypeSpecifier* mNodeTypeSpecifier;
   BasicBlock *mEntryBlock;
   BasicBlock *mDeclareBlock;
   Function* mFunction;
@@ -64,26 +64,26 @@ struct PoolBuilderTest : Test {
     
     const Controller* cMemoryPool = mContext.getController(Names::getCMemoryPoolFullName(), 0);
 
-    mModelTypeSpecifier = new ModelTypeSpecifier(NULL, "MShape", 0);
+    mNodeTypeSpecifier = new NodeTypeSpecifier(NULL, "NShape", 0);
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(cMemoryPool->getLLVMType(mContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
-    string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
+    string modelFullName = "systems.vos.wisey.compiler.tests.NShape";
     StructType *structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
     fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mWidth", 0));
     fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mHeight", 0));
-    mModel = Model::newPooledModel(AccessLevel::PUBLIC_ACCESS,
-                                   modelFullName,
-                                   structType,
-                                   mContext.getImportProfile(),
-                                   0);
-    mModel->setFields(mContext, fields, 2u);
-    mContext.addModel(mModel, 0);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                          modelFullName,
+                          structType,
+                          mContext.getImportProfile(),
+                          0);
+    mNode->setFields(mContext, fields, 2u);
+    mContext.addNode(mNode, 0);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(fieldValue1));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
@@ -93,8 +93,8 @@ struct PoolBuilderTest : Test {
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mField2Expression, printToStream(_, _)).WillByDefault(Invoke(printBuilderArgument2));
     
-    IConcreteObjectType::declareTypeNameGlobal(mContext, mModel);
-    IConcreteObjectType::declareVTable(mContext, mModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mNode);
+    IConcreteObjectType::declareVTable(mContext, mNode);
     
     Value* pool = ConstantPointerNull::get(cMemoryPool->getLLVMType(mContext));
     ON_CALL(*mPoolExpression, generateIR(_, _)).WillByDefault(Return(pool));
@@ -108,7 +108,7 @@ struct PoolBuilderTest : Test {
     BuilderArgumentList argumentList;
     argumentList.push_back(argument1);
     argumentList.push_back(argument2);
-    mPoolBuilder = new PoolBuilder(mModelTypeSpecifier, argumentList, mPoolExpression, 0);
+    mPoolBuilder = new PoolBuilder(mNodeTypeSpecifier, argumentList, mPoolExpression, 0);
    
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -147,9 +147,9 @@ struct PoolBuilderTest : Test {
 
 TEST_F(PoolBuilderTest, getTypeTest) {
   BuilderArgumentList argumentList;
-  PoolBuilder allocator(mModelTypeSpecifier, argumentList, mPoolExpression, 0);
+  PoolBuilder allocator(mNodeTypeSpecifier, argumentList, mPoolExpression, 0);
   
-  EXPECT_EQ(allocator.getType(mContext), mModel->getOwner());
+  EXPECT_EQ(allocator.getType(mContext), mNode->getOwner());
 }
 
 TEST_F(PoolBuilderTest, isConstantTest) {
@@ -164,7 +164,7 @@ TEST_F(PoolBuilderTest, printToStreamTest) {
   stringstream stringStream;
   mPoolBuilder->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("allocator(systems.vos.wisey.compiler.tests.MShape)"
+  EXPECT_STREQ("allocator(systems.vos.wisey.compiler.tests.NShape)"
                ".withWidth(3).withHeight(5).onPool(pool)",
                stringStream.str().c_str());
 }
@@ -178,7 +178,7 @@ TEST_F(PoolBuilderTest, generateIRTest) {
   string expected =
   "\ndefine internal void @test() personality i32 (...)* @__gxx_personality_v0 {"
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.NShape*"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
@@ -197,24 +197,24 @@ TEST_F(PoolBuilderTest, generateIRTest) {
   "\n  %6 = load i64, i64* %5"
   "\n  %7 = add i64 %6, 1"
   "\n  store i64 %7, i64* %5"
-  "\n  %8 = call i8* @mem_pool_alloc(i8* %4, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64))"
-  "\n  %9 = bitcast i8* %8 to %systems.vos.wisey.compiler.tests.MShape.refCounter*"
-  "\n  %10 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %9, i32 0, i32 0"
+  "\n  %8 = call i8* @mem_pool_alloc(i8* %4, i64 ptrtoint (%systems.vos.wisey.compiler.tests.NShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.NShape.refCounter, %systems.vos.wisey.compiler.tests.NShape.refCounter* null, i32 1) to i64))"
+  "\n  %9 = bitcast i8* %8 to %systems.vos.wisey.compiler.tests.NShape.refCounter*"
+  "\n  %10 = getelementptr %systems.vos.wisey.compiler.tests.NShape.refCounter, %systems.vos.wisey.compiler.tests.NShape.refCounter* %9, i32 0, i32 0"
   "\n  store i64 0, i64* %10"
-  "\n  %11 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %9, i32 0, i32 1"
-  "\n  %12 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %11, i32 0, i32 1"
+  "\n  %11 = getelementptr %systems.vos.wisey.compiler.tests.NShape.refCounter, %systems.vos.wisey.compiler.tests.NShape.refCounter* %9, i32 0, i32 1"
+  "\n  %12 = getelementptr %systems.vos.wisey.compiler.tests.NShape, %systems.vos.wisey.compiler.tests.NShape* %11, i32 0, i32 1"
   "\n  store %wisey.lang.CMemoryPool* null, %wisey.lang.CMemoryPool** %12"
-  "\n  %13 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %11, i32 0, i32 2"
+  "\n  %13 = getelementptr %systems.vos.wisey.compiler.tests.NShape, %systems.vos.wisey.compiler.tests.NShape* %11, i32 0, i32 2"
   "\n  store i32 3, i32* %13"
-  "\n  %14 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %11, i32 0, i32 3"
+  "\n  %14 = getelementptr %systems.vos.wisey.compiler.tests.NShape, %systems.vos.wisey.compiler.tests.NShape* %11, i32 0, i32 3"
   "\n  store i32 5, i32* %14"
-  "\n  %15 = bitcast %systems.vos.wisey.compiler.tests.MShape* %11 to i8*"
+  "\n  %15 = bitcast %systems.vos.wisey.compiler.tests.NShape* %11 to i8*"
   "\n  %16 = getelementptr i8, i8* %15, i64 0"
   "\n  %17 = bitcast i8* %16 to i32 (...)***"
-  "\n  %18 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MShape.vtable, i32 0, i32 0, i32 0"
+  "\n  %18 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.NShape.vtable, i32 0, i32 0, i32 0"
   "\n  %19 = bitcast i8** %18 to i32 (...)**"
   "\n  store i32 (...)** %19, i32 (...)*** %17"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* %11, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  store %systems.vos.wisey.compiler.tests.NShape* %11, %systems.vos.wisey.compiler.tests.NShape** %0"
   "\n"
   "\ncleanup:                                          ; preds = %if.pool.null"
   "\n  %20 = landingpad { i8*, i32 }"
@@ -247,10 +247,10 @@ TEST_F(PoolBuilderTest, allocateInvalidBuilderArgumentsDeathTest) {
   BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  mPoolBuilder = new PoolBuilder(mModelTypeSpecifier, argumentList, mPoolExpression, 1);
+  mPoolBuilder = new PoolBuilder(mNodeTypeSpecifier, argumentList, mPoolExpression, 1);
 
   const char* expected =
-  "/tmp/source.yz(1): Error: Object allocator argument should start with 'with'. e.g. .withField(value).\n";
+  "/tmp/source.yz(1): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n";
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -273,13 +273,13 @@ TEST_F(PoolBuilderTest, allocateIncorrectArgumentTypeDeathTest) {
   BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  mPoolBuilder = new PoolBuilder(mModelTypeSpecifier, argumentList, mPoolExpression, 3);
+  mPoolBuilder = new PoolBuilder(mNodeTypeSpecifier, argumentList, mPoolExpression, 3);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
   EXPECT_ANY_THROW(mPoolBuilder->generateIR(mContext, PrimitiveTypes::VOID));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Model allocator argument value for field mHeight does not match its type\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Node builder argument value for field mHeight does not match its type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -289,10 +289,10 @@ TEST_F(PoolBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
   BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
   BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
-  mPoolBuilder = new PoolBuilder(mModelTypeSpecifier, argumentList, mPoolExpression, 7);
+  mPoolBuilder = new PoolBuilder(mNodeTypeSpecifier, argumentList, mPoolExpression, 7);
 
   const char* expected =
-  "/tmp/source.yz(7): Error: Field mHeight of object systems.vos.wisey.compiler.tests.MShape is not initialized.\n";
+  "/tmp/source.yz(7): Error: Field mHeight of object systems.vos.wisey.compiler.tests.NShape is not initialized.\n";
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -300,13 +300,6 @@ TEST_F(PoolBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
   EXPECT_ANY_THROW(mPoolBuilder->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ(expected, buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
-}
-
-TEST_F(TestFileRunner, allocateOnHeapObjectRunDeathTest) {
-  expectFailCompile("tests/samples/test_allocate_on_pool_heap_object.yz",
-                    1,
-                    "tests/samples/test_allocate_on_pool_heap_object.yz\\(18\\): Error: "
-                    "Object systems.vos.wisey.compiler.tests.MCar can not be allocated on a memory pool beause it is not marked with onPool qualifier, it should be allocated on heap");
 }
 
 TEST_F(TestFileRunner, nullPoolAllocateRunDeathTest) {

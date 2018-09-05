@@ -254,10 +254,3 @@ TEST_F(HeapBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
   EXPECT_STREQ(expected, buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
-
-TEST_F(TestFileRunner, buildAllocatableRunDeathTest) {
-  expectFailCompile("tests/samples/test_build_allocatable.yz",
-                    1,
-                    "tests/samples/test_build_allocatable.yz\\(17\\): Error: "
-                    "Object systems.vos.wisey.compiler.tests.NCar can not be allocated on heap because it is marked with onPool qualifier");
-}

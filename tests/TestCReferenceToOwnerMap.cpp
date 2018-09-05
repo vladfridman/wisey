@@ -20,17 +20,17 @@ TEST_F(TestFileRunner, cReferenceToOwnerMapRunTest) {
                                         "Lookup BMW: BMW\n"
                                         "Lookup Mercedes: Mercedes\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "BMW was erased\n"
                                         "Take result: Toyota\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "Toyota was erased\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "Mercedes was erased\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "freeing systems.vos.wisey.compiler.tests.CProgram.mMap\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

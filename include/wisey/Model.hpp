@@ -30,7 +30,6 @@ namespace wisey {
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;
-    bool mIsPooled;
     bool mIsInner;
     ModelOwner* mModelOwner;
     std::map<std::string, IField*> mFields;
@@ -54,7 +53,6 @@ namespace wisey {
           llvm::StructType* structType,
           ImportProfile* importProfile,
           bool isExternal,
-          bool isPooled,
           int line);
 
   public:
@@ -71,29 +69,12 @@ namespace wisey {
                            int line);
 
     /**
-     * Model instantiation whose instances are allocated from a memory pool
-     */
-    static Model* newPooledModel(AccessLevel accessLevel,
-                                 std::string name,
-                                 llvm::StructType* structType,
-                                 ImportProfile* importProfile,
-                                 int line);
-
-    /**
      * External model instantiation
      */
     static Model* newExternalModel(std::string name,
                                    llvm::StructType* structType,
                                    ImportProfile* importProfile,
                                    int line);
-    
-    /**
-     * External model instantiation whose instances are allocated from a memory pool
-     */
-    static Model* newPooledExternalModel(std::string name,
-                                         llvm::StructType* structType,
-                                         ImportProfile* importProfile,
-                                         int line);
     
     /**
      * Returns the name of the global variable containing RTTI type representing this model
@@ -120,8 +101,6 @@ namespace wisey {
     bool isScopeInjected(IRGenerationContext& context) const override;
 
     bool isPublic() const override;
-    
-    bool isPooled() const override;
 
     void setFields(IRGenerationContext& context,
                    std::vector<IField*> fields,

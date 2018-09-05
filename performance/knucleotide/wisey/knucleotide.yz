@@ -78,7 +78,7 @@ controller CProgram implements IProgram, IObjectComparator {
     }
   }
 
-  public node NKeyValuePair onPool {
+  public node NKeyValuePair {
     receive long mKey;
     receive int mValue;
 

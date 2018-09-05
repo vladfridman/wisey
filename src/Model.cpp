@@ -38,13 +38,11 @@ Model::Model(AccessLevel accessLevel,
              StructType* structType,
              ImportProfile* importProfile,
              bool isExternal,
-             bool isPooled,
              int line) :
 mIsPublic(accessLevel == PUBLIC_ACCESS),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsPooled(isPooled),
 mIsInner(false),
 mModelOwner(new ModelOwner(this)),
 mImportProfile(importProfile),
@@ -84,37 +82,18 @@ Model* Model::newModel(AccessLevel accessLevel,
                        StructType* structType,
                        ImportProfile* importProfile,
                        int line) {
-  return new Model(accessLevel, name, structType, importProfile, false, false, line);
-}
-
-Model* Model::newPooledModel(AccessLevel accessLevel,
-                             string name,
-                             StructType* structType,
-                             ImportProfile* importProfile,
-                             int line) {
-  return new Model(accessLevel, name, structType, importProfile, false, true, line);
+  return new Model(accessLevel, name, structType, importProfile, false, line);
 }
 
 Model* Model::newExternalModel(string name,
                                StructType* structType,
                                ImportProfile* importProfile,
                                int line) {
-  return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, false, line);
-}
-
-Model* Model::newPooledExternalModel(string name,
-                                     StructType* structType,
-                                     ImportProfile* importProfile,
-                                     int line) {
-  return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, true, line);
+  return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, line);
 }
 
 bool Model::isPublic() const {
   return mIsPublic;
-}
-
-bool Model::isPooled() const {
-  return mIsPooled;
 }
 
 void Model::setFields(IRGenerationContext& context,
@@ -345,8 +324,7 @@ void Model::generateCreationArguments(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(context, fieldType)) {
-      string creator = mIsPooled ? "allocator" : "builder";
-      context.reportError(line, "Model " + creator + " argument value for field " + argumentName +
+      context.reportError(line, "Model builder argument value for field " + argumentName +
                           " does not match its type");
       throw 1;
     }

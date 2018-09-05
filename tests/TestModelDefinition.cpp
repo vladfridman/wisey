@@ -106,7 +106,6 @@ TEST_F(ModelDefinitionTest, prototypeObjectTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions,
-                                  false,
                                   0);
   
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
@@ -138,7 +137,6 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions,
-                                  false,
                                   0);
   
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
@@ -169,7 +167,6 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions,
-                                  false,
                                   0);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -271,7 +268,6 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions,
-                                  false,
                                   0);
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   modelDefinition.prototypeMethods(mContext);
@@ -313,7 +309,6 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions,
-                                  false,
                                   0);
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
@@ -352,7 +347,6 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions,
-                                  false,
                                   0);
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   

@@ -24,7 +24,6 @@ namespace wisey {
     std::vector<IObjectElementDefinition*> mObjectElementDeclarations;
     std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
     std::vector<IObjectDefinition*> mInnerObjectDefinitions;
-    bool mIsPooled;
     int mLine;
     
   public:
@@ -33,7 +32,6 @@ namespace wisey {
                            std::vector<IObjectElementDefinition*> objectElementDeclarations,
                            std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                            std::vector<IObjectDefinition*> innerObjectDefinitions,
-                           bool isPooled,
                            int line);
     
     ~ExternalNodeDefinition();

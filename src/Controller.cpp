@@ -111,10 +111,6 @@ bool Controller::isPublic() const {
   return mIsPublic;
 }
 
-bool Controller::isPooled() const {
-  return false;
-}
-
 void Controller::setFields(IRGenerationContext& context,
                            vector<IField*> fields,
                            unsigned long startIndex) {

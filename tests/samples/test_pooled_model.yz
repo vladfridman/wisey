@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 
-model MCar onPool {
+model MCar {
   int mYear;
 
   public int getYear() {

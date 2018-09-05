@@ -40,13 +40,11 @@ Node::Node(AccessLevel accessLevel,
            StructType* structType,
            ImportProfile* importProfile,
            bool isExternal,
-           bool isPooled,
            int line) :
 mIsPublic(accessLevel == PUBLIC_ACCESS),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsPooled(isPooled),
 mIsInner(false),
 mNodeOwner(new NodeOwner(this)),
 mImportProfile(importProfile),
@@ -88,37 +86,18 @@ Node* Node::newNode(AccessLevel accessLevel,
                     StructType* structType,
                     ImportProfile* importProfile,
                     int line) {
-  return new Node(accessLevel, name, structType, importProfile, false, false, line);
-}
-
-Node* Node::newPooledNode(AccessLevel accessLevel,
-                          string name,
-                          StructType* structType,
-                          ImportProfile* importProfile,
-                          int line) {
-  return new Node(accessLevel, name, structType, importProfile, false, true, line);
+  return new Node(accessLevel, name, structType, importProfile, false, line);
 }
 
 Node* Node::newExternalNode(string name,
                             StructType* structType,
                             ImportProfile* importProfile,
                             int line) {
-  return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, false, line);
-}
-
-Node* Node::newPooledExternalNode(string name,
-                                  StructType* structType,
-                                  ImportProfile* importProfile,
-                                  int line) {
-  return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, true, line);
+  return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, line);
 }
 
 bool Node::isPublic() const {
   return mIsPublic;
-}
-
-bool Node::isPooled() const {
-  return mIsPooled;
 }
 
 void Node::setFields(IRGenerationContext& context,

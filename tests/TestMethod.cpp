@@ -238,9 +238,9 @@ TEST_F(TestFileRunner, freeOwnerReturnedFromMethodRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_free_owner_returned_from_method.yz",
                                         "5\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
 

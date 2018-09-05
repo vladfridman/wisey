@@ -20,13 +20,11 @@ ExternalModelDefinition::ExternalModelDefinition(ModelTypeSpecifierFull* modelTy
                                                  interfaceSpecifiers,
                                                  vector<IObjectDefinition*>
                                                  innerObjectDefinitions,
-                                                 bool isPooled,
                                                  int line) :
 mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions),
-mIsPooled(isPooled),
 mLine(line) { }
 
 ExternalModelDefinition::~ExternalModelDefinition() {
@@ -50,9 +48,7 @@ Model* ExternalModelDefinition::prototypeObject(IRGenerationContext& context,
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = mIsPooled
-  ? Model::newPooledExternalModel(fullName, structType, importProfile, mLine)
-  : Model::newExternalModel(fullName, structType, importProfile, mLine);
+  Model* model = Model::newExternalModel(fullName, structType, importProfile, mLine);
   context.addModel(model, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();

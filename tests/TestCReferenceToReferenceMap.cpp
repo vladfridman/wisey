@@ -22,12 +22,12 @@ TEST_F(TestFileRunner, cReferenceToReferenceMapRunTest) {
                                         "Toyota was erased\n"
                                         "Mercedes was erased\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

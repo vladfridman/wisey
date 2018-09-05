@@ -1344,15 +1344,15 @@ TEST_F(TestFileRunner, contextScopedInjectionOnIThreadRunTest) {
                                         "Scoped services are the same\n"
                                         "Unscoped services are different\n"
                                         "destructor systems.vos.wisey.compiler.tests.CService\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CService\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CService\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "decrementing systems.vos.wisey.compiler.tests.CProgram.mScopedService\n"
                                         "freeing systems.vos.wisey.compiler.tests.CProgram.mService\n"
                                         "destructor systems.vos.wisey.compiler.tests.CService\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CService\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CService\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n"
                                         "destructor systems.vos.wisey.compiler.tests.CScopedService\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CScopedService\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CScopedService\n",
                                         "");
 }
 

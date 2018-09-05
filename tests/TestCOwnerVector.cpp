@@ -24,17 +24,17 @@ TEST_F(TestFileRunner, cOwnerVectorRunTest) {
                                         "Car year: 2018\n"
                                         "Car year: 2018\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "Vector size: 3\n"
                                         "Car year: 2015\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "freeing systems.vos.wisey.compiler.tests.CProgram.mVector\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

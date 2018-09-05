@@ -164,9 +164,9 @@ TEST_F(TestFileRunner, debugDestructorsRunTest) {
                                         "destructor systems.vos.wisey.compiler.tests.CMiddleController\n"
                                         "freeing systems.vos.wisey.compiler.tests.CMiddleController.mBottomController\n"
                                         "destructor systems.vos.wisey.compiler.tests.CBottomController\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CBottomController\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CMiddleController\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CTopController\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CBottomController\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CMiddleController\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CTopController\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

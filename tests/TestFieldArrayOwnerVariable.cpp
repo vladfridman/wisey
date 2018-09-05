@@ -224,10 +224,10 @@ TEST_F(TestFileRunner, fieldArrayOwnerOfModelOwnersDestructorsAreCalledRunTest) 
                                         "destructor systems.vos.wisey.compiler.tests.CController\n"
                                         "freeing systems.vos.wisey.compiler.tests.CController.mArray\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CController\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CController\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
 

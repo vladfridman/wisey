@@ -39,11 +39,6 @@ int HeapBuilder::getLine() const {
 
 Value* HeapBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IBuildableObjectType* buildableType = mTypeSpecifier->getType(context);
-  if (buildableType->isPooled()) {
-    context.reportError(mLine, "Object " + buildableType->getTypeName() +
-                        " can not be allocated on heap because it is marked with onPool qualifier");
-    throw 1;
-  }
   Value* malloc = build(context, buildableType);
   
   if (assignToType->isOwner()) {

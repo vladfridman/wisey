@@ -329,11 +329,11 @@ TEST_F(TestFileRunner, objectFieldVariableNullComplicatedTest) {
 TEST_F(TestFileRunner, destructorCalledOnAssignFieldOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_destructor_called_on_assign_field_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "car is destoyed\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "freeing systems.vos.wisey.compiler.tests.CProgram.mCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
 
@@ -342,8 +342,8 @@ TEST_F(TestFileRunner, fieldPointerOwnerVariableRunTest) {
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "freeing systems.vos.wisey.compiler.tests.CProgram.mPointer\n"
                                         "destructor systems.vos.wisey.compiler.tests.MModel\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MModel\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.MModel\n"
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
 

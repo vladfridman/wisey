@@ -24,6 +24,6 @@ TEST_F(TestFileRunner, cLongToIntMapRunTest) {
                                         "Hashmap size: 0\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "freeing systems.vos.wisey.compiler.tests.CProgram.mMap\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing heap object systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

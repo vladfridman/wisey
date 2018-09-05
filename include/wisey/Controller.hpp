@@ -123,8 +123,6 @@ namespace wisey {
     bool isScopeInjected(IRGenerationContext& context) const override;
 
     bool isPublic() const override;
-    
-    bool isPooled() const override;
 
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,

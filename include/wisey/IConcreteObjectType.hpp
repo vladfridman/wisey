@@ -197,11 +197,6 @@ namespace wisey {
      * Generates a global with object type name. e.g. model or controller
      */
     virtual llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const = 0;
-    
-    /**
-     * Tells whether the object instance is allocated on a memory pool
-     */
-    virtual bool isPooled() const = 0;
 
     /**
      * Declares global variable with the name of the given object defined externally
@@ -417,9 +412,9 @@ namespace wisey {
                                       llvm::Function* function,
                                       const void* object);
     
-    static void composePooledObjectDestructorBody(IRGenerationContext& context,
-                                                  llvm::Function* function,
-                                                  const void* object);
+    static void composeNodeDestructorBody(IRGenerationContext& context,
+                                          llvm::Function* function,
+                                          const void* object);
 
     static void printTypeKind(const IConcreteObjectType* type, std::iostream& stream);
     

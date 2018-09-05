@@ -30,7 +30,6 @@ namespace wisey {
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;
-    bool mIsPooled;
     bool mIsInner;
     NodeOwner* mNodeOwner;
     std::vector<IField*> mReceivedFields;
@@ -56,7 +55,6 @@ namespace wisey {
          llvm::StructType* structType,
          ImportProfile* importProfile,
          bool isExternal,
-         bool isPooled,
          int line);
 
   public:
@@ -71,15 +69,6 @@ namespace wisey {
                          llvm::StructType* structType,
                          ImportProfile* importProfile,
                          int line);
-    
-    /**
-     * Node instantiation whose instances are allocated from a memory pool
-     */
-    static Node* newPooledNode(AccessLevel accessLevel,
-                               std::string name,
-                               llvm::StructType* structType,
-                               ImportProfile* importProfile,
-                               int line);
 
     /**
      * External node instantiation
@@ -88,14 +77,6 @@ namespace wisey {
                                  llvm::StructType* structType,
                                  ImportProfile* importProfile,
                                  int line);
-
-    /**
-     * External node instantiation whose instances are allocated from a memory pool
-     */
-    static Node* newPooledExternalNode(std::string name,
-                                       llvm::StructType* structType,
-                                       ImportProfile* importProfile,
-                                       int line);
     
     void setScopeType(const IObjectType* objectType) override;
     
@@ -103,8 +84,6 @@ namespace wisey {
 
     bool isPublic() const override;
     
-    bool isPooled() const override;
-
     void setFields(IRGenerationContext& context,
                    std::vector<IField*> fields,
                    unsigned long startIndex) override;

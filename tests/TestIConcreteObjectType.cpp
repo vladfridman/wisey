@@ -45,7 +45,7 @@ struct IConcreteObjectTypeTest : public Test {
   Model* mGalaxyModel;
   Model* mConstellationModel;
   Model* mCarModel;
-  Node* mPooledNode;
+  Node* mNode;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -186,24 +186,24 @@ struct IConcreteObjectTypeTest : public Test {
     mContext.addModel(mCarModel, 0);
 
     const Controller* cMemoryPool = mContext.getController(Names::getCMemoryPoolFullName(), 0);
-    vector<Type*> pooledNodeTypes;
-    pooledNodeTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
-                               ->getPointerTo()->getPointerTo());
-    pooledNodeTypes.push_back(cMemoryPool->getLLVMType(mContext));
-    pooledNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    pooledNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    string pooledNodeFullName = "systems.vos.wisey.compiler.tests.NPooledNode";
-    StructType* pooledNodeStruct = StructType::create(mLLVMContext, pooledNodeFullName);
-    pooledNodeStruct->setBody(pooledNodeTypes);
-    vector<IField*> pooledNodeFields;
-    pooledNodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mWidth", 0));
-    pooledNodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mHeight", 0));
-    mPooledNode = Node::newPooledNode(AccessLevel::PUBLIC_ACCESS,
-                                      pooledNodeFullName,
-                                      pooledNodeStruct,
-                                      mContext.getImportProfile(),
-                                      3);
-    mPooledNode->setFields(mContext, pooledNodeFields, 2u);
+    vector<Type*> nodeTypes;
+    nodeTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                        ->getPointerTo()->getPointerTo());
+    nodeTypes.push_back(cMemoryPool->getLLVMType(mContext));
+    nodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    nodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    string nodeFullName = "systems.vos.wisey.compiler.tests.NNode";
+    StructType* nodeStruct = StructType::create(mLLVMContext, nodeFullName);
+    nodeStruct->setBody(nodeTypes);
+    vector<IField*> nodeFields;
+    nodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mWidth", 0));
+    nodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mHeight", 0));
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                          nodeFullName,
+                          nodeStruct,
+                          mContext.getImportProfile(),
+                          3);
+    mNode->setFields(mContext, nodeFields, 2u);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
@@ -528,20 +528,20 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(IConcreteObjectTypeTest, composeDestructorBodyPooledObjectTest) {
+TEST_F(IConcreteObjectTypeTest, composeDestructorBodyNodeObjectTest) {
   mContext.getScopes().popScope(mContext, 0);
   mContext.getScopes().pushScope();
   
-  IConcreteObjectType::declareTypeNameGlobal(mContext, mPooledNode);
-  IConcreteObjectType::defineVTable(mContext, mPooledNode);
-  IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mPooledNode);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mNode);
+  IConcreteObjectType::defineVTable(mContext, mNode);
+  IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mNode);
   mContext.runComposingCallbacks();
   
-  Function* function = mContext.getModule()->getFunction(mPooledNode->getTypeName() + ".destructor");
+  Function* function = mContext.getModule()->getFunction(mNode->getTypeName() + ".destructor");
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.NPooledNode.destructor(i8* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @systems.vos.wisey.compiler.tests.NNode.destructor(i8* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
   "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
@@ -550,52 +550,61 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyPooledObjectTest) {
   "\n  ret void"
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
-  "\n  %1 = bitcast i8* %this to %systems.vos.wisey.compiler.tests.NPooledNode*"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NPooledNode* %1 to i64*"
+  "\n  %1 = bitcast i8* %this to %systems.vos.wisey.compiler.tests.NNode*"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i64*"
   "\n  %3 = getelementptr i64, i64* %2, i64 -1"
   "\n  %refCounter = load i64, i64* %3"
   "\n  %4 = icmp eq i64 %refCounter, 0"
   "\n  br i1 %4, label %ref.count.zero, label %ref.count.notzero"
   "\n"
   "\nref.count.zero:                                   ; preds = %if.this.notnull"
-  "\n  %5 = getelementptr %systems.vos.wisey.compiler.tests.NPooledNode, %systems.vos.wisey.compiler.tests.NPooledNode* %1, i32 0, i32 1"
+  "\n  %5 = getelementptr %systems.vos.wisey.compiler.tests.NNode, %systems.vos.wisey.compiler.tests.NNode* %1, i32 0, i32 1"
   "\n  %6 = load %wisey.lang.CMemoryPool*, %wisey.lang.CMemoryPool** %5"
-  "\n  %7 = bitcast %wisey.lang.CMemoryPool* %6 to %CMemoryPool*"
-  "\n  %8 = getelementptr %CMemoryPool, %CMemoryPool* %7, i32 0, i32 1"
-  "\n  %9 = load i64, i64* %8"
-  "\n  %10 = sub i64 %9, 1"
-  "\n  store i64 %10, i64* %8"
-  "\n  %11 = icmp eq i64 %10, 0"
-  "\n  br i1 %11, label %pool.count.zero, label %pool.count.notzero"
+  "\n  %7 = icmp eq %wisey.lang.CMemoryPool* %6, null"
+  "\n  br i1 %7, label %pool.is.null, label %pool.is.notnull"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([45 x i8], [45 x i8]* @systems.vos.wisey.compiler.tests.NPooledNode.typename, i32 0, i32 0), i8* %exception)"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([39 x i8], [39 x i8]* @systems.vos.wisey.compiler.tests.NNode.typename, i32 0, i32 0), i8* %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
-  "\n  %12 = landingpad { i8*, i32 }"
+  "\n  %8 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %13 = alloca { i8*, i32 }"
+  "\n  %9 = alloca { i8*, i32 }"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %12, { i8*, i32 }* %13"
-  "\n  %14 = getelementptr { i8*, i32 }, { i8*, i32 }* %13, i32 0, i32 0"
-  "\n  %15 = load i8*, i8** %14"
-  "\n  %16 = call i8* @__cxa_get_exception_ptr(i8* %15)"
-  "\n  %17 = getelementptr i8, i8* %16, i64 8"
-  "\n  resume { i8*, i32 } %12"
+  "\n  store { i8*, i32 } %8, { i8*, i32 }* %9"
+  "\n  %10 = getelementptr { i8*, i32 }, { i8*, i32 }* %9, i32 0, i32 0"
+  "\n  %11 = load i8*, i8** %10"
+  "\n  %12 = call i8* @__cxa_get_exception_ptr(i8* %11)"
+  "\n  %13 = getelementptr i8, i8* %12, i64 8"
+  "\n  resume { i8*, i32 } %8"
   "\n"
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
   "\n  unreachable"
   "\n"
-  "\npool.count.zero:                                  ; preds = %ref.count.zero"
-  "\n  %18 = getelementptr %CMemoryPool, %CMemoryPool* %7, i32 0, i32 2"
-  "\n  %19 = load i8*, i8** %18"
-  "\n  call void @mem_pool_clear(i8* %19)"
+  "\npool.is.null:                                     ; preds = %ref.count.zero"
+  "\n  %14 = getelementptr i8, i8* %this, i64 -8"
+  "\n  tail call void @free(i8* %14)"
+  "\n  ret void"
+  "\n"
+  "\npool.is.notnull:                                  ; preds = %ref.count.zero"
+  "\n  %15 = bitcast %wisey.lang.CMemoryPool* %6 to %CMemoryPool*"
+  "\n  %16 = getelementptr %CMemoryPool, %CMemoryPool* %15, i32 0, i32 1"
+  "\n  %17 = load i64, i64* %16"
+  "\n  %18 = sub i64 %17, 1"
+  "\n  store i64 %18, i64* %16"
+  "\n  %19 = icmp eq i64 %18, 0"
+  "\n  br i1 %19, label %pool.count.zero, label %pool.count.notzero"
+  "\n"
+  "\npool.count.zero:                                  ; preds = %pool.is.notnull"
+  "\n  %20 = getelementptr %CMemoryPool, %CMemoryPool* %15, i32 0, i32 2"
+  "\n  %21 = load i8*, i8** %20"
+  "\n  call void @mem_pool_clear(i8* %21)"
   "\n  br label %pool.count.notzero"
   "\n"
-  "\npool.count.notzero:                               ; preds = %pool.count.zero, %ref.count.zero"
+  "\npool.count.notzero:                               ; preds = %pool.count.zero, %pool.is.notnull"
   "\n  ret void"
   "\n}\n";
 
