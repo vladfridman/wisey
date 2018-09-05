@@ -87,10 +87,10 @@ TEST_F(ReceivedFieldTest, fieldCreationTest) {
 }
 
 TEST_F(ReceivedFieldTest, isAssignableTest) {
-  ON_CALL(*mObject, isController()).WillByDefault(Return(true));
+  ON_CALL(*mObject, isModel()).WillByDefault(Return(false));
   EXPECT_TRUE(mField->isAssignable(mObject));
 
-  ON_CALL(*mObject, isController()).WillByDefault(Return(false));
+  ON_CALL(*mObject, isModel()).WillByDefault(Return(true));
   EXPECT_FALSE(mField->isAssignable(mObject));
 }
 
@@ -170,11 +170,4 @@ TEST_F(ReceivedFieldTest, fieldPrintToStreamTest) {
 
 TEST_F(TestFileRunner, modelImmutableArrayReferenceFieldRunTest) {
   runFile("tests/samples/test_model_immutable_array_reference_field.yz", 5);
-}
-
-TEST_F(TestFileRunner, nodeWithRecievedFieldSetterDeathRunTest) {
-  expectFailCompile("tests/samples/test_node_with_received_field_setter.yz",
-                    1,
-                    "tests/samples/test_node_with_received_field_setter.yz\\(9\\): "
-                    "Error: Can not assign to received field mYear");
 }

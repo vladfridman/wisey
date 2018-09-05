@@ -2,8 +2,8 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
-node NElement {
-  receive immutable int[]* mArray;
+model MElement {
+  immutable int[]* mArray;
 
   public immutable int[]* capture() {
     return mArray;
@@ -13,7 +13,7 @@ node NElement {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NElement* element = build(NElement).withArray(new int[5]).onHeap();
+    MElement* element = build(MElement).withArray(new int[5]).onHeap();
     element.capture();
     return 1;
   }

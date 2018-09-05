@@ -327,5 +327,5 @@ TEST_F(TestFileRunner, modelReturnsArrayOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_model_returns_array_owner.yz",
                     1,
                     "tests/samples/test_model_returns_array_owner.yz\\(9\\): Error: "
-                    "Setting an unassignable owner field 'mArray' of object systems.vos.wisey.compiler.tests.NElement to null possibly by returning its value");
+                    "Setting an unassignable owner field 'mArray' of object systems.vos.wisey.compiler.tests.MElement to null possibly by returning its value");
 }

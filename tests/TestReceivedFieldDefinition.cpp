@@ -81,10 +81,10 @@ TEST_F(ReceivedFieldDefinitionTest, declareTest) {
 TEST_F(ReceivedFieldDefinitionTest, isAssignableTest) {
   IField* field = mFieldDeclaration->define(mContext, mObject);
 
-  ON_CALL(*mObject, isController()).WillByDefault(Return(true));
+  ON_CALL(*mObject, isModel()).WillByDefault(Return(false));
   EXPECT_TRUE(field->isAssignable(mObject));
 
-  ON_CALL(*mObject, isController()).WillByDefault(Return(false));
+  ON_CALL(*mObject, isModel()).WillByDefault(Return(true));
   EXPECT_FALSE(field->isAssignable(mObject));
 }
 

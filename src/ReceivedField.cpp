@@ -55,7 +55,7 @@ int ReceivedField::getLine() const {
 }
 
 bool ReceivedField::isAssignable(const IConcreteObjectType* object) const {
-  return object->isController();
+  return !object->isModel();
 }
 
 bool ReceivedField::isConstant() const {
