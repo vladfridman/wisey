@@ -1,9 +1,9 @@
 package wisey.lang;
 
 /**
- * String controller allows one to work with a modifiable string
+ * String node allows one to work with a modifiable string
  */
-controller CString {
+node NString {
 
   public constant long DEFAULT_INITIAL_CAPACITY = 64l;
 
@@ -12,67 +12,75 @@ controller CString {
   receive long mLength;
 
   /**
-   * Creates an empty modifiable CString
+   * Creates an empty modifiable NString
    */
-  public static CString* create() {
-    return inject(CString)
+  public static NString* create() {
+    return build(NString)
       .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
       .withCapacity(DEFAULT_INITIAL_CAPACITY)
       .withLength(0)
       .onHeap();
   }
 
-  /**
-   * Creates a modifiable CString from a string literal
-   */
-  public static CString* createFromString(string input) {
-    return copyMemoryAndInject(input, input.getLength());
+  public static NString* createOnPool(CMemoryPool pool) {
+    return build(NString)
+      .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
+      .withCapacity(DEFAULT_INITIAL_CAPACITY)
+      .withLength(0)
+      .onPool(pool);
   }
 
   /**
-   * Creates a modifiable CString from an MString model
+   * Creates a modifiable NString from a string literal
    */
-  public static CString* createFromModel(MString input) {
-    return copyMemoryAndInject(input.getContent(), input.getLength());
+  public static NString* createFromString(string input) {
+    return copyMemoryAndBuild(input, input.getLength());
   }
 
   /**
-   * Creates a CString from a null terminated char array
+   * Creates a modifiable NString from an MString model
    */
-  public static CString* createFromCharArray(char[] input) {
+  public static NString* createFromModel(MString input) {
+    return copyMemoryAndBuild(input.getContent(), input.getLength());
+  }
+
+  /**
+   * Creates a NString from a null terminated char array
+   */
+  public static NString* createFromCharArray(char[] input) {
     if (input.getSize() == 0) {
-      return copyMemoryAndInject(input, 0);
+      return copyMemoryAndBuild(input, 0);
     }
     long length = input[input.getSize() - 1] == '\0' 
       ? (long) ::llvm::function::strlen(input)
       : input.getSize();
-    return copyMemoryAndInject(input, length);
+    return copyMemoryAndBuild(input, length);
   }
 
   /**
-   * Creates a CString from a null terminated immutable char array
+   * Creates a NString from a null terminated immutable char array
    */
-  public static CString* createFromImmutableCharArray(immutable char[] input) {
+  public static NString* createFromImmutableCharArray(immutable char[] input) {
     if (input.getSize() == 0) {
-      return copyMemoryAndInject(input, 0);
+      return copyMemoryAndBuild(input, 0);
     }
     long length = input[input.getSize() - 1] == '\0' 
       ? (long) ::llvm::function::strlen(input)
       : input.getSize();
-    return copyMemoryAndInject(input, length);
+    return copyMemoryAndBuild(input, length);
   }
 
   /**
    * Get a string representation of a boolean
    */
-  public static CString* createFromBoolean(boolean input) {
+  public static NString* createFromBoolean(boolean input) {
     return input ? createFromString("true") : createFromString("false");
   }
 
   /**
    * Get a string representation of an int
    */
-  public static CString* createFromInt(int input) {
+  public static NString* createFromInt(int input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%d", input);
     return createFromCharArray(buffer);
@@ -81,7 +89,7 @@ controller CString {
   /**
    * Get a string representation of a long
    */
-  public static CString* createFromLong(long input) {
+  public static NString* createFromLong(long input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%d", input);
     return createFromCharArray(buffer);
@@ -90,7 +98,7 @@ controller CString {
   /**
    * Get a string representation of a char
    */
-  public static CString* createFromChar(char input) {
+  public static NString* createFromChar(char input) {
     char[]* buffer = new char[2];
     ::llvm::function::sprintf(buffer, "%c", input);
     return createFromCharArray(buffer);
@@ -99,7 +107,7 @@ controller CString {
   /**
    * Get a string representation of a float
    */
-  public static CString* createFromFloat(float input) {
+  public static NString* createFromFloat(float input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%f", (double) input);
     return createFromCharArray(buffer);
@@ -108,14 +116,14 @@ controller CString {
   /**
    * Get a string representation of a double
    */
-  public static CString* createFromDouble(double input) {
+  public static NString* createFromDouble(double input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%e", input);
     return createFromCharArray(buffer);
   }
 
   /**
-   * Tries to convert the CString to boolean
+   * Tries to convert the NString to boolean
    */
   public boolean toBoolean() {
     if (!compareToString("true") || !compareToString("1")) {
@@ -129,7 +137,7 @@ controller CString {
   }
 
   /**
-   * Tries to convert the CString to char
+   * Tries to convert the NString to char
    */
   public char toChar() {
     char value;
@@ -142,7 +150,7 @@ controller CString {
   }
 
   /**
-   * Tries to convert the CString to int
+   * Tries to convert the NString to int
    */
   public int toInt() {
     int value;
@@ -155,7 +163,7 @@ controller CString {
   }
 
   /**
-   * Tries to convert the CString to long
+   * Tries to convert the NString to long
    */
   public long toLong() {
     long value;
@@ -168,7 +176,7 @@ controller CString {
   }
 
   /**
-   * Tries to convert the CString to float
+   * Tries to convert the NString to float
    */
   public float toFloat() {
     float value;
@@ -181,7 +189,7 @@ controller CString {
   }
 
   /**
-   * Tries to convert the CString to double
+   * Tries to convert the NString to double
    */
   public double toDouble() {
     float value;
@@ -212,10 +220,10 @@ controller CString {
   /**
    * Creates a copy of the string
    */
-  public CString* copy() {
+  public NString* copy() {
     char[]* buffer = new char[mCapacity];
     MSystem.copyMemory(buffer, mBuffer, mCapacity);
-    return inject(CString)
+    return build(NString)
       .withBuffer(buffer)
       .withCapacity(mCapacity)
       .withLength(mLength)
@@ -225,28 +233,28 @@ controller CString {
   /**
    * Tries to fit the new string into existing buffer, creates a new buffer if needed
    */
-  public CString appendString(string appendix) {
+  public NString appendString(string appendix) {
     return append(appendix, appendix.getLength());
   }
 
   /**
-   * Appends another CString to this string
+   * Appends another NString to this string
    */
-  public CString appendCString(CString appendix) {
+  public NString appendNString(NString appendix) {
     return append(appendix.getContent(), appendix.getLength());
   }
 
   /**
    * Appends another MString to this string
    */
-  public CString appendMString(MString appendix) {
+  public NString appendMString(MString appendix) {
     return append(appendix.getContent(), appendix.getLength());
   }
 
   /**
    * Appends a character array to the string
    */
-  public CString appendCharArray(char[] appendix) {
+  public NString appendCharArray(char[] appendix) {
     if (appendix.getSize() == 0) {
       return this;
     }
@@ -259,7 +267,7 @@ controller CString {
   /**
    * Appends a immutable character array to the string
    */
-  public CString appendImmutableCharArray(immutable char[] appendix) {
+  public NString appendImmutableCharArray(immutable char[] appendix) {
     if (appendix.getSize() == 0) {
       return this;
     }
@@ -298,9 +306,9 @@ controller CString {
   }
 
   /**
-   * Compares the string to the given input CString and returns 0 if they are equal
+   * Compares the string to the given input NString and returns 0 if they are equal
    */
-  public int compareToCString(CString input) {
+  public int compareToNString(NString input) {
     return ::llvm::function::strcmp(mBuffer, input.getContent());
   }
 
@@ -339,18 +347,18 @@ controller CString {
     return (long) (((float) (size + 1)) * 1.5);
   }
 
-  private static CString* copyMemoryAndInject(::llvm::i8::pointer source, long length) {
+  private static NString* copyMemoryAndBuild(::llvm::i8::pointer source, long length) {
     long capacity = estimateCapacity(length);
     char[]* buffer = new char[capacity];
     MSystem.copyMemory(buffer, source, length);
-    return inject(CString)
+    return build(NString)
       .withBuffer(buffer)
       .withCapacity(capacity)
       .withLength(length)
       .onHeap();
   }
 
-  private CString append(::llvm::i8::pointer source, long sourceLength) {
+  private NString append(::llvm::i8::pointer source, long sourceLength) {
     long length = mLength + sourceLength;
     if (length <= mCapacity) {
        ::llvm::i8::pointer destination = mBuffer;     

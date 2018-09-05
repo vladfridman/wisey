@@ -1,22 +1,22 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.CString;
+import wisey.lang.NString;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CString* cstring = CString.createFromString("123");
-    printout("Before cstring: " + cstring + " capacity: " + cstring.getCapacity() + "\n");
+    NString* nstring = NString.createFromString("123");
+    printout("Before nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
     char[]* array = new char[5];
     array[0] = '4';
     array[1] = '5';
     array[2] = '6';
     array[3] = '7';
     array[4] = '\0';
-    cstring.appendCharArray(array);
-    printout("After cstring: " + cstring + " capacity: " + cstring.getCapacity() + "\n");
-    return (int) cstring.getLength();
+    nstring.appendCharArray(array);
+    printout("After nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
+    return (int) nstring.getLength();
   }
 }
 

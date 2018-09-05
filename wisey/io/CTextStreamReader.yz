@@ -1,6 +1,6 @@
 package wisey.io;
 
-import wisey.lang.CString;
+import wisey.lang.NString;
 
 /**
  * Reads lines from a text stream
@@ -14,7 +14,7 @@ controller CTextStreamReader {
   /**
    * Create an instance of the CTextStreamReader to read the given file
    */
-  public static CTextStreamReader* open(CString fileName) throws MFileCouldNotOpenException {
+  public static CTextStreamReader* open(NString fileName) throws MFileCouldNotOpenException {
     ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent(), "r");
     if (stream == null) {
       throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap();
@@ -34,13 +34,13 @@ controller CTextStreamReader {
    * 
    * New line character will not be part of the returned string
    */
-  public CString* readLine() throws MStreamClosedException {
+  public NString* readLine() throws MStreamClosedException {
     if (mStream == null) {
       throw build(MStreamClosedException).onHeap();
     }
 
     char[]* buffer = new char[BUFFER_SIZE];
-    CString* line = CString.create();
+    NString* line = NString.create();
     ::llvm::i8::pointer result = null;
     long length = 0;
     long bufferSize = buffer.getSize();

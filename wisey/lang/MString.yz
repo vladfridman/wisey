@@ -41,10 +41,10 @@ model MString {
   }
 
   /**
-   * Creates CString equivalent
+   * Creates NString equivalent
    */
-  public CString* toController() {
-    return CString.createFromImmutableCharArray(mContent);
+  public NString* toNode() {
+    return NString.createFromImmutableCharArray(mContent);
   }
 
   /**

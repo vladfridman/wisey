@@ -180,7 +180,7 @@ external model wisey.lang.MString {
     char[] input);
   static wisey.lang.MString* createFromImmutableCharArray(
     immutable char[] input);
-  wisey.lang.CString* toController();
+  wisey.lang.NString* toNode();
   long getLength();
   wisey.lang.MString* copy();
   immutable char[] getContent();
@@ -359,7 +359,7 @@ external controller wisey.io.CBinaryStreamWriter {
   receive ::llvm::struct::__sFILE::pointer mStream;
 
   static wisey.io.CBinaryStreamWriter* open(
-    wisey.lang.CString fileName) throws wisey.io.MFileCouldNotOpenException;
+    wisey.lang.NString fileName) throws wisey.io.MFileCouldNotOpenException;
   static wisey.io.CBinaryStreamWriter* openSystemOut();
   static wisey.io.CBinaryStreamWriter* openSystemErr();
   void write(
@@ -376,9 +376,9 @@ external controller wisey.io.CTextStreamReader {
   receive ::llvm::struct::__sFILE::pointer mStream;
 
   static wisey.io.CTextStreamReader* open(
-    wisey.lang.CString fileName) throws wisey.io.MFileCouldNotOpenException;
+    wisey.lang.NString fileName) throws wisey.io.MFileCouldNotOpenException;
   static wisey.io.CTextStreamReader* openSystemIn();
-  wisey.lang.CString* readLine() throws wisey.io.MStreamClosedException;
+  wisey.lang.NString* readLine() throws wisey.io.MStreamClosedException;
   void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
 }
 
@@ -387,7 +387,7 @@ external controller wisey.io.CTextStreamWriter {
   receive ::llvm::struct::__sFILE::pointer mStream;
 
   static wisey.io.CTextStreamWriter* open(
-    wisey.lang.CString fileName) throws wisey.io.MFileCouldNotOpenException;
+    wisey.lang.NString fileName) throws wisey.io.MFileCouldNotOpenException;
   static wisey.io.CTextStreamWriter* openSystemOut();
   static wisey.io.CTextStreamWriter* openSystemErr();
   void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
@@ -395,72 +395,6 @@ external controller wisey.io.CTextStreamWriter {
 }
 
 external controller wisey.lang.CMemoryPool {
-}
-
-external controller wisey.lang.CString {
-
-  constant long DEFAULT_INITIAL_CAPACITY = 64l;
-
-  receive char[]* mBuffer;
-  receive long mCapacity;
-  receive long mLength;
-
-  static wisey.lang.CString* create();
-  static wisey.lang.CString* createFromString(
-    string input);
-  static wisey.lang.CString* createFromModel(
-    wisey.lang.MString input);
-  static wisey.lang.CString* createFromCharArray(
-    char[] input);
-  static wisey.lang.CString* createFromImmutableCharArray(
-    immutable char[] input);
-  static wisey.lang.CString* createFromBoolean(
-    boolean input);
-  static wisey.lang.CString* createFromInt(
-    int input);
-  static wisey.lang.CString* createFromLong(
-    long input);
-  static wisey.lang.CString* createFromChar(
-    char input);
-  static wisey.lang.CString* createFromFloat(
-    float input);
-  static wisey.lang.CString* createFromDouble(
-    double input);
-  boolean toBoolean();
-  char toChar();
-  int toInt();
-  long toLong();
-  float toFloat();
-  double toDouble();
-  wisey.lang.MString* toModel();
-  long getLength();
-  wisey.lang.CString* copy();
-  wisey.lang.CString appendString(
-    string appendix);
-  wisey.lang.CString appendCString(
-    wisey.lang.CString appendix);
-  wisey.lang.CString appendMString(
-    wisey.lang.MString appendix);
-  wisey.lang.CString appendCharArray(
-    char[] appendix);
-  wisey.lang.CString appendImmutableCharArray(
-    immutable char[] appendix);
-  char[] getContent();
-  long getCapacity();
-  int compareToString(
-    string input);
-  int compareToMString(
-    wisey.lang.MString input);
-  int compareToCString(
-    wisey.lang.CString input);
-  int compareToImmutableCharArray(
-    immutable char[] input);
-  int compareToCharArray(
-    char[] input);
-  boolean startsWith(
-    string start);
-  char charAt(
-    long i);
 }
 
 external controller wisey.threads.CCallStack {
@@ -610,6 +544,74 @@ external controller wisey.threads.CWorkerThreadRunner
 }
 
 /* Nodes */
+
+external node wisey.lang.NString {
+
+  constant long DEFAULT_INITIAL_CAPACITY = 64l;
+
+  receive char[]* mBuffer;
+  receive long mCapacity;
+  receive long mLength;
+
+  static wisey.lang.NString* create();
+  static wisey.lang.NString* createOnPool(
+    wisey.lang.CMemoryPool pool);
+  static wisey.lang.NString* createFromString(
+    string input);
+  static wisey.lang.NString* createFromModel(
+    wisey.lang.MString input);
+  static wisey.lang.NString* createFromCharArray(
+    char[] input);
+  static wisey.lang.NString* createFromImmutableCharArray(
+    immutable char[] input);
+  static wisey.lang.NString* createFromBoolean(
+    boolean input);
+  static wisey.lang.NString* createFromInt(
+    int input);
+  static wisey.lang.NString* createFromLong(
+    long input);
+  static wisey.lang.NString* createFromChar(
+    char input);
+  static wisey.lang.NString* createFromFloat(
+    float input);
+  static wisey.lang.NString* createFromDouble(
+    double input);
+  boolean toBoolean();
+  char toChar();
+  int toInt();
+  long toLong();
+  float toFloat();
+  double toDouble();
+  wisey.lang.MString* toModel();
+  long getLength();
+  wisey.lang.NString* copy();
+  wisey.lang.NString appendString(
+    string appendix);
+  wisey.lang.NString appendNString(
+    wisey.lang.NString appendix);
+  wisey.lang.NString appendMString(
+    wisey.lang.MString appendix);
+  wisey.lang.NString appendCharArray(
+    char[] appendix);
+  wisey.lang.NString appendImmutableCharArray(
+    immutable char[] appendix);
+  char[] getContent();
+  long getCapacity();
+  int compareToString(
+    string input);
+  int compareToMString(
+    wisey.lang.MString input);
+  int compareToNString(
+    wisey.lang.NString input);
+  int compareToImmutableCharArray(
+    immutable char[] input);
+  int compareToCharArray(
+    char[] input);
+  boolean startsWith(
+    string start);
+  char charAt(
+    long i);
+}
 
 /* Bindings */
 

@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.CString;
+import wisey.lang.NString;
 import wisey.lang.IProgram;
 import wisey.lang.MString;
 

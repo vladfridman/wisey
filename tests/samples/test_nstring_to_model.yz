@@ -1,15 +1,15 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.CString;
+import wisey.lang.NString;
 import wisey.lang.IProgram;
 import wisey.lang.MString;
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CString* cstring = CString.createFromString("123");
-    MString* mstring = cstring.toModel();
-    printout("before: " + cstring + " length: " + cstring.getLength() + " capacity: " + cstring.getCapacity() + "\n");
+    NString* nstring = NString.createFromString("123");
+    MString* mstring = nstring.toModel();
+    printout("before: " + nstring + " length: " + nstring.getLength() + " capacity: " + nstring.getCapacity() + "\n");
     printout("after: " + mstring + " length: " + mstring.getLength() + "\n");
     return (int) mstring.getLength();
   }

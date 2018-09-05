@@ -203,8 +203,8 @@ bool StringType::isStringVariation(IRGenerationContext& context, const IType* ty
   isCharArray(context, type, line) ||
   !type->getTypeName().compare("wisey.lang.MString") ||
   !type->getTypeName().compare("wisey.lang.MString*") ||
-  !type->getTypeName().compare("wisey.lang.CString") ||
-  !type->getTypeName().compare("wisey.lang.CString*");
+  !type->getTypeName().compare("wisey.lang.NString") ||
+  !type->getTypeName().compare("wisey.lang.NString*");
 }
 
 bool StringType::isCharArray(IRGenerationContext& context, const IType* type, int line) {

@@ -1,7 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.io.CTextStreamReader;
-import wisey.lang.CString;
+import wisey.lang.NString;
 import wisey.lang.IProgram;
 import wisey.lang.MString;
 
@@ -9,8 +9,8 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CTextStreamReader* stream = CTextStreamReader.open(
-      CString.createFromString("tests/samples/inputs/textfile.txt"));
-    CString* line = stream.readLine();
+      NString.createFromString("tests/samples/inputs/textfile.txt"));
+    NString* line = stream.readLine();
     while (line != null) {
       printout(line + "\n");
       line = stream.readLine();

@@ -1,6 +1,6 @@
 package wisey.io;
 
-import wisey.lang.CString;
+import wisey.lang.NString;
 
 /**
  * Writes array of bytes to a stream
@@ -12,7 +12,7 @@ controller CBinaryStreamWriter {
   /**
    * Create an instance of the CBinaryStreamWriter to write binary data to the the given file
    */
-  public static CBinaryStreamWriter* open(CString fileName) throws MFileCouldNotOpenException {
+  public static CBinaryStreamWriter* open(NString fileName) throws MFileCouldNotOpenException {
     ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent(), "wb");
     if (stream == null) {
       throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap();

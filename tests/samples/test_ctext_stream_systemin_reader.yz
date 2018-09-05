@@ -1,14 +1,14 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.io.CTextStreamReader;
-import wisey.lang.CString;
+import wisey.lang.NString;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CTextStreamReader* stream = CTextStreamReader.openSystemIn();
-    CString* line = stream.readLine();
+    NString* line = stream.readLine();
     while (line) {
       printout("line: " + line);
       line = stream.readLine();

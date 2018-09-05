@@ -4,10 +4,10 @@ import wisey.io.CTextStreamReader;
 import wisey.data.COwnerVector;
 import wisey.data.CLongToIntMap;
 import wisey.data.IObjectComparator;
-import wisey.lang.CString;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 import wisey.lang.MSystem;
+import wisey.lang.NString;
 import wisey.threads.IThread;
 import wisey.threads.IWorker;
 import wisey.threads.CThreadPool;
@@ -25,19 +25,14 @@ controller CProgram implements IProgram, IObjectComparator {
     int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
     CFragment*[]* fragments = createFragments(sequence, fragmentLengths);
 
-    CString stringBuilder = CString.create();
-
-    CFragment result = fragments[0];
-    long[]* keysArray = result.getMap().getKeys();
-    int[]* valuesArray = result.getMap().getValues();
-
-    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize(), fragments[0]));
-    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize() - 1.0, sumTwoMaps(fragments[1], fragments[2])));
+    NString stringBuilder = NString.create();
+    stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]));
+    stringBuilder.appendNString(writeFrequencies((float) sequence.getSize() - 1.0, sumTwoMaps(fragments[1], fragments[2])));
 
     string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
     for (int i = 0; i < nucleotideFragments.getSize(); i++) {
       string nucleotideFragment = nucleotideFragments[i];
-      stringBuilder.appendCString(writeCount(fragments, nucleotideFragment));
+      stringBuilder.appendNString(writeCount(fragments, nucleotideFragment));
     }
 
     printout(stringBuilder);
@@ -188,7 +183,7 @@ controller CProgram implements IProgram, IObjectComparator {
     return left.getValue() < right.getValue();
   }
 
-  private CString* writeFrequencies(float totalCount, CFragment frequencies) {
+  private NString* writeFrequencies(float totalCount, CFragment frequencies) {
     long[]* keysArray = frequencies.getMap().getKeys();
     int[]* valuesArray = frequencies.getMap().getValues();
     COwnerVector* vector = inject(COwnerVector).onHeap();
@@ -196,19 +191,19 @@ controller CProgram implements IProgram, IObjectComparator {
       vector.pushBack(build(NKeyValuePair).withKey(keysArray[i]).withValue(valuesArray[i]).onPool(mMemoryPool));
     }
     vector.sort(this);
-    CString* sb = CString.create();
+    NString* sb = NString.create();
     int keyLength = frequencies.getKeyLength();
     for (int i = 0; i < keysArray.getSize(); i++) {
-      sb.appendCString(keyToString(keysArray[i], keyLength));
+      sb.appendNString(keyToString(keysArray[i], keyLength));
       sb.appendString(" ");
-      sb.appendCString(CString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount));
+      sb.appendNString(NString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount));
       sb.appendString("\n");
     }
     sb.appendString("\n");
     return sb;
   }
 
-  private CString* writeCount(CFragment*[] fragments, string nucleotideFragment) {
+  private NString* writeCount(CFragment*[] fragments, string nucleotideFragment) {
     byte[]* key = toCodesFromString(nucleotideFragment);
     long k = getKey(key, 0, (int) nucleotideFragment.getLength());
     int count = 0;
@@ -221,21 +216,21 @@ controller CProgram implements IProgram, IObjectComparator {
       }
     }
 
-    CString* value = CString.createFromInt(count);
+    NString* value = NString.createFromInt(count);
     value.appendString("\t");
     value.appendString(nucleotideFragment);
     value.appendString("\n");
     return value;
   }
 
-  private static CString* keyToString(long keyParam, int length) {
+  private static NString* keyToString(long keyParam, int length) {
     long key = keyParam;
     char[]* res = new char[length];
     for (int i = 0; i < length; i++) {
       res[length - i - 1] = NUCLEOTIDES[(int) (key & 0x3)];
       key = key >> 2;
     }
-    return CString.createFromCharArray(res);
+    return NString.createFromCharArray(res);
   }
 
   private static byte[]* toCodes(byte[] sequence, long length) {
@@ -247,17 +242,17 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   private static byte[]* toCodesFromString(string input) {
-    CString* cstring = CString.createFromString(input);
-    char[] cstringContent = cstring.getContent();
-    byte[]* result = new byte[cstringContent.getSize() - 1];
-    for (int i = 0; i < cstringContent.getSize() - 1; i++) {
-      result[i] = CODES[(byte) cstringContent[i] & 0x7];
+    NString* nstring = NString.createFromString(input);
+    char[] nstringContent = nstring.getContent();
+    byte[]* result = new byte[nstringContent.getSize() - 1];
+    for (int i = 0; i < nstringContent.getSize() - 1; i++) {
+      result[i] = CODES[(byte) nstringContent[i] & 0x7];
     }
     return result;
   }
 
   private byte[]* read() {
-    CString* line;
+    NString* line;
     CTextStreamReader* stream = CTextStreamReader.openSystemIn();
     while ((line = stream.readLine()) != null) {
       if (line.startsWith(">THREE")) {

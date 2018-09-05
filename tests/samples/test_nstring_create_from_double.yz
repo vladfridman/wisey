@@ -1,13 +1,14 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.CString;
+import wisey.lang.NString;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CString* cstring = CString.createFromString("ABC");
-    return cstring.toInt();
+    NString* nstring = NString.createFromDouble(3.1415926d);
+    printout("Result: " + nstring + "\n");
+    return (int) nstring.getLength();
   }
 }
 
