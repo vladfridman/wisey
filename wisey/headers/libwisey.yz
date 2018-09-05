@@ -69,6 +69,8 @@ external model wisey.data.MLongToIntMap {
 
   int get(
     long key) throws wisey.data.MMapEntryDoesNotExistException;
+  boolean has(
+    long key) throws wisey.data.MMapEntryDoesNotExistException;
   long getSize();
   int[]* getValues();
   long[]* getKeys();

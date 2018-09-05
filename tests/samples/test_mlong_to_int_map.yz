@@ -20,6 +20,12 @@ controller CProgram implements IProgram {
     printout("Lookup " + 2l + ": " + map.get(2l) + "\n");
     printout("Lookup " + 3l + ": " + map.get(3l) + "\n");
 
+    if (map.has(1l)) {
+      printout("Element with index 1 present\n");
+    }
+    if (!map.has(5l)) {
+      printout("Element with index 5 is not present\n");
+    }
     if (mMap == null) {
       printout("mMap is null\n");
     } else {
