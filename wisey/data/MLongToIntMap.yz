@@ -1,0 +1,49 @@
+package wisey.data;
+
+/**
+ * Immutable map of ints keyed by longs
+ */
+model MLongToIntMap {
+
+  ::llvm::i8::pointer::immutable* mMap;
+
+  /**
+   * Looks up a reference to an object given by the key
+   */
+  public int get(long key) throws MMapEntryDoesNotExistException {
+    if (!::llvm::function::stl_long_to_int_map_has(mMap, key)) {
+      throw build(MMapEntryDoesNotExistException).onHeap();
+    }
+    return ::llvm::function::stl_long_to_int_map_get(mMap, key);
+  }
+
+  /**
+   * Returns map size
+   */
+  public long getSize() {
+    return ::llvm::function::stl_long_to_int_map_size(mMap);
+  }
+
+  /**
+   * Returns an array containing map values
+   */
+  public int[]* getValues() {
+    return ::llvm::function::stl_long_to_int_map_get_values_array(mMap);
+  }
+
+  /**
+   * Returns an array containing map keys
+   */
+  public long[]* getKeys() {
+    return ::llvm::function::stl_long_to_int_map_get_keys_array(mMap);
+  }
+
+  private ::llvm::function ::llvm::i8::pointer mapCreate() {
+    return ::llvm::function::stl_long_to_int_map_create();
+  }
+
+  private ::llvm::function ::llvm::void mapDestroy(::llvm::i8::pointer map) {
+    ::llvm::function::stl_long_to_int_map_clear(map);
+    ::llvm::function::stl_long_to_int_map_destroy(map);
+  }
+}

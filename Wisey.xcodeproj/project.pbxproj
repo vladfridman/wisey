@@ -1111,6 +1111,19 @@
 		F5F55E9E213AFA7100FF3A28 /* libLLVMARMUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */; };
 		F5F55E9F213AFAA400FF3A28 /* libLLVMBinaryFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */; };
 		F5F55EA0213AFAC800FF3A28 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */; };
+		F5F55EA32140041100FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EA22140041100FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.cpp */; };
+		F5F55EA42140041100FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EA22140041100FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.cpp */; };
+		F5F55EA72140059F00FF3A28 /* LLVMImmutablePointerOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EA62140059F00FF3A28 /* LLVMImmutablePointerOwnerType.cpp */; };
+		F5F55EA82140059F00FF3A28 /* LLVMImmutablePointerOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EA62140059F00FF3A28 /* LLVMImmutablePointerOwnerType.cpp */; };
+		F5F55EAB214018D600FF3A28 /* LLVMImmutablePointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EAA214018D600FF3A28 /* LLVMImmutablePointerType.cpp */; };
+		F5F55EAC214018D600FF3A28 /* LLVMImmutablePointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EAA214018D600FF3A28 /* LLVMImmutablePointerType.cpp */; };
+		F5F55EAF21401AD100FF3A28 /* LLVMImmutablePointerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EAE21401AD100FF3A28 /* LLVMImmutablePointerTypeSpecifier.cpp */; };
+		F5F55EB021401AD100FF3A28 /* LLVMImmutablePointerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EAE21401AD100FF3A28 /* LLVMImmutablePointerTypeSpecifier.cpp */; };
+		F5F55EB42140210500FF3A28 /* TestLLVMImmutablePointerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EB32140210500FF3A28 /* TestLLVMImmutablePointerTypeSpecifier.cpp */; };
+		F5F55EB62140219800FF3A28 /* TestLLVMImmutablePointerOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EB52140219800FF3A28 /* TestLLVMImmutablePointerOwnerTypeSpecifier.cpp */; };
+		F5F55EBC2140228800FF3A28 /* TestLLVMImmutablePointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EBB2140228800FF3A28 /* TestLLVMImmutablePointerType.cpp */; };
+		F5F55EBE2140235200FF3A28 /* TestLLVMImmutablePointerOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EBD2140235200FF3A28 /* TestLLVMImmutablePointerOwnerType.cpp */; };
+		F5F55EC0214037D200FF3A28 /* TestMLongToIntMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EBF214037D200FF3A28 /* TestMLongToIntMap.cpp */; };
 		F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */; };
 		F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */; };
 		F5F61AA0201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9F201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp */; };
@@ -2201,6 +2214,19 @@
 		F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMUtils.a; path = ../../../usr/local/lib/libLLVMARMUtils.a; sourceTree = "<group>"; };
 		F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBinaryFormat.a; path = ../../../usr/local/lib/libLLVMBinaryFormat.a; sourceTree = "<group>"; };
 		F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAggressiveInstCombine.a; path = ../../../usr/local/lib/libLLVMAggressiveInstCombine.a; sourceTree = "<group>"; };
+		F5F55EA1214003A700FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMImmutablePointerOwnerTypeSpecifier.hpp; path = include/wisey/LLVMImmutablePointerOwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5F55EA22140041100FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMImmutablePointerOwnerTypeSpecifier.cpp; path = src/LLVMImmutablePointerOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5F55EA52140051E00FF3A28 /* LLVMImmutablePointerOwnerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMImmutablePointerOwnerType.hpp; path = include/wisey/LLVMImmutablePointerOwnerType.hpp; sourceTree = "<group>"; };
+		F5F55EA62140059F00FF3A28 /* LLVMImmutablePointerOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMImmutablePointerOwnerType.cpp; path = src/LLVMImmutablePointerOwnerType.cpp; sourceTree = "<group>"; };
+		F5F55EA92140184B00FF3A28 /* LLVMImmutablePointerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMImmutablePointerType.hpp; path = include/wisey/LLVMImmutablePointerType.hpp; sourceTree = "<group>"; };
+		F5F55EAA214018D600FF3A28 /* LLVMImmutablePointerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMImmutablePointerType.cpp; path = src/LLVMImmutablePointerType.cpp; sourceTree = "<group>"; };
+		F5F55EAD21401A9200FF3A28 /* LLVMImmutablePointerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMImmutablePointerTypeSpecifier.hpp; path = include/wisey/LLVMImmutablePointerTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5F55EAE21401AD100FF3A28 /* LLVMImmutablePointerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMImmutablePointerTypeSpecifier.cpp; path = src/LLVMImmutablePointerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5F55EB32140210500FF3A28 /* TestLLVMImmutablePointerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMImmutablePointerTypeSpecifier.cpp; path = tests/TestLLVMImmutablePointerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5F55EB52140219800FF3A28 /* TestLLVMImmutablePointerOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMImmutablePointerOwnerTypeSpecifier.cpp; path = tests/TestLLVMImmutablePointerOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5F55EBB2140228800FF3A28 /* TestLLVMImmutablePointerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMImmutablePointerType.cpp; path = tests/TestLLVMImmutablePointerType.cpp; sourceTree = "<group>"; };
+		F5F55EBD2140235200FF3A28 /* TestLLVMImmutablePointerOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMImmutablePointerOwnerType.cpp; path = tests/TestLLVMImmutablePointerOwnerType.cpp; sourceTree = "<group>"; };
+		F5F55EBF214037D200FF3A28 /* TestMLongToIntMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMLongToIntMap.cpp; path = tests/TestMLongToIntMap.cpp; sourceTree = "<group>"; };
 		F5F61A9A201DDBE400EF9EB7 /* ArraySpecificType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificType.hpp; path = include/wisey/ArraySpecificType.hpp; sourceTree = "<group>"; };
 		F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArraySpecificType.cpp; path = src/ArraySpecificType.cpp; sourceTree = "<group>"; };
 		F5F61A9E201DDEBC00EF9EB7 /* ArraySpecificTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificTypeSpecifier.hpp; path = include/wisey/ArraySpecificTypeSpecifier.hpp; sourceTree = "<group>"; };
@@ -3537,6 +3563,10 @@
 				F54B146C205D6A910030773F /* LLVMi16Type.hpp */,
 				F54B1470205D6B5E0030773F /* LLVMi32Type.hpp */,
 				F54B1474205D6BCF0030773F /* LLVMi64Type.hpp */,
+				F5F55EA52140051E00FF3A28 /* LLVMImmutablePointerOwnerType.hpp */,
+				F5F55EA1214003A700FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.hpp */,
+				F5F55EA92140184B00FF3A28 /* LLVMImmutablePointerType.hpp */,
+				F5F55EAD21401A9200FF3A28 /* LLVMImmutablePointerTypeSpecifier.hpp */,
 				F5BF0C7F2080F47C005AF4E5 /* LLVMPointerOwnerType.hpp */,
 				F5BF0C832080F6A0005AF4E5 /* LLVMPointerOwnerTypeSpecifier.hpp */,
 				F582705B205FC9F700839EC7 /* LLVMPointerType.hpp */,
@@ -3581,6 +3611,10 @@
 				F54B146D205D6ACB0030773F /* LLVMi16Type.cpp */,
 				F54B1471205D6B8F0030773F /* LLVMi32Type.cpp */,
 				F54B1475205D6BFD0030773F /* LLVMi64Type.cpp */,
+				F5F55EA62140059F00FF3A28 /* LLVMImmutablePointerOwnerType.cpp */,
+				F5F55EA22140041100FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.cpp */,
+				F5F55EAA214018D600FF3A28 /* LLVMImmutablePointerType.cpp */,
+				F5F55EAE21401AD100FF3A28 /* LLVMImmutablePointerTypeSpecifier.cpp */,
 				F5BF0C802080F4F9005AF4E5 /* LLVMPointerOwnerType.cpp */,
 				F5BF0C842080F6E3005AF4E5 /* LLVMPointerOwnerTypeSpecifier.cpp */,
 				F582705C205FCA6C00839EC7 /* LLVMPointerType.cpp */,
@@ -3826,6 +3860,10 @@
 				F54B148C205EC7510030773F /* TestLLVMi16Type.cpp */,
 				F54B148E205EC79D0030773F /* TestLLVMi32Type.cpp */,
 				F54B1490205EC82B0030773F /* TestLLVMi64Type.cpp */,
+				F5F55EBD2140235200FF3A28 /* TestLLVMImmutablePointerOwnerType.cpp */,
+				F5F55EB52140219800FF3A28 /* TestLLVMImmutablePointerOwnerTypeSpecifier.cpp */,
+				F5F55EBB2140228800FF3A28 /* TestLLVMImmutablePointerType.cpp */,
+				F5F55EB32140210500FF3A28 /* TestLLVMImmutablePointerTypeSpecifier.cpp */,
 				F5BF0C8F2081028E005AF4E5 /* TestLLVMPointerOwnerType.cpp */,
 				F5BF0C8D208101E7005AF4E5 /* TestLLVMPointerOwnerTypeSpecifier.cpp */,
 				F582705F205FCF1200839EC7 /* TestLLVMPointerType.cpp */,
@@ -4237,6 +4275,7 @@
 				F5D1599820A498A900107E84 /* TestCString.cpp */,
 				F5D1599620A48E5E00107E84 /* TestCTextStreamReader.cpp */,
 				F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */,
+				F5F55EBF214037D200FF3A28 /* TestMLongToIntMap.cpp */,
 				F5D1599A20A498EC00107E84 /* TestMString.cpp */,
 				F534644E20AF1F35006369D4 /* TestMSystem.cpp */,
 			);
@@ -4504,6 +4543,7 @@
 				F50FA2EB1E2E3B1500435EEA /* IntConstant.cpp in Sources */,
 				F59692C2211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */,
 				F53A2C0D1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,
+				F5F55EA82140059F00FF3A28 /* LLVMImmutablePointerOwnerType.cpp in Sources */,
 				F5A67DAC20134C920018068F /* TestArrayElementAssignment.cpp in Sources */,
 				F531B65D1E0DEB26008304F3 /* TestCharConstant.cpp in Sources */,
 				F5A0DAF5207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp in Sources */,
@@ -4512,6 +4552,7 @@
 				F531B6571E0DE040008304F3 /* TestStringLiteral.cpp in Sources */,
 				F57411661E01BF18009809FF /* TestScope.cpp in Sources */,
 				F53A2C051EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */,
+				F5F55EAC214018D600FF3A28 /* LLVMImmutablePointerType.cpp in Sources */,
 				F51764CE1ECCEDAE000AFBA7 /* TestProgramFile.cpp in Sources */,
 				F54DC5C62073C43E00841E0F /* TestLLVMExternalStructDefinition.cpp in Sources */,
 				F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
@@ -4542,6 +4583,7 @@
 				F50D5E3E20B58DCB00A025E9 /* Optimizer.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
+				F5F55EBC2140228800FF3A28 /* TestLLVMImmutablePointerType.cpp in Sources */,
 				F5105FC31FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp in Sources */,
 				F5F396DC1E34BFE000F34296 /* BuilderArgument.cpp in Sources */,
 				F50427B51E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
@@ -4620,6 +4662,7 @@
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5F3F8DD1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp in Sources */,
 				F5C0E7CD2090ACB40028BBD0 /* IsObjectFunction.cpp in Sources */,
+				F5F55EC0214037D200FF3A28 /* TestMLongToIntMap.cpp in Sources */,
 				F54DC5C42073BB2500841E0F /* TestParameterLLVMVariable.cpp in Sources */,
 				F5105FAC1FD02F6900ACF57B /* ImportProfile.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
@@ -4635,6 +4678,7 @@
 				F51D2BBB1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
 				F556E65A1EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp in Sources */,
 				F5A3635A1F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp in Sources */,
+				F5F55EB021401AD100FF3A28 /* LLVMImmutablePointerTypeSpecifier.cpp in Sources */,
 				F5827051205FA27900839EC7 /* LLVMArrayType.cpp in Sources */,
 				F53B8EBC1ECE101A00F45564 /* ImportStatement.cpp in Sources */,
 				F596929B21177E2B00F19C4E /* IArithmeticExpression.cpp in Sources */,
@@ -4647,8 +4691,10 @@
 				F5D1599B20A498EC00107E84 /* TestMString.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F5C7D1601F7CFCD700D65584 /* ExternalMethod.cpp in Sources */,
+				F5F55EB62140219800FF3A28 /* TestLLVMImmutablePointerOwnerTypeSpecifier.cpp in Sources */,
 				F5CB7FEB2052CA62007628B5 /* TestReceivedField.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
+				F5F55EB42140210500FF3A28 /* TestLLVMImmutablePointerTypeSpecifier.cpp in Sources */,
 				F59692A42117BC1700F19C4E /* TestDivideExpression.cpp in Sources */,
 				F526D8AB1FEBB33A008103B9 /* TestArrayAllocation.cpp in Sources */,
 				F50FF883208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp in Sources */,
@@ -4728,6 +4774,7 @@
 				F54B1493205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp in Sources */,
 				F532506C202A27AA007D8597 /* TestArrayExactType.cpp in Sources */,
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
+				F5F55EBE2140235200FF3A28 /* TestLLVMImmutablePointerOwnerType.cpp in Sources */,
 				F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
 				F5D159A020A5F0E500107E84 /* TestCReferenceList.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
@@ -4926,6 +4973,7 @@
 				F523D519206C28AE0017D5B4 /* TestWiseyObjectOwnerTypeSpecifier.cpp in Sources */,
 				F5969290211647DD00F19C4E /* BitwiseOrExpression.cpp in Sources */,
 				F593629120C6D93100A8C67A /* TestStoreInReference.cpp in Sources */,
+				F5F55EA42140041100FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.cpp in Sources */,
 				F5D4660220611BEF00C1047A /* TestLLVMFunctionDefinition.cpp in Sources */,
 				F5D1599720A48E5E00107E84 /* TestCTextStreamReader.cpp in Sources */,
 				F51701BD2010649C00A10B7C /* ArrayOwnerType.cpp in Sources */,
@@ -5045,6 +5093,7 @@
 				F51701B1200FDE2C00A10B7C /* LocalArrayOwnerVariable.cpp in Sources */,
 				F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
+				F5F55EAB214018D600FF3A28 /* LLVMImmutablePointerType.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
 				F581A0132073B11700EA0156 /* LocalLLVMVariable.cpp in Sources */,
@@ -5061,6 +5110,7 @@
 				F556E6541EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
 				F57780AD1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F5F210CA20F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp in Sources */,
+				F5F55EAF21401AD100FF3A28 /* LLVMImmutablePointerTypeSpecifier.cpp in Sources */,
 				F5325065202A21D2007D8597 /* ArrayExactType.cpp in Sources */,
 				F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F582707D20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
@@ -5087,6 +5137,7 @@
 				F593629F20CC25C300A8C67A /* PoolBuilder.cpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
 				F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */,
+				F5F55EA72140059F00FF3A28 /* LLVMImmutablePointerOwnerType.cpp in Sources */,
 				F596930C213305E200F19C4E /* MultiplyByExpression.cpp in Sources */,
 				F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F523D509206BD1E70017D5B4 /* WiseyObjectOwnerTypeSpecifier.cpp in Sources */,
@@ -5168,6 +5219,7 @@
 				F5A0DAE8207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */,
 				F50FF85F208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp in Sources */,
 				F5170197200DCB5700A10B7C /* DestroyReferenceArrayFunction.cpp in Sources */,
+				F5F55EA32140041100FF3A28 /* LLVMImmutablePointerOwnerTypeSpecifier.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F59692A72117BF2500F19C4E /* ReminderExpression.cpp in Sources */,

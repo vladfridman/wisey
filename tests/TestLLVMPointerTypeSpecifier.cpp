@@ -35,6 +35,7 @@ TEST_F(LLVMPointerTypeSpecifierTest, getTypeTest) {
   EXPECT_TRUE(type->isNative());
   EXPECT_FALSE(type->isReference());
   EXPECT_TRUE(type->isPointer());
+  EXPECT_FALSE(type->isImmutable());
   EXPECT_STREQ("::llvm::i8::pointer", type->getTypeName().c_str());
 }
 

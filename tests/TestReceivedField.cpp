@@ -119,8 +119,8 @@ TEST_F(ReceivedFieldTest, checkTypePrimitiveTypeTest) {
   EXPECT_NO_THROW(mField->checkType(mContext));
 }
 
-TEST_F(ReceivedFieldTest, checkTypeModelTypeTest) {
-  ON_CALL(*mType, isModel()).WillByDefault(Return(true));
+TEST_F(ReceivedFieldTest, checkTypeImmutableTypeTest) {
+  ON_CALL(*mType, isImmutable()).WillByDefault(Return(true));
   
   EXPECT_NO_THROW(mField->checkType(mContext));
 }
@@ -144,7 +144,7 @@ TEST_F(ReceivedFieldTest, checkTypeNonImmutableTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mField->checkType(mContext));
-  EXPECT_STREQ("/tmp/source.yz(7): Error: Model receive fields can only be of primitive, model or array type\n",
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Model receive fields must be of primitive or immutable type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -156,7 +156,7 @@ TEST_F(ReceivedFieldTest, checkTypeNonImmutableArrayTypeDeathTest) {
   ON_CALL(*mType, isArray()).WillByDefault(Return(true));
   
   EXPECT_ANY_THROW(mField->checkType(mContext));
-  EXPECT_STREQ("/tmp/source.yz(7): Error: Model receive array fields can only be of immutable array type\n",
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Model receive fields must be of primitive or immutable type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

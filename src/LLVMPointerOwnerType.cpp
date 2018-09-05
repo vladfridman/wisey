@@ -14,6 +14,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunction.hpp"
+#include "wisey/LLVMImmutablePointerOwnerType.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LocalOwnerVariable.hpp"

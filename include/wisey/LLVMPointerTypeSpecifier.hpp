@@ -17,7 +17,7 @@ namespace wisey {
   class IRGenerationContext;
   
   /**
-   * Represents a llvm pointer type specifier such as ::llvm::i8*
+   * Represents a llvm pointer type specifier such as ::llvm::i8
    */
   class LLVMPointerTypeSpecifier : public ILLVMTypeSpecifier {
     

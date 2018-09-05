@@ -63,6 +63,17 @@ external interface wisey.threads.IWorker {
 
 /* Models */
 
+external model wisey.data.MLongToIntMap {
+
+  receive ::llvm::i8::pointer::immutable* mMap;
+
+  int get(
+    long key) throws wisey.data.MMapEntryDoesNotExistException;
+  long getSize();
+  int[]* getValues();
+  long[]* getKeys();
+}
+
 external model wisey.data.MMapEntryDoesNotExistException
   implements
     wisey.lang.IException {
@@ -263,6 +274,8 @@ external controller wisey.data.CLongToIntMap {
   long getSize();
   int[]* getValues();
   long[]* getKeys();
+  static wisey.data.MLongToIntMap* toModel(
+    wisey.data.CLongToIntMap* map);
 }
 
 external controller wisey.data.COwnerList {

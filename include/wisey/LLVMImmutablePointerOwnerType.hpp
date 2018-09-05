@@ -1,13 +1,13 @@
 //
-//  LLVMPointerOwnerType.hpp
+//  LLVMImmutablePointerOwnerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 4/13/18.
+//  Created by Vladimir Fridman on 9/5/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMPointerOwnerType_h
-#define LLVMPointerOwnerType_h
+#ifndef LLVMImmutablePointerOwnerType_h
+#define LLVMImmutablePointerOwnerType_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -15,20 +15,18 @@
 
 namespace wisey {
   
-  class LLVMImmutablePointerOwnerType;
-  
   /**
    * Represents an llvm pointer type that points to a native object that it owns
    */
-  class LLVMPointerOwnerType : public IOwnerType {
+  class LLVMImmutablePointerOwnerType : public IOwnerType {
     
-    const LLVMPointerType* mPointerType;
+    const LLVMImmutablePointerType* mImmutablePointerType;
     
   public:
     
-    LLVMPointerOwnerType(const LLVMPointerType* pointerType);
+    LLVMImmutablePointerOwnerType(const LLVMImmutablePointerType* immutablePointerType);
     
-    ~LLVMPointerOwnerType();
+    ~LLVMImmutablePointerOwnerType();
     
     std::string getTypeName() const override;
     
@@ -66,7 +64,7 @@ namespace wisey {
     bool isNative() const override;
     
     bool isPointer() const override;
-
+    
     bool isImmutable() const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
@@ -99,28 +97,8 @@ namespace wisey {
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
     
-  private:
-    
-    void checkInjectionArguments(IRGenerationContext& context,
-                                 const InjectionArgumentList injectionArgumentList,
-                                 int line) const;
-    
-    void checkConstructorType(IRGenerationContext& context,
-                              const IType* constructorType,
-                              int line) const;
-    
-    void checkDestructorType(IRGenerationContext& context,
-                             const IType* constructorType,
-                             int line) const;
-
-    InjectionArgument* getConstructorArgument(const InjectionArgumentList
-                                              injectionArgumentList) const;
-
-    InjectionArgument* getDestructorArgument(const InjectionArgumentList
-                                             injectionArgumentList) const;
-
   };
   
 } /* namespace wisey */
 
-#endif /* LLVMPointerOwnerType_h */
+#endif /* LLVMImmutablePointerOwnerType_h */

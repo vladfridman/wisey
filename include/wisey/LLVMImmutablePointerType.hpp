@@ -1,34 +1,45 @@
 //
-//  LLVMPointerOwnerType.hpp
+//  LLVMImmutablePointerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 4/13/18.
+//  Created by Vladimir Fridman on 9/5/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMPointerOwnerType_h
-#define LLVMPointerOwnerType_h
+#ifndef LLVMImmutablePointerType_h
+#define LLVMImmutablePointerType_h
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IOwnerType.hpp"
+#include "wisey/ILLVMType.hpp"
 
 namespace wisey {
   
   class LLVMImmutablePointerOwnerType;
   
   /**
-   * Represents an llvm pointer type that points to a native object that it owns
+   * Represents an immutable llvm pointer type
    */
-  class LLVMPointerOwnerType : public IOwnerType {
+  class LLVMImmutablePointerType : public ILLVMType {
     
-    const LLVMPointerType* mPointerType;
+    const LLVMPointerType* mBasePointerType;
+    const LLVMImmutablePointerOwnerType* mImmutablePointerOwnerType;
     
   public:
     
-    LLVMPointerOwnerType(const LLVMPointerType* pointerType);
+    LLVMImmutablePointerType(const LLVMPointerType* basePointerType);
     
-    ~LLVMPointerOwnerType();
+    ~LLVMImmutablePointerType();
+    
+    /**
+     * Returns corresponding pointer owner type
+     */
+    const LLVMImmutablePointerOwnerType* getOwner() const;
+    
+    /**
+     * Returns base type
+     */
+    const ILLVMType* getBaseType() const;
     
     std::string getTypeName() const override;
     
@@ -66,7 +77,7 @@ namespace wisey {
     bool isNative() const override;
     
     bool isPointer() const override;
-
+    
     bool isImmutable() const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
@@ -87,40 +98,14 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context, int line) const override;
     
-    const IReferenceType* getReference() const override;
-    
-    void free(IRGenerationContext& context,
-              llvm::Value* value,
-              llvm::Value* exception,
-              const LLVMFunction* customDestructor,
-              int line) const override;
+    const LLVMPointerType* getPointerType(IRGenerationContext& context, int line) const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
     
-  private:
-    
-    void checkInjectionArguments(IRGenerationContext& context,
-                                 const InjectionArgumentList injectionArgumentList,
-                                 int line) const;
-    
-    void checkConstructorType(IRGenerationContext& context,
-                              const IType* constructorType,
-                              int line) const;
-    
-    void checkDestructorType(IRGenerationContext& context,
-                             const IType* constructorType,
-                             int line) const;
-
-    InjectionArgument* getConstructorArgument(const InjectionArgumentList
-                                              injectionArgumentList) const;
-
-    InjectionArgument* getDestructorArgument(const InjectionArgumentList
-                                             injectionArgumentList) const;
-
   };
   
 } /* namespace wisey */
 
-#endif /* LLVMPointerOwnerType_h */
+#endif /* LLVMImmutablePointerType_h */

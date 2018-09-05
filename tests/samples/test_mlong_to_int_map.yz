@@ -1,0 +1,33 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.data.CLongToIntMap;
+import wisey.data.MLongToIntMap;
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+  inject immediate CLongToIntMap* mMap;
+
+  public int run(immutable string[] arguments) override {
+    mMap.put(1l, 2);
+    mMap.put(2l, 4);
+    mMap.put(3l, 6);
+
+    MLongToIntMap map = CLongToIntMap.toModel(mMap);
+
+    printout("Hashmap size: " + map.getSize() + "\n");
+
+    printout("Lookup " + 1l + ": " + map.get(1l) + "\n");
+    printout("Lookup " + 2l + ": " + map.get(2l) + "\n");
+    printout("Lookup " + 3l + ": " + map.get(3l) + "\n");
+
+    if (mMap == null) {
+      printout("mMap is null\n");
+    } else {
+      printout("mMap is not null\n");
+    }
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

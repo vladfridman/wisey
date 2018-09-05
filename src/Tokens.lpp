@@ -18,6 +18,7 @@
   #include "wisey/ImmutableArrayOwnerTypeSpecifier.hpp"
   #include "wisey/ImmutableArrayTypeSpecifier.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
+  #include "wisey/LLVMImmutablePointerOwnerTypeSpecifier.hpp"
   #include "wisey/LLVMPointerOwnerTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMVariableDeclaration.hpp"

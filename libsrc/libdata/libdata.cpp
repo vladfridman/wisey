@@ -109,7 +109,9 @@ extern "C" void* stl_long_to_int_map_create() {
 
 extern "C" void stl_long_to_int_map_destroy(void* map) {
   std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
-  delete mapCast;
+  if (mapCast != NULL) {
+    delete mapCast;
+  }
 }
 
 extern "C" void stl_long_to_int_map_erase(void* map, int64_t key) {
@@ -142,7 +144,9 @@ extern "C" int32_t stl_long_to_int_map_get(void* map, int64_t key) {
 
 extern "C" void stl_long_to_int_map_clear(void* map) {
   std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
-  mapCast->clear();
+  if (mapCast != NULL) {
+    mapCast->clear();
+  }
 }
 
 extern "C" int64_t stl_long_to_int_map_size(void* map) {
