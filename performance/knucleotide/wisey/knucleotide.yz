@@ -122,7 +122,10 @@ controller CProgram implements IProgram, IObjectComparator {
       CLongToIntMap map = inject(CProgram.CFragmentWorkerContext).onHeap().getMap();
       int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1;
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
-        long key = getKey(index, mFragmentLength);
+        long key = 0;
+        for (int i = index; i < index + mFragmentLength; i++) {
+          key = key * 4 + mSequence[i];
+        }
         map.addTo(key, 1);
       }
 
@@ -134,14 +137,6 @@ controller CProgram implements IProgram, IObjectComparator {
         .onHeap();
       map.clear();
       thread.send(result);
-    }
- 
-    private long getKey(int offset, int length) {
-      long key = 0;
-      for (int i = offset; i < offset + length; i++) {
-        key = key * 4 + mSequence[i];
-      }
-      return key;
     }
   }
 
@@ -245,7 +240,7 @@ controller CProgram implements IProgram, IObjectComparator {
 
   private byte[]* read() {
     NString* line = NString.create();
-    CTextStreamReader* stream = CTextStreamReader.openSystemIn();
+    CTextStreamReader* stream = CTextStreamReader.open(NString.createFromString("knucleotide-input25000000.txt"));
     while ((line = stream.readLineIntoNString(line)) != null) {
       if (line.startsWith(">THREE")) {
         break;
