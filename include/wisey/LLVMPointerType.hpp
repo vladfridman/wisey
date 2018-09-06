@@ -16,7 +16,6 @@
 namespace wisey {
   
   class LLVMPointerOwnerType;
-  class LLVMImmutablePointerType;
   
   /**
    * Represents an llvm pointer type
@@ -26,8 +25,7 @@ namespace wisey {
     const ILLVMType* mBaseType;
     const LLVMPointerType* mPointerType;
     const LLVMPointerOwnerType* mPointerOwnerType;
-    const LLVMImmutablePointerType* mImmutable;
-
+    
     LLVMPointerType(const ILLVMType* baseType, unsigned long degree);
 
   public:
@@ -47,11 +45,6 @@ namespace wisey {
      * Returns base type
      */
     const ILLVMType* getBaseType() const;
-    
-    /**
-     * Get immutable version of this pointer type
-     */
-    const LLVMImmutablePointerType* getImmutable() const;
     
     std::string getTypeName() const override;
     

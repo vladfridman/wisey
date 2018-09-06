@@ -12,7 +12,6 @@
 #include "wisey/FieldPointerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LLVMImmutablePointerType.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -30,21 +29,14 @@ LLVMPointerType::LLVMPointerType(const ILLVMType* baseType, unsigned long degree
   mBaseType = baseType;
   mPointerType = degree < LLVM_POINTER_MAX_DEGREE ? new LLVMPointerType(this, degree + 1u) : NULL;
   mPointerOwnerType = new LLVMPointerOwnerType(this);
-  mImmutable = new LLVMImmutablePointerType(this);
 }
 
 LLVMPointerType::~LLVMPointerType() {
   delete mPointerType;
-  delete mPointerOwnerType;
-  delete mImmutable;
 }
 
 const LLVMPointerOwnerType* LLVMPointerType::getOwner() const {
   return mPointerOwnerType;
-}
-
-const LLVMImmutablePointerType* LLVMPointerType::getImmutable() const {
-  return mImmutable;
 }
 
 const ILLVMType* LLVMPointerType::getBaseType() const {

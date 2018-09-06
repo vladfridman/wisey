@@ -38,7 +38,6 @@ TEST_F(LLVMPointerOwnerTypeSpecifierTest, getTypeTest) {
   EXPECT_FALSE(type->isReference());
   EXPECT_TRUE(type->isPointer());
   EXPECT_TRUE(type->isOwner());
-  EXPECT_FALSE(type->isImmutable());
   EXPECT_STREQ("::llvm::i8::pointer*", type->getTypeName().c_str());
   EXPECT_EQ(5, mLLVMPointerOwnerTypeSpecifier->getLine());
 }

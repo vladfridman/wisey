@@ -12,10 +12,9 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 namespace wisey {
-  
-  class LLVMImmutablePointerOwnerType;
   
   /**
    * Represents an llvm pointer type that points to a native object that it owns
