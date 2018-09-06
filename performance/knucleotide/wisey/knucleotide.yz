@@ -240,7 +240,7 @@ controller CProgram implements IProgram, IObjectComparator {
 
   private byte[]* read() {
     NString* line = NString.create();
-    CTextStreamReader* stream = CTextStreamReader.open(NString.createFromString("knucleotide-input25000000.txt"));
+    CTextStreamReader* stream = CTextStreamReader.openSystemIn();
     while ((line = stream.readLineIntoNString(line)) != null) {
       if (line.startsWith(">THREE")) {
         break;
