@@ -98,6 +98,11 @@ void PoolBuilder::printToStream(IRGenerationContext& context, std::iostream& str
 
 Value* PoolBuilder::allocate(IRGenerationContext& context,
                              const IBuildableObjectType* buildable) const {
+  if (buildable->isModel()) {
+    context.reportError(mLine, "Models can not be allocated on a memory pool");
+    throw 1;
+  }
+
   checkArguments(context, buildable, mBuilderArgumentList, mLine);
 
   const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);

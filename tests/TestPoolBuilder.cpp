@@ -310,3 +310,9 @@ TEST_F(TestFileRunner, nullPoolAllocateRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_null_pool_allocate.yz:12)\n"
                                "Main thread ended without a result\n");
 }
+
+TEST_F(TestFileRunner, pooledModelRunDeathTest) {
+  expectFailCompile("tests/samples/test_pooled_model.yz",
+                    1,
+                    "tests/samples/test_pooled_model.yz\\(19\\): Error: Models can not be allocated on a memory pool");
+}
