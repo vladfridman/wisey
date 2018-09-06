@@ -1042,7 +1042,6 @@
 		F5D159A420A7020D00107E84 /* TestCOwnerList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */; };
 		F5D159A820A7133500107E84 /* TestCContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A720A7133500107E84 /* TestCContextManager.cpp */; };
 		F5D159AA20A7258100107E84 /* TestCWorkerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */; };
-		F5D159AC20A7261500107E84 /* TestCProducerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */; };
 		F5D159AF20A7878D00107E84 /* GetTypeNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AE20A7878D00107E84 /* GetTypeNameMethod.cpp */; };
 		F5D159B020A7878D00107E84 /* GetTypeNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AE20A7878D00107E84 /* GetTypeNameMethod.cpp */; };
 		F5D159B220A792F600107E84 /* TestGetTypeNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159B120A792F600107E84 /* TestGetTypeNameMethod.cpp */; };
@@ -2133,7 +2132,6 @@
 		F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerList.cpp; path = tests/TestCOwnerList.cpp; sourceTree = "<group>"; };
 		F5D159A720A7133500107E84 /* TestCContextManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCContextManager.cpp; path = tests/TestCContextManager.cpp; sourceTree = "<group>"; };
 		F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCWorkerThread.cpp; path = tests/TestCWorkerThread.cpp; sourceTree = "<group>"; };
-		F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCProducerThread.cpp; path = tests/TestCProducerThread.cpp; sourceTree = "<group>"; };
 		F5D159AD20A7872800107E84 /* GetTypeNameMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GetTypeNameMethod.hpp; path = include/wisey/GetTypeNameMethod.hpp; sourceTree = "<group>"; };
 		F5D159AE20A7878D00107E84 /* GetTypeNameMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GetTypeNameMethod.cpp; path = src/GetTypeNameMethod.cpp; sourceTree = "<group>"; };
 		F5D159B120A792F600107E84 /* TestGetTypeNameMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestGetTypeNameMethod.cpp; path = tests/TestGetTypeNameMethod.cpp; sourceTree = "<group>"; };
@@ -4229,7 +4227,6 @@
 				F593627920C424D600A8C67A /* TestCMemoryPool.cpp */,
 				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
 				F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */,
-				F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */,
 				F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */,
 				F596927B2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp */,
 				F596927C2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp */,
@@ -4596,7 +4593,6 @@
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F5CB7F66205116D4007628B5 /* FieldLLVMVariable.cpp in Sources */,
 				F50FF88F208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp in Sources */,
-				F5D159AC20A7261500107E84 /* TestCProducerThread.cpp in Sources */,
 				F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */,
 				F58748351F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F5827049205EFAB800839EC7 /* TestLLVMStructType.cpp in Sources */,

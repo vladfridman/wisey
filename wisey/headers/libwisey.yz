@@ -451,48 +451,6 @@ external controller wisey.threads.CPoolThreadRunner
   void exitThread();
 }
 
-external controller wisey.threads.CProducerThread
-  implements
-    wisey.threads.IThread {
-
-  void start(
-    ::wisey::model* producer,
-    int size) throws wisey.threads.MThreadBoundaryException;
-  boolean isStarted() throws wisey.threads.MThreadBoundaryException;
-  boolean isFinished() throws wisey.threads.MThreadBoundaryException;
-  boolean isCancelled() throws wisey.threads.MThreadBoundaryException;
-  void cancel() throws wisey.threads.MThreadBoundaryException;
-  void reset() throws wisey.threads.MThreadBoundaryException;
-  boolean hasResult() throws wisey.threads.MThreadBoundaryException;
-  ::wisey::model* consume() throws wisey.threads.MThreadBoundaryException;
-  void exit() throws wisey.threads.MThreadBoundaryException override;
-  ::wisey::model* send(
-    ::wisey::model* message) throws wisey.threads.MThreadBoundaryException override;
-  wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
-  wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException override;
-  void run() throws wisey.threads.MThreadBoundaryException override;
-}
-
-external controller wisey.threads.CProducerThreadRunner
-  implements
-    wisey.threads.IThreadRunner {
-
-  void createThread(
-    wisey.threads.IThread producerThread,
-    int size);
-  boolean isStarted();
-  boolean isFinished();
-  boolean isCancelled();
-  void cancelThread();
-  void resetThread();
-  boolean hasResult();
-  ::wisey::model* consumeResult();
-  ::wisey::model* addResult(
-    ::wisey::model* result);
-  void exitThread();
-  boolean hasRoom();
-}
-
 external controller wisey.threads.CThreadPool {
 
   receive long mPoolSize;
