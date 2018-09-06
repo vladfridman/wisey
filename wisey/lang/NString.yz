@@ -22,12 +22,23 @@ node NString {
       .onHeap();
   }
 
+  /**
+   * Create a string object on memory pool
+   */
   public static NString* createOnPool(CMemoryPool pool) {
     return build(NString)
       .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
       .withCapacity(DEFAULT_INITIAL_CAPACITY)
       .withLength(0)
       .onPool(pool);
+  }
+
+  /**
+   * Clears the string without changing its capacity
+   */
+  public void clear() {
+    mBuffer[0] = '\0';
+    mLength = 0;
   }
 
   /**

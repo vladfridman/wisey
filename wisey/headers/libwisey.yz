@@ -379,6 +379,8 @@ external controller wisey.io.CTextStreamReader {
     wisey.lang.NString fileName) throws wisey.io.MFileCouldNotOpenException;
   static wisey.io.CTextStreamReader* openSystemIn();
   wisey.lang.NString* readLine() throws wisey.io.MStreamClosedException;
+  wisey.lang.NString* readLineIntoNString(
+    wisey.lang.NString* line) throws wisey.io.MStreamClosedException;
   void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
 }
 
@@ -556,6 +558,7 @@ external node wisey.lang.NString {
   static wisey.lang.NString* create();
   static wisey.lang.NString* createOnPool(
     wisey.lang.CMemoryPool pool);
+  void clear();
   static wisey.lang.NString* createFromString(
     string input);
   static wisey.lang.NString* createFromModel(

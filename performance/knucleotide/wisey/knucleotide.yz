@@ -39,7 +39,7 @@ controller CProgram implements IProgram, IObjectComparator {
     return 1;
   }
 
-  public model MResult {
+  private model MResult {
     immutable long[]* mKeys;
     immutable int[]* mValues;
     int mKeyLength;
@@ -60,7 +60,7 @@ controller CProgram implements IProgram, IObjectComparator {
     }
   }
 
-  public controller CFragment {
+  private controller CFragment {
     inject CLongToIntMap* mMap;
     receive int mKeyLength;
 
@@ -73,7 +73,7 @@ controller CProgram implements IProgram, IObjectComparator {
     }
   }
 
-  public node NKeyValuePair {
+  private node NKeyValuePair {
     receive long mKey;
     receive int mValue;
 
@@ -106,7 +106,7 @@ controller CProgram implements IProgram, IObjectComparator {
     return fragments;
   }
 
-  public model MFragmentWorker implements IWorker {
+  private model MFragmentWorker implements IWorker {
     immutable byte[] mSequence;
     int mOffset;
     int mFragmentLength;
@@ -139,7 +139,7 @@ controller CProgram implements IProgram, IObjectComparator {
     }
   }
 
-  public controller CThreadContext inScope IThread {
+  private controller CThreadContext inScope IThread {
     inject immediate CLongToIntMap* mMap;
 
     public CLongToIntMap getMap() {
@@ -252,9 +252,9 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   private byte[]* read() {
-    NString* line;
+    NString* line = NString.create();
     CTextStreamReader* stream = CTextStreamReader.openSystemIn();
-    while ((line = stream.readLine()) != null) {
+    while ((line = stream.readLineIntoNString(line)) != null) {
       if (line.startsWith(">THREE")) {
         break;
       }
@@ -262,7 +262,7 @@ controller CProgram implements IProgram, IObjectComparator {
 
     byte[]* bytes = new byte[1048576];
     long position = 0;
-    while ((line = stream.readLine()) != null && line.charAt(0) != '>') {
+    while ((line = stream.readLineIntoNString(line)) != null && line.charAt(0) != '>') {
       if (line.getLength() + position > bytes.getSize()) {
         byte[]* newBytes = new byte[bytes.getSize() * 2];
         MSystem.copyMemory(newBytes, bytes, position);
