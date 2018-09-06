@@ -1,10 +1,10 @@
 package wisey.performance.testing;
 
 import wisey.io.CBinaryStreamWriter;
-import wisey.lang.CString;
 import wisey.lang.IProgram;
 import wisey.lang.MString;
 import wisey.lang.MSystem;
+import wisey.lang.NString;
 import wisey.threads.IWorker;
 import wisey.threads.CThreadPool;
 
@@ -16,7 +16,7 @@ controller CMandelbrot implements IProgram {
   public int run(immutable string[] arguments) override {
     int n = 6000;
     if (arguments.getSize() >= 2) {
-      n = CString.createFromString(arguments[1]).toInt();
+      n = NString.createFromString(arguments[1]).toInt();
     }
 
     double[]* crb = new double[n + 7]; 

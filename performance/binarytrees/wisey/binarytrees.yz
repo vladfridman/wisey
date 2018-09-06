@@ -2,9 +2,9 @@ package wisey.data;
 
 import wisey.data.COwnerVector;
 import wisey.lang.CMemoryPool;
-import wisey.lang.CString;
 import wisey.lang.MString;
 import wisey.lang.MSystem;
+import wisey.lang.NString;
 import wisey.lang.IProgram;
 import wisey.threads.IWorker;
 import wisey.threads.IThread;
@@ -19,7 +19,7 @@ controller CBinaryTrees implements IProgram {
   inject immediate COwnerVector* mWorkers;
 
   public int run(immutable string[] arguments) override {
-    int n = CString.createFromString(arguments[1]).toInt();
+    int n = NString.createFromString(arguments[1]).toInt();
 
     int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
     int stretchDepth = maxDepth + 1;
