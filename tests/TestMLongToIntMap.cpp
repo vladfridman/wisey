@@ -18,8 +18,6 @@ TEST_F(TestFileRunner, mLongToIntMapRunTest) {
                                         "Lookup 1: 2\n"
                                         "Lookup 2: 4\n"
                                         "Lookup 3: 6\n"
-                                        "Element with index 1 present\n"
-                                        "Element with index 5 is not present\n"
                                         "mMap is null\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "freeing systems.vos.wisey.compiler.tests.CProgram.mMap\n"
