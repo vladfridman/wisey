@@ -39,7 +39,7 @@ controller CProgram implements IProgram, IObjectComparator {
     return 1;
   }
 
-  private model MResult {
+  private model MFragmentWorkerResult {
     immutable long[]* mKeys;
     immutable int[]* mValues;
     int mKeyLength;
@@ -92,14 +92,20 @@ controller CProgram implements IProgram, IObjectComparator {
       int fragmentLength = fragmentLengths[i];
       for (int index = 0; index < fragmentLength; index++) {
         int offset = index;
-        createFragmentMap(sequence, offset, fragmentLength, arrayIndex);
+        MFragmentWorker* worker = build(MFragmentWorker)
+          .withSequence(sequence)
+          .withOffset(offset)
+          .withFragmentLength(fragmentLength)
+          .withArrayIndex(arrayIndex)
+          .onHeap();
+        mThreadPool.submit(worker);
         arrayIndex++;
       }
     }
     mThreadPool.start();
     CFragment*[]* fragments = new CFragment*[arrayIndex];
     for (int i = 0; i < fragments.getSize(); i++) {
-      MResult* result = mThreadPool.getResult();
+      MFragmentWorkerResult* result = mThreadPool.getResult();
       fragments[result.getArrayIndex()] = result.toController();
     }
     mThreadPool.stop();
@@ -113,14 +119,14 @@ controller CProgram implements IProgram, IObjectComparator {
     int mArrayIndex;
 
     public void work() override {
-      CLongToIntMap map = inject(CProgram.CThreadContext).onHeap().getMap();
+      CLongToIntMap map = inject(CProgram.CFragmentWorkerContext).onHeap().getMap();
       int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1;
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
         long key = getKey(index, mFragmentLength);
         map.addTo(key, 1);
       }
 
-      CProgram.MResult* result = build(CProgram.MResult)
+      CProgram.MFragmentWorkerResult* result = build(CProgram.MFragmentWorkerResult)
         .withKeys(map.getKeys())
         .withValues(map.getValues())
         .withKeyLength(mFragmentLength)
@@ -139,26 +145,12 @@ controller CProgram implements IProgram, IObjectComparator {
     }
   }
 
-  private controller CThreadContext inScope IThread {
+  private controller CFragmentWorkerContext inScope IThread {
     inject immediate CLongToIntMap* mMap;
 
     public CLongToIntMap getMap() {
       return mMap;
     }
-  }
-
-  private void createFragmentMap(
-      immutable byte[] sequence, 
-      int offset, 
-      int fragmentLength, 
-      int arrayIndex) {
-    MFragmentWorker* worker = build(MFragmentWorker)
-      .withSequence(sequence)
-      .withOffset(offset)
-      .withFragmentLength(fragmentLength)
-      .withArrayIndex(arrayIndex)
-      .onHeap();
-    mThreadPool.submit(worker);
   }
 
   private static long getKey(byte[] arr, int offset, int length) {
