@@ -169,7 +169,7 @@ extern "C" void* stl_long_to_int_map_get_values_array(void *map) {
   location += sizeof(int64_t);
   int32_t* element = (int32_t*) location;
 
-  for (std::unordered_map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+  for (auto iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     *element = iterator->second;
     element++;
   }
@@ -196,7 +196,7 @@ extern "C" void* stl_long_to_int_map_get_keys_array(void *map) {
   location += sizeof(int64_t);
   int64_t* element = (int64_t*) location;
 
-  for (std::unordered_map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+  for (auto iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     *element = iterator->first;
     element++;
   }
