@@ -1,14 +1,17 @@
 package wisey.io;
 
 import wisey.lang.IException;
+import wisey.lang.NString;
 
 /**
  * Exception that is thrown when trying to operate a stream that is not opened
  */
 model MStreamClosedException implements IException {
 
-  public void report() override {
-    callstack.reportException(this);
-    printerr("Details: Stream is not opened and can not be used\n"); 
+  public NString* report() override {
+    NString* message = callstack.reportException(this);
+    message.appendString("Details: Stream is not opened and can not be used\n");
+
+    return message;
   }
 }

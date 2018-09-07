@@ -1,6 +1,7 @@
 package wisey.threads;
 
 import wisey.lang.IException;
+import wisey.lang.NString;
 
 /**
  * Thrown when adding instance of a class for a context that does not exist
@@ -8,9 +9,13 @@ import wisey.lang.IException;
 model MContextNonExistantException implements IException {
   receive string mContextName;
 
-  public void report() override {
-    callstack.reportException(this);
-    printerr("Details: Context " + mContextName + " does not exist\n");
+  public NString* report() override {
+    NString* message = callstack.reportException(this);
+    message.appendString("Details: Context ");
+    message.appendString(mContextName);
+    message.appendString(" does not exist\n");
+
+    return message;
   }
 
   /**

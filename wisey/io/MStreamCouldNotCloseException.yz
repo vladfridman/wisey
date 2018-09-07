@@ -1,14 +1,17 @@
 package wisey.io;
 
 import wisey.lang.IException;
+import wisey.lang.NString;
 
 /**
  * Exception that is thrown when stream can not be closed
  */
 model MStreamCouldNotCloseException implements IException {
 
-  public void report() override {
-    callstack.reportException(this);
-    printerr("Details: Could not close stream\n");
+  public NString* report() override {
+    NString* message = callstack.reportException(this);
+    message.appendString("Details: Could not close stream\n");
+
+    return message;
   }
 }

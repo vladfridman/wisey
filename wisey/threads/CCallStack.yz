@@ -2,6 +2,7 @@ package wisey.threads;
 
 import wisey.lang.IException;
 import wisey.lang.MSystem;
+import wisey.lang.NString;
 
 /**
  * Keeps track of the method call stack and can print out a strack trace
@@ -34,10 +35,18 @@ controller CCallStack {
    *
    * The last element in the stack trace is the call to this method and is not printed
    */
-  public void reportException(IException exception) {
-    printerr("Unhandled exception " + MSystem.getOriginalObjectTypeName(exception) + "\n");
+  public NString* reportException(IException exception) {
+    NString* message = NString.create();
+    message.appendString("Unhandled exception ");
+    message.appendString(MSystem.getOriginalObjectTypeName(exception));
+    message.appendString("\n");
     for (int i = mIndex - 1; i >= 0; i--) {
-      printerr("  at " + mCallInfo[i] + ":" + mLineNumbers[i] + ")\n");
+      message.appendString("  at ");
+      message.appendString(mCallInfo[i]);
+      message.appendString(":");
+      message.appendNString(NString.createFromInt(mLineNumbers[i]));
+      message.appendString(")\n");
     }
+    return message;
   }
 }

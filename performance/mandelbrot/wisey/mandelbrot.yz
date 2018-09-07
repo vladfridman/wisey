@@ -58,8 +58,8 @@ controller CMandelbrot implements IProgram {
   }
 
   private model MWorker implements IWorker {
-    immutable double[] mCrb;
-    immutable double[] mCib;
+    immutable double[]* mCrb;
+    immutable double[]* mCib;
     int mY;
     int mWidth;
 

@@ -1,13 +1,14 @@
 package wisey.threads;
 
 import wisey.lang.IException;
+import wisey.lang.NString;
 
 /**
  * Thrown when the thread callstack is overflown
  */
 model MStackOverflowException implements IException {
 
-  public void report() override {
-    callstack.reportException(this);
+  public NString* report() override {
+    return callstack.reportException(this);
   }
 }

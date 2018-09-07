@@ -2,6 +2,7 @@ package wisey.io;
 
 import wisey.lang.IException;
 import wisey.lang.MString;
+import wisey.lang.NString;
 
 /**
  * Exception that is thrown by wisey.io.CTextStreamWriter when it is not able to open a file
@@ -9,9 +10,13 @@ import wisey.lang.MString;
 model MFileCouldNotOpenException implements IException {
   receive MString* mFileName;
 
-  public void report() override {
-    callstack.reportException(this);
-    printerr("Details: Could not open file " + mFileName + "\n");
+  public NString* report() override {
+    NString* message = callstack.reportException(this);
+    message.appendString("Details: Could not open file ");
+    message.appendMString(mFileName);
+    message.appendString("\n");
+
+    return message;
   }
 
   /**

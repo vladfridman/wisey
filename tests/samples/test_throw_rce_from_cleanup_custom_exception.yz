@@ -1,6 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
+import wisey.lang.NString;
 
 model MData {
   int mValue;
@@ -11,8 +12,8 @@ model MData {
 }
 
 model MMyException implements wisey.lang.IException {
-  public void report() override {
-    callstack.reportException(this);
+  public NString* report() override {
+    return callstack.reportException(this);
   }
 }
 

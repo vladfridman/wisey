@@ -29,32 +29,33 @@ interface IThreadRunner {
       thread.run();
       thread.exit();
     } catch (MNullPointerException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MReferenceCountException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MCastException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MArrayIndexOutOfBoundsException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MStackOverflowException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MThreadBoundaryException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MFileCouldNotOpenException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MStreamClosedException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MStreamCouldNotCloseException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MContextNonExistantException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MInterfaceNotBoundException* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MMemoryPoolNonEmpty* exception) {
-      exception.report();
+      printerr(exception.report());
     } catch (MMapEntryDoesNotExistException* exception) {
-      exception.report();
+      printerr(exception.report());
     }
+    thread.exit();
 
     return argument;
   }

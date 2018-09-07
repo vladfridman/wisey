@@ -6,8 +6,8 @@ package wisey.lang;
 interface IException {
 
   /**
-   * Report the exception to the user by printing information about it to stderr
+   * Returns information about the exception in a form of a string
    */
-  void report();
+  NString* report();
   
 }

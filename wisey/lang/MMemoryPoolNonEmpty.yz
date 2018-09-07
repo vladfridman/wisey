@@ -7,23 +7,29 @@ model MMemoryPoolNonEmpty implements IException {
   receive long mObjectCount;
   receive IException mNestedException;
 
-  public void report() override {
+  public NString* report() override {
     if (mNestedException instanceof MReferenceCountException) {
-      mNestedException.report();
-      return;
+      return mNestedException.report();
     }
 
-    callstack.reportException(this);
+    NString* message = callstack.reportException(this);
     string ending = mObjectCount > 1 ? "s" : "";
-    printerr("Details: Attempting to destroy a memory pool that still contains " + mObjectCount +
-      " allocated object" + ending + "\n");
-    
+    message.appendString("Details: Attempting to destroy a memory pool that still contains ");
+    message.appendNString(NString.createFromLong(mObjectCount));
+    message.appendString(" allocated object");
+    message.appendString(ending);
+    message.appendString("\n");
+
     if (mNestedException == null) {
-      return;
+      return message;
     }
-    printerr("Was thrown from memory clean up after " + 
-      MSystem.getOriginalObjectTypeName(mNestedException) + "\n");
-    mNestedException.report();
+    
+    message.appendString("Was thrown from memory clean up after ");
+    message.appendString(MSystem.getOriginalObjectTypeName(mNestedException));
+    message.appendString("\n");
+    message.appendNString(mNestedException.report());
+
+    return message;
   }
 
   /**

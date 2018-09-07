@@ -6,10 +6,13 @@ package wisey.lang;
 model MInterfaceNotBoundException implements IException {
   receive string mInterfaceName;
 
-  public void report() override {
-    callstack.reportException(this);
-      printerr("Details: Interface " + mInterfaceName + 
-        " is not bound to any controllers\n");
+  public NString* report() override {
+    NString* message = callstack.reportException(this);
+    message.appendString("Details: Interface ");
+    message.appendString(mInterfaceName);
+    message.appendString(" is not bound to any controllers\n");
+
+    return message;
   }
 
   /**

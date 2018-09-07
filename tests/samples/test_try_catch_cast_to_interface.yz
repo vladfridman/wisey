@@ -2,6 +2,7 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IException;
 import wisey.lang.IProgram;
+import wisey.lang.NString;
 
 interface IMyException {
   int getValue();
@@ -22,7 +23,8 @@ model MException implements IException, IMyException, IObject {
     return 2;
   }
 
-  public void report() override {
+  public NString* report() override {
+    return callstack.reportException(this);
   }
 }
 

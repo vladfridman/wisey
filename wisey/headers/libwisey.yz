@@ -18,7 +18,7 @@ external interface wisey.data.IObjectComparator {
 
 external interface wisey.lang.IException {
 
-  void report();
+  wisey.lang.NString* report();
 }
 
 external interface wisey.lang.IProgram {
@@ -67,7 +67,7 @@ external model wisey.data.MMapEntryDoesNotExistException
   implements
     wisey.lang.IException {
 
-  void report() override;
+  wisey.lang.NString* report() override;
 }
 
 external model wisey.io.MFileCouldNotOpenException
@@ -76,7 +76,7 @@ external model wisey.io.MFileCouldNotOpenException
 
   receive wisey.lang.MString* mFileName;
 
-  void report() override;
+  wisey.lang.NString* report() override;
   wisey.lang.MString getFileName();
 }
 
@@ -84,14 +84,14 @@ external model wisey.io.MStreamClosedException
   implements
     wisey.lang.IException {
 
-  void report() override;
+  wisey.lang.NString* report() override;
 }
 
 external model wisey.io.MStreamCouldNotCloseException
   implements
     wisey.lang.IException {
 
-  void report() override;
+  wisey.lang.NString* report() override;
 }
 
 external model wisey.lang.MArrayIndexOutOfBoundsException
@@ -101,7 +101,7 @@ external model wisey.lang.MArrayIndexOutOfBoundsException
   receive long mArraySize;
   receive long mIndex;
 
-  void report() override;
+  wisey.lang.NString* report() override;
   long getArraySize();
   long getIndex();
 }
@@ -113,7 +113,7 @@ external model wisey.lang.MCastException
   receive string mFromType;
   receive string mToType;
 
-  void report() override;
+  wisey.lang.NString* report() override;
   string getFromType();
   string getToType();
 }
@@ -124,7 +124,7 @@ external model wisey.lang.MInterfaceNotBoundException
 
   receive string mInterfaceName;
 
-  void report() override;
+  wisey.lang.NString* report() override;
   string getInterfaceName();
 }
 
@@ -146,7 +146,7 @@ external model wisey.lang.MMemoryPoolNonEmpty
   receive long mObjectCount;
   receive wisey.lang.IException mNestedException;
 
-  void report() override;
+  wisey.lang.NString* report() override;
   long getObjectCount();
 }
 
@@ -154,7 +154,7 @@ external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {
 
-  void report() override;
+  wisey.lang.NString* report() override;
 }
 
 external model wisey.lang.MReferenceCountException
@@ -165,7 +165,7 @@ external model wisey.lang.MReferenceCountException
   receive long mReferenceCount;
   receive wisey.lang.IException mNestedException;
 
-  void report() override;
+  wisey.lang.NString* report() override;
   long getReferenceCount();
   string getObjectType();
 }
@@ -214,7 +214,7 @@ external model wisey.threads.MContextNonExistantException
 
   receive string mContextName;
 
-  void report() override;
+  wisey.lang.NString* report() override;
   string getContextName();
 }
 
@@ -222,7 +222,7 @@ external model wisey.threads.MStackOverflowException
   implements
     wisey.lang.IException {
 
-  void report() override;
+  wisey.lang.NString* report() override;
 }
 
 external model wisey.threads.MThreadBoundaryException
@@ -231,7 +231,7 @@ external model wisey.threads.MThreadBoundaryException
 
   receive boolean mIsMethodInternal;
 
-  void report() override;
+  wisey.lang.NString* report() override;
   boolean isMethodInternal();
 }
 
@@ -405,7 +405,7 @@ external controller wisey.threads.CCallStack {
 
   static void throwStackOverflowException();
   void dumpStack();
-  void reportException(
+  wisey.lang.NString* reportException(
     wisey.lang.IException exception);
 }
 
