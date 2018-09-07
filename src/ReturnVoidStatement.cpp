@@ -11,6 +11,7 @@
 #include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReturnVoidStatement.hpp"
 
 using namespace llvm;
@@ -22,6 +23,16 @@ ReturnVoidStatement::~ReturnVoidStatement() { }
 
 void ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mLine);
+
+  const IType* returnType = context.getScopes().getReturnType();
+  if (returnType == NULL) {
+    context.reportError(mLine, "No corresponding method found for RETURN");
+    throw 1;
+  }
+  if (returnType != PrimitiveTypes::VOID) {
+    context.reportError(mLine, "Must return a value of type " + returnType->getTypeName());
+    throw 1;
+  }
 
   Composer::setLineNumber(context, mLine);
   context.getScopes().freeOwnedMemory(context, NULL, mLine);

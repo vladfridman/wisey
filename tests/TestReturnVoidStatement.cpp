@@ -79,6 +79,7 @@ TEST_F(ReturnVoidStatementTest, returnVoidTest) {
   mContext.setBasicBlock(entryBlock);
   mContext.setDeclarationsBlock(declareBlock);
   mContext.getScopes().pushScope();
+  mContext.getScopes().setReturnType(PrimitiveTypes::VOID);
   
   ReturnVoidStatement returnVoidStatement(0);
   returnVoidStatement.generateIR(mContext);
@@ -259,4 +260,10 @@ TEST_F(TestFileRunner, unreachableReturnVoidRunDeathTest) {
   expectFailCompile("tests/samples/test_unreachable_return_void.yz",
                     1,
                     "tests/samples/test_unreachable_return_void.yz\\(9\\): Error: Statement unreachable");
+}
+
+TEST_F(TestFileRunner, returnVoidErrorRunDeathTest) {
+  expectFailCompile("tests/samples/test_returnvoid_error.yz",
+                    1,
+                    "tests/samples/test_returnvoid_error.yz\\(9\\): Error: Must return a value of type int");
 }
