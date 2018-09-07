@@ -22,6 +22,7 @@
 #include "TestFileRunner.hpp"
 #include "wisey/ForStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;
@@ -50,9 +51,11 @@ struct ForStatementTest : Test {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionStatementValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(Return(conditionStatementValue));
+    ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     Value* incrementExpressionValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
     ON_CALL(*mIncrementExpression, generateIR(_, _))
     .WillByDefault(Return(incrementExpressionValue));
+    ON_CALL(*mIncrementExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -129,7 +132,7 @@ TEST_F(TestFileRunner, forStatementWithNoDeclarationNoIncrementRunTest) {
 TEST_F(TestFileRunner, forStatementLocalVariableScopeRunDeathTest) {
   expectFailCompile("tests/samples/test_for_statement_scope.yz",
                     1,
-                    "tests/samples/test_for_statement_scope.yz\\(10\\): Error: Undeclared variable 'i'");
+                    "tests/samples/test_for_statement_scope.yz\\(10\\): Error: Undefined expression 'i'");
 }
 
 TEST_F(TestFileRunner, unreachableForStatementRunDeathTest) {

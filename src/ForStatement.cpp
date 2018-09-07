@@ -33,7 +33,7 @@ ForStatement::~ForStatement() {
 
 void ForStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mConditionExpression->getLine());
-  
+
   Function* function = context.getBasicBlock()->getParent();
   Scopes& scopes = context.getScopes();
   
@@ -45,6 +45,8 @@ void ForStatement::generateIR(IRGenerationContext& context) const {
   scopes.pushScope();
   
   mStartStatement->generateIR(context);
+  IExpression::checkForUndefined(context, mConditionExpression);
+  IExpression::checkForUndefined(context, mIncrementExpression);
   IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(forCond);

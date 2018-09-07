@@ -49,6 +49,8 @@ int BitwiseXorByExpression::getLine() const {
 
 Value* BitwiseXorByExpression::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
+  IExpression::checkForUndefined(context, mExpression);
+  
   const IType* expressionType = mExpression->getType(context);
   if (!mExpression->isAssignable()) {
     context.reportError(mLine, getOperation() + " operation may only be applied to variables");

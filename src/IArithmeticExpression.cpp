@@ -15,10 +15,16 @@ using namespace std;
 using namespace wisey;
 
 void IArithmeticExpression::checkTypes(IRGenerationContext& context,
-                                       const IType* leftType,
-                                       const IType* rightType,
+                                       const IExpression* leftExpression,
+                                       const IExpression* rightExpression,
                                        int operation,
                                        int line) {
+  IExpression::checkForUndefined(context, leftExpression);
+  IExpression::checkForUndefined(context, rightExpression);
+
+  const IType* leftType = leftExpression->getType(context);
+  const IType* rightType = rightExpression->getType(context);
+
   if (leftType == PrimitiveTypes::VOID || rightType == PrimitiveTypes::VOID) {
     context.reportError(line, "Can not use expressions of type VOID in a '" +
                         string(1, operation) + "' operation");

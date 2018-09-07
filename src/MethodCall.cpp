@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <sstream>
+
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Argument.hpp"
@@ -24,6 +26,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StringGetLengthMethod.hpp"
 #include "wisey/ThreadExpression.hpp"
+#include "wisey/UndefinedType.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -249,6 +252,12 @@ const IType* MethodCall::getType(IRGenerationContext& context) const {
 
 const IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
+  if (expressionType->isPackage() || expressionType == UndefinedType::UNDEFINED) {
+    stringstream stringStream;
+    mExpression->printToStream(context, stringStream);
+    context.reportError(mLine, "Undefined method '" + stringStream.str() + "'");
+    throw 1;
+  }
   if (!expressionType->isFunction()) {
     context.reportError(mLine,
                         "Can not call a method on expression of type " +

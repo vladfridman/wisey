@@ -93,21 +93,25 @@ const IType* ConditionalExpression::getType(IRGenerationContext& context) const 
 
 // TODO: implement a more sensible type checking/casting
 void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
-  const IType* ifTrueExpressionType = mIfTrueExpression->getType(context);
-  const IType* ifFalseExpressionType = mIfFalseExpression->getType(context);
-  
+  const IType* ifTrueType = mIfTrueExpression->getType(context);
+  const IType* ifFalseType = mIfFalseExpression->getType(context);
+
+  IExpression::checkForUndefined(context, mConditionExpression);
+  IExpression::checkForUndefined(context, mIfTrueExpression);
+  IExpression::checkForUndefined(context, mIfFalseExpression);
+
   if (!mConditionExpression->getType(context)->canAutoCastTo(context, PrimitiveTypes::BOOLEAN)) {
     context.reportError(mLine, "Condition in a conditional expression is not of type BOOLEAN");
     throw 1;
   }
   
-  if (ifTrueExpressionType != ifFalseExpressionType &&
-      ifTrueExpressionType->getLLVMType(context) != ifFalseExpressionType->getLLVMType(context)) {
+  if (ifTrueType != ifFalseType &&
+      ifTrueType->getLLVMType(context) != ifFalseType->getLLVMType(context)) {
     context.reportError(mLine, "Incompatible types in conditional expression operation");
     throw 1;
   }
   
-  if (ifTrueExpressionType == PrimitiveTypes::VOID) {
+  if (ifTrueType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Can not use expressions of type VOID in a conditional expression");
     throw 1;
   }

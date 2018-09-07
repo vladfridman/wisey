@@ -29,7 +29,8 @@ ReturnStatement::~ReturnStatement() {
 
 void ReturnStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mLine);
-  
+  IExpression::checkForUndefined(context, mExpression);
+
   const IType* returnType = context.getScopes().getReturnType();
   if (returnType == NULL) {
     context.reportError(mLine, "No corresponding method found for RETURN");

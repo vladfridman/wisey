@@ -51,6 +51,8 @@ int MultiplyByExpression::getLine() const {
 
 Value* MultiplyByExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
+  IExpression::checkForUndefined(context, mExpression);
+
   const IType* expressionType = mExpression->getType(context);
   if (!mExpression->isAssignable()) {
     context.reportError(mLine, getOperation() + " operation may only be applied to variables");

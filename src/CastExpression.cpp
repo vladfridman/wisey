@@ -32,6 +32,8 @@ int CastExpression::getLine() const {
 }
 
 Value* CastExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
+  IExpression::checkForUndefined(context, mExpression);
+
   const IType* fromType = mExpression->getType(context);
   Value* fromValue = mExpression->generateIR(context, assignToType);
   const IType* toType = mTypeSpecifier->getType(context);

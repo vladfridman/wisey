@@ -130,5 +130,5 @@ Instruction* UndefinedType::inject(IRGenerationContext& context,
   throw 1;
 }
 
-UndefinedType* UndefinedType::UNDEFINED = new UndefinedType();
+const UndefinedType* UndefinedType::UNDEFINED = new UndefinedType();
 

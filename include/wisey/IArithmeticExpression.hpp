@@ -26,8 +26,8 @@ namespace wisey {
      * Checks that types are compatable for an arithmetic expression
      */
     static void checkTypes(IRGenerationContext& context,
-                           const IType* leftType,
-                           const IType* rightType,
+                           const IExpression* leftExpression,
+                           const IExpression* rightExpression,
                            int operation,
                            int line);
     

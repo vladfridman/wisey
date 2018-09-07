@@ -30,7 +30,8 @@ IfElseStatement::~IfElseStatement() {
 
 void IfElseStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mCondition->getLine());
-  
+  IExpression::checkForUndefined(context, mCondition);
+
   Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* ifThen = BasicBlock::Create(context.getLLVMContext(), "if.then", function);

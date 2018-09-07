@@ -37,7 +37,9 @@ PrintStatement::~PrintStatement() {
 
 void PrintStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mLine);
-  
+  IExpression::checkForUndefined(context, mStreamExpression);
+  IExpression::checkForUndefined(context, mExpression);
+
   Controller* streamController = context.getController(Names::getTextStreamControllerFullName(),
                                                        mLine);
   assert(streamController && "wisey.io.CTextStreamWriter is not defined");

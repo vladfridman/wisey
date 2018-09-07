@@ -30,7 +30,8 @@ PrintOutStatement::~PrintOutStatement() {
 
 void PrintOutStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mLine);
-  
+  IExpression::checkForUndefined(context, mExpression);
+
   const IType* expressionType = mExpression->getType(context);
   if (!StringType::isStringVariation(context, expressionType, mLine) &&
       (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID)) {

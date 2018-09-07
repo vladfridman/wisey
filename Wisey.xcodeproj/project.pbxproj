@@ -1110,6 +1110,9 @@
 		F5F55E9E213AFA7100FF3A28 /* libLLVMARMUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */; };
 		F5F55E9F213AFAA400FF3A28 /* libLLVMBinaryFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */; };
 		F5F55EA0213AFAC800FF3A28 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */; };
+		F5F55EC22142CA8F00FF3A28 /* IExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EC12142CA8F00FF3A28 /* IExpression.cpp */; };
+		F5F55EC32142CA8F00FF3A28 /* IExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EC12142CA8F00FF3A28 /* IExpression.cpp */; };
+		F5F55EC52142D75A00FF3A28 /* TestIExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EC42142D75A00FF3A28 /* TestIExpression.cpp */; };
 		F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */; };
 		F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */; };
 		F5F61AA0201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9F201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp */; };
@@ -2199,6 +2202,8 @@
 		F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMUtils.a; path = ../../../usr/local/lib/libLLVMARMUtils.a; sourceTree = "<group>"; };
 		F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBinaryFormat.a; path = ../../../usr/local/lib/libLLVMBinaryFormat.a; sourceTree = "<group>"; };
 		F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAggressiveInstCombine.a; path = ../../../usr/local/lib/libLLVMAggressiveInstCombine.a; sourceTree = "<group>"; };
+		F5F55EC12142CA8F00FF3A28 /* IExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IExpression.cpp; path = src/IExpression.cpp; sourceTree = "<group>"; };
+		F5F55EC42142D75A00FF3A28 /* TestIExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIExpression.cpp; path = tests/TestIExpression.cpp; sourceTree = "<group>"; };
 		F5F61A9A201DDBE400EF9EB7 /* ArraySpecificType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificType.hpp; path = include/wisey/ArraySpecificType.hpp; sourceTree = "<group>"; };
 		F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArraySpecificType.cpp; path = src/ArraySpecificType.cpp; sourceTree = "<group>"; };
 		F5F61A9E201DDEBC00EF9EB7 /* ArraySpecificTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificTypeSpecifier.hpp; path = include/wisey/ArraySpecificTypeSpecifier.hpp; sourceTree = "<group>"; };
@@ -3081,6 +3086,7 @@
 				F57411721E043EE4009809FF /* Identifier.cpp */,
 				F51942F31FE302DC009C3158 /* IdentifierChain.cpp */,
 				F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */,
+				F5F55EC12142CA8F00FF3A28 /* IExpression.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
 				F59692EF2131958100F19C4E /* IntExpressionChecker.cpp */,
 				F5B12E75207E4BC600677C63 /* LLVMFunctionIdentifier.cpp */,
@@ -3735,6 +3741,7 @@
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */,
 				F54B14342059015F0030773F /* TestIdentifierReference.cpp */,
+				F5F55EC42142D75A00FF3A28 /* TestIExpression.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
 				F5B12E78207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
@@ -4606,6 +4613,7 @@
 				F59692B021189D9C00F19C4E /* TestSubtractExpression.cpp in Sources */,
 				F5378F6E2058F11500E5B5FD /* IdentifierReference.cpp in Sources */,
 				F59692ED21318FB000F19C4E /* ShiftByExpression.cpp in Sources */,
+				F5F55EC32142CA8F00FF3A28 /* IExpression.cpp in Sources */,
 				F5BF0C8A2080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp in Sources */,
 				F513DE082018A0F7001A075B /* ParameterArrayReferenceVariable.cpp in Sources */,
 				F513DE0420186CFC001A075B /* TestParameterArrayOwnerVariable.cpp in Sources */,
@@ -4927,6 +4935,7 @@
 				F51701BD2010649C00A10B7C /* ArrayOwnerType.cpp in Sources */,
 				F59692E7212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */,
 				F596927D2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp in Sources */,
+				F5F55EC52142D75A00FF3A28 /* TestIExpression.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5085,6 +5094,7 @@
 				F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */,
 				F596930C213305E200F19C4E /* MultiplyByExpression.cpp in Sources */,
 				F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */,
+				F5F55EC22142CA8F00FF3A28 /* IExpression.cpp in Sources */,
 				F523D509206BD1E70017D5B4 /* WiseyObjectOwnerTypeSpecifier.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F5E6BD0A1F190B8500D59444 /* FakeExpression.cpp in Sources */,

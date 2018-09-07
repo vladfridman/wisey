@@ -43,10 +43,10 @@ int DivideExpression::getLine() const {
 
 Value* DivideExpression::generateIR(IRGenerationContext& context,
                                     const IType* assignToType) const {
+  checkTypes(context, mLeft, mRight, '/', mLine);
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
-  checkTypes(context, leftType, rightType, '/', mLine);
-  
+
   Value* leftValue = mLeft->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRight->generateIR(context, PrimitiveTypes::VOID);
   
@@ -66,10 +66,10 @@ Value* DivideExpression::generateIR(IRGenerationContext& context,
 }
 
 const IType* DivideExpression::getType(IRGenerationContext& context) const {
+  checkTypes(context, mLeft, mRight, '/', mLine);
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
-  checkTypes(context, leftType, rightType, '/', mLine);
-  
+
   return leftType->canAutoCastTo(context, rightType) ? rightType : leftType;
 }
 

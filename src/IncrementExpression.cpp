@@ -57,6 +57,8 @@ IncrementExpression* IncrementExpression::newDecrementByOnePrefix(IExpression* e
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context,
                                        const IType* assignToType) const {
+  IExpression::checkForUndefined(context, mExpression);
+
   const IType* expressionType = mExpression->getType(context);
   if (!mExpression->isAssignable()) {
     context.reportError(mLine, "Increment/decrement operation may only be applied to variables");

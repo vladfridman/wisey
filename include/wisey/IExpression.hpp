@@ -49,6 +49,12 @@ namespace wisey {
      */
     virtual int getLine() const = 0;
     
+    /**
+     * Checks that expression is not undefined
+     */
+    static void checkForUndefined(IRGenerationContext& context,
+                                  const IExpression* expression);
+    
   };
   
   /**

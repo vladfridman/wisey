@@ -126,8 +126,8 @@ TEST_F(CompilerTest, twoErrorsRunDeathTest) {
   
   EXPECT_EXIT(mCompiler.compile(),
               ::testing::ExitedWithCode(1),
-              "tests/samples/test_multifile_two_errors/Adder.yz\\(5\\): Error: Undeclared variable 'j'\n"
-              "tests/samples/test_multifile_two_errors/Runner.yz\\(10\\): Error: Undeclared variable 'i'\n");
+              "tests/samples/test_multifile_two_errors/Adder.yz\\(5\\): Error: Undefined expression 'j'\n"
+              "tests/samples/test_multifile_two_errors/Runner.yz\\(10\\): Error: Undefined expression 'i'\n");
 }
 
 TEST_F(TestFileRunner, commentsRunTest) {

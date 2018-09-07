@@ -59,6 +59,9 @@ int RelationalExpression::getLine() const {
 
 Value* RelationalExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
+  IExpression::checkForUndefined(context, mLeft);
+  IExpression::checkForUndefined(context, mRight);
+
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
   if ((!leftType->isPrimitive() && rightType->isPrimitive()) ||

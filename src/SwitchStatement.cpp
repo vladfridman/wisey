@@ -29,7 +29,8 @@ SwitchStatement::~SwitchStatement() {
 
 void SwitchStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mCondition->getLine());
-  
+  IExpression::checkForUndefined(context, mCondition);
+
   Function* function = context.getBasicBlock()->getParent();
   LLVMContext& llvmContext = context.getLLVMContext();
   

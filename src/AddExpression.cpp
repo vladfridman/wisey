@@ -41,10 +41,10 @@ int AddExpression::getLine() const {
 
 Value* AddExpression::generateIR(IRGenerationContext& context,
                                  const IType* assignToType) const {
+  checkTypes(context, mLeft, mRight, '+', mLine);
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
-  checkTypes(context, leftType, rightType, '+', mLine);
-  
+
   Value* leftValue = mLeft->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRight->generateIR(context, PrimitiveTypes::VOID);
   
@@ -76,10 +76,10 @@ Value* AddExpression::generateIR(IRGenerationContext& context,
 }
 
 const IType* AddExpression::getType(IRGenerationContext& context) const {
+  checkTypes(context, mLeft, mRight, '+', mLine);
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
-  checkTypes(context, leftType, rightType, '+', mLine);
-  
+
   if (leftType->isPointer()) {
     return leftType;
   }

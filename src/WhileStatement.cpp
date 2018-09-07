@@ -24,7 +24,8 @@ WhileStatement::~WhileStatement() {
 
 void WhileStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mConditionExpression->getLine());
-  
+  IExpression::checkForUndefined(context, mConditionExpression);
+
   Function* function = context.getBasicBlock()->getParent();
   Scopes& scopes = context.getScopes();
   

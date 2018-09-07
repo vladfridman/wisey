@@ -38,6 +38,9 @@ int LogicalAndExpression::getLine() const {
 
 Value* LogicalAndExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
+  IExpression::checkForUndefined(context, mLeftExpression);
+  IExpression::checkForUndefined(context, mRightExpression);
+
   Value* leftValue = mLeftExpression->generateIR(context, assignToType);
   Value* leftValueCast = AutoCast::maybeCast(context,
                                              mLeftExpression->getType(context),

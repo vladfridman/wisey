@@ -30,6 +30,8 @@ bool CaseStatement::isFallThrough() const {
 }
 
 ConstantInt* CaseStatement::getExpressionValue(IRGenerationContext& context) const {
+  IExpression::checkForUndefined(context, mExpression);
+
   Value* value = mExpression->generateIR(context, PrimitiveTypes::VOID);
   if (!ConstantInt::classof(value)) {
     context.reportError(mLine, "Case expression should be an integer constant");

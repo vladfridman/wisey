@@ -31,6 +31,8 @@ int NegateExpression::getLine() const {
 }
 
 Value* NegateExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
+  IExpression::checkForUndefined(context, mExpression);
+
   const IType* type = getType(context);
   if (!type->isPrimitive() || type == PrimitiveTypes::VOID) {
     context.reportError(mLine,

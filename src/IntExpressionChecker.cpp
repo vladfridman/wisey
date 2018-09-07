@@ -6,9 +6,12 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include <sstream>
+
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IntExpressionChecker.hpp"
+#include "wisey/UndefinedType.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -16,8 +19,15 @@ using namespace wisey;
 
 void IntExpressionChecker::checkTypes(IRGenerationContext& context,
                                       const IBinaryExpression* expression) {
-  Type* leftLLVMType = expression->getLeft()->getType(context)->getLLVMType(context);
-  Type* rightLLVMType = expression->getRight()->getType(context)->getLLVMType(context);
+  const IExpression* leftExpression = expression->getLeft();
+  const IExpression* rightExpression = expression->getRight();
+
+  IExpression::checkForUndefined(context, leftExpression);
+  IExpression::checkForUndefined(context, rightExpression);
+
+  Type* leftLLVMType = leftExpression->getType(context)->getLLVMType(context);
+  Type* rightLLVMType = rightExpression->getType(context)->getLLVMType(context);
+
   if (!leftLLVMType->isIntegerTy()) {
     context.reportError(expression->getLine(), "Left expression in " + expression->getOperation() +
                         " operation must be integer type");

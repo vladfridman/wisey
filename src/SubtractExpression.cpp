@@ -43,10 +43,10 @@ int SubtractExpression::getLine() const {
 
 Value* SubtractExpression::generateIR(IRGenerationContext& context,
                                       const IType* assignToType) const {
+  checkTypes(context, mLeft, mRight, '-', mLine);
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
-  checkTypes(context, leftType, rightType, '-', mLine);
-  
+
   Value* leftValue = mLeft->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRight->generateIR(context, PrimitiveTypes::VOID);
 
@@ -74,9 +74,9 @@ Value* SubtractExpression::generateIR(IRGenerationContext& context,
 }
 
 const IType* SubtractExpression::getType(IRGenerationContext& context) const {
+  checkTypes(context, mLeft, mRight, '-', mLine);
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
-  checkTypes(context, leftType, rightType, '-', mLine);
 
   if (leftType->isPointer() && rightType == leftType) {
     return PrimitiveTypes::LONG;

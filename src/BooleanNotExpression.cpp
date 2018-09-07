@@ -33,6 +33,8 @@ int BooleanNotExpression::getLine() const {
 
 Value* BooleanNotExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
+  IExpression::checkForUndefined(context, mExpression);
+
   Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
   Value* expressionValueCast = AutoCast::maybeCast(context,
                                                    mExpression->getType(context),
