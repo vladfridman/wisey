@@ -132,6 +132,7 @@
   #include "wisey/ProgramFile.hpp"
   #include "wisey/ReceivedFieldDefinition.hpp"
   #include "wisey/RelationalExpression.hpp"
+  #include "wisey/ReminderByExpression.hpp"
   #include "wisey/ReminderExpression.hpp"
   #include "wisey/ReturnStatement.hpp"
   #include "wisey/ReturnVoidStatement.hpp"
@@ -255,7 +256,7 @@
 %token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMGLOBAL TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 
 %token <token> TLLVMI32 TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TMULTIPLYBY TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
-%token <token> TPRINT TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
+%token <token> TPRINT TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TREMINDERBY TRETURN 
 %token <token> TINSCOPE TSHIFTLEFT TSHIFTLEFTBY TSHIFTRIGHT TSHIFTRIGHTBY TSTATE TSTATIC TSWITCH 
 %token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPEBYTE 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
@@ -1494,6 +1495,8 @@ divide_by_expression
   : multiply_by_expression
   | postfix_expression TDIVIDEBY multiply_by_expression 
     { $$ = new DivideByExpression($1, $3, yylineno); }
+  | postfix_expression TREMINDERBY multiply_by_expression 
+    { $$ = new ReminderByExpression($1, $3, yylineno); }
   ;
 
 add_subtract_expression

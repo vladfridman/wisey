@@ -1113,6 +1113,9 @@
 		F5F55EC22142CA8F00FF3A28 /* IExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EC12142CA8F00FF3A28 /* IExpression.cpp */; };
 		F5F55EC32142CA8F00FF3A28 /* IExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EC12142CA8F00FF3A28 /* IExpression.cpp */; };
 		F5F55EC52142D75A00FF3A28 /* TestIExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EC42142D75A00FF3A28 /* TestIExpression.cpp */; };
+		F5F55EC82142DD5700FF3A28 /* ReminderByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EC72142DD5700FF3A28 /* ReminderByExpression.cpp */; };
+		F5F55EC92142DD5700FF3A28 /* ReminderByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55EC72142DD5700FF3A28 /* ReminderByExpression.cpp */; };
+		F5F55ECB2142DDF900FF3A28 /* TestReminderByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F55ECA2142DDF900FF3A28 /* TestReminderByExpression.cpp */; };
 		F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */; };
 		F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */; };
 		F5F61AA0201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F61A9F201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp */; };
@@ -2204,6 +2207,9 @@
 		F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAggressiveInstCombine.a; path = ../../../usr/local/lib/libLLVMAggressiveInstCombine.a; sourceTree = "<group>"; };
 		F5F55EC12142CA8F00FF3A28 /* IExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IExpression.cpp; path = src/IExpression.cpp; sourceTree = "<group>"; };
 		F5F55EC42142D75A00FF3A28 /* TestIExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIExpression.cpp; path = tests/TestIExpression.cpp; sourceTree = "<group>"; };
+		F5F55EC62142DD2B00FF3A28 /* ReminderByExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ReminderByExpression.hpp; path = include/wisey/ReminderByExpression.hpp; sourceTree = "<group>"; };
+		F5F55EC72142DD5700FF3A28 /* ReminderByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ReminderByExpression.cpp; path = src/ReminderByExpression.cpp; sourceTree = "<group>"; };
+		F5F55ECA2142DDF900FF3A28 /* TestReminderByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestReminderByExpression.cpp; path = tests/TestReminderByExpression.cpp; sourceTree = "<group>"; };
 		F5F61A9A201DDBE400EF9EB7 /* ArraySpecificType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificType.hpp; path = include/wisey/ArraySpecificType.hpp; sourceTree = "<group>"; };
 		F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArraySpecificType.cpp; path = src/ArraySpecificType.cpp; sourceTree = "<group>"; };
 		F5F61A9E201DDEBC00EF9EB7 /* ArraySpecificTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificTypeSpecifier.hpp; path = include/wisey/ArraySpecificTypeSpecifier.hpp; sourceTree = "<group>"; };
@@ -3047,6 +3053,7 @@
 				F53A2C471F029AF700E76A9E /* NullExpression.hpp */,
 				F5089C9F1ECD01D9004A1223 /* RelationalExpression.hpp */,
 				F5089CA01ECD01D9004A1223 /* RelationalOperation.hpp */,
+				F5F55EC62142DD2B00FF3A28 /* ReminderByExpression.hpp */,
 				F59692A52117BEEC00F19C4E /* ReminderExpression.hpp */,
 				F59692EA21318F0800F19C4E /* ShiftByExpression.hpp */,
 				F50D5E4020B6FCBD00A025E9 /* ShiftLeftExpression.hpp */,
@@ -3097,6 +3104,7 @@
 				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
 				F53A2C481F029BA500E76A9E /* NullExpression.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
+				F5F55EC72142DD5700FF3A28 /* ReminderByExpression.cpp */,
 				F59692A62117BF2500F19C4E /* ReminderExpression.cpp */,
 				F59692EB21318FB000F19C4E /* ShiftByExpression.cpp */,
 				F50D5E4120B6FD0600A025E9 /* ShiftLeftExpression.cpp */,
@@ -3751,6 +3759,7 @@
 				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
 				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
+				F5F55ECA2142DDF900FF3A28 /* TestReminderByExpression.cpp */,
 				F59692A92117C00800F19C4E /* TestReminderExpression.cpp */,
 				F59692F321319ECA00F19C4E /* TestShiftByExpression.cpp */,
 				F50D5E4820B7079200A025E9 /* TestShiftLeftExpression.cpp */,
@@ -4452,6 +4461,7 @@
 				F581A0192073B3CB00EA0156 /* ILLVMType.cpp in Sources */,
 				F5A0DAF7207BE7BD00B0E479 /* TestWiseyModelOwnerType.cpp in Sources */,
 				F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */,
+				F5F55EC92142DD5700FF3A28 /* ReminderByExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F59692F421319ECA00F19C4E /* TestShiftByExpression.cpp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,
@@ -4863,6 +4873,7 @@
 				F57780B41ECA384B0049542D /* TestBindActionGlobalStatement.cpp in Sources */,
 				F508E06C1E72DC7D005D6115 /* TestIMethodDescriptor.cpp in Sources */,
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
+				F5F55ECB2142DDF900FF3A28 /* TestReminderByExpression.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F50FA3061E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5827072205FF91B00839EC7 /* LLVMVoidType.cpp in Sources */,
@@ -5114,6 +5125,7 @@
 				F5D465F82061086D00C1047A /* LLVMFunction.cpp in Sources */,
 				F5D465FD2061121000C1047A /* LLVMVariableDeclaration.cpp in Sources */,
 				F51D2BAE1F68453500510784 /* StaticMethod.cpp in Sources */,
+				F5F55EC82142DD5700FF3A28 /* ReminderByExpression.cpp in Sources */,
 				F50FA2D51E2D0AD600435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F5A0DAF4207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp in Sources */,
 				F5827065205FD6A600839EC7 /* LLVMFunctionTypeSpecifier.cpp in Sources */,
