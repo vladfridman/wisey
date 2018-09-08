@@ -49,6 +49,7 @@ namespace wisey {
     std::map<std::string, const IObjectType*> mInnerObjects;
     std::vector<LLVMFunction*> mLLVMFunctions;
     std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
+    bool mIsScopeInjected;
     const IObjectType* mScopeType;
     ImportProfile* mImportProfile;
     int mLine;
@@ -58,6 +59,7 @@ namespace wisey {
                llvm::StructType* structType,
                ImportProfile* importProfile,
                bool isExternal,
+               bool isScopeInjected,
                int line);
     
   public:
@@ -74,13 +76,30 @@ namespace wisey {
                                      int line);
     
     /**
+     * static method for scope injected controller instantiation
+     */
+    static Controller* newScopedController(AccessLevel accessLevel,
+                                           std::string name,
+                                           llvm::StructType* structType,
+                                           ImportProfile* importProfile,
+                                           int line);
+
+    /**
      * static method for external controller instantiation
      */
     static Controller* newExternalController(std::string name,
                                              llvm::StructType* structType,
                                              ImportProfile* importProfile,
                                              int line);
-    
+
+    /**
+     * static method for external scope injected controller instantiation
+     */
+    static Controller* newExternalScopedController(std::string name,
+                                                   llvm::StructType* structType,
+                                                   ImportProfile* importProfile,
+                                                   int line);
+
     /**
      * Returns received fields
      */
@@ -118,6 +137,11 @@ namespace wisey {
      */
     void checkInjectedFields(IRGenerationContext& context) const;
 
+    /**
+     * Returns the scope type
+     */
+    const IObjectType* getScopeType() const;
+    
     void setScopeType(const IObjectType* objectType) override;
     
     bool isScopeInjected(IRGenerationContext& context) const override;

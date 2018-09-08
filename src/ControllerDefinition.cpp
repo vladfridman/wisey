@@ -55,11 +55,10 @@ Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context,
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
 
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Controller* controller = Controller::newController(mAccessLevel,
-                                                     fullName,
-                                                     structType,
-                                                     importProfile,
-                                                     mLine);
+  Controller* controller = mScopeTypeSpecifier == NULL
+  ? Controller::newController(mAccessLevel, fullName, structType, importProfile, mLine)
+  : Controller::newScopedController(mAccessLevel, fullName, structType, importProfile, mLine);
+  
   context.addController(controller, mLine);
   
   const IObjectType* lastObjectType = context.getObjectType();

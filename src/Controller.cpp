@@ -44,6 +44,7 @@ Controller::Controller(AccessLevel accessLevel,
                        StructType* structType,
                        ImportProfile* importProfile,
                        bool isExternal,
+                       bool isScopeInjected,
                        int line) :
 mIsPublic(accessLevel == PUBLIC_ACCESS),
 mName(name),
@@ -51,6 +52,7 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
 mControllerOwner(new ControllerOwner(this)),
+mIsScopeInjected(isScopeInjected),
 mScopeType(NULL),
 mImportProfile(importProfile),
 mLine(line) {
@@ -93,14 +95,29 @@ Controller* Controller::newController(AccessLevel accessLevel,
                                       StructType* structType,
                                       ImportProfile* importProfile,
                                       int line) {
-  return new Controller(accessLevel , name, structType, importProfile, false, line);
+  return new Controller(accessLevel , name, structType, importProfile, false, false, line);
+}
+
+Controller* Controller::newScopedController(AccessLevel accessLevel,
+                                            string name,
+                                            StructType* structType,
+                                            ImportProfile* importProfile,
+                                            int line) {
+  return new Controller(accessLevel , name, structType, importProfile, false, true, line);
 }
 
 Controller* Controller::newExternalController(string name,
                                               StructType* structType,
                                               ImportProfile* importProfile,
                                               int line) {
-  return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, line);
+  return new Controller(PUBLIC_ACCESS, name, structType, importProfile, true, false, line);
+}
+
+Controller* Controller::newExternalScopedController(string name,
+                                                    StructType* structType,
+                                                    ImportProfile* importProfile,
+                                                    int line) {
+  return new Controller(PUBLIC_ACCESS, name, structType, importProfile, true, true, line);
 }
 
 vector<IField*> Controller::getReceivedFields() const {
@@ -687,8 +704,12 @@ void Controller::setScopeType(const IObjectType* objectType) {
   mScopeType = objectType;
 }
 
+const IObjectType* Controller::getScopeType() const {
+  return mScopeType;
+}
+
 bool Controller::isScopeInjected(IRGenerationContext& context) const {
-  return mScopeType != NULL;
+  return mIsScopeInjected;
 }
 
 void Controller::checkInjectionArguments(IRGenerationContext& context,

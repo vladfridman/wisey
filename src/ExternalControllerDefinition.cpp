@@ -13,19 +13,18 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-ExternalControllerDefinition::ExternalControllerDefinition(ControllerTypeSpecifierFull*
-                                                           controllerTypeSpecifierFull,
-                                                           vector<IObjectElementDefinition*>
-                                                             objectElementDeclarations,
-                                                           vector<IInterfaceTypeSpecifier*>
-                                                           interfaceSpecifiers,
-                                                           vector<IObjectDefinition*>
-                                                           innerObjectDefinitions,
-                                                           int line) :
+ExternalControllerDefinition::
+ExternalControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
+                             vector<IObjectElementDefinition*> objectElementDeclarations,
+                             vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                             vector<IObjectDefinition*> innerObjectDefinitions,
+                             const IObjectTypeSpecifier* scopeTypeSpecifier,
+                             int line) :
 mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions),
+mScopeTypeSpecifier(scopeTypeSpecifier),
 mLine(line) { }
 
 ExternalControllerDefinition::~ExternalControllerDefinition() {
@@ -42,6 +41,7 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
     delete innerObjectDefinition;
   }
   mInnerObjectDefinitions.clear();
+  delete mScopeTypeSpecifier;
 }
 
 Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext& context,
@@ -49,10 +49,10 @@ Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext& c
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
 
-  Controller* controller = Controller::newExternalController(fullName,
-                                                             structType,
-                                                             importProfile,
-                                                             mLine);
+  Controller* controller = mScopeTypeSpecifier == NULL
+  ? Controller::newExternalController(fullName, structType, importProfile, mLine)
+  : Controller::newExternalScopedController(fullName, structType, importProfile, mLine);
+  
   context.addController(controller, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();
@@ -73,7 +73,11 @@ void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers, NULL);
+  configureObject(context,
+                  controller,
+                  mObjectElementDeclarations,
+                  mInterfaceSpecifiers,
+                  mScopeTypeSpecifier);
   controller->declareInjectFunction(context, mLine);
   context.setObjectType(lastObjectType);
 }

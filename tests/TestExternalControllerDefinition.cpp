@@ -88,6 +88,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectTest) {
                                                     mElementDeclarations,
                                                     mInterfaces,
                                                     innerObjectDefinitions,
+                                                    NULL,
                                                     0);
 
   controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
@@ -113,6 +114,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
                                                     mElementDeclarations,
                                                     mInterfaces,
                                                     innerObjectDefinitions,
+                                                    NULL,
                                                     0);
 
   controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());

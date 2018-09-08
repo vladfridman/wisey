@@ -847,6 +847,10 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   printTypeKind(object, stream);
   stream << " ";
   stream << object->getTypeName();
+  if (object->isController() && object->isScopeInjected(context)) {
+    stream << " inScope ";
+    stream << ((const Controller*) object)->getScopeType()->getTypeName() << " ";
+  }
   if (!object->isPublic()) {
     stream << " {" << endl << "}" << endl;
     return;

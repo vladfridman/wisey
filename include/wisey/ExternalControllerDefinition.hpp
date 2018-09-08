@@ -27,6 +27,7 @@ namespace wisey {
     std::vector<IObjectElementDefinition*> mObjectElementDeclarations;
     std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
     std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    const IObjectTypeSpecifier* mScopeTypeSpecifier;
     int mLine;
     
   public:
@@ -35,6 +36,7 @@ namespace wisey {
                                  std::vector<IObjectElementDefinition*> objectElementDeclarations,
                                  std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                  std::vector<IObjectDefinition*> innerObjectDefinitions,
+                                 const IObjectTypeSpecifier* scopeTypeSpecifier,
                                  int line);
     
     ~ExternalControllerDefinition();

@@ -373,11 +373,11 @@ TEST_F(InterfaceTest, isScopeInjectedTest) {
   controllerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                             ->getPointerTo()->getPointerTo());
   controllerStructType->setBody(controllerTypes);
-  Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                                     controllerFullName,
-                                                     controllerStructType,
-                                                     mContext.getImportProfile(),
-                                                     0);
+  Controller* controller = Controller::newScopedController(AccessLevel::PUBLIC_ACCESS,
+                                                           controllerFullName,
+                                                           controllerStructType,
+                                                           mContext.getImportProfile(),
+                                                           0);
   vector<Interface*> controllerParentInterfaces;
   controllerParentInterfaces.push_back(interface);
   controller->setInterfaces(controllerParentInterfaces);
@@ -385,10 +385,6 @@ TEST_F(InterfaceTest, isScopeInjectedTest) {
   EXPECT_FALSE(interface->isScopeInjected(mContext));
 
   mContext.bindInterfaceToController(interface->getTypeName(), controller->getTypeName(), 0);
-  EXPECT_FALSE(interface->isScopeInjected(mContext));
-
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-  controller->setScopeType(threadInterface);
   EXPECT_TRUE(interface->isScopeInjected(mContext));
 }
 

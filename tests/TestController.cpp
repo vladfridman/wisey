@@ -587,9 +587,17 @@ TEST_F(ControllerTest, isObjectTest) {
 
 TEST_F(ControllerTest, isScopeInjectedTest) {
   EXPECT_FALSE(mAdditorController->isScopeInjected(mContext));
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-  mAdditorController->setScopeType(threadInterface);
-  EXPECT_TRUE(mAdditorController->isScopeInjected(mContext));
+  
+  
+  string controllerFullName = "systems.vos.wisey.compiler.tests.CAdditor";
+  StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
+  Controller* controller = Controller::newScopedController(AccessLevel::PUBLIC_ACCESS,
+                                                           controllerFullName,
+                                                           controllerStructType,
+                                                           mContext.getImportProfile(),
+                                                           0);
+
+  EXPECT_TRUE(controller->isScopeInjected(mContext));
 }
 
 TEST_F(ControllerTest, incrementReferenceCountTest) {
@@ -779,13 +787,22 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
 }
 
 TEST_F(ControllerTest, createContextInjectFunctionDeathTest) {
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-  mAdditorController->setScopeType(threadInterface);
+  string controllerFullName = "systems.vos.wisey.compiler.tests.CAdditor";
+  StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
+  Controller* controller = Controller::newScopedController(AccessLevel::PUBLIC_ACCESS,
+                                                           controllerFullName,
+                                                           controllerStructType,
+                                                           mContext.getImportProfile(),
+                                                           0);
+  vector<IField*> fields;
+  fields.push_back(new ReceivedField(mOwnerNode->getOwner(), "mOwner", 1));
+  fields.push_back(new ReceivedField(mReferenceModel, "mReference", 3));
+  controller->setFields(mContext, fields, 1u);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(mAdditorController->createInjectFunction(mContext, 0));
+  EXPECT_ANY_THROW(controller->createInjectFunction(mContext, 0));
   EXPECT_STREQ("/tmp/source.yz(1): Error: Scope injected controllers can not have received fields\n",
                buffer.str().c_str());
   

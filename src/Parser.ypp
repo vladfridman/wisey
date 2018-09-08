@@ -904,21 +904,22 @@ inner_controller_definition
   ;
 
 external_controller_definition
-  : TEXTERNAL TCONTROLLER controller_type_specifier_full implmeneted_interfaces
-      '{' external_object_element_declaration_list '}'
+  : TEXTERNAL TCONTROLLER controller_type_specifier_full object_scope 
+      implmeneted_interfaces '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ControllerTypeSpecifierFull* fullSpecifier =
         new ControllerTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ExternalControllerDefinition(fullSpecifier, 
-                                            std::get<0>(*$6), 
-                                            *$4,
-                                            std::get<1>(*$6),
+                                            std::get<0>(*$7), 
+                                            *$5,
+                                            std::get<1>(*$7),
+                                            $4,
                                             yylineno);
       delete $3;
-      delete $4;
-      delete $6;
+      delete $5;
+      delete $7;
     }
   ;
 
