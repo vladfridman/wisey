@@ -23,6 +23,7 @@ StaticMethodDefinition(const AccessLevel AccessLevel,
                        string name,
                        VariableList arguments,
                        vector<IModelTypeSpecifier*> exceptions,
+                       MethodQualifiers* methodQualifiers,
                        CompoundStatement* compoundStatement,
                        int line) :
 mAccessLevel(AccessLevel),
@@ -30,7 +31,7 @@ mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),
 mExceptions(exceptions),
-mMethodQualifiers(new MethodQualifiers(line)),
+mMethodQualifiers(methodQualifiers),
 mCompoundStatement(compoundStatement),
 mLine(line) { }
 

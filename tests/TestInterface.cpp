@@ -122,6 +122,7 @@ struct InterfaceTest : public Test {
                                                "foostatic",
                                                staticArguments,
                                                staticMethodExceptions,
+                                               new MethodQualifiers(0),
                                                staticMethodCompoundStatement,
                                                0);
 

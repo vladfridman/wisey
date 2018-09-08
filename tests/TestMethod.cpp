@@ -234,6 +234,14 @@ TEST_F(MethodTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
+TEST_F(TestFileRunner, privateMethodReturnsPrivateInnerObjectDeathRunTest) {
+  runFile("tests/samples/test_private_method_returns_private_inner_object.yz", 1);
+}
+
+TEST_F(TestFileRunner, publicInnerMethodReturnsPrivateInnerObjectDeathRunTest) {
+  runFile("tests/samples/test_public_inner_method_returns_private_inner_object.yz", 1);
+}
+
 TEST_F(TestFileRunner, freeOwnerReturnedFromMethodRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_free_owner_returned_from_method.yz",
                                         "5\n"
@@ -257,3 +265,9 @@ TEST_F(TestFileRunner, methodReturnTypeIsNotVoidDeathRunTest) {
                     "Error: Method run must return a value of type int");
 }
 
+TEST_F(TestFileRunner, methodReturnsPrivateInnerObjectDeathRunTest) {
+  expectFailCompile("tests/samples/test_method_returns_private_inner_object.yz",
+                    1,
+                    "tests/samples/test_method_returns_private_inner_object.yz\\(10\\): "
+                    "Error: Method returns a private inner object");
+}

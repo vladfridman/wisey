@@ -243,6 +243,7 @@ ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context)
                              Names::getThrowStackOverflowMethodName(),
                              arguments,
                              exceptions,
+                             new MethodQualifiers(0),
                              compoundStatement,
                              0);
 

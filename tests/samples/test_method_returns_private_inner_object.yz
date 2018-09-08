@@ -1,0 +1,23 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CService {
+  private model MCar {
+    public int getYear() { return 2019; }  
+  }
+
+  public CService.MCar* getCar() {
+    return build(CService.MCar).onHeap();
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService;
+
+  public int run(immutable string[] arguments) override {
+    return mService.getCar().getYear();
+  }
+} 
+
+bind(IProgram).to(CProgram);

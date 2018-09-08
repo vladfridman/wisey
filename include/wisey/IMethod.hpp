@@ -69,6 +69,13 @@ namespace wisey {
                                                     const IObjectType* objectType,
                                                     const IMethod* method);
     
+    /**
+     * Check that the return type is not an inner private object
+     */
+    static void checkReturnType(IRGenerationContext& context,
+                                const IMethod* method,
+                                const IObjectType* object);
+    
   };
   
 } /* namespace wisey */

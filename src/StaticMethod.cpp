@@ -155,6 +155,7 @@ Function* StaticMethod::declareFunction(IRGenerationContext& context) const {
 }
 
 void StaticMethod::generateIR(IRGenerationContext& context) const {
+  IMethod::checkReturnType(context, this, mObjectType);
   string functionName = IMethodCall::translateObjectMethodToLLVMFunctionName(mObjectType, mName);
   Function* function = context.getModule()->getFunction(functionName);
   assert(function != NULL);

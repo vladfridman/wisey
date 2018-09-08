@@ -1309,9 +1309,9 @@ method_definition
 
 static_method_definition
   : access_specifier TSTATIC type_specifier TIDENTIFIER '(' method_definition_arguments ')'
-      method_exceptions compound_statement
+      method_exceptions method_qualifiers compound_statement
     {
-      $$ = new StaticMethodDefinition($1, $3, *$4, *$6, *$8, $9, yylineno);
+      $$ = new StaticMethodDefinition($1, $3, *$4, *$6, *$8, $9, $10, yylineno);
       delete $4;
       delete $6;
       delete $8;
@@ -1320,9 +1320,9 @@ static_method_definition
 
 interface_static_method_definition
   : access_specifier TSTATIC type_specifier TIDENTIFIER '(' method_definition_arguments ')'
-      method_exceptions compound_statement
+      method_exceptions method_qualifiers compound_statement
     {
-      $$ = new StaticMethodDefinition($1, $3, *$4, *$6, *$8, $9, yylineno);
+      $$ = new StaticMethodDefinition($1, $3, *$4, *$6, *$8, $9, $10, yylineno);
       delete $4;
       delete $6;
       delete $8;

@@ -62,6 +62,7 @@ TEST_F(StaticMethodDefinitionTest, methodDescriptorExtractTest) {
                                           "foo",
                                           mArguments,
                                           thrownExceptions,
+                                          new MethodQualifiers(0),
                                           mCompoundStatement,
                                           0);
   IMethod* method = methodDefinition.define(mContext, NULL);

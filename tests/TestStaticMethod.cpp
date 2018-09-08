@@ -261,3 +261,9 @@ TEST_F(TestFileRunner, staticMethodReturnTypeIsNotVoidDeathRunTest) {
                     "Error: Static method foo must return a value of type int");
 }
 
+TEST_F(TestFileRunner, staticMethodReturnsPrivateInnerObjectDeathRunTest) {
+  expectFailCompile("tests/samples/test_static_method_returns_private_inner_object.yz",
+                    1,
+                    "tests/samples/test_static_method_returns_private_inner_object.yz\\(10\\): "
+                    "Error: Method returns a private inner object");
+}

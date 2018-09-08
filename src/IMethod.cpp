@@ -107,3 +107,29 @@ Function* IMethod::declareFunctionForObject(IRGenerationContext& context,
   
   return function;
 }
+
+void IMethod::checkReturnType(IRGenerationContext& context,
+                              const IMethod* method,
+                              const IObjectType* object) {
+  const IType* returnType = method->getReturnType();
+  if (!IObjectType::isObjectType(returnType)) {
+    return;
+  }
+  
+  if (object->isInner() && !object->isPublic()) {
+    return;
+  }
+  
+  if (!method->isPublic()) {
+    return;
+  }
+  
+  const IObjectType* returnObjectType = returnType->isOwner()
+  ? (const IObjectType*) ((const IObjectOwnerType*) returnType)->getReference()
+  : (const IObjectType*) returnType;
+  if (returnObjectType->isInner() && !returnObjectType->isPublic()) {
+    context.reportError(method->getMethodQualifiers()->getLine(),
+                        "Method returns a private inner object");
+    throw 1;
+  }
+}
