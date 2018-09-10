@@ -31,7 +31,7 @@ controller CMandelbrot implements IProgram {
 
     int width = (n + 7) / 8;
     for (int i = 0; i < n; i++) {
-      IWorker* worker = build(CMandelbrot.MWorker)
+      IWorker* worker = build(MWorker)
         .withCrb(mCrb)
         .withCib(mCib)
         .withWidth(width)
@@ -40,9 +40,9 @@ controller CMandelbrot implements IProgram {
       mThreadPool.submit(worker);
     }
     mThreadPool.start();
-    CMandelbrot.MResult*[]* results = new CMandelbrot.MResult*[n];
+    MResult*[]* results = new MResult*[n];
     for (int resultCount = 0; resultCount < n; resultCount++) {
-      CMandelbrot.MResult* result = (CMandelbrot.MResult*) mThreadPool.getResult();
+      MResult* result = (MResult*) mThreadPool.getResult();
       results[result.getY()] = result;
     }
     mThreadPool.stop();
@@ -58,8 +58,8 @@ controller CMandelbrot implements IProgram {
   }
 
   private model MWorker implements IWorker {
-    immutable double[]* mCrb;
-    immutable double[]* mCib;
+    immutable double[] mCrb;
+    immutable double[] mCib;
     int mY;
     int mWidth;
 
@@ -69,7 +69,7 @@ controller CMandelbrot implements IProgram {
         int result = getByte(xb * 8, mY);
         line[xb] = (byte) result;
       }
-      thread.send(build(CMandelbrot.MResult).withArray(line).withY(mY).onHeap());
+      thread.send(build(MResult).withArray(line).withY(mY).onHeap());
     }
 
     private int getByte(int x, int y) {

@@ -26,11 +26,13 @@ std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
     return objectType->getTypeName();
   }
   
-  const IObjectType* innerObject = objectType ? objectType->getInnerObject(shortName) : NULL;
+  const IObjectType* parentObject = objectType
+  ? IObjectType::getParentOrSelf(&context, objectType, line) : objectType;
+  const IObjectType* innerObject = parentObject ? parentObject->getInnerObject(shortName) : NULL;
   if (innerObject) {
     return innerObject->getTypeName();
   }
-  
+
   ImportProfile* importProfile = objectType
     ? objectType->getImportProfile()
     : context.getImportProfile();

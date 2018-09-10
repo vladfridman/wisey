@@ -31,7 +31,7 @@ controller CBinaryTrees implements IProgram {
     treeNode = bottomUpTree(maxDepth, mLongLivedPool);
 
     for (int depth = MIN_DEPTH; depth <= maxDepth; depth = depth + 2) {
-      IWorker* worker = build(CBinaryTrees.MWorker)
+      IWorker* worker = build(MWorker)
         .withMaxDepth(maxDepth)
         .withDepth(depth)
         .onHeap();
@@ -42,10 +42,10 @@ controller CBinaryTrees implements IProgram {
       mThreadPool.submit(worker);
     }
     mThreadPool.start();
-    CBinaryTrees.MResult*[]* results = new CBinaryTrees.MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
+    MResult*[]* results = new MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
     int resultCount = 0;
     while (resultCount < results.getSize()) {
-      CBinaryTrees.MResult* result = (MResult*) mThreadPool.getResult();
+      MResult* result = (MResult*) mThreadPool.getResult();
       results[(result.getDepth() - MIN_DEPTH) / 2] = result;
       resultCount++;
     }
@@ -94,14 +94,14 @@ controller CBinaryTrees implements IProgram {
     int mDepth;
 
     public void work() override {
-      CMemoryPool pool = inject(CBinaryTrees.CThreadMemoryPool).onHeap().getMemoryPool();
+      CMemoryPool pool = inject(CThreadMemoryPool).onHeap().getMemoryPool();
       int check = 0;
 
       int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
       for (int i = 1; i <= iterations; i++) {
         check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
       }
-      thread.send(build(CBinaryTrees.MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
+      thread.send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
     }
   }
 

@@ -12,7 +12,7 @@ import wisey.threads.IThread;
 import wisey.threads.IWorker;
 import wisey.threads.CThreadPool;
 
-controller CProgram implements IProgram, IObjectComparator {
+controller CKNucleotide implements IProgram, IObjectComparator {
   private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
@@ -45,8 +45,8 @@ controller CProgram implements IProgram, IObjectComparator {
     int mKeyLength;
     int mArrayIndex;
 
-    public CProgram.CFragment* toController() {
-      CProgram.CFragment* fragment = inject(CProgram.CFragment)
+    public CFragment* toController() {
+      CFragment* fragment = inject(CFragment)
         .withKeyLength(mKeyLength)
         .onHeap();
       for (int i = 0; i < mKeys.getSize(); i++) {
@@ -119,7 +119,7 @@ controller CProgram implements IProgram, IObjectComparator {
     int mArrayIndex;
 
     public void work() override {
-      CLongToIntMap map = inject(CProgram.CFragmentWorkerContext).onHeap().getMap();
+      CLongToIntMap map = inject(CFragmentWorkerContext).onHeap().getMap();
       int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1;
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
         long key = 0;
@@ -129,7 +129,7 @@ controller CProgram implements IProgram, IObjectComparator {
         map.addTo(key, 1);
       }
 
-      CProgram.MFragmentWorkerResult* result = build(CProgram.MFragmentWorkerResult)
+      MFragmentWorkerResult* result = build(MFragmentWorkerResult)
         .withKeys(map.getKeys())
         .withValues(map.getValues())
         .withKeyLength(mFragmentLength)
@@ -265,4 +265,4 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 }
 
-bind(IProgram).to(CProgram);
+bind(IProgram).to(CKNucleotide);
