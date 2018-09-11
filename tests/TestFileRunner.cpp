@@ -122,7 +122,7 @@ void TestFileRunner::expectFailCompile(string fileName,
 void TestFileRunner::compileAndRunFile(string fileName, int expectedResult) {
   exec("mkdir -p build");
   
-  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
+  string wiseyCompileCommand = "bin/yzc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
   exec("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test");
@@ -137,7 +137,7 @@ void TestFileRunner::compileAndRunFileCheckOutput(string fileName,
                                                   string expectedErr) {
   exec("mkdir -p build");
   
-  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
+  string wiseyCompileCommand = "bin/yzc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
   exec("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test > build/wisey.out 2> build/wisey.err");
@@ -156,7 +156,7 @@ void TestFileRunner::compileAndRunFileWithInputCheckOutput(string fileName,
                                                            string expectedErr) {
   exec("mkdir -p build");
   
-  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
+  string wiseyCompileCommand = "bin/yzc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
   exec("g++ -o build/test build/test.o -Llib -lwisey");
   string command = "build/test < " + inputFile + "> build/wisey.out 2> build/wisey.err";

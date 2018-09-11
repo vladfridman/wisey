@@ -152,8 +152,6 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourcePatterns) {
   vector<ProgramFile*> results;
   
   for (string sourceFile : sourceFiles) {
-    Log::i("Parsing file " + string(sourceFile));
-    
     yyin = fopen(sourceFile.c_str(), "r");
     yylineno = 1;
     SourceFile = sourceFile;

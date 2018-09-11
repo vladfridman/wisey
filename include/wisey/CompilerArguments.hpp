@@ -26,101 +26,119 @@ namespace wisey {
     bool mIsDestructorDebugOn;
     bool mShouldOptimize;
     std::vector<std::string> mSourceFiles;
-    
+    std::vector<std::string> mLibraryPaths;
+    std::vector<std::string> mLibraryNames;
+
   public:
     
-    CompilerArguments() :
-    mOutputFile(""),
-    mHeaderFile(""),
-    mShouldPrintAssembly(false),
-    mIsVerbouse(false),
-    mShouldOutput(true),
-    mIsDestructorDebugOn(false),
-    mShouldOptimize(true) {
-    }
+    CompilerArguments();
     
-    ~CompilerArguments() {
-    }
+    ~CompilerArguments();
     
     /**
      * Returns output object file name
      */
-    std::string getOutputFile() { return mOutputFile; }
+    std::string getOutputFile() const;
     
     /**
      * Configures output object file name
      */
-    void setOutputFile(std::string outputFile) { mOutputFile = outputFile; }
+    void setOutputFile(std::string outputFile);
     
     /**
      * Returns header file name that compiler should generate
      */
-    std::string getHeaderFile() { return mHeaderFile; }
+    std::string getHeaderFile() const;
     
     /**
      * Configures header file name that compiler should generate
      */
-    void setHeaderFile(std::string headerFile) { mHeaderFile = headerFile; }
+    void setHeaderFile(std::string headerFile);
     
     /**
      * Tells whether the compiler should print generate IR code
      */
-    bool shouldPrintAssembly() { return mShouldPrintAssembly; }
+    bool shouldPrintAssembly() const;
     
     /**
      * Configures whether the compiler should print generate IR code
      */
-    void setShouldPrintAssembly(bool value) { mShouldPrintAssembly = value; }
+    void setShouldPrintAssembly(bool value);
     
     /**
      * Tells whether the verbouse mode is on
      */
-    bool isVerbouse() { return mIsVerbouse; }
+    bool isVerbouse() const;
     
     /**
      * Turns on verbouse mode
      */
-    void setVerbouse(bool value) { mIsVerbouse = value; }
+    void setVerbouse(bool value);
     
     /**
      * Tells whether the compiler should generate a binary file
      */
-    bool shouldOutput() { return mShouldOutput; }
+    bool shouldOutput() const;
     
     /**
      * Configures whether the compiler should generate a binary file
      */
-    void setShouldOutput(bool value) { mShouldOutput = value; }
+    void setShouldOutput(bool value);
     
     /**
      * Returns the list of source files
      */
-    std::vector<std::string> getSourceFiles() { return mSourceFiles; }
+    std::vector<std::string> getSourceFiles() const;
     
     /**
      * Adds a source file to the list of source files
      */
-    void addSourceFile(std::string sourceFile) { mSourceFiles.push_back(sourceFile); }
-    
-    /**
-     * Sets whether destructor debug messages should be generated
-     */
-    void setDestructorDebug(bool value) { mIsDestructorDebugOn = value; }
+    void addSourceFile(std::string sourceFile);
     
     /**
      * Tells whether the destructor debug messages should be generated
      */
-    bool isDestructorDebugOn() { return mIsDestructorDebugOn; }
+    bool isDestructorDebugOn() const;
+
+    /**
+     * Sets whether destructor debug messages should be generated
+     */
+    void setDestructorDebug(bool value);
     
     /**
      * Tells whether the compiler should run optimization passes
      */
-    bool shouldOptimize() { return mShouldOptimize; }
+    bool shouldOptimize() const;
     
     /**
      * Configures whether the compiler should run optimization passes
      */
-    void setShouldOptimize(bool value) { mShouldOptimize = value; }
+    void setShouldOptimize(bool value);
+    
+    /**
+     * Returns list of library paths
+     */
+    std::vector<std::string> getLibraryPaths() const;
+    
+    /**
+     * Adds a library path
+     */
+    void addLibraryPath(std::string path);
+    
+    /**
+     * Returns list of library names
+     */
+    std::vector<std::string> getLibraryNames() const;
+    
+    /**
+     * Adds a library name
+     */
+    void addLibraryName(std::string name);
+    
+    /**
+     * Convert compiler arguments into string form for sending it to a compiler
+     */
+    std::string toString() const;
     
   };
   

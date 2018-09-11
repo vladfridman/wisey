@@ -12,25 +12,39 @@
 using namespace std;
 using namespace wisey;
 
-void CompilerArgumentParser::printSyntaxAndExit() const {
-  cerr << "Syntax: wiseyc "
-          "[-d|--destructor-debug] "
-          "[-e|--emit-llvm] "
-          "[-h|--help] "
-          "[-v|--verbouse] "
-          "[-H|--headers <header_file.yzh>] "
-          "[-o|--output <object_file.o>] "
-          "[-n|--no-output] "
-          "[--no-optimization] "
-          "<source_file.yz>..." << endl;
+void CompilerArgumentParser::printSyntaxAndExit(CompilerMode compilerMode) const {
+  string outputFile = "runnable_file_name";
+  string compiler = "wiseyc";
+  if (compilerMode == YZC) {
+    outputFile = "object_file_name.o";
+    compiler = "yzc";
+  } else if (compilerMode == WISEYLIBC) {
+    outputFile = "library_file_name.so";
+    compiler = "wiseylibc";
+  }
+  cerr << "Syntax: " + compiler + " "
+  "[-d|--destructor-debug] "
+  "[-e|--emit-llvm] "
+  "[-h|--help] "
+  "[-v|--verbouse] "
+  "[-H|--headers <header_file.yz>] "
+  "[-o|--output <"
+  << outputFile
+  << ">] "
+  "[-n|--no-output] "
+  "[--no-optimization] "
+  "[-L<path_to_library>] "
+  "[-l<library_name_to_link>] "
+  "<source_file.yz>..." << endl;
   exit(1);
 }
 
-CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets) const {
+CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets,
+                                                CompilerMode compilerMode) const {
   CompilerArguments compilerArguments;
 
   if (argumnets.size() == 0) {
-    printSyntaxAndExit();
+    printSyntaxAndExit(compilerMode);
   }
   
   for (vector<string>::iterator iterator = argumnets.begin();
@@ -38,7 +52,7 @@ CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets) const 
        iterator++) {
     string argument = *iterator;
     if (!argument.compare("--help") || !argument.compare("-h")) {
-      printSyntaxAndExit();
+      printSyntaxAndExit(compilerMode);
     }
     if (!argument.compare("--emit-llvm") || !argument.compare("-e")) {
       compilerArguments.setShouldPrintAssembly(true);
@@ -67,6 +81,14 @@ CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets) const 
     if (!argument.compare("--headers") || !argument.compare("-H")) {
       iterator++;
       compilerArguments.setHeaderFile(*iterator);
+      continue;
+    }
+    if (argument.find("-L") == 0) {
+      compilerArguments.addLibraryPath(argument);
+      continue;
+    }
+    if (argument.find("-l") == 0) {
+      compilerArguments.addLibraryName(argument);
       continue;
     }
     if (!argument.compare("--no-output") || !argument.compare("-n")) {

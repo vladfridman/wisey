@@ -24,7 +24,7 @@ struct CompilerArgumentParserTest : public ::testing::Test {
 
 TEST_F(CompilerArgumentParserTest, noArgumentsTest) {
   vector<string> arguments;
-  EXPECT_EXIT(mParser.parse(arguments),
+  EXPECT_EXIT(mParser.parse(arguments, YZC),
               ::testing::ExitedWithCode(1),
               "Syntax: wiseyc "
               "\\[-d|--destructor-debug\\] "
@@ -40,7 +40,7 @@ TEST_F(CompilerArgumentParserTest, helpTest) {
   vector<string> arguments;
   arguments.push_back("-h");
 
-  EXPECT_EXIT(mParser.parse(arguments),
+  EXPECT_EXIT(mParser.parse(arguments, YZC),
               ::testing::ExitedWithCode(1),
               "Syntax: wiseyc "
               "\\[-d|--destructor-debug\\] "
@@ -57,7 +57,7 @@ TEST_F(CompilerArgumentParserTest, missingOutputFileTest) {
   arguments.push_back("tests/samples/test_addition.yz");
   arguments.push_back("-o");
   
-  EXPECT_EXIT(mParser.parse(arguments),
+  EXPECT_EXIT(mParser.parse(arguments, YZC),
               ::testing::ExitedWithCode(1),
               "Error: You need to specify the output file name after \"-o\"\n");
 }
@@ -66,8 +66,8 @@ TEST_F(CompilerArgumentParserTest, unknownArgumentTest) {
   vector<string> arguments;
   arguments.push_back("tests/samples/test_addition.yz");
   arguments.push_back("-foo");
-  
-  EXPECT_EXIT(mParser.parse(arguments),
+
+  EXPECT_EXIT(mParser.parse(arguments, YZC),
               ::testing::ExitedWithCode(1),
               "Error: Unknown argument -foo\n");
 }
@@ -76,7 +76,7 @@ TEST_F(CompilerArgumentParserTest, normalRunTest) {
   vector<string> arguments;
   arguments.push_back("tests/samples/test_addition.yz");
   
-  CompilerArguments parsedArguments = mParser.parse(arguments);
+  CompilerArguments parsedArguments = mParser.parse(arguments, YZC);
   EXPECT_EQ(parsedArguments.getSourceFiles().size(), 1u);
   EXPECT_STREQ(parsedArguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
   EXPECT_STREQ(parsedArguments.getOutputFile().c_str(), "");
@@ -89,7 +89,7 @@ TEST_F(CompilerArgumentParserTest, outputToFileTest) {
   arguments.push_back("-o");
   arguments.push_back("build/test.bc");
   
-  CompilerArguments parsedArguments = mParser.parse(arguments);
+  CompilerArguments parsedArguments = mParser.parse(arguments, YZC);
   EXPECT_EQ(parsedArguments.getSourceFiles().size(), 1u);
   EXPECT_STREQ(parsedArguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
   EXPECT_STREQ(parsedArguments.getOutputFile().c_str(), "build/test.bc");
@@ -102,7 +102,7 @@ TEST_F(CompilerArgumentParserTest, printAssemblyTest) {
   arguments.push_back("tests/samples/test_addition.yz");
   arguments.push_back("--emit-llvm");
   
-  CompilerArguments parsedArguments = mParser.parse(arguments);
+  CompilerArguments parsedArguments = mParser.parse(arguments, YZC);
   EXPECT_EQ(parsedArguments.getSourceFiles().size(), 1u);
   EXPECT_STREQ(parsedArguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
   EXPECT_STREQ(parsedArguments.getOutputFile().c_str(), "");

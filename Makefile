@@ -23,7 +23,7 @@ SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
 OBJ = $(SOURCES:src/%.cpp=$(BUILDDIR)/%.o) $(BUILDDIR)/Tokens.o $(BUILDDIR)/y.tab.o
 # objects that contain main() funtions
-MAINS = $(BUILDDIR)/wiseyrun.o $(BUILDDIR)/wiseyc.o
+MAINS = $(BUILDDIR)/wiseyrun.o $(BUILDDIR)/wiseyc.o $(BUILDDIR)/wiseylibc.o $(BUILDDIR)/yzc.o
 # Objects except the object files that contain main functions
 OBJEXCEPTMAINS = $(filter-out $(MAINS), $(OBJ))
 # Test directory
@@ -42,7 +42,7 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 # Flags used for linking
 LDFLAGS = `llvm-config --ldflags --system-libs --libs all` -L$(LIBDIR) -lwisey
 
-default: ${BINDIR}/wiseyc
+default: ${BINDIR}/yzc
 
 clean:
 	rm -rf ${BINDIR} ${BUILDDIR} ${PARSERDIR}
@@ -78,11 +78,23 @@ $(BUILDDIR)/Tokens.o: ${PARSERDIR}/Tokens.cpp | ${BUILDDIR}
 $(BUILDDIR)/wiseyc.o: ${SRCDIR}/wiseyc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
+$(BUILDDIR)/wiseylibc.o: ${SRCDIR}/wiseylibc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
+
+$(BUILDDIR)/yzc.o: ${SRCDIR}/yzc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
+
 $(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/wisey/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
 ${BINDIR}/wiseyc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseyc.o | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
 
-${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/wiseyc
-	$(CC) -o ${BINDIR}/runtests $(LDFLAGS) -lgtest -lgmock $^
+${BINDIR}/wiseylibc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseylibc.o | ${BINDIR}
+	$(LD) -o $@ $(LDFLAGS) $^
+
+${BINDIR}/yzc: $(OBJEXCEPTMAINS) ${BUILDDIR}/yzc.o | ${BINDIR}
+	$(LD) -o $@ $(LDFLAGS) $^
+
+${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/yzc ${BINDIR}/wiseyc ${BINDIR}/wiseylibc
+	$(CC) -o $@ $(LDFLAGS) -lgtest -lgmock $^

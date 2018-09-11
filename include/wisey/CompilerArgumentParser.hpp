@@ -13,6 +13,8 @@
 
 namespace wisey {
   
+  typedef enum CompilerModeEnum { YZC, WISEYC, WISEYLIBC } CompilerMode;
+
   /**
    * Used for parsing command line arguments for the Wisey compiler
    */
@@ -27,11 +29,11 @@ namespace wisey {
     /**
      * Parse given command line arguments
      */
-    CompilerArguments parse(std::vector<std::string> argumnets) const;
+    CompilerArguments parse(std::vector<std::string> argumnets, CompilerMode compilerMode) const;
     
   private:
     
-    void printSyntaxAndExit() const;
+    void printSyntaxAndExit(CompilerMode compilerMode) const;
   };
   
 } /* namespace wisey */

@@ -5,7 +5,7 @@
 //  Created by Vladimir Fridman on 5/24/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link CompilerArgumentParser}
+//  Tests {@link Compiler}
 //
 
 #include <gtest/gtest.h>
