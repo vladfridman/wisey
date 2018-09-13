@@ -4,7 +4,14 @@ package wisey.lang;
  * Thrown when attempting to destroy an CMemoryPool that still has objects allocated in it
  */
 model MMemoryPoolNonEmpty implements IException {
+  /**
+   * Number of objects still on the memory pool
+   */
   receive long mObjectCount;
+
+  /**
+   * Pointer to the exception from which this one was thrown
+   */
   receive IException mNestedException;
 
   public NString* report() override {

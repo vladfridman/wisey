@@ -3,10 +3,15 @@ package wisey.io;
 import wisey.lang.NString;
 
 /**
- * Writes to a text stream
+ * Writes to a text stream. 
+ *
+ * Create an instance of this object by calling one of create static methods
  */
 controller CTextStreamWriter {
 
+  /**
+   * File handle pointer pointing to the native stream. 
+   */
   receive ::llvm::struct::__sFILE::pointer mStream;
 
   /**

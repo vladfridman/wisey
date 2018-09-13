@@ -8,6 +8,9 @@ import wisey.lang.NString;
  * Exception that is thrown by wisey.io.CTextStreamWriter when it is not able to open a file
  */
 model MFileCouldNotOpenException implements IException {
+  /**
+   * File name that threw the exception
+   */
   receive MString* mFileName;
 
   public NString* report() override {

@@ -8,6 +8,10 @@ import wisey.lang.NString;
  * externally visible thread method is called from inside the thread.
  */
 model MThreadBoundaryException implements IException {
+
+  /**
+   * Tells whether the method that was called was internal the calling thread
+   */
   receive boolean mIsMethodInternal;
 
   public NString* report() override {

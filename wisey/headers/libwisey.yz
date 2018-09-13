@@ -357,7 +357,6 @@ external controller wisey.io.CBinaryStreamWriter {
 
 external controller wisey.io.CTextStreamReader {
 
-  constant int BUFFER_SIZE = 256;
 
   receive ::llvm::struct::__sFILE::pointer mStream;
 
@@ -493,7 +492,6 @@ external controller wisey.threads.CWorkerThreadRunner
 
 external node wisey.lang.NString {
 
-  constant long DEFAULT_INITIAL_CAPACITY = 64l;
 
   receive char[]* mBuffer;
   receive long mCapacity;

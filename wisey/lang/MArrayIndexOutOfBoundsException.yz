@@ -4,7 +4,14 @@ package wisey.lang;
  * This is thrown when index in an array is used that is out of array range
  */
 model MArrayIndexOutOfBoundsException implements IException {
+  /**
+   * Size of the array that threw the exception
+   */
   receive long mArraySize;
+
+  /**
+   * Index used on the array that threw the exception
+   */
   receive long mIndex;
 
   public NString* report() override {

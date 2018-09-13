@@ -1,10 +1,15 @@
 package wisey.lang;
 
 /**
- * String model is an immutable representation of a string
+ * String model is an immutable representation of a string. 
+ *
+ * Instantiate this object by calling one of the static create methods
  */
 model MString {
 
+  /**
+   * Character array representing the string
+   */
   receive immutable char[]* mContent;
 
   /**

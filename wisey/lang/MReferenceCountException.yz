@@ -4,8 +4,20 @@ package wisey.lang;
  * Thrown when attempting to destroy an object that still has active references pointing to it
  */
 model MReferenceCountException implements IException {
+
+  /**
+   * Object type that threw the exception
+   */
   receive string mObjectType;
+
+  /**
+   * Number of references that the object still has
+   */
   receive long mReferenceCount;
+
+  /**
+   * Pointer to the exception from which this one was thrown
+   */
   receive IException mNestedException;
 
   public NString* report() override {

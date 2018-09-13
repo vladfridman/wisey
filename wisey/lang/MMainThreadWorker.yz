@@ -7,10 +7,13 @@ import wisey.threads.IWorker;
 import wisey.threads.MThreadBoundaryException;
 
 /**
- * This class is the worker for the main thread, it injects the program and sends the result
+ * This class is the worker for the main thread, it injects the program controller and calls run()
  */
 model MMainThreadWorker implements IWorker {
 
+  /**
+   * Command line arguments passed from the main() function
+   */
   receive immutable string[]* mArguments;
 
   /**
@@ -46,8 +49,14 @@ model MMainThreadWorker implements IWorker {
    * Represents program result
    */
   public model MProgramResult {
+    /**
+     * Program result value expected to be of type int
+     */
     receive int mResult;
 
+    /**
+     * Returns back program result value
+     */
     public int getResult() {
       return mResult;
     }

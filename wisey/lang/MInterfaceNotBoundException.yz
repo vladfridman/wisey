@@ -4,6 +4,9 @@ package wisey.lang;
  * This is thrown when an unbound interface is injected
  */
 model MInterfaceNotBoundException implements IException {
+  /**
+   * Name of the interface object
+   */
   receive string mInterfaceName;
 
   public NString* report() override {

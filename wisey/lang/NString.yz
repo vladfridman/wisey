@@ -2,13 +2,26 @@ package wisey.lang;
 
 /**
  * String node allows one to work with a modifiable string
+ *
+ * Instantiate this object by calling one of the static create methods
  */
 node NString {
 
-  public constant long DEFAULT_INITIAL_CAPACITY = 64l;
+  private constant long DEFAULT_INITIAL_CAPACITY = 64l;
 
+  /**
+   * Character buffer containing the string
+   */
   receive char[]* mBuffer;
+
+  /**
+   * Character buffer capacity
+   */
   receive long mCapacity; 
+
+  /**
+   * Current string length
+   */
   receive long mLength;
 
   /**

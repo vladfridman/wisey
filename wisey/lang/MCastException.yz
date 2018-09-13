@@ -4,7 +4,14 @@ package wisey.lang;
  * This is thrown when program is unable to cast at runtime
  */
 model MCastException implements IException {
+  /**
+   * Type name from which the user tried to cast
+   */
   receive string mFromType;
+
+  /**
+   * Type name to which the user tried to cast
+   */
   receive string mToType;
 
   public NString* report() override {

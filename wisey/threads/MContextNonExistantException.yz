@@ -7,6 +7,10 @@ import wisey.lang.NString;
  * Thrown when adding instance of a class for a context that does not exist
  */
 model MContextNonExistantException implements IException {
+
+  /**
+   * Name of the unknown context
+   */
   receive string mContextName;
 
   public NString* report() override {

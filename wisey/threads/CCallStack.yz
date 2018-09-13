@@ -8,6 +8,9 @@ import wisey.lang.NString;
  * Keeps track of the method call stack and can print out a strack trace
  */
 controller CCallStack {
+  /**
+   * Call stack size
+   */
   public constant int CALL_STACK_SIZE = 1024;
 
   inject immediate string[CALL_STACK_SIZE]* mCallInfo;
