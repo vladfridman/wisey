@@ -1,14 +1,5 @@
 /* Interfaces */
 
-external interface wisey.data.CPointerList.IListElement {
-
-  wisey.data.CPointerList.IListElement getNext();
-  wisey.data.CPointerList.IListElement* takeNext();
-  void setNext(
-    wisey.data.CPointerList.IListElement* element);
-  ::llvm::i8::pointer getKey();
-}
-
 external interface wisey.data.IObjectComparator {
 
   boolean compare(
@@ -290,17 +281,6 @@ external controller wisey.data.COwnerVector {
   void clear();
   void sort(
     wisey.data.IObjectComparator comparator);
-}
-
-external controller wisey.data.CPointerList {
-
-  void append(
-    ::llvm::i8::pointer key,
-    wisey.data.CPointerList.IListElement* element);
-  wisey.data.CPointerList.IListElement get(
-    ::llvm::i8::pointer key);
-  void erase(
-    ::llvm::i8::pointer key);
 }
 
 external controller wisey.data.CReferenceList {
