@@ -1,7 +1,7 @@
 package wisey.threads;
 
 /**
- * Represents a model object that worker thread implementation runs by calling work() method
+ * Represents a model object that worker thread implementation runs by calling work() method<br/>
  *
  * One has to implement this interface in a model and pass the model to one of the thread 
  * implementations' start methods to start a new thread.

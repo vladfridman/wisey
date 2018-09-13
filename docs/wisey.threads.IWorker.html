@@ -1,0 +1,69 @@
+<html>
+<head>
+<link href="wiseydoc.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="contents">
+    <a href="index.html">Index</a>  </div>
+  <div class="contents">
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Object</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            interface
+          </td>
+          <td class="elementDefinitionRight">
+            wisey.threads.IWorker
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Represents a model object that worker thread implementation runs by calling work() method<br/>
+
+One has to implement this interface in a model and pass the model to one of the thread 
+implementations' start methods to start a new thread.
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Public Methods</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            work ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Method where thread work happens. 
+
+Results should be sent back to the calling thread through thread.send() method.
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

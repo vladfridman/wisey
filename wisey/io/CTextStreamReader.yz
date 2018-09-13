@@ -9,6 +9,9 @@ controller CTextStreamReader {
 
   private constant int BUFFER_SIZE = 256;
 
+  /**
+   * Pointer to the native stream
+   */
   receive ::llvm::struct::__sFILE::pointer mStream;
 
   inject immediate char[BUFFER_SIZE]* mBuffer;

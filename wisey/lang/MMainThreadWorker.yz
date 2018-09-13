@@ -7,7 +7,9 @@ import wisey.threads.IWorker;
 import wisey.threads.MThreadBoundaryException;
 
 /**
- * This class is the worker for the main thread, it injects the program controller and calls run()
+ * This object is the worker for the main thread.
+ *
+ * It injects the program controller and calls run() on it
  */
 model MMainThreadWorker implements IWorker {
 

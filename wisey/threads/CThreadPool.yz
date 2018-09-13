@@ -3,10 +3,11 @@ package wisey.threads;
 import wisey.data.CConcurrentModelOwnerQueue;
 
 /**
- * Simple implementation of a thread pool
+ * Simple implementation of a thread pool.
  *
  * Here is how to use it:
  *
+ * <pre>
  * controller CYourController {
  *   inject CThreadPool* mThreadPool.withPoolSize(4);
  *
@@ -25,6 +26,7 @@ import wisey.data.CConcurrentModelOwnerQueue;
  *     // you can then reuse the thread pool by calling start() method again
  *   }
  * }
+ * </pre>
  */
 controller CThreadPool {
 

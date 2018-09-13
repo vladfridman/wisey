@@ -1,0 +1,166 @@
+<html>
+<head>
+<link href="wiseydoc.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="contents">
+    <a href="index.html">Index</a>  </div>
+  <div class="contents">
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Object</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            model
+          </td>
+          <td class="elementDefinitionRight">
+            wisey.lang.MReferenceCountException
+ implements <a href="wisey.lang.IException.html">IException</a>          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Thrown when attempting to destroy an object that still has active references pointing to it
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Received Fields</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            string          </td>
+          <td class="elementDefinitionRight">
+            mObjectType
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Object type that threw the exception
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            long          </td>
+          <td class="elementDefinitionRight">
+            mReferenceCount
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Number of references that the object still has
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            <a href="wisey.lang.IException.html">IException</a>          </td>
+          <td class="elementDefinitionRight">
+            mNestedException
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Pointer to the exception from which this one was thrown
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Public Methods</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            <a href="wisey.lang.NString.html">NString</a>*          </td>
+          <td class="elementDefinitionRight">
+            report ()  override of <a href="wisey.lang.IException.html">IException</a>.report()          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Returns information about the exception in a form of a string
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            long          </td>
+          <td class="elementDefinitionRight">
+            getReferenceCount ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Returns the number of references that are still pointing to the object
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            string          </td>
+          <td class="elementDefinitionRight">
+            getObjectType ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Returns the object type name
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

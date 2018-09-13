@@ -1,0 +1,211 @@
+<html>
+<head>
+<link href="wiseydoc.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="contents">
+    <a href="index.html">Index</a>  </div>
+  <div class="contents">
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Object</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            controller
+          </td>
+          <td class="elementDefinitionRight">
+            wisey.threads.CThreadPool
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Simple implementation of a thread pool.
+
+Here is how to use it:
+
+<pre>
+controller CYourController {
+  inject CThreadPool* mThreadPool.withPoolSize(4);
+
+  public void yourMethod() {
+    // submit your workers 
+    mThreadPool.submit(build(MyWorker1).onHeap());
+    mThreadPool.submit(build(MyWorker2).onHeap());
+    ...
+    // start threads on the thread pool, can also be called before workers are submitted
+    mThreadPool.start();
+    MyModel* result = (MyModel*) mThreadPool.getResult();
+    // do something with the results
+    ...
+    // once all results are received stop the thread pool
+    mThreadPool.stop();
+    // you can then reuse the thread pool by calling start() method again
+  }
+}
+</pre>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Received Fields</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            long          </td>
+          <td class="elementDefinitionRight">
+            mPoolSize
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Thread pool size
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Public Methods</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            submit (<a href="wisey.threads.IWorker.html">IWorker</a>* worker)           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Submit a model that implements a worker interface on the queue of workers
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            start ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Start all threads on the thread pool, each thread will poll the thread pool for workers to run
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            stop ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Cancel and destroy all threads on the pool immediately
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            ::wisey::model*          </td>
+          <td class="elementDefinitionRight">
+            getResult ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Get the next result from a queue of results.
+
+This blocks until result becomes available
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            <a href="wisey.threads.IWorker.html">IWorker</a>*          </td>
+          <td class="elementDefinitionRight">
+            getWorker ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            This returns a worker from a worker queue or blocks the current thread until a worker appears
+
+This is called by individual pool threads and should not be called directly
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            addResult (::wisey::model* result)           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            This adds a new result to the list of results.
+
+This is called by individual pool threads and should not be called directly
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

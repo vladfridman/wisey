@@ -1,0 +1,157 @@
+<html>
+<head>
+<link href="wiseydoc.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="contents">
+    <a href="index.html">Index</a>  </div>
+  <div class="contents">
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Object</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            controller
+          </td>
+          <td class="elementDefinitionRight">
+            wisey.io.CTextStreamWriter
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Writes to a text stream. 
+
+Create an instance of this object by calling one of create static methods
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Received Fields</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            ::llvm::struct::__sFILE::pointer          </td>
+          <td class="elementDefinitionRight">
+            mStream
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            File handle pointer pointing to the native stream. 
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Public Methods</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            close () throws <a href="wisey.io.MStreamClosedException.html">MStreamClosedException</a>, <a href="wisey.io.MStreamCouldNotCloseException.html">MStreamCouldNotCloseException</a>          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Close the stream
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Public Static Methods</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            <a href="wisey.io.CTextStreamWriter.html">CTextStreamWriter</a>*          </td>
+          <td class="elementDefinitionRight">
+            open (<a href="wisey.lang.NString.html">NString</a> fileName) throws <a href="wisey.io.MFileCouldNotOpenException.html">MFileCouldNotOpenException</a>          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Create an instance of the CTextStreamWriter to write to the the given file
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            <a href="wisey.io.CTextStreamWriter.html">CTextStreamWriter</a>*          </td>
+          <td class="elementDefinitionRight">
+            openSystemOut ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Create an instance of the CTextStreamWriter to write to the standard output
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            <a href="wisey.io.CTextStreamWriter.html">CTextStreamWriter</a>*          </td>
+          <td class="elementDefinitionRight">
+            openSystemErr ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Create an instance of the CTextStreamWriter to write to the error output
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

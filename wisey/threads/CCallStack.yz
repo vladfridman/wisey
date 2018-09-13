@@ -18,7 +18,7 @@ controller CCallStack {
   state int mIndex;
 
   /**
-   * Throws stack overflo exception
+   * Throws stack overflow exception
    */
   public static void throwStackOverflowException() {
     throw build(MStackOverflowException).onHeap();

@@ -1,0 +1,84 @@
+<html>
+<head>
+<link href="wiseydoc.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="contents">
+    <a href="index.html">Index</a>  </div>
+  <div class="contents">
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Object</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            controller
+          </td>
+          <td class="elementDefinitionRight">
+            wisey.data.CConcurrentModelOwnerQueue
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Concurrent queue implementation where each element is a model owner reference
+
+This is used in wisey.threads.CThreadPool implemenation and should not be used directly
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Public Methods</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            push (::wisey::model* object)           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Push a model owner on a queue
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            ::wisey::model*          </td>
+          <td class="elementDefinitionRight">
+            pop ()           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Pop a model owner from a queue, this blocks the thread if the queue is empty until it is not
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

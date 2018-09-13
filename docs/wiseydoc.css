@@ -1,0 +1,95 @@
+body, table, div, p, dl {
+  font: 400 14px/22px sans-serif;
+}
+
+body {
+  background-color: white;
+  color: black;
+  margin: 0;
+}
+
+div.contents {
+  margin-top: 12px;
+  margin-left: 14px;
+  margin-right: 9px;
+}
+
+h2.sectionHeader {
+  border-bottom: 1px solid #9ACD32;
+  color: #006400;
+  font-size: 150%;
+  font-weight: normal;
+  margin-top: 1.75em;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  width: 100%;
+}
+
+tr.header h2 {
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+a {
+  color: #008000;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #006400;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a {
+  font-weight: bold;
+}
+
+table.docSection {
+  border-spacing: 0px;
+  padding: 0px;
+}
+
+.elementDescriptionLeft, .elementDescriptionRight,
+.elementDefinitionLeft, .elementDefinitionRight  {
+  border: none;
+  margin: 5px;
+  padding: 1px 0 0 9px;
+}
+
+.elementDescriptionLeft, .elementDescriptionRight {
+  padding: 0px 9px 4px 9px;
+}
+
+.elementSeparator {
+  border-bottom: 1px solid #e2f0de;
+  line-height: 1px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.elementDefinitionLeft {
+  white-space: nowrap;
+}
+
+.elementDefinitionRight {
+  width: 100%;
+}
+
+pre {
+  border: 1px solid #e2f0de;
+  background-color: #292929;
+  padding: 4px 6px;
+  margin: 4px 8px 4px 2px;
+  overflow: auto;
+  word-wrap: break-word;
+  font-size:  9pt;
+  line-height: 125%;
+  font-family: monospace, fixed;
+  font-size: 100%;
+  color: #3bd03b;
+}
+

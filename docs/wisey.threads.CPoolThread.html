@@ -1,0 +1,171 @@
+<html>
+<head>
+<link href="wiseydoc.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="contents">
+    <a href="index.html">Index</a>  </div>
+  <div class="contents">
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Object</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            controller
+          </td>
+          <td class="elementDefinitionRight">
+            wisey.threads.CPoolThread
+ implements <a href="wisey.threads.IThread.html">IThread</a>          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            A thread that runs in a pool of threads. 
+
+In its run method it constantly polls the thread pool for a new worker and when it finds it
+it runs the work() method of the returned worker. The worker is responsible for sending 
+a result back if there are any by calling thread.send(::wisey::model*) method. Once worker is 
+finished the thread waits for a new worker in the thread pool. 
+
+The thread never ends until it is canceled through cancel() method.
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Public Methods</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            start (<a href="wisey.threads.CThreadPool.html">CThreadPool</a> threadPool) throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a>          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Starts the given thread with the given worker implementation
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            cancel () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a>          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Cancel thread execution from antoher thread
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            exit () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            ::wisey::model*          </td>
+          <td class="elementDefinitionRight">
+            send (::wisey::model* message) throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            <a href="wisey.threads.CCallStack.html">CCallStack</a>          </td>
+          <td class="elementDefinitionRight">
+            getCallStack () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            <a href="wisey.threads.CContextManager.html">CContextManager</a>          </td>
+          <td class="elementDefinitionRight">
+            getContextManager () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            run () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.run()          </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            The work of this thread is done in this method
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -378,7 +378,6 @@ external controller wisey.io.CTextStreamWriter {
   static wisey.io.CTextStreamWriter* openSystemOut();
   static wisey.io.CTextStreamWriter* openSystemErr();
   void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
-  ::llvm::struct::__sFILE::pointer getStream();
 }
 
 external controller wisey.lang.CMemoryPool {

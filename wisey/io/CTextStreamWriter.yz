@@ -53,14 +53,4 @@ controller CTextStreamWriter {
       throw build(MStreamCouldNotCloseException).onHeap();
     }
   }
-
-  /**
-   * Get the pointer to the stream
-   */
-  public ::llvm::struct::__sFILE::pointer getStream() {
-    if (mStream == null) {
-      throw build(MStreamClosedException).onHeap();
-    }
-    return mStream;
-  }
 }
