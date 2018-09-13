@@ -1,4 +1,34 @@
 
+external ::llvm::function ::llvm::i8::pointer stl_object_list_create();
+
+external ::llvm::function ::wisey::object stl_reference_list_pop_back(::llvm::i8::pointer);
+
+external ::llvm::function ::wisey::object* stl_owner_list_pop_back(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::void stl_reference_list_push_back(::llvm::i8::pointer, ::wisey::object);
+
+external ::llvm::function ::llvm::void stl_owner_list_push_back(::llvm::i8::pointer, ::wisey::object*);
+
+external ::llvm::function ::wisey::object stl_object_list_back(::llvm::i8::pointer);
+
+external ::llvm::function ::wisey::object stl_reference_list_pop_front(::llvm::i8::pointer);
+
+external ::llvm::function ::wisey::object* stl_owner_list_pop_front(::llvm::i8::pointer);
+
+external ::llvm::function ::wisey::object stl_object_list_front(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::void stl_reference_list_push_front(::llvm::i8::pointer, ::wisey::object);
+
+external ::llvm::function ::llvm::void stl_owner_list_push_front(::llvm::i8::pointer, ::wisey::object*);
+
+external ::llvm::function ::llvm::i64 stl_object_list_size(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::void stl_reference_list_clear(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::void stl_owner_list_clear(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::void stl_object_list_destroy(::llvm::i8::pointer);
+
 external ::llvm::function ::llvm::i8::pointer stl_reference_to_object_map_create();
 
 external ::llvm::function ::llvm::i8::pointer stl_long_to_int_map_create();

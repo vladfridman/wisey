@@ -1,7 +1,7 @@
 package wisey.lang;
 
 /**
- * Thrown when attempting to destroy an object that still have active references pointing to it
+ * Thrown when attempting to destroy an object that still has active references pointing to it
  */
 model MReferenceCountException implements IException {
   receive string mObjectType;

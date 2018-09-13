@@ -14,12 +14,14 @@
 
 TEST_F(TestFileRunner, cReferenceListRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_creference_list.yz",
-                                        "Lookup Toyota: Toyota\n"
-                                        "Lookup BMW: BMW\n"
-                                        "Lookup Mercedes: Mercedes\n"
-                                        "BMW was erased\n"
-                                        "Toyota was erased\n"
-                                        "Mercedes was erased\n"
+                                        "bmw is not null\n"
+                                        "List size: 3\n"
+                                        "Lookup last: BMW\n"
+                                        "Lookup first: Mercedes\n"
+                                        "List size: 1\n"
+                                        "Lookup last: Toyota\n"
+                                        "Lookup first: Toyota\n"
+                                        "List size: 0\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "done destructing heap object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"

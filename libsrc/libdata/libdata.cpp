@@ -1,7 +1,8 @@
+#include <condition_variable>
+#include <list>
+#include <mutex>
 #include <queue>
 #include <thread>
-#include <mutex>
-#include <condition_variable>
 #include <unordered_map>
 #include <vector>
 
@@ -13,6 +14,119 @@ void adjust_wisey_object_reference_count(void* objectPointer, int adjustment);
 void destroy_wisey_object(void* objectPointer);
 
 /**
+ * Function to support lists where value is an object reference or owner reference
+ */
+extern "C" void* stl_object_list_create() {
+  return new std::list<void*>();
+}
+
+extern "C" void* stl_reference_list_pop_back(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  if (!list->size()) {
+    return NULL;
+  }
+  void* back = list->back();
+  list->pop_back();
+  adjust_wisey_object_reference_count(back, -1);
+  return back;
+}
+
+extern "C" void* stl_owner_list_pop_back(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  if (!list->size()) {
+    return NULL;
+  }
+  void* back = list->back();
+  list->pop_back();
+  return back;
+}
+
+extern "C" void stl_reference_list_push_back(void* listUncast, void* object) {
+  auto list = (std::list<void*>*) listUncast;
+  adjust_wisey_object_reference_count(object, 1);
+  list->push_back(object);
+}
+
+extern "C" void stl_owner_list_push_back(void* listUncast, void* object) {
+  auto list = (std::list<void*>*) listUncast;
+  list->push_back(object);
+}
+
+extern "C" void* stl_object_list_back(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  if (!list->size()) {
+    return NULL;
+  }
+  return list->back();
+}
+
+extern "C" void* stl_reference_list_pop_front(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  if (!list->size()) {
+    return NULL;
+  }
+  void* front = list->front();
+  list->pop_front();
+  adjust_wisey_object_reference_count(front, -1);
+  return front;
+}
+
+extern "C" void* stl_owner_list_pop_front(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  if (!list->size()) {
+    return NULL;
+  }
+  void* front = list->front();
+  list->pop_front();
+  return front;
+}
+
+extern "C" void* stl_object_list_front(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  if (!list->size()) {
+    return NULL;
+  }
+  return list->front();
+}
+
+extern "C" void stl_reference_list_push_front(void* listUncast, void* object) {
+  auto list = (std::list<void*>*) listUncast;
+  adjust_wisey_object_reference_count(object, 1);
+  list->push_front(object);
+}
+
+extern "C" void stl_owner_list_push_front(void* listUncast, void* object) {
+  auto list = (std::list<void*>*) listUncast;
+  list->push_front(object);
+}
+
+extern "C" int64_t stl_object_list_size(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  return list->size();
+}
+
+extern "C" void stl_reference_list_clear(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  for (void* object : *list) {
+    adjust_wisey_object_reference_count(object, -1);
+  }
+  list->clear();
+}
+
+extern "C" void stl_owner_list_clear(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  for (void* object : *list) {
+    destroy_wisey_object(object);
+  }
+  list->clear();
+}
+
+extern "C" void stl_object_list_destroy(void* listUncast) {
+  auto list = (std::list<void*>*) listUncast;
+  delete list;
+}
+
+/**
  * Function to support hashmaps where key is an object reference and value is an object reference
  */
 extern "C" void* stl_reference_to_object_map_create() {
@@ -20,12 +134,12 @@ extern "C" void* stl_reference_to_object_map_create() {
 }
 
 extern "C" void stl_reference_to_object_map_destroy(void* map) {
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
   delete mapCast;
 }
 
 extern "C" void stl_reference_to_reference_map_erase(void* map, void* key) {
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
   if (!mapCast->count(key)) {
     return;
   }
@@ -36,13 +150,13 @@ extern "C" void stl_reference_to_reference_map_erase(void* map, void* key) {
 
 extern "C" void stl_reference_to_reference_map_put(void* map, void* key, void* value) {
   stl_reference_to_reference_map_erase(map, key);
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
   (*mapCast)[key] = value;
   adjust_wisey_object_reference_count(value, 1);
 }
 
 extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
   if (mapCast->count(key)) {
     return (*mapCast)[key];
   }
@@ -50,15 +164,15 @@ extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
 }
 
 extern "C" void stl_reference_to_reference_map_clear(void* map) {
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
-  for (std::unordered_map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
+  for (auto iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     adjust_wisey_object_reference_count(iterator->second, -1);
   }
   mapCast->clear();
 }
 
 extern "C" int64_t stl_reference_to_object_map_size(void* map) {
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
   return mapCast->size();
 }
 
@@ -66,7 +180,7 @@ extern "C" int64_t stl_reference_to_object_map_size(void* map) {
  * Function to support hashmaps where key is an object reference and value is an object owner
  */
 extern "C" void stl_reference_to_owner_map_erase(void* map, void* key) {
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
   if (!mapCast->count(key)) {
     return;
   }
@@ -77,12 +191,12 @@ extern "C" void stl_reference_to_owner_map_erase(void* map, void* key) {
 
 extern "C" void stl_reference_to_owner_map_put(void* map, void* key, void* value) {
   stl_reference_to_owner_map_erase(map, key);
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
   (*mapCast)[key] = value;
 }
 
 extern "C" void* stl_reference_to_owner_map_take(void* map, void* key) {
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
   if (!mapCast->count(key)) {
     return NULL;
   }
@@ -92,8 +206,8 @@ extern "C" void* stl_reference_to_owner_map_take(void* map, void* key) {
 }
 
 extern "C" void stl_reference_to_owner_map_clear(void* map) {
-  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
-  for (std::unordered_map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+  auto mapCast = (std::unordered_map<void*, void*>*) map;
+  for (auto iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     destroy_wisey_object(iterator->second);
   }
   mapCast->clear();

@@ -7,58 +7,72 @@ import wisey.lang.CMemoryPool;
  */
 controller COwnerList {
 
-  inject immediate CPointerList* mPointerList;
-  inject immediate CMemoryPool* mMemoryPool;
+  inject immediate ::llvm::i8::pointer* mList.withConstructor(listCreate).withDestructor(listDestroy);
 
   /**
-   * Appends a key/value pair to the beginning of the list
+   * Pops an owner reference from the back of the list, returns null if the list is empty
    */
-  public void append(::llvm::i8::pointer key, ::wisey::object* value) {
-    NElement* element = build(NElement).withKey(key).withValue(value).onPool(mMemoryPool);
-    mPointerList.append(key, element);
+  public ::wisey::object* popBack() {
+    ::wisey::object* value = ::llvm::function::stl_owner_list_pop_back(mList);
+    return value;
   }
 
   /**
-   * Returns the fist object for the given key
+   * Push an owner reference to the back of the list
    */
-  public ::wisey::object get(::llvm::i8::pointer key) {
-    CPointerList.IListElement element = mPointerList.get(key);
-    return element ? ((NElement) element).getValue() : null;
+  public void pushBack(::wisey::object* value) {
+    ::llvm::function::stl_owner_list_push_back(mList, value);
   }
 
   /**
-   * Erases all object with the given key
+   * Returns the object reference at the back of the list, returns null if the list is empty
    */
-  public void erase(::llvm::i8::pointer key) {
-    mPointerList.erase(key);
+  public ::wisey::object back() {
+    return ::llvm::function::stl_object_list_back(mList);
   }
 
   /**
-   * Represents list element where value field is of object owner type
+   * Pops an owner reference from the front of the list, returns null if the list is empty
    */
-  public node NElement implements CPointerList.IListElement {
-    receive ::llvm::i8::pointer mKey;
-    receive ::wisey::object* mValue;
-    state NElement* mNext;
+  public ::wisey::object* popFront() {
+    ::wisey::object* value = ::llvm::function::stl_owner_list_pop_front(mList);
+    return value;
+  }
 
-    public ::wisey::object getValue() {
-      return mValue;
-    }
+  /**
+   * Push an owner reference to the front of the list
+   */
+  public void pushFront(::wisey::object* value) {
+    ::llvm::function::stl_owner_list_push_front(mList, value);
+  }
 
-    public ::llvm::i8::pointer getKey() override {
-      return mKey;
-    }
+  /**
+   * Returns the object reference at the front of the list, returns null if the list is empty
+   */
+  public ::wisey::object front() {
+    return ::llvm::function::stl_object_list_front(mList);
+  }
 
-    public void setNext(NElement* element) override {
-      mNext = element;
-    }
+  /**
+   * Returns the list size
+   */
+  public long getSize() {
+    return ::llvm::function::stl_object_list_size(mList);
+  }
 
-    public NElement getNext() override {
-      return mNext;
-    }
+  /**
+   * Clears the list and destroys all objects pointed to by owner referencess in the list
+   */
+  public void clear() {
+    ::llvm::function::stl_owner_list_clear(mList);
+  }
 
-    public NElement* takeNext() override {
-      return mNext;
-    }
+  private ::llvm::function ::llvm::i8::pointer listCreate() {
+    return ::llvm::function::stl_object_list_create();
+  }
+
+  private ::llvm::function ::llvm::void listDestroy(::llvm::i8::pointer map) {
+    ::llvm::function::stl_owner_list_clear(map);
+    ::llvm::function::stl_object_list_destroy(map);
   }
 }

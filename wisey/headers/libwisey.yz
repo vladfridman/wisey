@@ -267,13 +267,16 @@ external controller wisey.data.CLongToIntMap {
 
 external controller wisey.data.COwnerList {
 
-  void append(
-    ::llvm::i8::pointer key,
+  ::wisey::object* popBack();
+  void pushBack(
     ::wisey::object* value);
-  ::wisey::object get(
-    ::llvm::i8::pointer key);
-  void erase(
-    ::llvm::i8::pointer key);
+  ::wisey::object back();
+  ::wisey::object* popFront();
+  void pushFront(
+    ::wisey::object* value);
+  ::wisey::object front();
+  long getSize();
+  void clear();
 }
 
 external controller wisey.data.COwnerVector {
@@ -302,13 +305,16 @@ external controller wisey.data.CPointerList {
 
 external controller wisey.data.CReferenceList {
 
-  void append(
-    ::llvm::i8::pointer key,
+  ::wisey::object popBack();
+  void pushBack(
     ::wisey::object value);
-  ::wisey::object get(
-    ::llvm::i8::pointer key);
-  void erase(
-    ::llvm::i8::pointer key);
+  ::wisey::object back();
+  ::wisey::object popFront();
+  void pushFront(
+    ::wisey::object value);
+  ::wisey::object front();
+  long getSize();
+  void clear();
 }
 
 external controller wisey.data.CReferenceToOwnerMap {

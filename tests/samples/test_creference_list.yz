@@ -15,46 +15,41 @@ controller CProgram implements IProgram {
   inject CReferenceList* mList;
 
   public int run(immutable string[] arguments) override {
-    MCar* toyota = build(MCar).withMake("Toyota").onHeap(); 
-    MCar* bmw = build(MCar).withMake("BMW").onHeap(); 
-    MCar* mercedes = build(MCar).withMake("Mercedes").onHeap();
+    string toyotaMake = "Toyota";
+    string bmwMake = "BMW";
+    string mercedesMake = "Mercedes";
+    MCar* toyota = build(MCar).withMake(toyotaMake).onHeap(); 
+    MCar* bmw = build(MCar).withMake(bmwMake).onHeap(); 
+    MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap();
 
-    mList.append(toyota.getMake(), toyota);
-    mList.append(bmw.getMake(), bmw);
-    mList.append(bmw.getMake(), bmw);
-    mList.append(mercedes.getMake(), mercedes);
+    mList.pushBack(toyota);
+    mList.pushBack(bmw);
+    mList.pushFront(mercedes);
 
-    MCar car = mList.get(toyota.getMake());
-    printout("Lookup " + toyota.getMake() + ": " + car.getMake() + "\n");
-    car = mList.get(bmw.getMake());
-    printout("Lookup " + bmw.getMake() + ": " + car.getMake() + "\n");
-    car = mList.get(mercedes.getMake());
-    printout("Lookup " + mercedes.getMake() + ": " + car.getMake() + "\n");
-
-    mList.erase(bmw.getMake());
-    car = mList.get(bmw.getMake());
-    if (car == null) {
-      printout("BMW was erased\n");
+    if (bmw == null) {
+      printout("bmw is null\n");
     } else {
-      printout("BMW is still there\n");
+      printout("bmw is not null\n");
     }
 
-    mList.erase(toyota.getMake());
-    mList.erase(bmw.getMake());
-    mList.erase(mercedes.getMake());
+    printout("List size: " + mList.getSize() + "\n");
+    MCar last = mList.back();
+    printout("Lookup last: " + last.getMake() + "\n");
+    MCar first = mList.front();
+    printout("Lookup first: " + first.getMake() + "\n");
+    
+    MCar back = mList.popBack();
+    MCar front = mList.popFront();
+    printout("List size: " + mList.getSize() + "\n");
+    last = mList.back();
+    printout("Lookup last: " + last.getMake() + "\n");
+    first = mList.front();
+    printout("Lookup first: " + first.getMake() + "\n");
+    last = null;
+    first = null;
 
-    car = mList.get(toyota.getMake());
-    if (car == null) {
-      printout("Toyota was erased\n");
-    } else {
-      printout("Toyota is still there\n");
-    }
-    car = mList.get(mercedes.getMake());
-    if (car == null) {
-      printout("Mercedes was erased\n");
-    } else {
-      printout("Mercedes is still there\n");
-    }
+    mList.clear();
+    printout("List size: " + mList.getSize() + "\n");
 
     return 1;
   }
