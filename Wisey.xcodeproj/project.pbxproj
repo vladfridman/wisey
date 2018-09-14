@@ -16,6 +16,10 @@
 		F50427B11E4DD621001CB148 /* TestLocalReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */; };
 		F50427B41E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427B31E4E3FA7001CB148 /* FieldReferenceVariable.cpp */; };
 		F50427B51E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427B31E4E3FA7001CB148 /* FieldReferenceVariable.cpp */; };
+		F50709B3214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B2214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp */; };
+		F50709B4214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B2214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp */; };
+		F50709B6214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */; };
+		F50709B7214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */; };
 		F507D2651E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D2661E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
@@ -519,6 +523,8 @@
 		F5544834214827840014A65F /* TestCompilerArguments.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5544833214827840014A65F /* TestCompilerArguments.cpp */; };
 		F5544836214836EC0014A65F /* TestWiseyc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5544835214836EC0014A65F /* TestWiseyc.cpp */; };
 		F5544838214837DC0014A65F /* TestWiseylibc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5544837214837DC0014A65F /* TestWiseylibc.cpp */; };
+		F554483C214C00AD0014A65F /* YzcArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F554483B214C00AD0014A65F /* YzcArgumentParser.cpp */; };
+		F554483D214C00AD0014A65F /* YzcArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F554483B214C00AD0014A65F /* YzcArgumentParser.cpp */; };
 		F55496F41E061F8E00DDA2AF /* libLLVMTarget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625E61DE5EB4400074D66 /* libLLVMTarget.a */; };
 		F55496F71E06280900DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
 		F55496F81E06281D00DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
@@ -1132,9 +1138,7 @@
 		F5FA52931F7437A8001BBE67 /* wiseyrun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */; };
 		F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
 		F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
-		F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */; };
-		F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */; };
-		F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */; };
+		F5FCAE3B1ED5CAD300C69899 /* TestYzcArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE3A1ED5CAD300C69899 /* TestYzcArgumentParser.cpp */; };
 		F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */; };
 		F5FE0A1E1F7D9B84000621CA /* TestExternalMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FE0A1D1F7D9B84000621CA /* TestExternalMethodDefinition.cpp */; };
 		F5FE0A201F7D9E7C000621CA /* TestStaticMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FE0A1F1F7D9E7C000621CA /* TestStaticMethodDefinition.cpp */; };
@@ -1170,6 +1174,9 @@
 		F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalPrimitiveVariable.cpp; path = tests/TestLocalPrimitiveVariable.cpp; sourceTree = "<group>"; };
 		F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalReferenceVariable.cpp; path = tests/TestLocalReferenceVariable.cpp; sourceTree = "<group>"; };
 		F50427B31E4E3FA7001CB148 /* FieldReferenceVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldReferenceVariable.cpp; path = src/FieldReferenceVariable.cpp; sourceTree = "<group>"; };
+		F50709B1214C05A300CBDAE5 /* WiseylibcArgumentParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WiseylibcArgumentParser.hpp; path = include/wisey/WiseylibcArgumentParser.hpp; sourceTree = "<group>"; };
+		F50709B2214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WiseylibcArgumentParser.cpp; path = src/WiseylibcArgumentParser.cpp; sourceTree = "<group>"; };
+		F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WiseycArgumentParser.cpp; path = src/WiseycArgumentParser.cpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
 		F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypes.cpp; path = src/PrimitiveTypes.cpp; sourceTree = "<group>"; };
 		F5089C491ECD01D9004A1223 /* AccessLevel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AccessLevel.hpp; path = include/wisey/AccessLevel.hpp; sourceTree = "<group>"; };
@@ -1740,6 +1747,10 @@
 		F5544833214827840014A65F /* TestCompilerArguments.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompilerArguments.cpp; path = tests/TestCompilerArguments.cpp; sourceTree = "<group>"; };
 		F5544835214836EC0014A65F /* TestWiseyc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyc.cpp; path = tests/TestWiseyc.cpp; sourceTree = "<group>"; };
 		F5544837214837DC0014A65F /* TestWiseylibc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseylibc.cpp; path = tests/TestWiseylibc.cpp; sourceTree = "<group>"; };
+		F5544839214BFFBF0014A65F /* ICompilerArgumentParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ICompilerArgumentParser.hpp; path = include/wisey/ICompilerArgumentParser.hpp; sourceTree = "<group>"; };
+		F554483A214C005E0014A65F /* YzcArgumentParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = YzcArgumentParser.hpp; path = include/wisey/YzcArgumentParser.hpp; sourceTree = "<group>"; };
+		F554483B214C00AD0014A65F /* YzcArgumentParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = YzcArgumentParser.cpp; path = src/YzcArgumentParser.cpp; sourceTree = "<group>"; };
+		F554483E214C02C00014A65F /* WiseycArgumentParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WiseycArgumentParser.hpp; path = include/wisey/WiseycArgumentParser.hpp; sourceTree = "<group>"; };
 		F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = /usr/local/lib/libLLVMGlobalISel.a; sourceTree = "<absolute>"; };
 		F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifier.cpp; path = tests/TestIdentifier.cpp; sourceTree = "<group>"; };
 		F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IConcreteObjectType.hpp; path = include/wisey/IConcreteObjectType.hpp; sourceTree = "<group>"; };
@@ -2235,9 +2246,7 @@
 		F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Compiler.hpp; path = include/wisey/Compiler.hpp; sourceTree = "<group>"; };
 		F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompilerArguments.hpp; path = include/wisey/CompilerArguments.hpp; sourceTree = "<group>"; };
 		F5FCAE321ED5C38B00C69899 /* Compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Compiler.cpp; path = src/Compiler.cpp; sourceTree = "<group>"; };
-		F5FCAE351ED5C56600C69899 /* CompilerArgumentParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompilerArgumentParser.hpp; path = include/wisey/CompilerArgumentParser.hpp; sourceTree = "<group>"; };
-		F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompilerArgumentParser.cpp; path = src/CompilerArgumentParser.cpp; sourceTree = "<group>"; };
-		F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompilerArgumentParser.cpp; path = tests/TestCompilerArgumentParser.cpp; sourceTree = "<group>"; };
+		F5FCAE3A1ED5CAD300C69899 /* TestYzcArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestYzcArgumentParser.cpp; path = tests/TestYzcArgumentParser.cpp; sourceTree = "<group>"; };
 		F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompiler.cpp; path = tests/TestCompiler.cpp; sourceTree = "<group>"; };
 		F5FE0A1D1F7D9B84000621CA /* TestExternalMethodDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalMethodDefinition.cpp; path = tests/TestExternalMethodDefinition.cpp; sourceTree = "<group>"; };
 		F5FE0A1F1F7D9E7C000621CA /* TestStaticMethodDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodDefinition.cpp; path = tests/TestStaticMethodDefinition.cpp; sourceTree = "<group>"; };
@@ -3304,13 +3313,16 @@
 			isa = PBXGroup;
 			children = (
 				F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */,
-				F5FCAE351ED5C56600C69899 /* CompilerArgumentParser.hpp */,
 				F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */,
 				F554482C2147F1B50014A65F /* CompilerDriver.hpp */,
 				F5089C671ECD01D9004A1223 /* Environment.hpp */,
+				F5544839214BFFBF0014A65F /* ICompilerArgumentParser.hpp */,
 				F5089C871ECD01D9004A1223 /* Log.hpp */,
 				F52FF1831F1C565D003F4D37 /* Names.hpp */,
 				F50D5E3B20B58D5200A025E9 /* Optimizer.hpp */,
+				F554483E214C02C00014A65F /* WiseycArgumentParser.hpp */,
+				F50709B1214C05A300CBDAE5 /* WiseylibcArgumentParser.hpp */,
+				F554483A214C005E0014A65F /* YzcArgumentParser.hpp */,
 			);
 			name = compiler;
 			sourceTree = "<group>";
@@ -3319,7 +3331,6 @@
 			isa = PBXGroup;
 			children = (
 				F5FCAE321ED5C38B00C69899 /* Compiler.cpp */,
-				F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */,
 				F5544830214800740014A65F /* CompilerArguments.cpp */,
 				F554482D2147F28B0014A65F /* CompilerDriver.cpp */,
 				F508E06E1E73076E005D6115 /* Environment.cpp */,
@@ -3327,9 +3338,12 @@
 				F52FF1841F1C570C003F4D37 /* Names.cpp */,
 				F50D5E3C20B58DCB00A025E9 /* Optimizer.cpp */,
 				F58725661F7178DB00FA25E6 /* wiseyc.cpp */,
+				F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */,
 				F554482A214700490014A65F /* wiseylibc.cpp */,
+				F50709B2214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp */,
 				F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */,
 				F554482B2147EE2F0014A65F /* yzc.cpp */,
+				F554483B214C00AD0014A65F /* YzcArgumentParser.cpp */,
 			);
 			name = compiler;
 			sourceTree = "<group>";
@@ -3693,11 +3707,11 @@
 			isa = PBXGroup;
 			children = (
 				F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */,
-				F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */,
 				F5544833214827840014A65F /* TestCompilerArguments.cpp */,
 				F5544835214836EC0014A65F /* TestWiseyc.cpp */,
 				F5544837214837DC0014A65F /* TestWiseylibc.cpp */,
 				F592C9951ED323F7007FB2D0 /* TestYzc.cpp */,
+				F5FCAE3A1ED5CAD300C69899 /* TestYzcArgumentParser.cpp */,
 			);
 			name = compiler;
 			sourceTree = "<group>";
@@ -4578,6 +4592,7 @@
 				F5E3DD2420D2604E0016514B /* IBuilder.cpp in Sources */,
 				F534645020AF1F35006369D4 /* TestMSystem.cpp in Sources */,
 				F50D5E3E20B58DCB00A025E9 /* Optimizer.cpp in Sources */,
+				F50709B7214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
 				F5105FC31FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp in Sources */,
@@ -4680,6 +4695,7 @@
 				F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */,
 				F5A363501F374DCB005880B3 /* TestFieldOwnerVariable.cpp in Sources */,
 				F53CDAD41F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,
+				F50709B4214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp in Sources */,
 				F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */,
 				F51942F51FE302E5009C3158 /* IdentifierChain.cpp in Sources */,
 				F5D1599B20A498EC00107E84 /* TestMString.cpp in Sources */,
@@ -4816,7 +4832,6 @@
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
 				F5603B4A202121B000BBA05D /* ArraySpecificOwnerType.cpp in Sources */,
 				F50FF87A208B702E008EDC40 /* TestImmutableArrayOwnerType.cpp in Sources */,
-				F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F58725651F70178D00FA25E6 /* TestPrintErrStatement.cpp in Sources */,
 				F55DB0601F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */,
 				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
@@ -4864,6 +4879,7 @@
 				F50FA2FC1E30051700435EEA /* TestModelTypeSpecifier.cpp in Sources */,
 				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
 				F523D50A206BD1E70017D5B4 /* WiseyObjectOwnerTypeSpecifier.cpp in Sources */,
+				F554483D214C00AD0014A65F /* YzcArgumentParser.cpp in Sources */,
 				F5C0E7E72099E1C20028BBD0 /* TestStringFormatType.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F53A2C3F1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp in Sources */,
@@ -4951,7 +4967,7 @@
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
 				F5E270771F990024008D2EB7 /* TestConstant.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* StringLiteral.cpp in Sources */,
-				F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */,
+				F5FCAE3B1ED5CAD300C69899 /* TestYzcArgumentParser.cpp in Sources */,
 				F5A3BE5B1F9906BB000FDB09 /* TestInjectedFieldDefinition.cpp in Sources */,
 				F51D2BB51F691C8100510784 /* IMethod.cpp in Sources */,
 				F54B1487205D7A520030773F /* TestLLVMStructDefinition.cpp in Sources */,
@@ -5050,6 +5066,7 @@
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F58A83521F798A6C00369388 /* ExternalModelDefinition.cpp in Sources */,
 				F5D465F42060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */,
+				F554483C214C00AD0014A65F /* YzcArgumentParser.cpp in Sources */,
 				F58FA30D20728E4000C86D33 /* WiseyObjectType.cpp in Sources */,
 				F57780A51EC673EC0049542D /* EmptyStatement.cpp in Sources */,
 				F5CB7FE42052AEB1007628B5 /* StateField.cpp in Sources */,
@@ -5120,6 +5137,7 @@
 				F51942EE1FE2D7C7009C3158 /* PackageType.cpp in Sources */,
 				F5CB7FC220529D20007628B5 /* StateFieldDefinition.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
+				F50709B3214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F5A8208A209CB23A003DA505 /* IStatement.cpp in Sources */,
 				F5CB18111EB0C615007E2E43 /* TryCatchStatement.cpp in Sources */,
@@ -5189,7 +5207,6 @@
 				F5A98A361F9A37910063D626 /* ConstantReference.cpp in Sources */,
 				F50FF88A208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp in Sources */,
 				F56AD4A11E9F66C40020868C /* IObjectType.cpp in Sources */,
-				F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F5827044205EECAB00839EC7 /* LLVMStructType.cpp in Sources */,
 				F53A2C2C1EFFD5E800E76A9E /* Node.cpp in Sources */,
 				F59692B32118A06A00F19C4E /* AddExpression.cpp in Sources */,
@@ -5219,6 +5236,7 @@
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F59692A72117BF2500F19C4E /* ReminderExpression.cpp in Sources */,
+				F50709B6214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp in Sources */,
 				F59693002132919D00F19C4E /* BitwiseOrByExpression.cpp in Sources */,
 				F5FE0A231F7DA00B000621CA /* ExternalStaticMethodDefinition.cpp in Sources */,
 				F5609F072057C07F00664ADD /* ParameterReferenceVariableStatic.cpp in Sources */,

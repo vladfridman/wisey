@@ -37,8 +37,6 @@ TEST_F(YzcTest, noArgumentsTest) {
                "[-o|--output <object_file_name.o>] "
                "[-n|--no-output] "
                "[--no-optimization] "
-               "[-L<path_to_library>] "
-               "[-l<library_name_to_link>] "
                "<source_file.yz>...\n",
                TestFileRunner::exec("bin/yzc 2>&1").c_str());
 }
@@ -68,8 +66,6 @@ TEST_F(YzcTest, helpTest) {
                "[-o|--output <object_file_name.o>] "
                "[-n|--no-output] "
                "[--no-optimization] "
-               "[-L<path_to_library>] "
-               "[-l<library_name_to_link>] "
                "<source_file.yz>...\n",
                TestFileRunner::exec("bin/yzc -h 2>&1").c_str());
   EXPECT_STREQ("Syntax: yzc "
@@ -81,8 +77,6 @@ TEST_F(YzcTest, helpTest) {
                "[-o|--output <object_file_name.o>] "
                "[-n|--no-output] "
                "[--no-optimization] "
-               "[-L<path_to_library>] "
-               "[-l<library_name_to_link>] "
                "<source_file.yz>...\n",
                TestFileRunner::exec("bin/yzc --help 2>&1").c_str());
 }

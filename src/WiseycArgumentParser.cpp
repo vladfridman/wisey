@@ -1,36 +1,28 @@
 //
-//  CompilerArgumentParser.cpp
+//  WiseycArgumentParser.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 5/24/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 9/14/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/CompilerArgumentParser.hpp"
+#include "wisey/WiseycArgumentParser.hpp"
 #include "wisey/Log.hpp"
 
 using namespace std;
 using namespace wisey;
 
-void CompilerArgumentParser::printSyntaxAndExit(CompilerMode compilerMode) const {
-  string outputFile = "runnable_file_name";
-  string compiler = "wiseyc";
-  if (compilerMode == YZC) {
-    outputFile = "object_file_name.o";
-    compiler = "yzc";
-  } else if (compilerMode == WISEYLIBC) {
-    outputFile = "library_file_name.so";
-    compiler = "wiseylibc";
-  }
-  cerr << "Syntax: " + compiler + " "
+WiseycArgumentParser::WiseycArgumentParser() {}
+
+WiseycArgumentParser::~WiseycArgumentParser() {}
+
+void WiseycArgumentParser::printSyntaxAndExit() const {
+  cerr << "Syntax: wiseyc "
   "[-d|--destructor-debug] "
   "[-e|--emit-llvm] "
   "[-h|--help] "
   "[-v|--verbouse] "
-  "[-H|--headers <header_file.yz>] "
-  "[-o|--output <"
-  << outputFile
-  << ">] "
+  "[-o|--output <runnable_file_name>] "
   "[-n|--no-output] "
   "[--no-optimization] "
   "[-L<path_to_library>] "
@@ -39,12 +31,11 @@ void CompilerArgumentParser::printSyntaxAndExit(CompilerMode compilerMode) const
   exit(1);
 }
 
-CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets,
-                                                CompilerMode compilerMode) const {
+CompilerArguments WiseycArgumentParser::parse(vector<string> argumnets) const {
   CompilerArguments compilerArguments;
-
+  
   if (argumnets.size() == 0) {
-    printSyntaxAndExit(compilerMode);
+    printSyntaxAndExit();
   }
   
   for (vector<string>::iterator iterator = argumnets.begin();
@@ -52,7 +43,7 @@ CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets,
        iterator++) {
     string argument = *iterator;
     if (!argument.compare("--help") || !argument.compare("-h")) {
-      printSyntaxAndExit(compilerMode);
+      printSyntaxAndExit();
     }
     if (!argument.compare("--emit-llvm") || !argument.compare("-e")) {
       compilerArguments.setShouldPrintAssembly(true);
@@ -70,17 +61,6 @@ CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets,
     if (!argument.compare("--output") || !argument.compare("-o")) {
       iterator++;
       compilerArguments.setOutputFile(*iterator);
-      continue;
-    }
-    if ((!argument.compare("--headers") || !argument.compare("-H")) &&
-        argument == argumnets.back()) {
-      Log::errorNoSourceFile("You need to specify the header file name after \"" +
-                             string(argument) + "\"");
-      exit(1);
-    }
-    if (!argument.compare("--headers") || !argument.compare("-H")) {
-      iterator++;
-      compilerArguments.setHeaderFile(*iterator);
       continue;
     }
     if (argument.find("-L") == 0) {

@@ -7,7 +7,7 @@
 //
 
 #include "wisey/Compiler.hpp"
-#include "wisey/CompilerArgumentParser.hpp"
+#include "wisey/YzcArgumentParser.hpp"
 #include "wisey/Log.hpp"
 
 using namespace std;
@@ -21,8 +21,8 @@ int main(int argc, char **argv) {
   for (int i = 1; i < argc; i++) {
     arguments.push_back(argv[i]);
   }
-  CompilerArgumentParser compilerArgumentParser;
-  CompilerArguments compilerArguments = compilerArgumentParser.parse(arguments, CompilerMode::YZC);
+  YzcArgumentParser argumentParser;
+  CompilerArguments compilerArguments = argumentParser.parse(arguments);
   
   Log::setLogLevel(compilerArguments.isVerbouse() ? INFOLEVEL : ERRORLEVEL);
   

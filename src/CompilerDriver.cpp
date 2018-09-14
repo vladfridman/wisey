@@ -8,9 +8,10 @@
 
 #include <sys/stat.h>
 
-#include "wisey/CompilerArgumentParser.hpp"
 #include "wisey/CompilerDriver.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/WiseycArgumentParser.hpp"
+#include "wisey/WiseylibcArgumentParser.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -28,9 +29,8 @@ void CompilerDriver::compileRunnable(int argc, char **argv) {
   for (int i = 1; i < argc; i++) {
     arguments.push_back(argv[i]);
   }
-  CompilerArgumentParser compilerArgumentParser;
-  CompilerArguments compilerArguments =
-  compilerArgumentParser.parse(arguments, CompilerMode::WISEYC);
+  WiseycArgumentParser parser;
+  CompilerArguments compilerArguments = parser.parse(arguments);
   
   Log::setLogLevel(compilerArguments.isVerbouse() ? INFOLEVEL : ERRORLEVEL);
   
@@ -61,9 +61,8 @@ void CompilerDriver::compileLibrary(int argc, char **argv) {
   for (int i = 1; i < argc; i++) {
     arguments.push_back(argv[i]);
   }
-  CompilerArgumentParser compilerArgumentParser;
-  CompilerArguments compilerArguments =
-  compilerArgumentParser.parse(arguments, CompilerMode::WISEYLIBC);
+  WiseylibcArgumentParser parser;
+  CompilerArguments compilerArguments = parser.parse(arguments);
   
   Log::setLogLevel(compilerArguments.isVerbouse() ? INFOLEVEL : ERRORLEVEL);
   

@@ -8,7 +8,7 @@
 
 #include "wisey/Compiler.hpp"
 #include "wisey/CompilerArguments.hpp"
-#include "wisey/CompilerArgumentParser.hpp"
+#include "wisey/YzcArgumentParser.hpp"
 #include "wisey/Log.hpp"
 
 using namespace std;
@@ -24,8 +24,8 @@ int main(int argc, char** argv) {
   for (int i = 1; i < argc; i++) {
     arguments.push_back(argv[i]);
   }
-  CompilerArgumentParser compilerArgumentParser;
-  CompilerArguments compilerArguments = compilerArgumentParser.parse(arguments, YZC);
+  YzcArgumentParser parser;
+  CompilerArguments compilerArguments = parser.parse(arguments);
 
   Compiler compiler(compilerArguments);
   compiler.compile();

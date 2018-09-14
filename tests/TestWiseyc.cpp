@@ -18,22 +18,21 @@
 
 using namespace std;
 
-struct WiseyTest : public ::testing::Test {
+struct WiseycTest : public ::testing::Test {
   
-  WiseyTest() {
+  WiseycTest() {
     system("mkdir -p build");
   }
   
-  ~WiseyTest() { }
+  ~WiseycTest() { }
 };
 
-TEST_F(WiseyTest, noArgumentsTest) {
+TEST_F(WiseycTest, noArgumentsTest) {
   EXPECT_STREQ("Syntax: wiseyc "
                "[-d|--destructor-debug] "
                "[-e|--emit-llvm] "
                "[-h|--help] "
                "[-v|--verbouse] "
-               "[-H|--headers <header_file.yz>] "
                "[-o|--output <runnable_file_name>] "
                "[-n|--no-output] "
                "[--no-optimization] "
@@ -43,7 +42,7 @@ TEST_F(WiseyTest, noArgumentsTest) {
                TestFileRunner::exec("bin/wiseyc 2>&1").c_str());
 }
 
-TEST_F(WiseyTest, runTest) {
+TEST_F(WiseycTest, runTest) {
   system("bin/wiseyc tests/samples/test_addition.yz -o build/test 2>&1");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
