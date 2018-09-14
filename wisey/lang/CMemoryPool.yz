@@ -3,10 +3,10 @@ package wisey.lang;
 import wisey.threads.IThread;
 
 /**
- * Memory pool implementation using APR memory pools
- *
+ * Memory pool implementation using APR memory pools.
+ * <br/>
  * This controller is used by the system and should not be called directly.
- * Its methods are optmized out of the cotrnoller and are implmented directly in the compiler
+ * Its methods are optmized out of the cotrnoller and are implmented directly in the compiler.
  */
 controller CMemoryPool {
 

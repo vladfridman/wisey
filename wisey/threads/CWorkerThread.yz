@@ -2,9 +2,46 @@ package wisey.threads;
 
 /**
  * Default implementation of the worker thread.
- *
- * A worker thread can be in one of 4 states: Not started, Started, Cancelled, Finished
+ * <br/>
+ * A worker thread can be in one of 4 states: Not started, Started, Cancelled or Finished.
  * Before thread can be started again after it has been cancelled or finished it has to be reset
+ * <br/>
+ * Here is an example of using a CWorkerThread controller:
+ * <pre>
+ * controller CYourController {
+ *   inject CWorkerThread* mWorkerThread;
+ *
+ *   public void yourMethod() {
+ *     // submit your worker on a new worker thread
+ *     mWorkerThread.start(build(MWorker).onHeap());
+ *     // Do some work here in parallel with the new thread
+ *     ....
+ *     // Wait for the worker thread to finish and get its result
+ *     MResultModel* result = (MResultModel*) mWorkerThread.awaitResult();
+ *     // Do something with the result
+ *     ...
+ *     // Reset CWorkerThread controller to reuse it
+ *     mWorkerThread.reset();
+ *   }
+ * }
+ * </pre>
+ *
+ * The worker submitted to the start method must by a model and must implement IWorker interface.
+ * Here is an example of an IWorker implementation:
+ *
+ * <pre>
+ * model MWorker implements IWorker {
+ *
+ *   // This is called from a new thread created by CWorkerThread.start()
+ *   public void work() override {
+ *     // Do some work here and compute some value
+ *     ...
+ *     // Store work results into a model and send it to the caller thread
+ *     MResultModel* result = build(MResultModel).withSomeValue(value).onHeap();
+ *     thread.send(result);
+ *   }
+ * }
+ * </pre>
  */
 controller CWorkerThread implements IThread {
   inject CWorkerThreadRunner* mWorkerThreadRunner;
@@ -13,10 +50,10 @@ controller CWorkerThread implements IThread {
   state IWorker* mWorker;
 
   /**
-   * Starts the given thread with the given worker implementation
+   * Starts the given thread with the given worker implementation.
    *
-   * Calling this method after the thread has already been started has no effect
-   * This is called from an outside thread through a reveal method
+   * Calling this method after the thread has already been started has no effect.
+   * This is called from an outside thread through a reveal method.
    */
   public void start(::wisey::model* worker) throws MThreadBoundaryException {
     outsideThreadGuard(this);
@@ -25,7 +62,7 @@ controller CWorkerThread implements IThread {
   }
 
   /**
-   * Tells whether the thread has been started
+   * Tells whether the thread has been started.
    */
   public boolean isStarted() throws MThreadBoundaryException {
     outsideThreadGuard(this);
@@ -33,7 +70,7 @@ controller CWorkerThread implements IThread {
   }
 
   /**
-   * Tells whether the thread has finished execution and has the result
+   * Tells whether the thread has finished execution and has the result.
    */
   public boolean isFinished() throws MThreadBoundaryException {
     outsideThreadGuard(this);
@@ -41,7 +78,7 @@ controller CWorkerThread implements IThread {
   }
 
   /**
-   * Tells whether the thread execution has been cancelled
+   * Tells whether the thread execution has been cancelled.
    */
   public boolean isCancelled() throws MThreadBoundaryException {
     outsideThreadGuard(this);
@@ -49,8 +86,8 @@ controller CWorkerThread implements IThread {
   }
 
   /**
-   * Waits for the thread to finish and returns back the result
-   * If the thread has been canceled or finished or not started then returns result immediately
+   * Waits for the thread to finish and returns back the result.
+   * If the thread has been canceled or finished or not started then returns result immediately.
    */
   public ::wisey::model* awaitResult() throws MThreadBoundaryException {
     outsideThreadGuard(this);
@@ -69,8 +106,8 @@ controller CWorkerThread implements IThread {
   }
 
   /**
-   * Reset the thread to its initial state so it can be started again
-   * Calling this when the thread is in Started or Not Started state has no effect
+   * Reset the thread to its initial state so it can be started again.
+   * Calling this when the thread is in Started or Not Started state has no effect.
    */
   public void reset() throws MThreadBoundaryException {
     outsideThreadGuard(this);
@@ -103,5 +140,106 @@ controller CWorkerThread implements IThread {
     mContextManager.setContext(IThread.getTypeName(), thread);
     mWorker.work();
     mContextManager.eraseContext(IThread.getTypeName());
+  }
+
+  private controller CWorkerThreadRunner implements IThreadRunner {
+    state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
+    state boolean mIsCancelled;
+    state boolean mIsFinished;
+    state ::wisey::model* mResult;
+
+    /**
+     * Creates new posix thread that calls runBridge function that in turn calls thread's run method
+     */
+    public void createThread(IThread workerThread) {
+      if (mMyNativeThread) {
+        return;
+      }
+      ::llvm::function::pthread_create(::llvm::reference(mMyNativeThread), 
+                                       (::llvm::struct::_opaque_pthread_attr_t::pointer) null, 
+                                       IThreadRunner.runBridge, 
+                                       (::llvm::i8::pointer) workerThread);
+    }
+
+    /**
+     * Tells whether thread has started
+     */
+    public boolean isStarted() {
+      return mMyNativeThread;
+    }
+
+    /**
+     * Tells whether the thread has finished working and has the result
+     */
+    public boolean isFinished() {
+      return mIsFinished;
+    }
+
+    /**
+     * Tells whether the worker thread has been cancelled
+     */
+    public boolean isCancelled() {
+      return mIsCancelled;
+    }
+
+    /**
+     * Waits for thread to finish its work
+     */
+    public void joinThread() {
+      if (!mMyNativeThread || mIsCancelled || mIsFinished) {
+        return;
+      }
+      ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8::pointer::pointer) null);
+      mIsFinished = true;
+    }
+
+    /**
+     * Cancel execution of the worker thread
+     */
+    public void cancelThread() {
+      if (!mMyNativeThread || mIsCancelled || mIsFinished) {
+        return;
+      }
+      ::llvm::function::pthread_cancel(mMyNativeThread);
+      mIsCancelled = true;
+    }
+
+    /**
+     * Reset the thread so it can be restarted
+     */
+    public void resetThread() {
+      if (!mIsCancelled && !mIsFinished) {
+        return;
+      }
+      if (mMyNativeThread != null) {
+        ::llvm::function::pthread_cancel(mMyNativeThread);
+      }
+      mIsFinished = false;
+      mIsCancelled = false;
+      mResult = null;
+      mMyNativeThread = null;
+    }
+
+    /**
+     * Exits thread
+     */
+    public void exitThread() {
+      mIsFinished = true;
+      ::llvm::function::pthread_exit((::llvm::i8::pointer) null);
+    }
+
+    /**
+     * Set result of the thread
+     */
+    public void setResult(::wisey::model* result) {
+      mResult = result;
+    }
+
+    /**
+     * Return the result
+     */
+    public ::wisey::model* getResult() {
+      return mResult;
+    }
   }
 }

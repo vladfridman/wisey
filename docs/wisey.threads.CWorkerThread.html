@@ -27,9 +27,46 @@
           </td>
           <td class="elementDescriptionRight">
             Default implementation of the worker thread.
-
-A worker thread can be in one of 4 states: Not started, Started, Cancelled, Finished
+<br/>
+A worker thread can be in one of 4 states: Not started, Started, Cancelled or Finished.
 Before thread can be started again after it has been cancelled or finished it has to be reset
+<br/>
+Here is an example of using a CWorkerThread controller:
+<pre>
+controller CYourController {
+  inject CWorkerThread* mWorkerThread;
+
+  public void yourMethod() {
+    // submit your worker on a new worker thread
+    mWorkerThread.start(build(MWorker).onHeap());
+    // Do some work here in parallel with the new thread
+    ....
+    // Wait for the worker thread to finish and get its result
+    MResultModel* result = (MResultModel*) mWorkerThread.awaitResult();
+    // Do something with the result
+    ...
+    // Reset CWorkerThread controller to reuse it
+    mWorkerThread.reset();
+  }
+}
+</pre>
+
+The worker submitted to the start method must by a model and must implement IWorker interface.
+Here is an example of an IWorker implementation:
+
+<pre>
+model MWorker implements IWorker {
+
+  // This is called from a new thread created by CWorkerThread.start()
+  public void work() override {
+    // Do some work here and compute some value
+    ...
+    // Store work results into a model and send it to the caller thread
+    MResultModel* result = build(MResultModel).withSomeValue(value).onHeap();
+    thread.send(result);
+  }
+}
+</pre>
 
           </td>
         </tr>
@@ -53,10 +90,10 @@ Before thread can be started again after it has been cancelled or finished it ha
             
           </td>
           <td class="elementDescriptionRight">
-            Starts the given thread with the given worker implementation
+            Starts the given thread with the given worker implementation.
 
-Calling this method after the thread has already been started has no effect
-This is called from an outside thread through a reveal method
+Calling this method after the thread has already been started has no effect.
+This is called from an outside thread through a reveal method.
 
           </td>
         </tr>
@@ -74,7 +111,7 @@ This is called from an outside thread through a reveal method
             
           </td>
           <td class="elementDescriptionRight">
-            Tells whether the thread has been started
+            Tells whether the thread has been started.
 
           </td>
         </tr>
@@ -92,7 +129,7 @@ This is called from an outside thread through a reveal method
             
           </td>
           <td class="elementDescriptionRight">
-            Tells whether the thread has finished execution and has the result
+            Tells whether the thread has finished execution and has the result.
 
           </td>
         </tr>
@@ -110,7 +147,7 @@ This is called from an outside thread through a reveal method
             
           </td>
           <td class="elementDescriptionRight">
-            Tells whether the thread execution has been cancelled
+            Tells whether the thread execution has been cancelled.
 
           </td>
         </tr>
@@ -128,8 +165,8 @@ This is called from an outside thread through a reveal method
             
           </td>
           <td class="elementDescriptionRight">
-            Waits for the thread to finish and returns back the result
-If the thread has been canceled or finished or not started then returns result immediately
+            Waits for the thread to finish and returns back the result.
+If the thread has been canceled or finished or not started then returns result immediately.
 
           </td>
         </tr>
@@ -166,8 +203,8 @@ If the thread has been already canceled or finished or not started then this has
             
           </td>
           <td class="elementDescriptionRight">
-            Reset the thread to its initial state so it can be started again
-Calling this when the thread is in Started or Not Started state has no effect
+            Reset the thread to its initial state so it can be started again.
+Calling this when the thread is in Started or Not Started state has no effect.
 
           </td>
         </tr>
@@ -178,13 +215,15 @@ Calling this when the thread is in Started or Not Started state has no effect
           <td class="elementDefinitionLeft">
             void          </td>
           <td class="elementDefinitionRight">
-            exit () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+            exit () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.exit()          </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
             
           </td>
           <td class="elementDescriptionRight">
+            Exits thread with null as a result. This is called from within the thread
+
           </td>
         </tr>
         <tr>
@@ -194,13 +233,18 @@ Calling this when the thread is in Started or Not Started state has no effect
           <td class="elementDefinitionLeft">
             ::wisey::model*          </td>
           <td class="elementDefinitionRight">
-            send (::wisey::model* message) throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+            send (::wisey::model* message) throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.send()          </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
             
           </td>
           <td class="elementDescriptionRight">
+            Sends a message to the calling thread. 
+
+Returns null if the message was sent successfully.
+Returns the sent message if it could not be sent.
+
           </td>
         </tr>
         <tr>
@@ -210,13 +254,15 @@ Calling this when the thread is in Started or Not Started state has no effect
           <td class="elementDefinitionLeft">
             <a href="wisey.threads.CCallStack.html">CCallStack</a>          </td>
           <td class="elementDefinitionRight">
-            getCallStack () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+            getCallStack () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.getCallStack()          </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
             
           </td>
           <td class="elementDescriptionRight">
+            Returns the call stack for this thread
+
           </td>
         </tr>
         <tr>
@@ -226,13 +272,15 @@ Calling this when the thread is in Started or Not Started state has no effect
           <td class="elementDefinitionLeft">
             <a href="wisey.threads.CContextManager.html">CContextManager</a>          </td>
           <td class="elementDefinitionRight">
-            getContextManager () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+            getContextManager () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.getContextManager()          </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
             
           </td>
           <td class="elementDescriptionRight">
+            Return context manager that keeps instances of context injected controllers
+
           </td>
         </tr>
         <tr>
@@ -258,6 +306,8 @@ Calling this when the thread is in Started or Not Started state has no effect
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="contents">&nbsp;
   </div>
 </body>
 </html>

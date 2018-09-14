@@ -378,6 +378,7 @@ external controller wisey.io.CTextStreamWriter {
   static wisey.io.CTextStreamWriter* openSystemOut();
   static wisey.io.CTextStreamWriter* openSystemErr();
   void close() throws wisey.io.MStreamClosedException, wisey.io.MStreamCouldNotCloseException;
+  ::llvm::struct::__sFILE::pointer getStream();
 }
 
 external controller wisey.lang.CMemoryPool {
@@ -424,23 +425,12 @@ external controller wisey.threads.CPoolThread
   void run() throws wisey.threads.MThreadBoundaryException override;
 }
 
-external controller wisey.threads.CPoolThreadRunner
-  implements
-    wisey.threads.IThreadRunner {
-
-  void createThread(
-    wisey.threads.IThread poolThread);
-  boolean isStarted();
-  void cancelThread();
-  void exitThread();
-}
-
 external controller wisey.threads.CThreadPool {
 
   receive long mPoolSize;
 
   void submit(
-    wisey.threads.IWorker* worker);
+    ::wisey::model* worker);
   void start();
   void stop();
   ::wisey::model* getResult();
@@ -467,24 +457,6 @@ external controller wisey.threads.CWorkerThread
   wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
   wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException override;
   void run() throws wisey.threads.MThreadBoundaryException override;
-}
-
-external controller wisey.threads.CWorkerThreadRunner
-  implements
-    wisey.threads.IThreadRunner {
-
-  void createThread(
-    wisey.threads.IThread workerThread);
-  boolean isStarted();
-  boolean isFinished();
-  boolean isCancelled();
-  void joinThread();
-  void cancelThread();
-  void resetThread();
-  void exitThread();
-  void setResult(
-    ::wisey::model* result);
-  ::wisey::model* getResult();
 }
 
 /* Nodes */

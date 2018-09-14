@@ -40,7 +40,7 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-std=c++11 -g -fno-rtti \
 	-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -c
 # Flags used for linking
-LDFLAGS = `llvm-config --ldflags --system-libs --libs all` -L$(LIBDIR) -lwisey
+LDFLAGS = `llvm-config --ldflags --system-libs --libs all` -L$(LIBDIR) 
 
 default: ${BINDIR}/yzc
 

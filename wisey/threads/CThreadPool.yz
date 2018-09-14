@@ -9,7 +9,7 @@ import wisey.data.CConcurrentModelOwnerQueue;
  *
  * <pre>
  * controller CYourController {
- *   inject CThreadPool* mThreadPool.withPoolSize(4);
+ *   inject CThreadPool* mThreadPool.withPoolSize(wisey.lang.MSystem.getProcessorCount());
  *
  *   public void yourMethod() {
  *     // submit your workers 
@@ -23,7 +23,8 @@ import wisey.data.CConcurrentModelOwnerQueue;
  *     ...
  *     // once all results are received stop the thread pool
  *     mThreadPool.stop();
- *     // you can then reuse the thread pool by calling start() method again
+ *     // you can then reuse the CThreadPool controller by calling start() method again 
+ *     // but this will create a new set of pool threads
  *   }
  * }
  * </pre>
@@ -42,8 +43,9 @@ controller CThreadPool {
   /**
    * Submit a model that implements a worker interface on the queue of workers
    */
-  public void submit(IWorker* worker) {
-    mWorkers.push(worker);
+  public void submit(::wisey::model* worker) {
+    IWorker* workerModel = worker;
+    mWorkers.push(workerModel);
   }
 
   /**

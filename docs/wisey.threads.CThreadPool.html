@@ -32,7 +32,7 @@ Here is how to use it:
 
 <pre>
 controller CYourController {
-  inject CThreadPool* mThreadPool.withPoolSize(4);
+  inject CThreadPool* mThreadPool.withPoolSize(wisey.lang.MSystem.getProcessorCount());
 
   public void yourMethod() {
     // submit your workers 
@@ -46,7 +46,8 @@ controller CYourController {
     ...
     // once all results are received stop the thread pool
     mThreadPool.stop();
-    // you can then reuse the thread pool by calling start() method again
+    // you can then reuse the CThreadPool controller by calling start() method again 
+    // but this will create a new set of pool threads
   }
 }
 </pre>
@@ -94,7 +95,7 @@ controller CYourController {
           <td class="elementDefinitionLeft">
             void          </td>
           <td class="elementDefinitionRight">
-            submit (<a href="wisey.threads.IWorker.html">IWorker</a>* worker)           </td>
+            submit (::wisey::model* worker)           </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
@@ -206,6 +207,8 @@ This is called by individual pool threads and should not be called directly
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="contents">&nbsp;
   </div>
 </body>
 </html>

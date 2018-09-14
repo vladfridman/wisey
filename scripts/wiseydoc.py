@@ -21,6 +21,7 @@ def docObjectName(file, objectName, dictionary):
 
 class Object:
   mPackage = ""
+  mAccess = ""
   mType = ""
   mName = ""
   mDescription = ""
@@ -32,8 +33,9 @@ class Object:
   mConstants = []
   mParentObject = None
 
-  def __init__(self, package, objectType, objectName, description):
+  def __init__(self, package, objectAccess, objectType, objectName, description):
     self.mPackage = package
+    self.mAccess = objectAccess.strip()
     self.mType = objectType
     self.mName = objectName
     self.mDescription = description
@@ -83,6 +85,8 @@ class Object:
     return self.getFullName() + ".html"
 
   def printShortDoc(self, file):
+    if self.mAccess == 'private':
+      return
     file.write('        <tr>\n')
     file.write('          <td class="elementDefinitionLeft">\n')
     file.write('            ' + self.mType + '\n')
@@ -94,18 +98,25 @@ class Object:
     file.write('        <tr>\n')
     file.write('          <td class="elementSeparator" colspan="2">&nbsp;</td>\n')
     file.write('        </tr>\n')
+
     for subObject in self.mSubObjects:
       subObject.printShortDoc(file)
 
-
   def printDoc(self, destinationDir, dictionary):
+    if self.mAccess == "private":
+      return
+
+    hasPublicSubobjects = False;
     for subObject in self.mSubObjects:
       subObject.printDoc(destinationDir, dictionary)
+      if subObject.mAccess == "public":
+        hasPublicSubobjects = True
 
     from os.path import isfile, join
     fileName = join(destinationDir, self.getFileName())
     file = open(fileName, "w")
     print fileName
+
     file.write('<html>\n')
     file.write('<head>\n')
     file.write('<link href="wiseydoc.css" rel="stylesheet" type="text/css">\n')
@@ -199,7 +210,7 @@ class Object:
       file.write('      </tbody>\n')
       file.write('    </table>\n')
 
-    if (len(self.mSubObjects)):
+    if (hasPublicSubobjects):
       file.write('    <table class="docSection">\n')
       file.write('      <tbody>\n')
       file.write('        <tr class="header">\n')
@@ -213,6 +224,8 @@ class Object:
       file.write('    </table>\n')
 
 
+    file.write('  </div>\n')
+    file.write('  <div class="contents">&nbsp;\n')
     file.write('  </div>\n')
     file.write('</body>\n')
     file.write('</html>\n')
@@ -370,15 +383,15 @@ def readFile(path):
   commentStart = re.compile("\/\*+\s*$")
   commentLine = re.compile("\*+\s(\s*.*)$")
   commentEnd = re.compile("\*+\/")
-  objectStart = re.compile("(public\s+)?(controller|model|interface|node)\s+([a-zA-Z0-9_]+)\s")
+  objectStart = re.compile("(public\s+|private\s+)?(controller|model|interface|node)\s+([a-zA-Z0-9_]+)\s")
   methodStart = re.compile("public\s+(immutable\s+)?([a-zA-Z0-9_:*\[\]]+)\s+([a-zA-Z0-9_]+)\(")
   staticMethodStart = re.compile("public\s+static\s+(immutable\s+)?([a-zA-Z0-9_:*\[\]]+)\s+([a-zA-Z0-9_]+)\(")
   interfaceMethodStart = re.compile("(immutable\s+)?([a-zA-Z0-9_:*\[\]]+)\s+([a-zA-Z0-9_]+)\(")
   parameter = re.compile("(immutable\s+)?([a-zA-Z0-9_:*\[\]]+)\s+([a-zA-Z0-9_]+)[\),]")
   methodEnd = re.compile("\)")
   fieldMatch = re.compile("(receive\s+)(immutable\s+)?([a-zA-Z0-9_:*\[\]]+)\s+([a-zA-Z0-9_]+);")
-  typeList = re.compile("([a-zA-Z0-9_:*\[\]]+)\s*[,\{]")
-  typeListEnd = re.compile("\{")
+  typeList = re.compile("([a-zA-Z0-9_:*\[\]]+)\s*[,\{;]")
+  typeListEnd = re.compile("[\{;]")
   constantMatch = re.compile("public constant ([a-zA-Z0-9_:*\[\]]+) ([A-Z0-9_]+) = (.*);")
 
   state = 0;
@@ -410,15 +423,19 @@ def readFile(path):
         if result != None:
           state = 1
       if state == 1:
+
+        # objects
         result = re.search(objectStart, line)
         if result != None:
           state = 1
-          objectAcces = result.groups(0)[0]
+          objectAccess = result.groups(0)[0]
+          if objectAccess == 0:
+            objectAccess = ""
           objectType = result.groups(0)[1]
           objectName = result.groups(0)[2]
-          o = Object(package, objectType, objectName, comment)
+          o = Object(package, objectAccess, objectType, objectName, comment)
           comment = '';
-          if objectAcces != 0:
+          if objectAccess != "":
             objects[0].addSubObject(o)
             inSubObject = 1;
           else:
@@ -431,46 +448,17 @@ def readFile(path):
             o.addImplements(result)
             if re.search(typeListEnd, line) == None:
               state = 8
+          continue
+
+        # constants
         result = re.search(constantMatch, line)
         if result != None:
           c = Constant(result.groups(0)[0], result.groups(0)[1], result.groups(0)[2], comment)
           comment = ''
           o.addConstant(c)
-        if len(objects) and o.mType == 'interface':
-          result = re.search(interfaceMethodStart, line)
-        else:
-          result = re.search(methodStart, line)
-        if result != None:
-          methodName = result.groups(0)[2]
-          if result.groups(0)[0] == 0:
-            methodType = result.groups(0)[1]
-          else:
-            methodType = result.groups(0)[0] + ' ' + result.groups(0)[1]
-          result = re.findall(parameter, line)
-          if result != None:
-            parameters = result
-            if re.search(methodEnd, line) != None:
-              m = Method(methodType, methodName, parameters, comment)
-              comment = '';
-              if inSubObject == 1:
-                objects[0].addSubObjectMethod(m)
-              else:
-                objects[0].addMethod(m)
-              if line.find(" override ") >= 0:
-                m.setOverride()
-              if line.find("throws ") < 0:
-                state = 1
-              else:
-                throwsLine = line[line.find("throws ") + 7:]
-                throwsLine = throwsLine.replace(" override", "")
-                result = re.findall(typeList, throwsLine)
-                m.addThrows(result);
-                if re.search(typeListEnd, line) != None:
-                  state = 1
-                else:
-                  state = 7
-            else:
-              state = 5
+          continue
+
+        # static methods
         result = re.search(staticMethodStart, line)
         if result != None:
           methodName = result.groups(0)[2]
@@ -503,6 +491,49 @@ def readFile(path):
                   state = 7
             else:
               state = 6
+          continue
+
+        # methods and method signatures
+        if len(objects) and o.mType == 'interface':
+          result = re.search(interfaceMethodStart, line)
+        else:
+          result = re.search(methodStart, line)
+        if result != None:
+          methodName = result.groups(0)[2]
+          if result.groups(0)[0] == 0:
+            methodType = result.groups(0)[1]
+          else:
+            methodType = result.groups(0)[0] + ' ' + result.groups(0)[1]
+          if methodType == 'throw':
+            continue
+          result = re.findall(parameter, line)
+          if result != None:
+            parameters = result
+            if re.search(methodEnd, line) != None:
+              m = Method(methodType, methodName, parameters, comment)
+              comment = '';
+              if inSubObject == 1:
+                objects[0].addSubObjectMethod(m)
+              else:
+                objects[0].addMethod(m)
+              if line.find(" override ") >= 0:
+                m.setOverride()
+              if line.find("throws ") < 0:
+                state = 1
+              else:
+                throwsLine = line[line.find("throws ") + 7:]
+                throwsLine = throwsLine.replace(" override", "")
+                result = re.findall(typeList, throwsLine)
+                m.addThrows(result);
+                if re.search(typeListEnd, line) != None:
+                  state = 1
+                else:
+                  state = 7
+            else:
+              state = 5
+          continue
+
+        # fields
         result = re.search(fieldMatch, line)
         if result != None:
           fieldKind = result.groups(0)[0]
@@ -518,6 +549,7 @@ def readFile(path):
           else:
             objects[0].addReceivedField(field)
           state = 1
+          continue
 
       elif state == 5:
         result = re.findall(parameter, line)
@@ -610,6 +642,10 @@ def printDoc(objects, destinationDir, dictionary):
 
     o.printShortDoc(file)
 
+  file.write('      </tbody>\n')
+  file.write('    </table>\n')
+  file.write('  </div>\n')
+  file.write('  <div class="contents">&nbsp;\n')
   file.write('  </div>\n')
   file.write('</body>\n')
   file.write('</html>\n')

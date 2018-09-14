@@ -26,14 +26,15 @@
             
           </td>
           <td class="elementDescriptionRight">
-            A thread that runs in a pool of threads. 
-
+            A thread that runs in a pool of threads. Do not instantiate it directly, use CThreadPool.
+<br/>
 In its run method it constantly polls the thread pool for a new worker and when it finds it
 it runs the work() method of the returned worker. The worker is responsible for sending 
 a result back if there are any by calling thread.send(::wisey::model*) method. Once worker is 
 finished the thread waits for a new worker in the thread pool. 
-
 The thread never ends until it is canceled through cancel() method.
+<br/>
+An instance of this object is returned when you call 'thread' from within the pool thread.
 
           </td>
         </tr>
@@ -86,13 +87,15 @@ The thread never ends until it is canceled through cancel() method.
           <td class="elementDefinitionLeft">
             void          </td>
           <td class="elementDefinitionRight">
-            exit () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+            exit () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.exit()          </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
             
           </td>
           <td class="elementDescriptionRight">
+            Exits thread with null as a result. This is called from within the thread
+
           </td>
         </tr>
         <tr>
@@ -102,13 +105,18 @@ The thread never ends until it is canceled through cancel() method.
           <td class="elementDefinitionLeft">
             ::wisey::model*          </td>
           <td class="elementDefinitionRight">
-            send (::wisey::model* message) throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+            send (::wisey::model* message) throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.send()          </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
             
           </td>
           <td class="elementDescriptionRight">
+            Sends a message to the calling thread. 
+
+Returns null if the message was sent successfully.
+Returns the sent message if it could not be sent.
+
           </td>
         </tr>
         <tr>
@@ -118,13 +126,15 @@ The thread never ends until it is canceled through cancel() method.
           <td class="elementDefinitionLeft">
             <a href="wisey.threads.CCallStack.html">CCallStack</a>          </td>
           <td class="elementDefinitionRight">
-            getCallStack () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+            getCallStack () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.getCallStack()          </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
             
           </td>
           <td class="elementDescriptionRight">
+            Returns the call stack for this thread
+
           </td>
         </tr>
         <tr>
@@ -134,13 +144,15 @@ The thread never ends until it is canceled through cancel() method.
           <td class="elementDefinitionLeft">
             <a href="wisey.threads.CContextManager.html">CContextManager</a>          </td>
           <td class="elementDefinitionRight">
-            getContextManager () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override           </td>
+            getContextManager () throws <a href="wisey.threads.MThreadBoundaryException.html">MThreadBoundaryException</a> override of <a href="wisey.threads.IThread.html">IThread</a>.getContextManager()          </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
             
           </td>
           <td class="elementDescriptionRight">
+            Return context manager that keeps instances of context injected controllers
+
           </td>
         </tr>
         <tr>
@@ -166,6 +178,8 @@ The thread never ends until it is canceled through cancel() method.
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="contents">&nbsp;
   </div>
 </body>
 </html>

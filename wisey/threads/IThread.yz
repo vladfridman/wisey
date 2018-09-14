@@ -13,8 +13,8 @@ interface IThread {
   /**
    * Sends a message to the calling thread. 
    *
-   * Returns null if the message was sent successfully
-   * Returns the sent message if it could not be sent
+   * Returns null if the message was sent successfully.
+   * Returns the sent message if it could not be sent.
    */
   ::wisey::model* send(::wisey::model* message) throws MThreadBoundaryException;
 
