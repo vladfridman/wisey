@@ -42,14 +42,21 @@ void CompilerDriver::compileRunnable(int argc, char **argv) {
   }
 
   compilerArguments.setOutputFile(objectFileName);
-  string command = "yzc " + compilerArguments.toString();
+  string command = "yzc " + compilerArguments.getForYzc();
   command += " " + mWiseyHeaders;
   if (executeCommand(command) || !compilerArguments.shouldOutput()) {
     return;
   }
 
-  command = "ld -macosx_version_min " + mOsVersion + " -L" + mWiseyLib + " -lwisey -lc++ -lSystem ";
-  command += "-arch " + mArchitecture + " ";
+  command = "ld -macosx_version_min " + mOsVersion;
+  for (string path : compilerArguments.getLibraryPaths()) {
+    command += " " + path;
+  }
+  for (string path : compilerArguments.getLibraryNames()) {
+    command += " " + path;
+  }
+  command += " -L" + mWiseyLibDir;
+  command += " -lwisey -lc++ -lSystem -arch " + mArchitecture + " ";
   command += "-o " + runnableFileName + " " + objectFileName;
   executeCommand(command);
 }
@@ -67,7 +74,7 @@ void CompilerDriver::compileLibrary(int argc, char **argv) {
   Log::setLogLevel(compilerArguments.isVerbouse() ? INFOLEVEL : ERRORLEVEL);
   
   string objectFileName = "library.o";
-  string libraryFileName = "library.so";
+  string libraryFileName = "library.a";
   if (compilerArguments.shouldOutput() && compilerArguments.getOutputFile().size()) {
     libraryFileName = compilerArguments.getOutputFile();
     objectFileName = libraryFileName.find_last_of(".") == string::npos
@@ -76,21 +83,17 @@ void CompilerDriver::compileLibrary(int argc, char **argv) {
   }
   
   compilerArguments.setOutputFile(objectFileName);
-  string command = "yzc " + compilerArguments.toString();
+  string command = "yzc " + compilerArguments.getForYzc();
   if (executeCommand(command) || !compilerArguments.shouldOutput()) {
     return;
   }
   
-  command = "ld -macosx_version_min " + mOsVersion + " -lc++ -lSystem -dylib ";
-  command += "-arch " + mArchitecture + " ";
-  for (string path : compilerArguments.getLibraryPaths()) {
+  command = "ar rvs " + libraryFileName + " " + objectFileName + " ";
+  for (string path : compilerArguments.getAdditionalObjects()) {
     command += path + " ";
   }
-  for (string name : compilerArguments.getLibraryNames()) {
-    command += name + " ";
-  }
-  command += "-o " + libraryFileName + " " + objectFileName;
   executeCommand(command);
+  Log::i("Created library: " + libraryFileName);
 }
 
 bool CompilerDriver::prepareForRunnable() {
@@ -101,13 +104,7 @@ bool CompilerDriver::prepareForRunnable() {
   }
   
   mWiseyHeaders = mWiseyHome + "/headers/libwisey.yz";
-  mWiseyLib = mWiseyHome + "/lib";
-  
-  if (!checkCommandExists("yzc")) {
-    cerr << "Wisey compiler yzc is not found. "
-    "Add path to wiseyc to your $PATH environment variable" << endl;
-    return false;
-  }
+  mWiseyLibDir = mWiseyHome + "/lib";
 
   if (!checkFileExists(mWiseyHeaders.c_str())) {
     cerr << "Headers file is not found. Based on $WISEY_HOME environment variable it should be in "
@@ -115,33 +112,49 @@ bool CompilerDriver::prepareForRunnable() {
     return false;
   }
   
-  if (!checkFileExists(mWiseyLib.c_str())) {
+  if (!checkFileExists(mWiseyLibDir.c_str())) {
     cerr << "Wisey library is not found. Based on $WISEY_HOME environment variable it should be in "
-    << mWiseyLib << endl;
+    << mWiseyLibDir << endl;
     return false;
   }
-  
-  return prepareForLibrary();
-}
 
-bool CompilerDriver::prepareForLibrary() {
+  if (!checkCommandExists("ld")) {
+    cerr << "ld command is not found" << endl;
+    return false;
+  }
+
   if (!checkCommandExists("uname")) {
     cerr << "uname command is not found" << endl;
     return false;
   }
   mArchitecture = getArchitecture();
 
-  if (!checkCommandExists("ld")) {
-    cerr << "ld command is not found" << endl;
-    return false;
-  }
-  
   if (!checkCommandExists("sw_vers")) {
     cerr << "sw_vers command is not found" << endl;
     return false;
   }
   mOsVersion = getMacOsXVersion();
+
+  return checkYzcInstall();
+}
+
+bool CompilerDriver::prepareForLibrary() {
   
+  if (!checkCommandExists("ar")) {
+    cerr << "ar command is not found" << endl;
+    return false;
+  }
+
+  return checkYzcInstall();
+}
+
+bool CompilerDriver::checkYzcInstall() const {
+  if (!checkCommandExists("yzc")) {
+    cerr << "Wisey compiler yzc is not found. "
+    "Add path to wiseyc to your $PATH environment variable" << endl;
+    return false;
+  }
+
   return true;
 }
 

@@ -28,6 +28,7 @@ namespace wisey {
     std::vector<std::string> mSourceFiles;
     std::vector<std::string> mLibraryPaths;
     std::vector<std::string> mLibraryNames;
+    std::vector<std::string> mAdditionalObjects;
 
   public:
     
@@ -136,9 +137,19 @@ namespace wisey {
     void addLibraryName(std::string name);
     
     /**
-     * Convert compiler arguments into string form for sending it to a compiler
+     * Returns list of additional objects for linking into a library
      */
-    std::string toString() const;
+    std::vector<std::string> getAdditionalObjects() const;
+    
+    /**
+     * Adds an additioinal object for linking into a library
+     */
+    void addAdditionalObject(std::string name);
+
+    /**
+     * Return compiler arguments for yzc
+     */
+    std::string getForYzc() const;
     
   };
   

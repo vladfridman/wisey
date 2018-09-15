@@ -26,8 +26,7 @@ void WiseylibcArgumentParser::printSyntaxAndExit() const {
   "[-o|--output <library_file_name.so>] "
   "[-n|--no-output] "
   "[--no-optimization] "
-  "[-L<path_to_library>] "
-  "[-l<library_name_to_link>] "
+  "[-A<additional_object_to_link>] "
   "<source_file.yz>..." << endl;
   exit(1);
 }
@@ -38,7 +37,6 @@ CompilerArguments WiseylibcArgumentParser::parse(vector<string> argumnets) const
   if (argumnets.size() == 0) {
     printSyntaxAndExit();
   }
-  
   for (vector<string>::iterator iterator = argumnets.begin();
        iterator != argumnets.end();
        iterator++) {
@@ -75,12 +73,8 @@ CompilerArguments WiseylibcArgumentParser::parse(vector<string> argumnets) const
       compilerArguments.setHeaderFile(*iterator);
       continue;
     }
-    if (argument.find("-L") == 0) {
-      compilerArguments.addLibraryPath(argument);
-      continue;
-    }
-    if (argument.find("-l") == 0) {
-      compilerArguments.addLibraryName(argument);
+    if (argument.find("-A") == 0) {
+      compilerArguments.addAdditionalObject(argument.substr(2));
       continue;
     }
     if (!argument.compare("--no-output") || !argument.compare("-n")) {

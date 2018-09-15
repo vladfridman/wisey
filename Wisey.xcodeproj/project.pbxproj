@@ -20,6 +20,7 @@
 		F50709B4214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B2214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp */; };
 		F50709B6214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */; };
 		F50709B7214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */; };
+		F50709B9214C2E2700CBDAE5 /* libwisey.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F50709B8214C2E2700CBDAE5 /* libwisey.a */; };
 		F507D2651E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D2661E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
@@ -482,8 +483,6 @@
 		F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FE1DE5ED0700074D66 /* libcurses.dylib */; };
 		F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
-		F547DDC4210FA0D1000ABE13 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F547DDC3210FA0D0000ABE13 /* libwisey.so */; };
-		F547DDC5210FA0DB000ABE13 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F547DDC3210FA0D0000ABE13 /* libwisey.so */; };
 		F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */; };
 		F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B14342059015F0030773F /* TestIdentifierReference.cpp */; };
 		F54B1466205D66AB0030773F /* LLVMi1Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1465205D66AB0030773F /* LLVMi1Type.cpp */; };
@@ -1177,6 +1176,8 @@
 		F50709B1214C05A300CBDAE5 /* WiseylibcArgumentParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WiseylibcArgumentParser.hpp; path = include/wisey/WiseylibcArgumentParser.hpp; sourceTree = "<group>"; };
 		F50709B2214C05C700CBDAE5 /* WiseylibcArgumentParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WiseylibcArgumentParser.cpp; path = src/WiseylibcArgumentParser.cpp; sourceTree = "<group>"; };
 		F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WiseycArgumentParser.cpp; path = src/WiseycArgumentParser.cpp; sourceTree = "<group>"; };
+		F50709B8214C2E2700CBDAE5 /* libwisey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwisey.a; path = lib/libwisey.a; sourceTree = "<group>"; };
+		F50709BB214C302200CBDAE5 /* libdata.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdata.a; path = lib/libdata.a; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
 		F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypes.cpp; path = src/PrimitiveTypes.cpp; sourceTree = "<group>"; };
 		F5089C491ECD01D9004A1223 /* AccessLevel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AccessLevel.hpp; path = include/wisey/AccessLevel.hpp; sourceTree = "<group>"; };
@@ -2259,7 +2260,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F547DDC5210FA0DB000ABE13 /* libwisey.so in Frameworks */,
+				F50709B9214C2E2700CBDAE5 /* libwisey.a in Frameworks */,
 				F53400E41DFBF1D10002BF7E /* libgmock.a in Frameworks */,
 				F53400E51DFBF1D10002BF7E /* libgtest.a in Frameworks */,
 				F53400DF1DFBE7ED0002BF7E /* libcurses.dylib in Frameworks */,
@@ -2405,7 +2406,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F547DDC4210FA0D1000ABE13 /* libwisey.so in Frameworks */,
 				F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */,
 				F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */,
 				F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */,
@@ -2598,6 +2598,8 @@
 		F53060C71F7947800098D637 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F50709BB214C302200CBDAE5 /* libdata.a */,
+				F50709B8214C2E2700CBDAE5 /* libwisey.a */,
 				F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */,
 				F5F55E99213AF6E600FF3A28 /* libLLVMBinaryFormat.a */,
 				F5F55E97213AF66900FF3A28 /* libLLVMARMUtils.a */,
@@ -5357,6 +5359,10 @@
 					"-Wmissing-field-initializers",
 					"-Wno-covered-switch-default",
 				);
+				OTHER_LDFLAGS = (
+					"-force_load",
+					lib/libwisey.a,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = include;
 				YACCFLAGS = "";
@@ -5424,6 +5430,10 @@
 					"-Wcast-qual",
 					"-Wmissing-field-initializers",
 					"-Wno-covered-switch-default",
+				);
+				OTHER_LDFLAGS = (
+					"-force_load",
+					lib/libwisey.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = include;
@@ -5569,6 +5579,10 @@
 					"-Wcast-qual",
 					"-Wmissing-field-initializers",
 				);
+				OTHER_LDFLAGS = (
+					"-force_load",
+					lib/libwisey.a,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "include parser";
 			};
@@ -5614,6 +5628,10 @@
 					"-Wwrite-strings",
 					"-Wcast-qual",
 					"-Wmissing-field-initializers",
+				);
+				OTHER_LDFLAGS = (
+					"-force_load",
+					lib/libwisey.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "include parser";

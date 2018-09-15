@@ -92,19 +92,27 @@ void CompilerArguments::addLibraryPath(string path) {
   mLibraryPaths.push_back(path);
 }
 
-void CompilerArguments::addLibraryName(string name) {
-  mLibraryNames.push_back(name);
-}
-
 vector<string> CompilerArguments::getLibraryPaths() const {
   return mLibraryPaths;
+}
+
+void CompilerArguments::addLibraryName(string name) {
+  mLibraryNames.push_back(name);
 }
 
 vector<string> CompilerArguments::getLibraryNames() const {
   return mLibraryNames;
 }
 
-string CompilerArguments::toString() const {
+void CompilerArguments::addAdditionalObject(string path) {
+  mAdditionalObjects.push_back(path);
+}
+
+vector<string> CompilerArguments::getAdditionalObjects() const {
+  return mAdditionalObjects;
+}
+
+string CompilerArguments::getForYzc() const {
   string command = "";
   if (!mShouldOptimize) {
     command += "--no-optimization ";
@@ -123,12 +131,6 @@ string CompilerArguments::toString() const {
   }
   if (mIsVerbouse) {
     command += "--verbouse ";
-  }
-  for (string path : mLibraryPaths) {
-    command += path + " ";
-  }
-  for (string name : mLibraryNames) {
-    command += name + " ";
   }
   if (mShouldOutput && mOutputFile.size()) {
     command += "--output " + mOutputFile + " ";

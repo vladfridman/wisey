@@ -19,7 +19,7 @@ namespace wisey {
   class CompilerDriver {
     std::string mWiseyHome;
     std::string mWiseyHeaders;
-    std::string mWiseyLib;
+    std::string mWiseyLibDir;
     std::string mOsVersion;
     std::string mArchitecture;
 
@@ -55,6 +55,8 @@ namespace wisey {
 
     int executeCommand(std::string command) const;
 
+    bool checkYzcInstall() const;
+    
   };
   
 } /* namespace wisey */

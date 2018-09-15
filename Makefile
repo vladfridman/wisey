@@ -40,7 +40,7 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-std=c++11 -g -fno-rtti \
 	-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -c
 # Flags used for linking
-LDFLAGS = `llvm-config --ldflags --system-libs --libs all` -L$(LIBDIR)
+LDFLAGS = `llvm-config --ldflags --system-libs --libs all`
 
 default: ${BINDIR}/yzc
 
@@ -97,4 +97,4 @@ ${BINDIR}/yzc: $(OBJEXCEPTMAINS) ${BUILDDIR}/yzc.o | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
 
 ${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/yzc ${BINDIR}/wiseyc ${BINDIR}/wiseylibc
-	$(CC) -o $@ $(LDFLAGS) -lgtest -lgmock -lwisey $^
+	$(LD) -o $@ $(LDFLAGS) -L$(LIBDIR) -lgtest -lgmock -force_load lib/libwisey.a $^

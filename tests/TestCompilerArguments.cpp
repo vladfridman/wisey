@@ -21,8 +21,8 @@ struct CompilerArgumentsTest : public ::testing::Test {
   CompilerArgumentsTest() { }
 };
 
-TEST_F(CompilerArgumentsTest, testToString) {
-  EXPECT_STREQ("", mCompilerArguments.toString().c_str());
+TEST_F(CompilerArgumentsTest, testGetForYzc) {
+  EXPECT_STREQ("", mCompilerArguments.getForYzc().c_str());
 
   mCompilerArguments.addLibraryName("-lsomelib");
   mCompilerArguments.addLibraryPath("-Llib");
@@ -31,6 +31,6 @@ TEST_F(CompilerArgumentsTest, testToString) {
   mCompilerArguments.setVerbouse(true);
   mCompilerArguments.setHeaderFile("header.yz");
   mCompilerArguments.setOutputFile("output.o");
-  EXPECT_STREQ("--no-optimization -H header.yz --verbouse -Llib -lsomelib --output output.o file.yz ",
-               mCompilerArguments.toString().c_str());
+  EXPECT_STREQ("--no-optimization -H header.yz --verbouse --output output.o file.yz ",
+               mCompilerArguments.getForYzc().c_str());
 }
