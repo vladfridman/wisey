@@ -57,6 +57,10 @@ namespace wisey {
      * Saves resulting IR in an object file
      */
     void saveBinary(std::string outputFile);
+    
+    /**
+     * Checks that wisey.lang.IProgram
+     */
 
     /**
      * Run compiled code

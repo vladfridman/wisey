@@ -31,14 +31,14 @@ void WiseylibcArgumentParser::printSyntaxAndExit() const {
   exit(1);
 }
 
-CompilerArguments WiseylibcArgumentParser::parse(vector<string> argumnets) const {
+CompilerArguments WiseylibcArgumentParser::parse(vector<string> arguments) const {
   CompilerArguments compilerArguments;
   
-  if (argumnets.size() == 0) {
+  if (arguments.size() == 0) {
     printSyntaxAndExit();
   }
-  for (vector<string>::iterator iterator = argumnets.begin();
-       iterator != argumnets.end();
+  for (vector<string>::iterator iterator = arguments.begin();
+       iterator != arguments.end();
        iterator++) {
     string argument = *iterator;
     if (!argument.compare("--help") || !argument.compare("-h")) {
@@ -53,7 +53,7 @@ CompilerArguments WiseylibcArgumentParser::parse(vector<string> argumnets) const
       continue;
     }
     if ((!argument.compare("--output") || !argument.compare("-o")) &&
-        argument == argumnets.back()) {
+        argument == arguments.back()) {
       Log::errorNoSourceFile("You need to specify the output file name after \"" + argument + "\"");
       exit(1);
     }
@@ -63,7 +63,7 @@ CompilerArguments WiseylibcArgumentParser::parse(vector<string> argumnets) const
       continue;
     }
     if ((!argument.compare("--headers") || !argument.compare("-H")) &&
-        argument == argumnets.back()) {
+        argument == arguments.back()) {
       Log::errorNoSourceFile("You need to specify the header file name after \"" +
                              string(argument) + "\"");
       exit(1);

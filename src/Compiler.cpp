@@ -56,6 +56,9 @@ void Compiler::compile() {
   if (mArguments.isDestructorDebugOn()) {
     mContext.turnDestructorDebugOn();
   }
+  if (mArguments.shouldIProgramBeBound()) {
+    mContext.setIProgramMustBeBound();
+  }
   
   prototypeObjects(programFiles, mContext);
   prototypeMethods(programFiles, mContext);

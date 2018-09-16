@@ -24,7 +24,7 @@ namespace wisey {
     
     ~WiseycArgumentParser();
     
-    CompilerArguments parse(std::vector<std::string> argumnets) const override;
+    CompilerArguments parse(std::vector<std::string> arguments) const override;
     
   private:
     

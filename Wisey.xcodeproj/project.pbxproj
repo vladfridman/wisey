@@ -21,6 +21,7 @@
 		F50709B6214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */; };
 		F50709B7214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */; };
 		F50709B9214C2E2700CBDAE5 /* libwisey.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F50709B8214C2E2700CBDAE5 /* libwisey.a */; };
+		F50709C4214EAE2D00CBDAE5 /* TestProgramSuffix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50709C3214EAE2D00CBDAE5 /* TestProgramSuffix.cpp */; };
 		F507D2651E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D2661E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
@@ -1178,6 +1179,7 @@
 		F50709B5214C0C8F00CBDAE5 /* WiseycArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WiseycArgumentParser.cpp; path = src/WiseycArgumentParser.cpp; sourceTree = "<group>"; };
 		F50709B8214C2E2700CBDAE5 /* libwisey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwisey.a; path = lib/libwisey.a; sourceTree = "<group>"; };
 		F50709BB214C302200CBDAE5 /* libdata.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdata.a; path = lib/libdata.a; sourceTree = "<group>"; };
+		F50709C3214EAE2D00CBDAE5 /* TestProgramSuffix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestProgramSuffix.cpp; path = tests/TestProgramSuffix.cpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
 		F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypes.cpp; path = src/PrimitiveTypes.cpp; sourceTree = "<group>"; };
 		F5089C491ECD01D9004A1223 /* AccessLevel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AccessLevel.hpp; path = include/wisey/AccessLevel.hpp; sourceTree = "<group>"; };
@@ -3940,6 +3942,7 @@
 				F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */,
 				F58C3501213491FA000F1D69 /* TestPrintStatement.cpp */,
 				F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */,
+				F50709C3214EAE2D00CBDAE5 /* TestProgramSuffix.cpp */,
 				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
 				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
 				F593629020C6D93100A8C67A /* TestStoreInReference.cpp */,
@@ -4781,6 +4784,7 @@
 				F5827062205FD0D300839EC7 /* TestLLVMPointerTypeSpecifier.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */,
+				F50709C4214EAE2D00CBDAE5 /* TestProgramSuffix.cpp in Sources */,
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
 				F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */,
 				F54B1493205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp in Sources */,

@@ -18,7 +18,8 @@ mShouldPrintAssembly(false),
 mIsVerbouse(false),
 mShouldOutput(true),
 mIsDestructorDebugOn(false),
-mShouldOptimize(true) {
+mShouldOptimize(true),
+mIProgramMustBeBound(false) {
 }
 
 CompilerArguments::~CompilerArguments() {
@@ -112,6 +113,14 @@ vector<string> CompilerArguments::getAdditionalObjects() const {
   return mAdditionalObjects;
 }
 
+bool CompilerArguments::shouldIProgramBeBound() const {
+  return mIProgramMustBeBound;
+}
+
+void CompilerArguments::setIPrgramMustBeBound() {
+  mIProgramMustBeBound = true;
+}
+
 string CompilerArguments::getForYzc() const {
   string command = "";
   if (!mShouldOptimize) {
@@ -131,6 +140,9 @@ string CompilerArguments::getForYzc() const {
   }
   if (mIsVerbouse) {
     command += "--verbouse ";
+  }
+  if (mIProgramMustBeBound) {
+    command += "--iprogram-must-be-bound ";
   }
   if (mShouldOutput && mOutputFile.size()) {
     command += "--output " + mOutputFile + " ";

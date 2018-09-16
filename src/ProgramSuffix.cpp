@@ -40,11 +40,16 @@ void ProgramSuffix::maybeGenerateMain(IRGenerationContext& context) const {
   InterfaceTypeSpecifier* programInterfaceSpecifier =
   new InterfaceTypeSpecifier(langPackageExpression, Names::getIProgramName(), 0);
   Interface* programInterface = (Interface*) programInterfaceSpecifier->getType(context);
-  if (!context.hasBoundController(programInterface)) {
+  if (context.hasBoundController(programInterface)) {
+    generateMain(context);
     return;
   }
   
-  generateMain(context);
+  if (context.shouldIProgramBeBound()) {
+    cerr << "Error: wisey.lang.IProgram is not bound to a controller, "
+    "executable can not be generated\n";
+    exit(1);
+  }
 }
 
 void ProgramSuffix::generateMain(IRGenerationContext& context) const {

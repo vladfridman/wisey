@@ -25,6 +25,7 @@ namespace wisey {
     bool mShouldOutput;
     bool mIsDestructorDebugOn;
     bool mShouldOptimize;
+    bool mIProgramMustBeBound;
     std::vector<std::string> mSourceFiles;
     std::vector<std::string> mLibraryPaths;
     std::vector<std::string> mLibraryNames;
@@ -145,6 +146,16 @@ namespace wisey {
      * Adds an additioinal object for linking into a library
      */
     void addAdditionalObject(std::string name);
+
+    /**
+     * Tells whether the IProgram interface must be bound
+     */
+    bool shouldIProgramBeBound() const;
+    
+    /**
+     * Sets that IProgram interface must be bound
+     */
+    void setIPrgramMustBeBound();
 
     /**
      * Return compiler arguments for yzc

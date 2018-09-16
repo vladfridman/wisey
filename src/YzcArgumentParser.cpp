@@ -26,19 +26,20 @@ void YzcArgumentParser::printSyntaxAndExit() const {
   "[-o|--output <object_file_name.o>] "
   "[-n|--no-output] "
   "[--no-optimization] "
+  "[--iprogram-must-be-bound] "
   "<source_file.yz>..." << endl;
   exit(1);
 }
 
-CompilerArguments YzcArgumentParser::parse(vector<string> argumnets) const {
+CompilerArguments YzcArgumentParser::parse(vector<string> arguments) const {
   CompilerArguments compilerArguments;
   
-  if (argumnets.size() == 0) {
+  if (arguments.size() == 0) {
     printSyntaxAndExit();
   }
   
-  for (vector<string>::iterator iterator = argumnets.begin();
-       iterator != argumnets.end();
+  for (vector<string>::iterator iterator = arguments.begin();
+       iterator != arguments.end();
        iterator++) {
     string argument = *iterator;
     if (!argument.compare("--help") || !argument.compare("-h")) {
@@ -53,7 +54,7 @@ CompilerArguments YzcArgumentParser::parse(vector<string> argumnets) const {
       continue;
     }
     if ((!argument.compare("--output") || !argument.compare("-o")) &&
-        argument == argumnets.back()) {
+        argument == arguments.back()) {
       Log::errorNoSourceFile("You need to specify the output file name after \"" + argument + "\"");
       exit(1);
     }
@@ -63,7 +64,7 @@ CompilerArguments YzcArgumentParser::parse(vector<string> argumnets) const {
       continue;
     }
     if ((!argument.compare("--headers") || !argument.compare("-H")) &&
-        argument == argumnets.back()) {
+        argument == arguments.back()) {
       Log::errorNoSourceFile("You need to specify the header file name after \"" +
                              string(argument) + "\"");
       exit(1);
@@ -83,6 +84,10 @@ CompilerArguments YzcArgumentParser::parse(vector<string> argumnets) const {
     }
     if (!argument.compare("--destructor-debug") || !argument.compare("-d")) {
       compilerArguments.setDestructorDebug(true);
+      continue;
+    }
+    if (!argument.compare("--iprogram-must-be-bound")) {
+      compilerArguments.setIPrgramMustBeBound();
       continue;
     }
     if (argument.substr(argument.length() - 3).compare(".yz")) {
