@@ -72,9 +72,13 @@ namespace wisey {
     /**
      * Check that the return type is not an inner private object
      */
-    static void checkReturnType(IRGenerationContext& context,
-                                const IMethod* method,
-                                const IObjectType* object);
+    static void checkReturnAndArgumentTypes(IRGenerationContext& context,
+                                            const IMethod* method,
+                                            const IObjectType* object);
+
+  private:
+    
+    static bool checkTypeIsVisible(const IObjectType* object, const IType*);
     
   };
   

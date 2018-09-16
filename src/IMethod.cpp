@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/Argument.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -108,14 +109,9 @@ Function* IMethod::declareFunctionForObject(IRGenerationContext& context,
   return function;
 }
 
-void IMethod::checkReturnType(IRGenerationContext& context,
-                              const IMethod* method,
-                              const IObjectType* object) {
-  const IType* returnType = method->getReturnType();
-  if (!IObjectType::isObjectType(returnType)) {
-    return;
-  }
-  
+void IMethod::checkReturnAndArgumentTypes(IRGenerationContext& context,
+                                          const IMethod* method,
+                                          const IObjectType* object) {
   if (object->isInner() && !object->isPublic()) {
     return;
   }
@@ -124,12 +120,31 @@ void IMethod::checkReturnType(IRGenerationContext& context,
     return;
   }
   
-  const IObjectType* returnObjectType = returnType->isOwner()
-  ? (const IObjectType*) ((const IObjectOwnerType*) returnType)->getReference()
-  : (const IObjectType*) returnType;
-  if (returnObjectType->isInner() && !returnObjectType->isPublic()) {
+  if (!checkTypeIsVisible(object, method->getReturnType())) {
     context.reportError(method->getMethodQualifiers()->getLine(),
                         "Method returns a private inner object");
     throw 1;
   }
+
+  for (auto argument : method->getArguments()) {
+    if (checkTypeIsVisible(object, argument->getType())) {
+      continue;
+    }
+    context.reportError(method->getMethodQualifiers()->getLine(),
+                        "Method argument '" + argument->getName() +
+                        "' is a a private inner object");
+    throw 1;
+  }
+}
+
+bool IMethod::checkTypeIsVisible(const IObjectType* object, const IType* type) {
+  if (!IObjectType::isObjectType(type)) {
+    return true;
+  }
+
+  const IObjectType* objectType = type->isOwner()
+  ? (const IObjectType*) ((const IObjectOwnerType*) type)->getReference()
+  : (const IObjectType*) type;
+  
+  return !objectType->isInner() || objectType->isPublic();
 }

@@ -271,3 +271,10 @@ TEST_F(TestFileRunner, methodReturnsPrivateInnerObjectDeathRunTest) {
                     "tests/samples/test_method_returns_private_inner_object.yz\\(10\\): "
                     "Error: Method returns a private inner object");
 }
+
+TEST_F(TestFileRunner, methodAcceptsPrivateInnerObjectDeathRunTest) {
+  expectFailCompile("tests/samples/test_method_accepts_private_inner_object.yz",
+                    1,
+                    "tests/samples/test_method_accepts_private_inner_object.yz\\(10\\): "
+                    "Error: Method argument 'car' is a a private inner object");
+}
