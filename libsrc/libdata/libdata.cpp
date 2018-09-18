@@ -624,3 +624,11 @@ extern "C" void* concurrent_model_owner_queue_pop(void* queue) {
   ConcurrentQueue* queueCast = (ConcurrentQueue*) queue;
   return queueCast->pop();
 }
+
+/**
+ * Returns a random number in the given range
+ */
+extern "C" int get_random_number(int from, int to) {
+  int range = to - from + 1;
+  return rand() % range + from;
+}

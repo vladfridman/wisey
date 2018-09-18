@@ -19,6 +19,13 @@ model MSystem {
   }
 
   /**
+   * Returns a pseudo-random number in the given range
+   */
+  public static int getRandomNumber(int fromNumber, int toNumber) {
+    return ::llvm::function::get_random_number(fromNumber, toNumber);
+  }
+
+  /**
    * Forwards the call to memcopy function for needed architecture
    */
   public static void copyMemory(::llvm::i8::pointer destination, 

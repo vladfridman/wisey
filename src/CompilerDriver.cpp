@@ -23,7 +23,9 @@ CompilerDriver::~CompilerDriver() {
 }
 
 void CompilerDriver::compileRunnable(int argc, char **argv) {
-  prepareForRunnable();
+  if (!prepareForRunnable()) {
+    exit(1);
+  }
 
   vector<string> arguments;
   for (int i = 1; i < argc; i++) {
@@ -63,7 +65,9 @@ void CompilerDriver::compileRunnable(int argc, char **argv) {
 }
 
 void CompilerDriver::compileLibrary(int argc, char **argv) {
-  prepareForLibrary();
+  if (!prepareForLibrary()) {
+    exit(1);
+  }
   
   vector<string> arguments;
   for (int i = 1; i < argc; i++) {
@@ -98,12 +102,13 @@ void CompilerDriver::compileLibrary(int argc, char **argv) {
 }
 
 bool CompilerDriver::prepareForRunnable() {
-  mWiseyHome = std::getenv("WISEY_HOME");
-  if(!mWiseyHome.length()) {
+  const char* wiseyHome = std::getenv("WISEY_HOME");
+  if(wiseyHome == nullptr) {
     cerr << "Environment variable $WISEY_HOME is not defined\n";
     return false;
   }
-  
+  mWiseyHome = wiseyHome;
+
   mWiseyHeaders = mWiseyHome + "/headers/libwisey.yz";
   mWiseyLibDir = mWiseyHome + "/lib";
 

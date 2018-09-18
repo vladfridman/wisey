@@ -104,3 +104,5 @@ external ::llvm::function ::llvm::void concurrent_model_owner_queue_destroy(::ll
 external ::llvm::function ::llvm::void concurrent_model_owner_queue_push(::llvm::i8::pointer, ::wisey::model*);
 
 external ::llvm::function ::wisey::model* concurrent_model_owner_queue_pop(::llvm::i8::pointer);
+
+external ::llvm::function int get_random_number(int, int);

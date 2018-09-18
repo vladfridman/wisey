@@ -41,14 +41,14 @@ interface IThread {
   }
 
   /**
-   * Method for putting the current thread to sleep
+   * Method for putting the current thread to sleep for a given number of seconds
    */
   public static void sleep(int seconds) {
     ::llvm::function::sleep(seconds);
   }
 
   /**
-   * Method for putting the current thread to sleep in microseconds
+   * Method for putting the current thread to sleep for a given number of microseconds
    */
   public static void usleep(int microseconds) {
     ::llvm::function::usleep(microseconds);
