@@ -4,5 +4,9 @@ package wisey.data;
  * Specifies the interface for comparing two objects when sorting
  */
 interface IObjectComparator {
+
+  /**
+   * This returns true when left should preceed right in ordering
+   */
   boolean compare(::wisey::object left, ::wisey::object right);
 }

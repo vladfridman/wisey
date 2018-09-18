@@ -3,7 +3,7 @@ package wisey.data;
 import wisey.lang.CMemoryPool;
 
 /**
- * Link list of references
+ * List where every element is a reference to an object.
  */
 controller CReferenceList {
 
@@ -51,6 +51,13 @@ controller CReferenceList {
    */
   public ::wisey::object front() {
     return ::llvm::function::stl_object_list_front(mList);
+  }
+
+  /**
+   * Sort list using the given compare function
+   */
+  public void sort(IObjectComparator comparator) {
+    ::llvm::function::stl_object_list_sort(mList, comparator, thread, callstack);
   }
 
   /**

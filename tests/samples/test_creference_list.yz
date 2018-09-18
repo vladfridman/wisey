@@ -1,7 +1,9 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.data.CReferenceList;
+import wisey.data.IObjectComparator;
 import wisey.lang.IProgram;
+import wisey.lang.MString;
 
 model MCar {
   string mMake;
@@ -11,7 +13,7 @@ model MCar {
   }
 }
 
-controller CProgram implements IProgram {
+controller CProgram implements IProgram, IObjectComparator {
   inject CReferenceList* mList;
 
   public int run(immutable string[] arguments) override {
@@ -38,6 +40,13 @@ controller CProgram implements IProgram {
     MCar first = mList.front();
     printout("Lookup first: " + first.getMake() + "\n");
     
+    mList.sort(this);
+    printout("List size: " + mList.getSize() + "\n");
+    last = mList.back();
+    printout("Lookup last: " + last.getMake() + "\n");
+    first = mList.front();
+    printout("Lookup first: " + first.getMake() + "\n");
+
     MCar back = mList.popBack();
     MCar front = mList.popFront();
     printout("List size: " + mList.getSize() + "\n");
@@ -52,6 +61,10 @@ controller CProgram implements IProgram {
     printout("List size: " + mList.getSize() + "\n");
 
     return 1;
+  }
+
+  public boolean compare(MCar left, MCar right) override {
+    return MString.compareStrings(left.getMake(), right.getMake()) < 0;
   }
 }
 

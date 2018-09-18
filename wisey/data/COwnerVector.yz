@@ -3,7 +3,7 @@ package wisey.data;
 import wisey.lang.MSystem;
 
 /**
- * Vector of owner references
+ * Vector where every element is an owner reference to an object.
  */
 controller COwnerVector {
 

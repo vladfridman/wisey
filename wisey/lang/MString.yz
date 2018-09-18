@@ -105,6 +105,13 @@ model MString {
     return ::llvm::function::strcmp(mContent, input);
   }
 
+  /**
+   * Compares two static strings
+   */
+  public static int compareStrings(string left, string right) {
+    return ::llvm::function::strcmp(left, right);
+  }
+
   private static MString* copyMemoryAndBuild(::llvm::i8::pointer source, long length) {
     char[]* buffer = new char[length];
     MSystem.copyMemory(buffer, source, length - 1);

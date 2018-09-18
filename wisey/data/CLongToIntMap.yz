@@ -1,7 +1,7 @@
 package wisey.data;
 
 /**
- * Map of ints keyed by longs
+ * Map of int keys to long values.
  */
 controller CLongToIntMap {
 

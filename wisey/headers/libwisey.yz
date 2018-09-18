@@ -183,6 +183,9 @@ external model wisey.lang.MString {
     immutable char[] input);
   int compareToCharArray(
     char[] input);
+  static int compareStrings(
+    string left,
+    string right);
 }
 
 external model wisey.lang.MSystem {
@@ -266,6 +269,8 @@ external controller wisey.data.COwnerList {
   void pushFront(
     ::wisey::object* value);
   ::wisey::object front();
+  void sort(
+    wisey.data.IObjectComparator comparator);
   long getSize();
   void clear();
 }
@@ -293,6 +298,8 @@ external controller wisey.data.CReferenceList {
   void pushFront(
     ::wisey::object value);
   ::wisey::object front();
+  void sort(
+    wisey.data.IObjectComparator comparator);
   long getSize();
   void clear();
 }

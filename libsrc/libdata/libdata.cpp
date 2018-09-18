@@ -412,8 +412,24 @@ extern "C" void stl_object_vector_sort(void* vector,
   bool (*compare_function) (void*, void*, void*, void*, void*) =
      (bool (*) (void*, void*, void*, void*, void*)) functionPointer;
 
-  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  auto vectorCast = (std::vector<void*>*) vector;
   std::sort(vectorCast->begin(), vectorCast->end(), [&compare_function, &object, &thread, &callstack](void* a, void* b) {
+    return compare_function(object, thread, callstack, a, b);   
+  });
+}
+
+extern "C" void stl_object_list_sort(void* list, 
+                                     void* object,
+                                     void* thread,
+                                     void* callstack) {
+  int8_t*** vTable = (int8_t***) object;
+  int8_t** firstTable = *vTable;
+  int8_t* functionPointer = firstTable[3];
+  bool (*compare_function) (void*, void*, void*, void*, void*) =
+     (bool (*) (void*, void*, void*, void*, void*)) functionPointer;
+
+  auto listCast = (std::list<void*>*) list;
+  listCast->sort([&compare_function, &object, &thread, &callstack](void* a, void* b) {
     return compare_function(object, thread, callstack, a, b);   
   });
 }
