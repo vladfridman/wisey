@@ -76,11 +76,6 @@ namespace wisey {
     static std::string getArrayIndexOutOfBoundsModelName();
     
     /**
-     * Returns name of the IProgram interface that main function calls
-     */
-    static std::string getIProgramName();
-    
-    /**
      * Returns name of the lang package
      */
     static std::string getLangPackageName();

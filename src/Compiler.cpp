@@ -56,8 +56,8 @@ void Compiler::compile() {
   if (mArguments.isDestructorDebugOn()) {
     mContext.turnDestructorDebugOn();
   }
-  if (mArguments.shouldIProgramBeBound()) {
-    mContext.setIProgramMustBeBound();
+  if (!mArguments.shouldGenerateMain()) {
+    mContext.setShouldNotGenerateMain();
   }
   
   prototypeObjects(programFiles, mContext);

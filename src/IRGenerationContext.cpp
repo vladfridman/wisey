@@ -26,7 +26,7 @@ IRGenerationContext::IRGenerationContext() :
 mBasicBlock(NULL),
 mImportProfile(NULL),
 mIsDestructorDebugOn(false),
-mShouldIProgramBeBound(false),
+mShouldGenerateMain(true),
 mObjectType(NULL),
 mCurrentMethod(NULL),
 mIsRunningComposingCallbacks(false) {
@@ -581,12 +581,12 @@ bool IRGenerationContext::isDestructorDebugOn() const {
   return mIsDestructorDebugOn;
 }
 
-void IRGenerationContext::setIProgramMustBeBound() {
-  mShouldIProgramBeBound = true;
+void IRGenerationContext::setShouldNotGenerateMain() {
+  mShouldGenerateMain = false;
 }
 
-bool IRGenerationContext::shouldIProgramBeBound() const {
-  return mShouldIProgramBeBound;
+bool IRGenerationContext::shouldGenerateMain() const {
+  return mShouldGenerateMain;
 }
 
 void IRGenerationContext::addComposingCallback0Objects(ComposingFunction0Objects callback,

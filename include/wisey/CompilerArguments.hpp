@@ -25,7 +25,7 @@ namespace wisey {
     bool mShouldOutput;
     bool mIsDestructorDebugOn;
     bool mShouldOptimize;
-    bool mIProgramMustBeBound;
+    bool mShouldGenerateMain;
     std::vector<std::string> mSourceFiles;
     std::vector<std::string> mLibraryPaths;
     std::vector<std::string> mLibraryNames;
@@ -148,14 +148,14 @@ namespace wisey {
     void addAdditionalObject(std::string name);
 
     /**
-     * Tells whether the IProgram interface must be bound
+     * Tells whether main() function should be generated
      */
-    bool shouldIProgramBeBound() const;
+    bool shouldGenerateMain() const;
     
     /**
-     * Sets that IProgram interface must be bound
+     * Configures arguments not to generate main() function
      */
-    void setIPrgramMustBeBound();
+    void setShouldNotGenerateMain();
 
     /**
      * Return compiler arguments for yzc

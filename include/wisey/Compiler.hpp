@@ -59,10 +59,6 @@ namespace wisey {
     void saveBinary(std::string outputFile);
     
     /**
-     * Checks that wisey.lang.IProgram
-     */
-
-    /**
      * Run compiled code
      */
     int run(int argc, char** argv);

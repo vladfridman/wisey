@@ -113,7 +113,6 @@ void TestFileRunner::expectFailCompile(string fileName,
                                        string expectedErrorMessage) {
   mCompilerArguments.addSourceFile(fileName);
   mCompilerArguments.addSourceFile(LIBWISEY);
-  mCompilerArguments.setIPrgramMustBeBound();
   
   EXPECT_EXIT(mCompiler.compile(),
               ::testing::ExitedWithCode(expectedErrorCode),
@@ -138,8 +137,7 @@ void TestFileRunner::compileAndRunFileCheckOutput(string fileName,
                                                   string expectedErr) {
   exec("mkdir -p build");
   
-  string wiseyCompileCommand = "bin/yzc " + fileName + " " + LIBWISEY +
-  " --iprogram-must-be-bound -o build/test.o";
+  string wiseyCompileCommand = "bin/yzc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
   exec("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test > build/wisey.out 2> build/wisey.err");

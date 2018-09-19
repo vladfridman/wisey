@@ -66,7 +66,7 @@ namespace wisey {
     std::string mPackage;
     Scopes mScopes;
     bool mIsDestructorDebugOn;
-    bool mShouldIProgramBeBound;
+    bool mShouldGenerateMain;
     std::list<std::tuple<ComposingFunction0Objects, llvm::Function*>> mComposingCallbacks0Objects;
     std::list<std::tuple<ComposingFunction1Objects, llvm::Function*, const void*>>
     mComposingCallbacks1Objects;
@@ -291,14 +291,14 @@ namespace wisey {
     bool isDestructorDebugOn() const;
     
     /**
-     * Configures compiler to check that IProgram is bound because it is generating runnable program
+     * Configures compiler to not generate main() function
      */
-    void setIProgramMustBeBound();
+    void setShouldNotGenerateMain();
     
     /**
-     * Tells whether this is a compilation of a runnable program and IProgram should be bound
+     * Tells whether main() function should be generated
      */
-    bool shouldIProgramBeBound() const;
+    bool shouldGenerateMain() const;
     
     /**
      * Add a IR composition function callback that will be called after code generation is finished

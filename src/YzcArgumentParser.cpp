@@ -26,7 +26,7 @@ void YzcArgumentParser::printSyntaxAndExit() const {
   "[-o|--output <object_file_name.o>] "
   "[-n|--no-output] "
   "[--no-optimization] "
-  "[--iprogram-must-be-bound] "
+  "[--no-main] "
   "<source_file.yz>..." << endl;
   exit(1);
 }
@@ -86,8 +86,8 @@ CompilerArguments YzcArgumentParser::parse(vector<string> arguments) const {
       compilerArguments.setDestructorDebug(true);
       continue;
     }
-    if (!argument.compare("--iprogram-must-be-bound")) {
-      compilerArguments.setIPrgramMustBeBound();
+    if (!argument.compare("--no-main")) {
+      compilerArguments.setShouldNotGenerateMain();
       continue;
     }
     if (argument.substr(argument.length() - 3).compare(".yz")) {

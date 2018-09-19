@@ -24,8 +24,6 @@ namespace wisey {
     
   private:
     
-    void maybeGenerateMain(IRGenerationContext& context) const;
-    
     void generateMain(IRGenerationContext& context) const;
 
   };

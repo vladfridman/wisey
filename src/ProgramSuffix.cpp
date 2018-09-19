@@ -31,24 +31,8 @@ using namespace std;
 using namespace wisey;
 
 void ProgramSuffix::generateIR(IRGenerationContext& context) const {
-  maybeGenerateMain(context);
-}
-
-void ProgramSuffix::maybeGenerateMain(IRGenerationContext& context) const {
-  PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
-  FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
-  InterfaceTypeSpecifier* programInterfaceSpecifier =
-  new InterfaceTypeSpecifier(langPackageExpression, Names::getIProgramName(), 0);
-  Interface* programInterface = (Interface*) programInterfaceSpecifier->getType(context);
-  if (context.hasBoundController(programInterface)) {
+  if (context.shouldGenerateMain()) {
     generateMain(context);
-    return;
-  }
-  
-  if (context.shouldIProgramBeBound()) {
-    cerr << "Error: wisey.lang.IProgram is not bound to a controller, "
-    "executable can not be generated\n";
-    exit(1);
   }
 }
 

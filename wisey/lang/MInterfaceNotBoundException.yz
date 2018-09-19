@@ -13,7 +13,7 @@ model MInterfaceNotBoundException implements IException {
     NString* message = callstack.reportException(this);
     message.appendString("Details: Interface ");
     message.appendString(mInterfaceName);
-    message.appendString(" is not bound to any controllers\n");
+    message.appendString(" is not bound to a controller\n");
 
     return message;
   }

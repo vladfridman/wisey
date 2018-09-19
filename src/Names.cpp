@@ -55,10 +55,6 @@ string Names::getArrayIndexOutOfBoundsModelName() {
   return "MArrayIndexOutOfBoundsException";
 }
 
-string Names::getIProgramName() {
-  return "IProgram";
-}
-
 string Names::getLangPackageName() {
   return "wisey.lang";
 }

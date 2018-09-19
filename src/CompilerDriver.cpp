@@ -44,7 +44,6 @@ void CompilerDriver::compileRunnable(int argc, char **argv) {
   }
 
   compilerArguments.setOutputFile(objectFileName);
-  compilerArguments.setIPrgramMustBeBound();
   string command = "yzc " + compilerArguments.getForYzc();
   command += " " + mWiseyHeaders;
   if (executeCommand(command) || !compilerArguments.shouldOutput()) {
@@ -88,6 +87,7 @@ void CompilerDriver::compileLibrary(int argc, char **argv) {
   }
   
   compilerArguments.setOutputFile(objectFileName);
+  compilerArguments.setShouldNotGenerateMain();
   string command = "yzc " + compilerArguments.getForYzc();
   if (executeCommand(command) || !compilerArguments.shouldOutput()) {
     return;
