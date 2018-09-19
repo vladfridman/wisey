@@ -6,6 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/Target/TargetMachine.h>
+
 #include "wisey/CompilerArguments.hpp"
 
 using namespace std;
@@ -14,6 +16,7 @@ using namespace wisey;
 CompilerArguments::CompilerArguments()  :
 mOutputFile(""),
 mHeaderFile(""),
+mTargetTriple(llvm::sys::getDefaultTargetTriple()),
 mShouldPrintAssembly(false),
 mIsVerbouse(false),
 mShouldOutput(true),
@@ -121,6 +124,14 @@ void CompilerArguments::setShouldNotGenerateMain() {
   mShouldGenerateMain = false;
 }
 
+string CompilerArguments::getTargetTriple() const {
+  return mTargetTriple;
+}
+
+void CompilerArguments::setTargetTriple(string triple) {
+  mTargetTriple = triple;
+}
+
 string CompilerArguments::getForYzc() const {
   string command = "";
   if (!mShouldOptimize) {
@@ -147,6 +158,7 @@ string CompilerArguments::getForYzc() const {
   if (mShouldOutput && mOutputFile.size()) {
     command += "--output " + mOutputFile + " ";
   }
+  command += "--target-triple " + mTargetTriple + " ";
   for (string sourceFile : mSourceFiles) {
     command += sourceFile + " ";
   }

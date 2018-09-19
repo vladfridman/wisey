@@ -103,7 +103,8 @@ void Compiler::extractHeaders(string headerFile) {
 
 void Compiler::saveBinary(string outputFile) {
   auto fileType = TargetMachine::CGFT_ObjectFile;
-  auto targetTriple = sys::getDefaultTargetTriple();
+  auto targetTriple = mArguments.getTargetTriple();
+  Log::i("Generating binary object for architecture: " + targetTriple);
   InitializeAllTargetInfos();
   InitializeAllTargets();
   InitializeAllTargetMCs();

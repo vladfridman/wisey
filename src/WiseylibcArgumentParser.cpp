@@ -26,6 +26,7 @@ void WiseylibcArgumentParser::printSyntaxAndExit() const {
   "[-o|--output <library_file_name.so>] "
   "[-n|--no-output] "
   "[--no-optimization] "
+  "[--target-triple <target_machine_triple>] "
   "[-A<additional_object_to_link>] "
   "<source_file.yz>..." << endl;
   exit(1);
@@ -87,6 +88,16 @@ CompilerArguments WiseylibcArgumentParser::parse(vector<string> arguments) const
     }
     if (!argument.compare("--destructor-debug") || !argument.compare("-d")) {
       compilerArguments.setDestructorDebug(true);
+      continue;
+    }
+    if ((!argument.compare("--target-triple")) && argument == arguments.back()) {
+      Log::errorNoSourceFile("You need to specify the target machine triple after \"" +
+                             string(argument) + "\"");
+      exit(1);
+    }
+    if (!argument.compare("--target-triple")) {
+      iterator++;
+      compilerArguments.setTargetTriple(*iterator);
       continue;
     }
     if (argument.substr(argument.length() - 3).compare(".yz")) {

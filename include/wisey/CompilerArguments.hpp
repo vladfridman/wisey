@@ -20,6 +20,7 @@ namespace wisey {
   class CompilerArguments {
     std::string mOutputFile;
     std::string mHeaderFile;
+    std::string mTargetTriple;
     bool mShouldPrintAssembly;
     bool mIsVerbouse;
     bool mShouldOutput;
@@ -157,6 +158,16 @@ namespace wisey {
      */
     void setShouldNotGenerateMain();
 
+    /**
+     * Returns target tripple in the form of processor_type-vendor-OS_type
+     */
+    std::string getTargetTriple() const;
+    
+    /**
+     * Sets target triple for generation of object files
+     */
+    void setTargetTriple(std::string triple);
+    
     /**
      * Return compiler arguments for yzc
      */

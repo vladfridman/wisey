@@ -27,6 +27,7 @@ void YzcArgumentParser::printSyntaxAndExit() const {
   "[-n|--no-output] "
   "[--no-optimization] "
   "[--no-main] "
+  "[--target-triple <target_machine_triple>] "
   "<source_file.yz>..." << endl;
   exit(1);
 }
@@ -88,6 +89,16 @@ CompilerArguments YzcArgumentParser::parse(vector<string> arguments) const {
     }
     if (!argument.compare("--no-main")) {
       compilerArguments.setShouldNotGenerateMain();
+      continue;
+    }
+    if ((!argument.compare("--target-triple")) && argument == arguments.back()) {
+      Log::errorNoSourceFile("You need to specify the target machine triple after \"" +
+                             string(argument) + "\"");
+      exit(1);
+    }
+    if (!argument.compare("--target-triple")) {
+      iterator++;
+      compilerArguments.setTargetTriple(*iterator);
       continue;
     }
     if (argument.substr(argument.length() - 3).compare(".yz")) {

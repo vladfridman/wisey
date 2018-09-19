@@ -22,8 +22,6 @@ struct CompilerArgumentsTest : public ::testing::Test {
 };
 
 TEST_F(CompilerArgumentsTest, testGetForYzc) {
-  EXPECT_STREQ("", mCompilerArguments.getForYzc().c_str());
-
   mCompilerArguments.addLibraryName("-lsomelib");
   mCompilerArguments.addLibraryPath("-Llib");
   mCompilerArguments.addSourceFile("file.yz");
@@ -31,6 +29,6 @@ TEST_F(CompilerArgumentsTest, testGetForYzc) {
   mCompilerArguments.setVerbouse(true);
   mCompilerArguments.setHeaderFile("header.yz");
   mCompilerArguments.setOutputFile("output.o");
-  EXPECT_STREQ("--no-optimization -H header.yz --verbouse --output output.o file.yz ",
+  EXPECT_STREQ("--no-optimization -H header.yz --verbouse --output output.o --target-triple x86_64-apple-darwin17.7.0 file.yz ",
                mCompilerArguments.getForYzc().c_str());
 }

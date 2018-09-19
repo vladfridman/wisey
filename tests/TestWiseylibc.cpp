@@ -37,6 +37,7 @@ TEST_F(WiseylibcTest, noArgumentsTest) {
                "[-o|--output <library_file_name.so>] "
                "[-n|--no-output] "
                "[--no-optimization] "
+               "[--target-triple <target_machine_triple>] "
                "[-A<additional_object_to_link>] "
                "<source_file.yz>...\n",
                TestFileRunner::exec("bin/wiseylibc 2>&1").c_str());

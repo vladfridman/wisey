@@ -38,6 +38,7 @@ TEST_F(YzcTest, noArgumentsTest) {
                "[-n|--no-output] "
                "[--no-optimization] "
                "[--no-main] "
+               "[--target-triple <target_machine_triple>] "
                "<source_file.yz>...\n",
                TestFileRunner::exec("bin/yzc 2>&1").c_str());
 }
@@ -68,6 +69,7 @@ TEST_F(YzcTest, helpTest) {
                "[-n|--no-output] "
                "[--no-optimization] "
                "[--no-main] "
+               "[--target-triple <target_machine_triple>] "
                "<source_file.yz>...\n",
                TestFileRunner::exec("bin/yzc -h 2>&1").c_str());
   EXPECT_STREQ("Syntax: yzc "
@@ -80,6 +82,7 @@ TEST_F(YzcTest, helpTest) {
                "[-n|--no-output] "
                "[--no-optimization] "
                "[--no-main] "
+               "[--target-triple <target_machine_triple>] "
                "<source_file.yz>...\n",
                TestFileRunner::exec("bin/yzc --help 2>&1").c_str());
 }
