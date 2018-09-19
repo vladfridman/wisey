@@ -80,25 +80,7 @@ If the object is an interface returns the concrete object that implements that i
           <td class="elementDefinitionLeft">
             int          </td>
           <td class="elementDefinitionRight">
-            getRandomNumber (int fromNumber,int toNumber)           </td>
-        </tr>
-        <tr>
-          <td class="elementDescriptionLeft">
-            
-          </td>
-          <td class="elementDescriptionRight">
-            Returns a pseudo-random number in the given range
-
-          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            int          </td>
-          <td class="elementDefinitionRight">
-            getRandomNumber (int fromNumber,int toNumber)           </td>
+            getRandomNumber (int from, int to)           </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">
@@ -116,7 +98,25 @@ If the object is an interface returns the concrete object that implements that i
           <td class="elementDefinitionLeft">
             void          </td>
           <td class="elementDefinitionRight">
-            zeroMemory (::llvm::i8::pointer pointer,::llvm::i64 size)           </td>
+            copyMemory (::llvm::i8::pointer destination, ::llvm::i8::pointer source, ::llvm::i64 size)           </td>
+        </tr>
+        <tr>
+          <td class="elementDescriptionLeft">
+            
+          </td>
+          <td class="elementDescriptionRight">
+            Forwards the call to memcopy function for needed architecture
+
+          </td>
+        </tr>
+        <tr>
+          <td class="elementSeparator" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            void          </td>
+          <td class="elementDefinitionRight">
+            zeroMemory (::llvm::i8::pointer pointer, ::llvm::i64 size)           </td>
         </tr>
         <tr>
           <td class="elementDescriptionLeft">

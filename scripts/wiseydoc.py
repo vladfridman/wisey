@@ -279,7 +279,7 @@ class Method:
       docObjectName(file, parameterType.strip(), dictionary)
       file.write(' ' + parameter[2])
       if (self.mParameters[-1] != parameter):
-        file.write(',')
+        file.write(', ')
     file.write(') ')
     if len(self.mThrows) > 0:
       file.write('throws ')
@@ -491,6 +491,7 @@ def readFile(path):
                   state = 7
             else:
               state = 6
+          print "Processed static method " + m.mName + ", state: " + str(state)
           continue
 
         # methods and method signatures
@@ -553,22 +554,50 @@ def readFile(path):
 
       elif state == 5:
         result = re.findall(parameter, line)
-        parameters += result
+        parameters.extend(result)
         if re.search(methodEnd, line) != None:
+          m = Method(methodType, methodName, parameters, comment)
+          comment = '';
           if inSubObject == 1:
             objects[0].addSubObjectMethod(m)
           else:
             objects[0].addMethod(m)
-          state = 1
+          if line.find(" override ") >= 0:
+            m.setOverride()
+          if line.find("throws ") < 0:
+            state = 1
+          else:
+            throwsLine = line[line.find("throws ") + 7:]
+            throwsLine = throwsLine.replace(" override", "")
+            result = re.findall(typeList, throwsLine)
+            m.addThrows(result);
+            if re.search(typeListEnd, line) != None:
+              state = 1
+            else:
+              state = 7
       elif state == 6:
         result = re.findall(parameter, line)
-        parameters += result
+        parameters.extend(result)
         if re.search(methodEnd, line) != None:
+          m = Method(methodType, methodName, parameters, comment)
+          comment = '';
           if inSubObject == 1:
             objects[0].addSubObjectStaticMethod(m)
           else:
             objects[0].addStaticMethod(m)
-          state = 1
+          if line.find(" override ") >= 0:
+            m.setOverride()
+          if line.find("throws ") < 0:
+            state = 1
+          else:
+            throwsLine = line[line.find("throws ") + 7:]
+            throwsLine = throwsLine.replace(" override", "")
+            result = re.findall(typeList, throwsLine)
+            m.addThrows(result);
+            if re.search(typeListEnd, line) != None:
+              state = 1
+            else:
+              state = 7
       elif state == 7:
         result = re.findall(typeList, line)
         m.addThrows(result);
