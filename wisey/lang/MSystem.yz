@@ -21,8 +21,8 @@ model MSystem {
   /**
    * Returns a pseudo-random number in the given range
    */
-  public static int getRandomNumber(int fromNumber, int toNumber) {
-    return ::llvm::function::get_random_number(fromNumber, toNumber);
+  public static int getRandomNumber(int from, int to) {
+    return ::llvm::function::get_random_number(from, to);
   }
 
   /**

@@ -194,8 +194,8 @@ external model wisey.lang.MSystem {
     ::wisey::object object);
   static long getProcessorCount();
   static int getRandomNumber(
-    int fromNumber,
-    int toNumber);
+    int from,
+    int to);
   static void copyMemory(
     ::llvm::i8::pointer destination,
     ::llvm::i8::pointer source,
