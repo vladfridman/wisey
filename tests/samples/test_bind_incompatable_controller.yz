@@ -7,4 +7,4 @@ interface IMyInterface {
   int getValue();
 }
 
-bind(IMyInterface).to(CService);
+bind(IMyInterface, CService);

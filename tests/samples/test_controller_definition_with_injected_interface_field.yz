@@ -25,7 +25,7 @@ controller CFibonacciCalculator implements ICalculator {
   }
 }
 
-bind(ICalculator).to(CFibonacciCalculator);
+bind(ICalculator, CFibonacciCalculator);
 
 controller CProgram implements IProgram {
   inject ICalculator* mCalculator.withIndex(6);
@@ -35,4 +35,4 @@ controller CProgram implements IProgram {
   }
 }
 
-bind(IProgram).to(CProgram);
+bind(IProgram, CProgram);

@@ -21,4 +21,4 @@ controller CProgram implements IProgram {
   }
 }
 
-bind(IProgram).to(CProgram);
+bind(IProgram, CProgram);

@@ -29,5 +29,5 @@ controller CProgram implements IProgram {
   }
 }
 
-bind(IWheel).to(CWheel);
-bind(IProgram).to(CProgram);
+bind(IWheel, CWheel);
+bind(IProgram, CProgram);

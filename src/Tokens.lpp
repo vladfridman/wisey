@@ -131,7 +131,6 @@ WS  [ \t\v\n\f]
 "switch"                      return TOKEN(TSWITCH);
 "throw"                       return TOKEN(TTHROW);
 "throws"                      return TOKEN(TTHROWS);
-"to"                          return TOKEN(TTO);
 "try"                         return TOKEN(TTRY);
 "true"                        return TOKEN(TTRUE);
 "void"                        return TOKEN(TTYPEVOID);

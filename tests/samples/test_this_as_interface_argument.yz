@@ -25,4 +25,4 @@ controller CProgram implements IProgram, IHasValue {
   }
 }
 
-bind(IProgram).to(CProgram);
+bind(IProgram, CProgram);

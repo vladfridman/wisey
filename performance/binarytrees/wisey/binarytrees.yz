@@ -120,4 +120,4 @@ controller CBinaryTrees implements IProgram {
   }
 }
 
-bind(IProgram).to(CBinaryTrees);
+bind(IProgram, CBinaryTrees);

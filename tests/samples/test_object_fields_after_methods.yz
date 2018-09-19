@@ -15,4 +15,4 @@ controller CProgram implements IProgram {
   state MCar* mCar;
 }
 
-bind(IProgram).to(CProgram);
+bind(IProgram, CProgram);

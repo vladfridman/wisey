@@ -265,4 +265,4 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   }
 }
 
-bind(IProgram).to(CKNucleotide);
+bind(IProgram, CKNucleotide);

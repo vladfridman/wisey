@@ -258,7 +258,7 @@
 %token <token> TMODEL TMULTIPLYBY TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
 %token <token> TPRINT TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TREMINDERBY TRETURN 
 %token <token> TINSCOPE TSHIFTLEFT TSHIFTLEFTBY TSHIFTRIGHT TSHIFTRIGHTBY TSTATE TSTATIC TSWITCH 
-%token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPEBYTE 
+%token <token> TTHROW TTHROWS TTRY TTRUE TTYPEBOOLEAN TTYPEBYTE 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 %token <token> TWISEY TWISEYMODEL TWISEYOBJECT
 
@@ -744,14 +744,14 @@ bind_action_statement
   ;
 
 bind_action
-  : TBIND '(' interface_type_specifier ')' '.' TTO '(' controller_type_specifier ')'
+  : TBIND '(' interface_type_specifier ',' controller_type_specifier ')'
     { 
       InjectionArgumentList injectionArgumentList;
-      $$ = new BindAction($3, $8, injectionArgumentList); 
+      $$ = new BindAction($3, $5, injectionArgumentList); 
     }
-  | TBIND '(' interface_type_specifier ')' '.' TTO '(' controller_type_specifier ')' 
+  | TBIND '(' interface_type_specifier ',' controller_type_specifier ')' 
       injection_argument_list
-    { $$ = new BindAction($3, $8, *$10); delete $10; }
+    { $$ = new BindAction($3, $5, *$7); delete $7; }
   ;
 
 interface_definition

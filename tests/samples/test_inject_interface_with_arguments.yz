@@ -22,5 +22,5 @@ controller CProgram implements IProgram {
   }
 }
 
-bind(IProgram).to(CProgram);
-bind(IMyInterface).to(CService);
+bind(IProgram, CProgram);
+bind(IMyInterface, CService);

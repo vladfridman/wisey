@@ -128,4 +128,4 @@ controller CMandelbrot implements IProgram {
   }
 }
 
-bind(IProgram).to(CMandelbrot);
+bind(IProgram, CMandelbrot);
