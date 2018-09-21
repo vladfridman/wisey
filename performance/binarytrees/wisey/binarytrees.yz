@@ -38,14 +38,14 @@ controller CBinaryTrees implements IProgram {
       mWorkers.pushBack(worker);
     }
     while (mWorkers.getSize()) {
-      IWorker* worker = (IWorker*) mWorkers.popBack();
+      IWorker* worker = mWorkers.popBack();
       mThreadPool.submit(worker);
     }
     mThreadPool.start();
     MResult*[]* results = new MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
     int resultCount = 0;
     while (resultCount < results.getSize()) {
-      MResult* result = (MResult*) mThreadPool.getResult();
+      MResult* result = mThreadPool.getResult();
       results[(result.getDepth() - MIN_DEPTH) / 2] = result;
       resultCount++;
     }

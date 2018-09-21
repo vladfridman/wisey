@@ -17,7 +17,7 @@ package wisey.threads;
  *     // Do some work here in parallel with the new thread
  *     ....
  *     // Wait for the worker thread to finish and get its result
- *     MResultModel* result = (MResultModel*) mWorkerThread.awaitResult();
+ *     MResultModel* result = mWorkerThread.awaitResult();
  *     // Do something with the result
  *     ...
  *     // Reset CWorkerThread controller to reuse it

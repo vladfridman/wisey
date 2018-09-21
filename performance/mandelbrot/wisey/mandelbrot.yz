@@ -42,7 +42,7 @@ controller CMandelbrot implements IProgram {
     mThreadPool.start();
     MResult*[]* results = new MResult*[n];
     for (int resultCount = 0; resultCount < n; resultCount++) {
-      MResult* result = (MResult*) mThreadPool.getResult();
+      MResult* result = mThreadPool.getResult();
       results[result.getY()] = result;
     }
     mThreadPool.stop();
