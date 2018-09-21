@@ -36,7 +36,9 @@ llvm::Constant* ConstantReference::generateIR(IRGenerationContext& context,
                                               const IType* assignToType) const {
   const IObjectType* objectType = getObjectType(context);
   Constant* constant = objectType->findConstant(context, mConstantName, mLine);
-  if (!constant->isPublic() && objectType != context.getObjectType()) {
+  if (!constant->isPublic() &&
+      IObjectType::getParentOrSelf(&context, objectType, mLine) !=
+      IObjectType::getParentOrSelf(&context, context.getObjectType(), mLine)) {
     context.reportError(mLine,
                         "Trying to reference private constant not visible from the current object");
     throw 1;

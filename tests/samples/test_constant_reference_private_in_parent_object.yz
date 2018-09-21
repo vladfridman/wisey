@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+  private constant int MY_CONSTANT = 5;
+
+  public int run(immutable string[] arguments) override {
+    return build(MCar).onHeap().getValue();
+  }
+
+  private model MCar {
+    public int getValue() {
+      return CProgram.MY_CONSTANT;
+    }
+  }
+}
+
+bind(IProgram, CProgram);

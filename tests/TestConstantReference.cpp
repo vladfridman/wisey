@@ -145,6 +145,10 @@ TEST_F(TestFileRunner, constantReferenceInInterfaceRunTest) {
   runFile("tests/samples/test_constant_reference_in_interface.yz", 2);
 }
 
+TEST_F(TestFileRunner, constantReferencePrivateInParentObjectRunTest) {
+  runFile("tests/samples/test_constant_reference_private_in_parent_object.yz", 5);
+}
+
 TEST_F(TestFileRunner, constantReferencePrivateDeathRunTest) {
   expectFailCompile("tests/samples/test_constant_reference_private.yz",
                     1,
