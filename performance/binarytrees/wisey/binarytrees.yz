@@ -10,14 +10,27 @@ import wisey.threads.IWorker;
 import wisey.threads.IThread;
 import wisey.threads.CThreadPool;
 
+/**
+ * Tests Wisey performance analogous to the binary-trees test from The Benchmarks Game 
+ *
+ * The test repeatedly creates and destroys binry trees. The max tree depth is supplied from
+ * command line
+ */
 controller CBinaryTrees implements IProgram {
 
+  /**
+   * Minimum binary tree depth
+   */
   public constant int MIN_DEPTH = 4;
 
+  // Memory pool where nodes of the long lived tree are allocated
   inject immediate CMemoryPool* mLongLivedPool;
+  // Thread pool for running workers that allocate trees in parallel
   inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+  // Vector of worker objects
   inject immediate COwnerVector* mWorkers;
 
+  // Execution starts here, maximum depth is passed from command line through arguments
   public int run(immutable string[] arguments) override {
     int n = NString.createFromString(arguments[1]).toInt();
 
@@ -59,6 +72,9 @@ controller CBinaryTrees implements IProgram {
     return 1;
   }
 
+  /**
+   * Creates a binary tree of the given depth on the given memory pool
+   */
   private static NTreeNode* bottomUpTree(int depth, CMemoryPool pool) {
     if (0 < depth) {
       return build(NTreeNode)
@@ -69,10 +85,16 @@ controller CBinaryTrees implements IProgram {
     return build(NTreeNode).withLeft(null).withRight(null).onPool(pool);
   }
 
+  /**
+   * Represents one node on the tree
+   */
   private node NTreeNode {
     receive NTreeNode* mLeft;
     receive NTreeNode* mRight;
 
+    /**
+     * This is used to check that the test runs correctly
+     */
     public int itemCheck() {
       if (null == mLeft) {
         return 1;
@@ -81,6 +103,12 @@ controller CBinaryTrees implements IProgram {
     }
   }
 
+  /**
+   * In order to optimize performance only one CMemoryPool is created per thread.
+   *
+   * This is achieved by having a context scoped object CThreadMemoryPool.
+   * When an object is scoped to IThread only one instance of it is created per IThread.
+   */
   private controller CThreadMemoryPool inScope IThread {
     inject immediate CMemoryPool* mMemeryPool;
 
@@ -89,10 +117,16 @@ controller CBinaryTrees implements IProgram {
     }
   }
 
+  /**
+   * Represents a worker that runs on its own thread
+   */
   private model MWorker implements IWorker {
     int mMaxDepth;
     int mDepth;
 
+    /**
+     * work() method is where execution starts for an IWorker
+     */
     public void work() override {
       CMemoryPool pool = inject(CThreadMemoryPool).onHeap().getMemoryPool();
       int check = 0;
@@ -105,11 +139,17 @@ controller CBinaryTrees implements IProgram {
     }
   }
 
+  /**
+   * Result of MWorker's work() method are wrapped in this model and sent to the calling thread
+   */
   private model MResult {
     int mIterations;
     int mDepth;
     int mCheck;
 
+    /**
+     * Prints results of the tree check
+     */
     public void printme() {
       printout(mIterations + "\t trees of depth " + mDepth + "\t check: " + mCheck + "\n");
     }

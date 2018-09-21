@@ -8,11 +8,17 @@ import wisey.lang.NString;
 import wisey.threads.IWorker;
 import wisey.threads.CThreadPool;
 
+/**
+ * Tests wisey performance analogous to mandelbrot test from The Benchmarks Game
+ */
 controller CMandelbrot implements IProgram {
+  // Thread pool for running workers that compute part of the mandelbrot map
   inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+
   state immutable double[]* mCrb;
   state immutable double[]* mCib;
 
+  // Execution starts here, size of the mandelbrot map passed from command line through arguments
   public int run(immutable string[] arguments) override {
     int n = 6000;
     if (arguments.getSize() >= 2) {
@@ -57,6 +63,9 @@ controller CMandelbrot implements IProgram {
     return 1;
   }
 
+  /**
+   * Represents a worker that runs part of the mandelbrot computation
+   */
   private model MWorker implements IWorker {
     immutable double[] mCrb;
     immutable double[] mCib;
@@ -72,6 +81,9 @@ controller CMandelbrot implements IProgram {
       thread.send(build(MResult).withArray(line).withY(mY).onHeap());
     }
 
+    /**
+     * work() method is where execution starts for an IWorker
+     */
     private int getByte(int x, int y) {
       int res = 0;
       for (int i = 0; i < 8; i += 2) {
@@ -114,6 +126,9 @@ controller CMandelbrot implements IProgram {
     }
   }
 
+  /**
+   * Result of MWorker's work() method are wrapped in this model and sent to the calling thread
+   */
   private model MResult {
     immutable byte[]* mArray;
     int mY;
