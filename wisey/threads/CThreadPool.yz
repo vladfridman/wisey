@@ -1,7 +1,5 @@
 package wisey.threads;
 
-import wisey.data.CConcurrentModelOwnerQueue;
-
 /**
  * Simple implementation of a thread pool.
  *
@@ -96,5 +94,37 @@ controller CThreadPool {
    */
   public void addResult(::wisey::model* result) {
     mResults.push(result);
+  }
+
+  /**
+   * Concurrent queue implementation where each element is a model owner reference.
+   *
+   * This controller used in wisey.threads.CThreadPool implemenation to keep a queue of workers.
+   */
+  private controller CConcurrentModelOwnerQueue {
+
+    inject immediate ::llvm::i8::pointer* mQueue.withConstructor(create).withDestructor(destroy);
+
+    /**
+     * Push a model owner on a queue
+     */
+    public void push(::wisey::model* object) {
+      ::llvm::function::concurrent_model_owner_queue_push(mQueue, object);
+    }
+
+    /**
+     * Pop a model owner from a queue, this blocks the thread if the queue is empty until it is not
+     */
+    public ::wisey::model* pop() {
+      return ::llvm::function::concurrent_model_owner_queue_pop(mQueue);
+    }
+
+    private ::llvm::function ::llvm::i8::pointer create() {
+      return ::llvm::function::concurrent_model_owner_queue_create();
+    }
+
+    private ::llvm::function ::llvm::void destroy(::llvm::i8::pointer queue) {
+      ::llvm::function::concurrent_model_owner_queue_destroy(queue);
+    }
   }
 }

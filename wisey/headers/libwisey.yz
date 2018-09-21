@@ -234,13 +234,6 @@ external model wisey.threads.MThreadBoundaryException
 
 /* Controllers */
 
-external controller wisey.data.CConcurrentModelOwnerQueue {
-
-  void push(
-    ::wisey::model* object);
-  ::wisey::model* pop();
-}
-
 external controller wisey.data.CLongToIntMap {
 
   void put(

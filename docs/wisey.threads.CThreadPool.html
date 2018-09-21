@@ -41,7 +41,7 @@ controller CYourController {
     ...
     // start threads on the thread pool, can also be called before workers are submitted
     mThreadPool.start();
-    MyModel* result = (MyModel*) mThreadPool.getResult();
+    MyModel* result = mThreadPool.getResult();
     // do something with the results
     ...
     // once all results are received stop the thread pool
