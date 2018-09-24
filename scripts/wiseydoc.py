@@ -665,6 +665,7 @@ def printDoc(objects, destinationDir, dictionary):
   file.write('function gtag(){dataLayer.push(arguments);}\n')
   file.write("gtag('js', new Date());\n")
   file.write("gtag('config', 'UA-126333404-1');\n")
+  file.write('</script>\n')
   file.write('</head>\n')
   file.write('<body>\n')
   file.write('  <div class="contents">\n')
