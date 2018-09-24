@@ -122,13 +122,19 @@ void Compiler::saveBinary(string outputFile) {
   auto features = "";
   
   TargetOptions targetOptions;
-  auto relocModel = Optional<Reloc::Model>(Reloc::Model::PIC_);
+  auto relocModel = Optional<Reloc::Model>(Reloc::PIC_);
   auto targetMachine = target->createTargetMachine(targetTriple,
                                                    cpu,
                                                    features,
                                                    targetOptions,
                                                    relocModel);
-  
+  Log::i("Target CPU " + targetMachine->getTargetCPU().str());
+  if (targetMachine->getRelocationModel() == Reloc::Model::PIC_) {
+    Log::i("Relocation model is PIC");
+  } else {
+    Log::i("Relocation model is NOT PIC");
+  }
+
   mContext.getModule()->setDataLayout(targetMachine->createDataLayout());
   mContext.getModule()->setTargetTriple(targetTriple);
 

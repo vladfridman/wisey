@@ -20,11 +20,6 @@ external interface wisey.lang.IProgram {
     int exitCode);
 }
 
-external interface wisey.threads.IProducer {
-
-  void produce();
-}
-
 external interface wisey.threads.IThread {
 
   void run() throws wisey.threads.MThreadBoundaryException;
