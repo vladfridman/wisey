@@ -2,6 +2,7 @@
 #include <list>
 #include <mutex>
 #include <queue>
+#include <algorithm>
 #include <thread>
 #include <unordered_map>
 #include <vector>

@@ -1,7 +1,7 @@
 # Compiler used for compiling into object files
 CC = g++
 # Linker used for linking into binary executable
-LD = g++
+LD = g++ 
 # Executable output directory
 BINDIR = bin
 # Directory for temporary output of lex/yacc files
@@ -35,7 +35,7 @@ TESTOBJ=$(TESTSOURCES:tests/%.cpp=$(BUILDDIR)/%.o)
 # Flags used for compilation step
 CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-Wno-vla-extension -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers \
-	-pedantic -Wno-long-long -Wcovered-switch-default -Wnon-virtual-dtor -Wno-deprecated-register \
+	-pedantic -Wno-long-long -Wnon-virtual-dtor -Wno-deprecated-register \
 	-Wno-unneeded-internal-declaration -Wdelete-non-virtual-dtor -Werror=date-time \
 	-std=c++11 -g -fno-rtti \
 	-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -c
@@ -88,13 +88,13 @@ $(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/wisey/%.hpp | ${PARSERDIR}/Tokens
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
 ${BINDIR}/wiseyc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseyc.o | ${BINDIR}
-	$(LD) -o $@ $(LDFLAGS) $^
+	$(LD) -o $@ $^ $(LDFLAGS)
 
 ${BINDIR}/wiseylibc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseylibc.o | ${BINDIR}
-	$(LD) -o $@ $(LDFLAGS) $^
+	$(LD) -o $@ $^ $(LDFLAGS)
 
 ${BINDIR}/yzc: $(OBJEXCEPTMAINS) ${BUILDDIR}/yzc.o | ${BINDIR}
-	$(LD) -o $@ $(LDFLAGS) $^
+	$(LD) -o $@ $^ $(LDFLAGS)
 
 ${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/yzc ${BINDIR}/wiseyc ${BINDIR}/wiseylibc
-	$(LD) -o $@ $(LDFLAGS) -L$(LIBDIR) -lgtest -lgmock -force_load lib/libwisey.a $^
+	$(LD) -o $@ $^ $(LDFLAGS) -L$(LIBDIR) -lgtest -lgmock -force_load lib/libwisey.a

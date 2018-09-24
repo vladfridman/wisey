@@ -9,6 +9,8 @@
 #ifndef IStatement_h
 #define IStatement_h
 
+#include <vector>
+
 #include <llvm/IR/Value.h>
 
 namespace wisey {

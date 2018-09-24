@@ -124,7 +124,6 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  Value* arrayStructPointer,
                                                  vector<const IExpression*> arrayIndices,
                                                  int line) {
-  LLVMContext& llvmContext = context.getLLVMContext();
 
   if (arrayType->getNumberOfDimensions() != arrayIndices.size()) {
     context.reportError(line, "Expression does not reference an array element");
@@ -135,9 +134,6 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
   
   const IType* elementType = arrayType->getElementType();
   
-  Value* index[2];
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-
   Value* value = arrayStructPointer;
   while (arrayIndices.size()) {
     const IExpression* indexExpression = arrayIndices.back();
