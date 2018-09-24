@@ -254,10 +254,6 @@ string Controller::getInjectFunctionName() const {
 }
 
 Function* Controller::declareInjectFunction(IRGenerationContext& context, int line) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value* index[2];
-  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   vector<Type*> argumentTypes;
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
