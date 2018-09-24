@@ -138,7 +138,7 @@ void IMethod::checkReturnAndArgumentTypes(IRGenerationContext& context,
 }
 
 bool IMethod::checkTypeIsVisible(const IObjectType* object, const IType* type) {
-  if (!IObjectType::isObjectType(type)) {
+  if (!IObjectType::isObjectType(type) || type->isNative()) {
     return true;
   }
 
