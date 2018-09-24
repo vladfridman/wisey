@@ -122,7 +122,7 @@ void Compiler::saveBinary(string outputFile) {
   auto features = "";
   
   TargetOptions targetOptions;
-  auto relocModel = Optional<Reloc::Model>();
+  auto relocModel = Optional<Reloc::Model>(Reloc::Model::PIC_);
   auto targetMachine = target->createTargetMachine(targetTriple,
                                                    cpu,
                                                    features,
