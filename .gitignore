@@ -4,3 +4,5 @@ build/
 parser/
 Wisey\.xcodeproj/xcuserdata/
 Wisey\.xcodeproj/project\.xcworkspace/xcuserdata/
+*.o
+runnable
