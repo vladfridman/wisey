@@ -92,9 +92,6 @@ IRGenerationContext::~IRGenerationContext() {
 
 int IRGenerationContext::runCode(int argc, char** argv) {
   ExecutionEngine* executionEngine = EngineBuilder(move(mModuleOwner)).create();
-  vector<GenericValue> arguments(2);
-  arguments[0].IntVal = APInt(32, argc);
-  arguments[1].PointerVal = argv;
   uint64_t rawMainAddress = executionEngine->getFunctionAddress("main");
   if (!rawMainAddress) {
     Log::errorNoSourceFile("Function main is not defined. Exiting.");
