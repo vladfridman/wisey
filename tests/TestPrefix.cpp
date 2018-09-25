@@ -131,7 +131,7 @@ void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
                      false,
                      GlobalValue::ExternalLinkage,
                      nullptr,
-                     "__stderrp");
+                     "wStdErr");
 }
 
 void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {

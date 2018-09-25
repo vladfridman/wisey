@@ -72,7 +72,7 @@ string Names::getDataPackageName() {
 }
 
 string Names::getStdErrName() {
-  return "__stderrp";
+  return "wStdErr";
 }
 
 string Names::getThreadInterfaceName() {

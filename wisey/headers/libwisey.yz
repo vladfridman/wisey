@@ -620,6 +620,6 @@ external ::llvm::function int "strncmp"(::llvm::i8::pointer, ::llvm::i8::pointer
 
 /* llvm Globals */
 
-external ::llvm::struct::__sFILE::pointer __stderrp;
-external ::llvm::struct::__sFILE::pointer __stdinp;
-external ::llvm::struct::__sFILE::pointer __stdoutp;
+external ::llvm::struct::__sFILE::pointer wStdErr;
+external ::llvm::struct::__sFILE::pointer wStdIn;
+external ::llvm::struct::__sFILE::pointer wStdOut;

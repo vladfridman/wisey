@@ -134,9 +134,9 @@ TEST_F(YzcTest, extractHeadersTest) {
                "\n"
                "/* llvm Globals */\n"
                "\n"
-               "external ::llvm::struct::__sFILE::pointer __stderrp;\n"
-               "external ::llvm::struct::__sFILE::pointer __stdinp;\n"
-               "external ::llvm::struct::__sFILE::pointer __stdoutp;\n",
+               "external ::llvm::struct::__sFILE::pointer wStdErr;\n"
+               "external ::llvm::struct::__sFILE::pointer wStdIn;\n"
+               "external ::llvm::struct::__sFILE::pointer wStdOut;\n",
                output.c_str());
   stream.close();
 }

@@ -1,11 +1,16 @@
+#include <algorithm>
 #include <condition_variable>
 #include <list>
 #include <mutex>
 #include <queue>
-#include <algorithm>
+#include <stdio.h>
 #include <thread>
 #include <unordered_map>
 #include <vector>
+
+FILE* wStdIn = stdin;
+FILE* wStdOut = stdout;
+FILE* wStdErr = stderr;
 
 /**
  * Library of functions that work with STL data structures and memory pool

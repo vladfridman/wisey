@@ -24,14 +24,14 @@ controller CBinaryStreamWriter {
    * Create an instance of the CBinaryStreamWriter to write binary data to the standard output
    */
   public static CBinaryStreamWriter* openSystemOut() {
-    return inject(CBinaryStreamWriter).withStream(::llvm::global::__stdoutp).onHeap();    
+    return inject(CBinaryStreamWriter).withStream(::llvm::global::wStdOut).onHeap();    
   }
 
   /**
    * Create an instance of the CBinaryStreamWriter to write binary data to the error output
    */
   public static CBinaryStreamWriter* openSystemErr() {
-    return inject(CBinaryStreamWriter).withStream(::llvm::global::__stderrp).onHeap();    
+    return inject(CBinaryStreamWriter).withStream(::llvm::global::wStdErr).onHeap();    
   }
 
   /**

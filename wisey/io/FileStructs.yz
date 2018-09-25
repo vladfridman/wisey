@@ -30,11 +30,11 @@
   ::llvm::i32,
 }
 
-::llvm::struct::__sFILE::pointer __stderrp;
+::llvm::struct::__sFILE::pointer wStdErr;
 
-::llvm::struct::__sFILE::pointer __stdinp;
+::llvm::struct::__sFILE::pointer wStdIn;
 
-::llvm::struct::__sFILE::pointer __stdoutp;
+::llvm::struct::__sFILE::pointer wStdOut;
 
 /**
  * Function that opens a file

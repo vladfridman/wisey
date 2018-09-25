@@ -31,7 +31,7 @@ controller CTextStreamReader {
    * Create an instance of the CTextStreamReader to read standard input
    */
   public static CTextStreamReader* openSystemIn() {
-    return inject(CTextStreamReader).withStream(::llvm::global::__stdinp).onHeap();    
+    return inject(CTextStreamReader).withStream(::llvm::global::wStdIn).onHeap();    
   }
 
   /**
