@@ -51,7 +51,7 @@ void CompilerDriver::compileRunnable(int argc, char **argv) {
   }
 
   command = "g++";
-  command += "-o " + runnableFileName + " " + objectFileName;
+  command += " -o " + runnableFileName + " " + objectFileName;
   for (string path : compilerArguments.getLibraryPaths()) {
     command += " " + path;
   }
