@@ -61,11 +61,7 @@ controller CThreadPool {
    */
   public void stop() {
     for (int i = 0; i < mThreads.getSize(); i++) {
-      if (mThreads[i] == null) {
-        continue;
-      }
-      mThreads[i].cancel();
-      mThreads[i] = null;
+      mWorkers.push(build(MEnder).onHeap());
     }
   }
 
@@ -94,6 +90,15 @@ controller CThreadPool {
    */
   public void addResult(::wisey::model* result) {
     mResults.push(result);
+  }
+
+  /**
+   * Ends execution of a CPoolThread
+   */
+  private model MEnder implements IWorker {
+    public void work() override {
+      thread.exit();
+    }
   }
 
   /**
