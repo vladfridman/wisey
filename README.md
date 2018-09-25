@@ -37,15 +37,13 @@ Prerequisites: g++ installed
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
   `make; ar -rv libgtest.a gtest-all.o`
   `sudo cp libgtest.a /usr/local/lib/libgtest.a` 
-  `sudo mkdir /usr/local/include/gtest`
-  `sudo cp -r ../include/gtest/* /usr/local/include/gtest/`
+  `sudo cp -r ../include/gtest /usr/local/include/`
 
   `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make`
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
   `make; ar -rv libgmock.a gmock-all.o`
   `sudo cp libgmock.a /usr/local/lib/libgmock.a`
-  `sudo mkdir /usr/local/include/gmock`
-  `sudo cp -r ../include/gmock/* /usr/local/include/gmock/`
+  `sudo cp -r ../include/gmock /usr/local/include/`
 12. Make tests
   `cd ~/wisey; make -j8 tests`
   `bin/runtests`
@@ -77,13 +75,11 @@ Prerequisites: g++ installed
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
   `make; ar -rv libgtest.a gtest-all.o`
   `sudo cp libgtest.a /usr/local/lib/libgtest.a` 
-  `sudo mkdir /usr/local/include/gtest`
-  `sudo cp -r ../include/gtest/* /usr/local/include/gtest/`
+  `sudo cp -r ../include/gtest /usr/local/include/`
 
   `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make`
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
   `make; ar -rv libgmock.a gmock-all.o`
   `sudo cp libgmock.a /usr/local/lib/libgmock.a`
-  `sudo mkdir /usr/local/include/gmock`
-  `sudo cp -r ../include/gmock/* /usr/local/include/gmock/`
+  `sudo cp -r ../include/gmock /usr/local/include/`
 
