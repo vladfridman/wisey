@@ -1,0 +1,177 @@
+<html>
+  <head>
+    <link href="wiseydoc.css" rel="stylesheet" type="text/css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126333404-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-126333404-1');
+    </script>
+  </head>
+<body>
+  <div class="contents">
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Wisey Language</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            Wisey is a general purpose compiled language that provides an infrastructure for scalable and thread safe code development.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Primitive Types</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            Wisey supports the following primitive types: boolean, byte, char, double, float, int, long, string. string type refers to string literals - strings that are allocated in the program code space and never change. 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Constant Values</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            Here are examples of each primitive type constant values:
+<pre>
+boolean bv = true;
+byte b = 7b;
+char c = 'a';
+double d = 5.4d;
+float f = 2.3;
+int i = 5;
+long l = 5l;
+string s = "hello";
+</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Object Types</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            There are several kinds of objects: models, controllers and nodes. Objects are allocated on heap, but nodes can also be allocated on a memory pool. 
+            <p>
+            Models and nodes are allocated using <b>build</b> command. Controllers are allocated using <b>inject</b> command. There are no constructors or destructors.
+            <p>
+            Objects have fields and methods. All fields are private, methods can be public or private. Fields can be of kind: recieved, state or injected. Field names must be of the form 'mFieldName'. Received fields must be initialized at object allocation time.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Controllers</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            A controller represents an object that does some work and changes state. A controller may have received fields, state fields and injected fields. Received fields must be initialized at injection time. State fields do not have to be initialized and are all zeros or nulls after controller instantiation. Injected fields are for injection of other controllers. There are no restrictions on field types.
+<pre>
+controller CService {
+  receive int mInputParameter;
+  state bool mHasStarted;
+  inject CDriver* mDriver;
+
+  public void drive() {
+    mHasStarted = true;
+    mDriver.drive(mInputParameter);
+  }
+}
+</pre>
+            In the example above the controller CService injects another controller CDriver in its field. The value of mDriver is null until it is referenced. CDriver is injected when we call drive() method on it. To make sure that the injected field is initialized at the controller creation time use 'inject immediate'.
+            <p>
+            Controllers can also be injected inline, however this is not the preferred way to instantiate a controller:
+<pre>
+CService* service = inject(CService).withInputParameter(5).onHeap();
+</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Models</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            A model is an immutable object that represents result of controller's work. A model has only received fields. Once a model is allocated using <b>build</b> its field values do not change. Fields can be of primitve type, model type or immutable array of primitives or models type. Here is an example of a model definition:
+<pre>
+model MCar {
+  receive string mMake;
+  receive int mYear;
+
+  public string getMake() {
+    return mMake;
+  }
+
+  public int getYear() {
+    return mYear;
+  }
+}
+</pre>
+            Model allocation looks as follows:
+<pre>
+MCar* car = build(MCar).withMake("Tesla").withYear(2019).onHeap();
+</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="contents">&nbsp;
+  </div>
+</body>
+</html>
