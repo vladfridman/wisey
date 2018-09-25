@@ -25,7 +25,6 @@ controller CHelloWorldMultiThreaded implements IProgram {
     }
     // Start executing thread pool threads, sleep for a while and then stop
     mThreadPool.start();
-    thread.usleep(20000);
     mThreadPool.stop();
     return 0;
   }

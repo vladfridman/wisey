@@ -33,7 +33,15 @@ controller CPoolThread implements IThread {
    */
   public void cancel() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    mPoolThreadRunner.detachThread();
+    mPoolThreadRunner.cancelThread();
+  }
+
+  /**
+   * Wait for the thread to finish
+   */
+  public void join() throws MThreadBoundaryException {
+    outsideThreadGuard(this);
+    mPoolThreadRunner.joinThread();    
   }
 
   public void exit() throws MThreadBoundaryException override {
@@ -79,12 +87,19 @@ controller CPoolThread implements IThread {
                                        (::llvm::i8::pointer) poolThread);
     }
 
+    public void joinThread() {
+      if (!mMyNativeThread) {
+        return;
+      }
+      ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8::pointer::pointer) null);
+    }
+
     public boolean isStarted() {
       return mMyNativeThread;
     }
 
-    public void detachThread() {
-      ::llvm::function::pthread_detach(mMyNativeThread);
+    public void cancelThread() {
+      ::llvm::function::pthread_cancel(mMyNativeThread);
     }
 
     public void exitThread() {
