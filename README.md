@@ -45,7 +45,7 @@ Prerequisites: g++ installed
   `sudo cp libgmock.a /usr/local/lib/libgmock.a;`
   `sudo cp -r ../include/gmock /usr/local/include/;`
 12. Make tests
-  `cd ~/wisey; make -j8 tests`
+  `cd ~/wisey; make -j8 tests;`
   `bin/runtests`
 
 ### Developer set up on Ubuntu Linux x86 64 bit ###
@@ -81,6 +81,6 @@ Prerequisites: g++ installed
   `sudo cp libgmock.a /usr/local/lib/libgmock.a;`
   `sudo cp -r ../include/gmock /usr/local/include/;`
 9. Make tests
-  `cd ~/wisey; make -j8 tests`
+  `cd ~/wisey; make -j8 tests;`
   `bin/runtests`
 
