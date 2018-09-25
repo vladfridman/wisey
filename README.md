@@ -27,23 +27,23 @@ Prerequisites: g++ installed
   `cd ~/wisey; make -j8 bin/yzc bin/wiseyc bin/wiseylibc;`
 8. Install wisey compiler
   `mkdir ~/wiseyhome; mkdir ~/wiseyhome/bin; mkdir ~/wiseyhome/lib; mkdir ~/wiseyhome/headers; export WISEY_HOME=~/wiseyhome; export PATH=$PATH:$WISEY_HOME/bin;`
-  `cp bin/* ~/wiseyhome/bin`
+  `cp bin/* ~/wiseyhome/bin;`
 10. Compile wisey library
   `cd ~/wisey;`
-  `g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++11 libsrc/libdata/libdata.cpp -o lib/libdata.o` 
-  `bin/wiseylibc -v -Alib/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o lib/libwisey.a -H wisey/headers/libwisey.yz && rm lib/libwisey.o lib/libdata.o`
-  `cp lib/libwisey.a $WISEY_HOME/lib; cp wisey/headers/libwisey.yz $WISEY_HOME/headers`
+  `g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++11 libsrc/libdata/libdata.cpp -o lib/libdata.o;` 
+  `bin/wiseylibc -v -Alib/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o lib/libwisey.a -H wisey/headers/libwisey.yz && rm lib/libwisey.o lib/libdata.o;`
+  `cp lib/libwisey.a $WISEY_HOME/lib; cp wisey/headers/libwisey.yz $WISEY_HOME/headers;`
 11. Install googletest and googlemock:
-  `cd ~; git clone https://github.com/google/googletest.git; cd ~/googletest/googletest/make`
+  `cd ~; git clone https://github.com/google/googletest.git; cd ~/googletest/googletest/make;`
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
-  `make; ar -rv libgtest.a gtest-all.o`
-  `sudo cp libgtest.a /usr/local/lib/libgtest.a` 
-  `sudo cp -r ../include/gtest /usr/local/include/`
-  `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make`
+  `make; ar -rv libgtest.a gtest-all.o;`
+  `sudo cp libgtest.a /usr/local/lib/libgtest.a;` 
+  `sudo cp -r ../include/gtest /usr/local/include/;`
+  `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make;`
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
-  `make; ar -rv libgmock.a gmock-all.o`
-  `sudo cp libgmock.a /usr/local/lib/libgmock.a`
-  `sudo cp -r ../include/gmock /usr/local/include/`
+  `make; ar -rv libgmock.a gmock-all.o;`
+  `sudo cp libgmock.a /usr/local/lib/libgmock.a;`
+  `sudo cp -r ../include/gmock /usr/local/include/;`
 12. Make tests
   `cd ~/wisey; make -j8 tests`
   `bin/runtests`
@@ -65,21 +65,21 @@ Prerequisites: g++ installed
   `cd ~/wisey; make -j8 bin/yzc bin/wiseyc bin/wiseylibc;`
 6. Install wisey compiler
   `mkdir ~/wiseyhome; mkdir ~/wiseyhome/bin; mkdir ~/wiseyhome/lib; mkdir ~/wiseyhome/headers; export WISEY_HOME=~/wiseyhome; export PATH=$PATH:$WISEY_HOME/bin;`
-  `cp bin/* ~/wiseyhome/bin`
+  `cp bin/* ~/wiseyhome/bin;`
 7. Compile wisey library
   `cd ~/wisey;`
   `g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++11 libsrc/libdata/libdata.cpp -o lib/libdata.o;` 
   `bin/wiseylibc -v -Alib/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o lib/libwisey.a -H wisey/headers/libwisey.yz && rm lib/libwisey.o lib/libdata.o;`
   `cp lib/libwisey.a $WISEY_HOME/lib; cp wisey/headers/libwisey.yz $WISEY_HOME/headers;`
 8. Install googletest and googlemock:
-  `cd ~; git clone https://github.com/google/googletest.git; cd ~/googletest/googletest/make`
-  `make; ar -rv libgtest.a gtest-all.o`
-  `sudo cp libgtest.a /usr/local/lib/libgtest.a` 
-  `sudo cp -r ../include/gtest /usr/local/include/`
-  `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make`
-  `make; ar -rv libgmock.a gmock-all.o`
-  `sudo cp libgmock.a /usr/local/lib/libgmock.a`
-  `sudo cp -r ../include/gmock /usr/local/include/`
+  `cd ~; git clone https://github.com/google/googletest.git; cd ~/googletest/googletest/make;`
+  `make; ar -rv libgtest.a gtest-all.o;`
+  `sudo cp libgtest.a /usr/local/lib/libgtest.a;` 
+  `sudo cp -r ../include/gtest /usr/local/include/;`
+  `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make;`
+  `make; ar -rv libgmock.a gmock-all.o;`
+  `sudo cp libgmock.a /usr/local/lib/libgmock.a;`
+  `sudo cp -r ../include/gmock /usr/local/include/;`
 9. Make tests
   `cd ~/wisey; make -j8 tests`
   `bin/runtests`
