@@ -30,6 +30,8 @@ external ::llvm::function ::llvm::void pthread_join(::llvm::struct::_opaque_pthr
 
 external ::llvm::function ::llvm::void pthread_cancel(::llvm::struct::_opaque_pthread_t::pointer);
 
+external ::llvm::function ::llvm::void pthread_detach(::llvm::struct::_opaque_pthread_t::pointer);
+
 external ::llvm::function ::llvm::void pthread_exit(::llvm::i8::pointer);
 
 external ::llvm::function ::llvm::i32 sched_yield();

@@ -33,7 +33,7 @@ controller CPoolThread implements IThread {
    */
   public void cancel() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    mPoolThreadRunner.cancelThread();
+    mPoolThreadRunner.detachThread();
   }
 
   public void exit() throws MThreadBoundaryException override {
@@ -83,8 +83,8 @@ controller CPoolThread implements IThread {
       return mMyNativeThread;
     }
 
-    public void cancelThread() {
-      ::llvm::function::pthread_cancel(mMyNativeThread);
+    public void detachThread() {
+      ::llvm::function::pthread_detach(mMyNativeThread);
     }
 
     public void exitThread() {

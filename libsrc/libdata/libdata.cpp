@@ -600,8 +600,7 @@ public:
  
   void* pop() {
     std::unique_lock<std::mutex> mlock(mutex);
-    while (queue.empty())
-    {
+    while (queue.empty()) {
       cond.wait(mlock);
     }
     auto item = queue.front();
