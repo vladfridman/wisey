@@ -68,17 +68,15 @@ Prerequisites: g++ installed
   `cp bin/* ~/wiseyhome/bin`
 7. Compile wisey library
   `cd ~/wisey;`
-  `g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++11 libsrc/libdata/libdata.cpp -o lib/libdata.o` 
-  `bin/wiseylibc -v -Alib/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o lib/libwisey.a -H wisey/headers/libwisey.yz && rm lib/libwisey.o lib/libdata.o`
-  `cp lib/libwisey.a $WISEY_HOME/lib; cp wisey/headers/libwisey.yz $WISEY_HOME/headers`
+  `g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++11 libsrc/libdata/libdata.cpp -o lib/libdata.o;` 
+  `bin/wiseylibc -v -Alib/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o lib/libwisey.a -H wisey/headers/libwisey.yz && rm lib/libwisey.o lib/libdata.o;`
+  `cp lib/libwisey.a $WISEY_HOME/lib; cp wisey/headers/libwisey.yz $WISEY_HOME/headers;`
 8. Install googletest and googlemock:
   `cd ~; git clone https://github.com/google/googletest.git; cd ~/googletest/googletest/make`
-  modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
   `make; ar -rv libgtest.a gtest-all.o`
   `sudo cp libgtest.a /usr/local/lib/libgtest.a` 
   `sudo cp -r ../include/gtest /usr/local/include/`
   `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make`
-  modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
   `make; ar -rv libgmock.a gmock-all.o`
   `sudo cp libgmock.a /usr/local/lib/libgmock.a`
   `sudo cp -r ../include/gmock /usr/local/include/`
