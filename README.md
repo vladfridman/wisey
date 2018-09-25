@@ -54,7 +54,7 @@ Prerequisites: g++ installed
 2. Install prerequesites: `sudo apt-get install cmake subversion python g++ flex bison`
 3. Install LLVM 
   `cd ~; mkdir llvm; cd llvm; svn co http://llvm.org/svn/llvm-project/llvm/branches/release_70 llvm;`
-  `cd llvm/tools; svn co http://llvm.org/svn/llvm-project/cfe/branches/release_70 clang`
+  `cd llvm/tools; svn co http://llvm.org/svn/llvm-project/cfe/branches/release_70 clang;`
   `mkdir ~/llvm/llvmbuild; cd ~/llvm/llvmbuild; cmake -G Unix\ Makefiles ~/llvm/llvm;`
   `make -j8;`
   `sudo make install;`
