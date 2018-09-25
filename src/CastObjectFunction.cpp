@@ -9,20 +9,20 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/CastObjectFunction.hpp"
-#include "wisey/GetOriginalObjectNameFunction.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/GetOriginalObjectFunction.hpp"
-#include "wisey/HeapBuilder.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/InstanceOfFunction.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ThrowStatement.hpp"
+#include "CastObjectFunction.hpp"
+#include "GetOriginalObjectNameFunction.hpp"
+#include "Environment.hpp"
+#include "FakeExpression.hpp"
+#include "GetOriginalObjectFunction.hpp"
+#include "HeapBuilder.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "InstanceOfFunction.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "ModelTypeSpecifier.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;

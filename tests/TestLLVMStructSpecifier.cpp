@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/LLVMStructSpecifier.hpp"
+#include "LLVMStructSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

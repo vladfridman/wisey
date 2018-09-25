@@ -15,9 +15,9 @@
 #include "MockTypeSpecifier.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ImmutableArrayTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "ImmutableArrayTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

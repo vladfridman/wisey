@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/NullExpression.hpp"
-#include "wisey/NullType.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "NullExpression.hpp"
+#include "NullType.hpp"
 
 using namespace llvm;
 using namespace std;

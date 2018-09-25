@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ImportStatement.hpp"
-#include "wisey/Log.hpp"
+#include "ImportStatement.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace std;

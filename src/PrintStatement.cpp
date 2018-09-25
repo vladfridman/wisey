@@ -8,17 +8,17 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/FakeExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IdentifierChain.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/MethodCall.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrintStatement.hpp"
-#include "wisey/StringType.hpp"
+#include "FakeExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "IdentifierChain.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "Log.hpp"
+#include "MethodCall.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrintStatement.hpp"
+#include "StringType.hpp"
 
 using namespace llvm;
 using namespace std;

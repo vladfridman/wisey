@@ -16,14 +16,14 @@
 
 #include "MockReferenceVariable.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/EmptyStatement.hpp"
-#include "wisey/IMethod.hpp"
-#include "wisey/Method.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramFile.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "Composer.hpp"
+#include "EmptyStatement.hpp"
+#include "IMethod.hpp"
+#include "Method.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ProgramFile.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;

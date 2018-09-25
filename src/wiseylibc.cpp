@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/CompilerDriver.hpp"
+#include "CompilerDriver.hpp"
 
 using namespace std;
 using namespace wisey;

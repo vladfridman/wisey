@@ -6,10 +6,10 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/WhileStatement.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "AutoCast.hpp"
+#include "IRWriter.hpp"
+#include "WhileStatement.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;

@@ -14,9 +14,9 @@
 #include <llvm/IR/Instructions.h>
 
 #include "MockExpression.hpp"
-#include "wisey/AddExpression.hpp"
-#include "wisey/IPrintStatement.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "AddExpression.hpp"
+#include "IPrintStatement.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace llvm;

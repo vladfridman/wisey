@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Composer.hpp"
-#include "wisey/CompoundStatement.hpp"
+#include "Composer.hpp"
+#include "CompoundStatement.hpp"
 
 using namespace llvm;
 using namespace wisey;

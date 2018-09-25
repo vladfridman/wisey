@@ -20,9 +20,9 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/CastExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "CastExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -18,14 +18,14 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FieldReferenceVariable.hpp"
-#include "wisey/IExpression.hpp"
-#include "wisey/IInterfaceTypeSpecifier.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StateField.hpp"
+#include "FieldReferenceVariable.hpp"
+#include "IExpression.hpp"
+#include "IInterfaceTypeSpecifier.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "ParameterReferenceVariable.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StateField.hpp"
 
 using namespace llvm;
 using namespace std;

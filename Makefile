@@ -94,7 +94,7 @@ $(BUILDDIR)/wiseylibc.o: ${SRCDIR}/wiseylibc.cpp | ${PARSERDIR}/Tokens.cpp ${BUI
 $(BUILDDIR)/yzc.o: ${SRCDIR}/yzc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
-$(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/wisey/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
+$(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
 ${BINDIR}/wiseyc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseyc.o | ${BINDIR}

@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/BindActionGlobalStatement.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "BindActionGlobalStatement.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

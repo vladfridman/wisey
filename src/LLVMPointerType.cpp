@@ -8,17 +8,17 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/FieldPointerVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPointerOwnerType.hpp"
-#include "wisey/LLVMPointerType.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LocalPointerVariable.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ParameterPointerVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayType.hpp"
+#include "FieldPointerVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPointerOwnerType.hpp"
+#include "LLVMPointerType.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LocalPointerVariable.hpp"
+#include "Log.hpp"
+#include "ParameterPointerVariable.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

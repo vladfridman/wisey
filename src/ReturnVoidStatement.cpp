@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Composer.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReturnVoidStatement.hpp"
+#include "Composer.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReturnVoidStatement.hpp"
 
 using namespace llvm;
 using namespace wisey;

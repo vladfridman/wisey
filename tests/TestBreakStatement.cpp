@@ -12,7 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "TestFileRunner.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace wisey;
 

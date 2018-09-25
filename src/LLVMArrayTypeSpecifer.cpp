@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/LLVMArrayTypeSpecifer.hpp"
+#include "LLVMArrayTypeSpecifer.hpp"
 
 using namespace std;
 using namespace wisey;

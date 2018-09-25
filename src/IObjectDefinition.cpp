@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IObjectDefinition.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "IObjectDefinition.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace std;
 using namespace wisey;

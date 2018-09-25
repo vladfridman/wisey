@@ -17,14 +17,14 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/MethodDefinition.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
-#include "wisey/ReturnStatement.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "LocalReferenceVariable.hpp"
+#include "MethodDefinition.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
+#include "ReturnStatement.hpp"
 
 using namespace llvm;
 using namespace std;

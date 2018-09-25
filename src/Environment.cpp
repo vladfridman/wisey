@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Environment.hpp"
+#include "Environment.hpp"
 
 using namespace wisey;
 

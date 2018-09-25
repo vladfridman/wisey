@@ -18,12 +18,12 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/InterfaceOwner.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ThreadExpression.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "InterfaceOwner.hpp"
+#include "InterfaceTypeSpecifier.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ThreadExpression.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

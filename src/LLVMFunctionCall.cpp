@@ -6,13 +6,13 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/LLVMFunctionCall.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/UndefinedType.hpp"
+#include "AutoCast.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "LLVMFunctionCall.hpp"
+#include "PrimitiveTypes.hpp"
+#include "UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -21,11 +21,11 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ConditionalExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Model.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ConditionalExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Model.hpp"
+#include "PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;

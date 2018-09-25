@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IReferenceVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "IReferenceVariable.hpp"
+#include "IRGenerationContext.hpp"
 
 /**
  * Defines a mock object for IReferenceVariable

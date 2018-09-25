@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayAllocation.hpp"
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/IVariable.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalArrayOwnerVariable.hpp"
+#include "ArrayAllocation.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "IVariable.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "IRWriter.hpp"
+#include "LocalArrayOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;

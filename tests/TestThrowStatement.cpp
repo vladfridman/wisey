@@ -18,12 +18,12 @@
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/Block.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/ThrowStatement.hpp"
+#include "Block.hpp"
+#include "IRWriter.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "LocalReferenceVariable.hpp"
+#include "Names.hpp"
+#include "ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;

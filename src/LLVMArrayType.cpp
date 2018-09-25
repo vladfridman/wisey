@@ -8,8 +8,8 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/LLVMArrayType.hpp"
-#include "wisey/IRWriter.hpp"
+#include "LLVMArrayType.hpp"
+#include "IRWriter.hpp"
 
 using namespace std;
 using namespace wisey;

@@ -16,13 +16,13 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LocalPointerVariable.hpp"
-#include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LocalPointerVariable.hpp"
+#include "ParameterReferenceVariable.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -19,9 +19,9 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/RelationalExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
+#include "RelationalExpression.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;

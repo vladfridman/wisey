@@ -8,16 +8,16 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Argument.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/IMethodCall.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/ParameterPrimitiveVariable.hpp"
-#include "wisey/ParameterReferenceVariableStatic.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "Argument.hpp"
+#include "Composer.hpp"
+#include "IMethodCall.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "Names.hpp"
+#include "ParameterPrimitiveVariable.hpp"
+#include "ParameterReferenceVariableStatic.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace llvm;

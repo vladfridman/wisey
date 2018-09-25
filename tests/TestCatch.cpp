@@ -11,11 +11,11 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/Catch.hpp"
-#include "wisey/Method.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "Catch.hpp"
+#include "Method.hpp"
+#include "ModelTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

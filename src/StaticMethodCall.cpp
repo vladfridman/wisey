@@ -8,19 +8,19 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Argument.hpp"
-#include "wisey/AutoCast.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/GetTypeNameMethod.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMFunction.hpp"
-#include "wisey/LocalArrayOwnerVariable.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/StaticMethodCall.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "Argument.hpp"
+#include "AutoCast.hpp"
+#include "Composer.hpp"
+#include "FakeExpression.hpp"
+#include "GetTypeNameMethod.hpp"
+#include "IRWriter.hpp"
+#include "LLVMFunction.hpp"
+#include "LocalArrayOwnerVariable.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "LocalReferenceVariable.hpp"
+#include "Log.hpp"
+#include "StaticMethodCall.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;

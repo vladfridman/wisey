@@ -6,9 +6,9 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Block.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Scope.hpp"
+#include "Block.hpp"
+#include "IRGenerationContext.hpp"
+#include "Scope.hpp"
 
 using namespace llvm;
 using namespace wisey;

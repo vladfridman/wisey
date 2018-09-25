@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Environment.hpp"
-#include "wisey/Injector.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
+#include "Environment.hpp"
+#include "Injector.hpp"
+#include "IRWriter.hpp"
+#include "LocalOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;

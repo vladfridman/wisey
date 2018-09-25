@@ -8,14 +8,14 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/DestroyObjectOwnerFunction.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/FieldOwnerVariable.hpp"
-#include "wisey/InterfaceOwner.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/ParameterOwnerVariable.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "DestroyObjectOwnerFunction.hpp"
+#include "Environment.hpp"
+#include "FieldOwnerVariable.hpp"
+#include "InterfaceOwner.hpp"
+#include "IRWriter.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "ParameterOwnerVariable.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;

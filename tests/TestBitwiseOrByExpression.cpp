@@ -18,11 +18,11 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/BitwiseOrByExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalPrimitiveVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "BitwiseOrByExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LocalPrimitiveVariable.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

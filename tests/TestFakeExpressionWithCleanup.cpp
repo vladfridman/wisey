@@ -13,7 +13,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockType.hpp"
-#include "wisey/FakeExpressionWithCleanup.hpp"
+#include "FakeExpressionWithCleanup.hpp"
 
 using namespace llvm;
 using namespace std;

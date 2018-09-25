@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/PrimitiveTypes.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace wisey;
 

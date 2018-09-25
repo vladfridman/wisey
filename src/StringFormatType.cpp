@@ -6,9 +6,9 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Cast.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StringFormatType.hpp"
+#include "Cast.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StringFormatType.hpp"
 
 using namespace std;
 using namespace llvm;

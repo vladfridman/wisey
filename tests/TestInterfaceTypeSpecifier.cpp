@@ -12,12 +12,12 @@
 #include <gmock/gmock.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/MethodSignature.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "FakeExpression.hpp"
+#include "InterfaceTypeSpecifier.hpp"
+#include "MethodSignature.hpp"
+#include "MethodSignatureDeclaration.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

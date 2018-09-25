@@ -14,10 +14,10 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockExpression.hpp"
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/ArraySpecificOwnerTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "ArraySpecificOwnerTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ObjectOwnerTypeSpecifier.hpp"
+#include "ObjectOwnerTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

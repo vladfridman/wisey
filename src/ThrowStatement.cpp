@@ -9,16 +9,16 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Composer.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ModelOwner.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ThrowStatement.hpp"
+#include "Composer.hpp"
+#include "Environment.hpp"
+#include "IConcreteObjectType.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "ModelOwner.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ThrowStatement.hpp"
 
 using namespace std;
 using namespace llvm;

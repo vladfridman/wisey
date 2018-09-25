@@ -8,14 +8,14 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/DestroyNativeObjectFunction.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMFunctionType.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/PrintOutStatement.hpp"
-#include "wisey/StringLiteral.hpp"
+#include "DestroyNativeObjectFunction.hpp"
+#include "Environment.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LLVMFunctionType.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "PrintOutStatement.hpp"
+#include "StringLiteral.hpp"
 
 using namespace llvm;
 using namespace std;

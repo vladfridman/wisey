@@ -17,11 +17,11 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPointerOwnerType.hpp"
-#include "wisey/LLVMPointerType.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/StateField.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPointerOwnerType.hpp"
+#include "LLVMPointerType.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "StateField.hpp"
 
 using namespace llvm;
 using namespace std;

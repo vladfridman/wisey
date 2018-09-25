@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/StateField.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "StateField.hpp"
 
 using namespace llvm;
 using namespace std;

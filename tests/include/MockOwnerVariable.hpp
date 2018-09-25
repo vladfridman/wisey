@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IOwnerVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "IOwnerVariable.hpp"
+#include "IRGenerationContext.hpp"
 
 /**
  * Defines a mock object for IOwnerVariable

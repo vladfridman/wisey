@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/YzcArgumentParser.hpp"
+#include "YzcArgumentParser.hpp"
 
 using namespace std;
 using namespace wisey;

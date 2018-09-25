@@ -14,8 +14,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockObjectType.hpp"
-#include "wisey/InstanceOfFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "InstanceOfFunction.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

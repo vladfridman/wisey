@@ -15,9 +15,9 @@
 
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/UndefinedType.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "UndefinedType.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;

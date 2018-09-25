@@ -8,17 +8,17 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/Cast.hpp"
-#include "wisey/FieldPrimitiveVariable.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalPrimitiveVariable.hpp"
-#include "wisey/LongType.hpp"
-#include "wisey/ParameterPrimitiveVariable.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayType.hpp"
+#include "Cast.hpp"
+#include "FieldPrimitiveVariable.hpp"
+#include "IObjectType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LocalPrimitiveVariable.hpp"
+#include "LongType.hpp"
+#include "ParameterPrimitiveVariable.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

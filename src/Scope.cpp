@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Model.hpp"
-#include "wisey/Scope.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "Model.hpp"
+#include "Scope.hpp"
 
 using namespace llvm;
 using namespace std;

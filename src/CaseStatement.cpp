@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/CaseStatement.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "CaseStatement.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;

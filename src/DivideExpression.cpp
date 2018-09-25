@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/DivideExpression.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "AutoCast.hpp"
+#include "DivideExpression.hpp"
+#include "IRWriter.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

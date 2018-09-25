@@ -8,17 +8,17 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Composer.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/HeapBuilder.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ThreadExpression.hpp"
-#include "wisey/ThrowArrayIndexExceptionFunction.hpp"
-#include "wisey/ThrowStatement.hpp"
+#include "Composer.hpp"
+#include "FakeExpression.hpp"
+#include "HeapBuilder.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "ModelTypeSpecifier.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ThreadExpression.hpp"
+#include "ThrowArrayIndexExceptionFunction.hpp"
+#include "ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;

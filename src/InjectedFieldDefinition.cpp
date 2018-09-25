@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayOwnerType.hpp"
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/InjectedField.hpp"
-#include "wisey/InjectedFieldDefinition.hpp"
+#include "ArrayOwnerType.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "InjectedField.hpp"
+#include "InjectedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

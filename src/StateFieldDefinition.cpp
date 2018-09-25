@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/StateField.hpp"
-#include "wisey/StateFieldDefinition.hpp"
+#include "StateField.hpp"
+#include "StateFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

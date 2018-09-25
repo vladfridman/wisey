@@ -17,11 +17,11 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/ImmutableArrayOwnerType.hpp"
-#include "wisey/ImmutableArrayType.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "IRGenerationContext.hpp"
+#include "ImmutableArrayOwnerType.hpp"
+#include "ImmutableArrayType.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using namespace std;
 using namespace wisey;

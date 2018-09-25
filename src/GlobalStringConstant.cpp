@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/GlobalStringConstant.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "GlobalStringConstant.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

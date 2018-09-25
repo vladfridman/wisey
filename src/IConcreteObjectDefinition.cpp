@@ -6,13 +6,13 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Environment.hpp"
-#include "wisey/GetTypeNameMethod.hpp"
-#include "wisey/IConcreteObjectDefinition.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMFunction.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Names.hpp"
+#include "Environment.hpp"
+#include "GetTypeNameMethod.hpp"
+#include "IConcreteObjectDefinition.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMFunction.hpp"
+#include "Log.hpp"
+#include "Names.hpp"
 
 using namespace std;
 using namespace wisey;

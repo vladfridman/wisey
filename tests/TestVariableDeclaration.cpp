@@ -17,14 +17,14 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
-#include "wisey/ControllerTypeSpecifier.hpp"
-#include "wisey/Identifier.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ReceivedField.hpp"
-#include "wisey/VariableDeclaration.hpp"
+#include "ControllerTypeSpecifier.hpp"
+#include "Identifier.hpp"
+#include "IRGenerationContext.hpp"
+#include "ModelTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "ReceivedField.hpp"
+#include "VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

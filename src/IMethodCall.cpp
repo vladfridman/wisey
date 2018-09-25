@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Composer.hpp"
-#include "wisey/IMethodCall.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Names.hpp"
+#include "Composer.hpp"
+#include "IMethodCall.hpp"
+#include "IObjectType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Names.hpp"
 
 using namespace std;
 using namespace llvm;

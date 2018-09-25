@@ -6,8 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ExpressionStatement.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ExpressionStatement.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;

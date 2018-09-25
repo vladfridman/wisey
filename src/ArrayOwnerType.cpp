@@ -8,21 +8,21 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/ArrayOwnerType.hpp"
-#include "wisey/CheckArrayNotReferencedFunction.hpp"
-#include "wisey/DestroyOwnerArrayFunction.hpp"
-#include "wisey/DestroyPrimitiveArrayFunction.hpp"
-#include "wisey/DestroyReferenceArrayFunction.hpp"
-#include "wisey/FieldArrayOwnerVariable.hpp"
-#include "wisey/GlobalStringConstant.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ImmutableArrayType.hpp"
-#include "wisey/LocalArrayOwnerVariable.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ParameterArrayOwnerVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayType.hpp"
+#include "ArrayOwnerType.hpp"
+#include "CheckArrayNotReferencedFunction.hpp"
+#include "DestroyOwnerArrayFunction.hpp"
+#include "DestroyPrimitiveArrayFunction.hpp"
+#include "DestroyReferenceArrayFunction.hpp"
+#include "FieldArrayOwnerVariable.hpp"
+#include "GlobalStringConstant.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "ImmutableArrayType.hpp"
+#include "LocalArrayOwnerVariable.hpp"
+#include "Log.hpp"
+#include "ParameterArrayOwnerVariable.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

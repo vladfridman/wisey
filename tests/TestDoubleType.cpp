@@ -18,10 +18,10 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/DoubleType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "DoubleType.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

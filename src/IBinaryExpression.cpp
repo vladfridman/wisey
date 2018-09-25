@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IBinaryExpression.hpp"
+#include "IBinaryExpression.hpp"
 
 using namespace llvm;
 using namespace std;

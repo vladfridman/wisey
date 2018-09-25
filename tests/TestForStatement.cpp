@@ -20,9 +20,9 @@
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
 #include "TestFileRunner.hpp"
-#include "wisey/ForStatement.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ForStatement.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;

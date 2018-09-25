@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ByteConstant.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ByteConstant.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -10,9 +10,9 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/ArrayTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "ArrayTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

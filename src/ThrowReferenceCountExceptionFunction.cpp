@@ -6,16 +6,16 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/FakeExpression.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/HeapBuilder.hpp"
-#include "wisey/BuilderArgument.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
-#include "wisey/ThrowStatement.hpp"
+#include "FakeExpression.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "ModelTypeSpecifier.hpp"
+#include "Names.hpp"
+#include "HeapBuilder.hpp"
+#include "BuilderArgument.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ThrowReferenceCountExceptionFunction.hpp"
+#include "ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;

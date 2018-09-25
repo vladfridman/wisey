@@ -8,15 +8,15 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayElementExpression.hpp"
-#include "wisey/ArrayOwnerType.hpp"
-#include "wisey/ArrayType.hpp"
-#include "wisey/AutoCast.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ImmutableArrayType.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayElementExpression.hpp"
+#include "ArrayOwnerType.hpp"
+#include "ArrayType.hpp"
+#include "AutoCast.hpp"
+#include "Composer.hpp"
+#include "IRWriter.hpp"
+#include "ImmutableArrayType.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace llvm;

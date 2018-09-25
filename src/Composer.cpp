@@ -8,15 +8,15 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Composer.hpp"
-#include "wisey/GlobalStringConstant.hpp"
-#include "wisey/IMethodCall.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ThreadExpression.hpp"
-#include "wisey/ThrowArrayIndexExceptionFunction.hpp"
-#include "wisey/ThrowNullPointerExceptionFunction.hpp"
+#include "Composer.hpp"
+#include "GlobalStringConstant.hpp"
+#include "IMethodCall.hpp"
+#include "IRWriter.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ThreadExpression.hpp"
+#include "ThrowArrayIndexExceptionFunction.hpp"
+#include "ThrowNullPointerExceptionFunction.hpp"
 
 using namespace std;
 using namespace llvm;

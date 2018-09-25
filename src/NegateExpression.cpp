@@ -10,10 +10,10 @@
 #include <llvm/IR/InstrTypes.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/NegateExpression.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "NegateExpression.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

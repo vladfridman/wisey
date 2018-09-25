@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ControllerTypeSpecifier.hpp"
+#include "ControllerTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

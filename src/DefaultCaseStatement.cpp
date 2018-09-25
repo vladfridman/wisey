@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/DefaultCaseStatement.hpp"
+#include "DefaultCaseStatement.hpp"
 
 using namespace llvm;
 using namespace wisey;

@@ -9,13 +9,13 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ParameterOwnerVariable.hpp"
-#include "wisey/Scopes.hpp"
+#include "AutoCast.hpp"
+#include "Composer.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "ParameterOwnerVariable.hpp"
+#include "Scopes.hpp"
 
 using namespace std;
 using namespace llvm;

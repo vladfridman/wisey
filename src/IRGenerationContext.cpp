@@ -14,9 +14,9 @@
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/IR/Verifier.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Names.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "Names.hpp"
 
 using namespace llvm;
 using namespace std;

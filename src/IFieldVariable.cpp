@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/IFieldVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
+#include "IFieldVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace wisey;

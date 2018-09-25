@@ -6,9 +6,9 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/BreakStatement.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
+#include "BreakStatement.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace wisey;

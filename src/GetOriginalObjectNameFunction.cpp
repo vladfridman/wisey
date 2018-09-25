@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/GetOriginalObjectFunction.hpp"
-#include "wisey/GetOriginalObjectNameFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "GetOriginalObjectFunction.hpp"
+#include "GetOriginalObjectNameFunction.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

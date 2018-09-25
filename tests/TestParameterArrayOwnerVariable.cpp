@@ -17,10 +17,10 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ParameterArrayOwnerVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "ParameterArrayOwnerVariable.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

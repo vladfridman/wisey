@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Environment.hpp"
-#include "wisey/GetOriginalObjectFunction.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IsObjectFunction.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "Environment.hpp"
+#include "GetOriginalObjectFunction.hpp"
+#include "IRWriter.hpp"
+#include "IConcreteObjectType.hpp"
+#include "IsObjectFunction.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

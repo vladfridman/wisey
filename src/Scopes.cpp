@@ -8,13 +8,13 @@
 
 #include <set>
 
-#include "wisey/Cleanup.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/Scopes.hpp"
+#include "Cleanup.hpp"
+#include "Environment.hpp"
+#include "IRWriter.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "Log.hpp"
+#include "Names.hpp"
+#include "Scopes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -10,9 +10,9 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/LLVMArrayTypeSpecifer.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
+#include "LLVMArrayTypeSpecifer.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LLVMPrimitiveTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

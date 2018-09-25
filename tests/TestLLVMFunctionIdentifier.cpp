@@ -13,14 +13,14 @@
 
 #include "MockObjectType.hpp"
 #include "MockObjectTypeSpecifier.hpp"
-#include "wisey/Block.hpp"
+#include "Block.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMFunction.hpp"
-#include "wisey/LLVMFunctionIdentifier.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "Argument.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMFunction.hpp"
+#include "LLVMFunctionIdentifier.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

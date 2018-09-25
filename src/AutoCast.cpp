@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/Cast.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "AutoCast.hpp"
+#include "Cast.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;

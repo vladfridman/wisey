@@ -8,7 +8,7 @@
 
 #include <llvm/Target/TargetMachine.h>
 
-#include "wisey/CompilerArguments.hpp"
+#include "CompilerArguments.hpp"
 
 using namespace std;
 using namespace wisey;

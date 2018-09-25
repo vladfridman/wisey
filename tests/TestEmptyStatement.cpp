@@ -12,8 +12,8 @@
 #include <gmock/gmock.h>
 
 #include "TestFileRunner.hpp"
-#include "wisey/EmptyStatement.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "EmptyStatement.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace wisey;
 

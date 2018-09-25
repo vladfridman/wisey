@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArraySpecificType.hpp"
-#include "wisey/ArraySpecificTypeSpecifier.hpp"
+#include "ArraySpecificType.hpp"
+#include "ArraySpecificTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

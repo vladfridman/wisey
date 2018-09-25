@@ -12,9 +12,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IGlobalStatement.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "IGlobalStatement.hpp"
+#include "IObjectType.hpp"
+#include "IRGenerationContext.hpp"
 
 /**
  * Defines a mock object for IGlobalStatement

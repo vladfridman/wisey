@@ -13,8 +13,8 @@
 #include <llvm/Support/TargetRegistry.h>
 #include <llvm/Support/TargetSelect.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Optimizer.hpp"
+#include "IRGenerationContext.hpp"
+#include "Optimizer.hpp"
 
 using namespace std;
 using namespace llvm;

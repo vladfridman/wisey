@@ -16,8 +16,8 @@
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StateField.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StateField.hpp"
 
 using namespace llvm;
 using namespace std;

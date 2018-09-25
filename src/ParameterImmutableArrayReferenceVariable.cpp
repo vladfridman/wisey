@@ -6,14 +6,14 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementAssignment.hpp"
-#include "wisey/ArrayElementExpression.hpp"
-#include "wisey/AutoCast.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ParameterImmutableArrayReferenceVariable.hpp"
+#include "ArrayElementAssignment.hpp"
+#include "ArrayElementExpression.hpp"
+#include "AutoCast.hpp"
+#include "Composer.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "ParameterImmutableArrayReferenceVariable.hpp"
 
 using namespace std;
 using namespace llvm;

@@ -14,13 +14,13 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/AccessLevel.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/StaticMethodDefinition.hpp"
-#include "wisey/VariableDeclaration.hpp"
+#include "AccessLevel.hpp"
+#include "Argument.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "StaticMethodDefinition.hpp"
+#include "VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

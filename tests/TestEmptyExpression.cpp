@@ -11,9 +11,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/EmptyExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "EmptyExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace wisey;
 

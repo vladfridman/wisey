@@ -15,9 +15,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/NullType.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
+#include "NullType.hpp"
 
 using namespace llvm;
 using namespace std;

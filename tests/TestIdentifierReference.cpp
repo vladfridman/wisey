@@ -20,11 +20,11 @@
 #include "MockType.hpp"
 #include "MockVariable.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IdentifierReference.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/UndefinedType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IdentifierReference.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "PrimitiveTypes.hpp"
+#include "UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;

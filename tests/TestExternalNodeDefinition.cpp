@@ -14,16 +14,16 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/FloatConstant.hpp"
-#include "wisey/ExternalNodeDefinition.hpp"
-#include "wisey/ExternalMethodDefinition.hpp"
-#include "wisey/IObjectElementDefinition.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ReceivedFieldDefinition.hpp"
+#include "Argument.hpp"
+#include "FakeExpression.hpp"
+#include "FloatConstant.hpp"
+#include "ExternalNodeDefinition.hpp"
+#include "ExternalMethodDefinition.hpp"
+#include "IObjectElementDefinition.hpp"
+#include "MethodSignatureDeclaration.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "ReceivedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

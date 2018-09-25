@@ -17,9 +17,9 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LogicalOrExpression.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "IRGenerationContext.hpp"
+#include "LogicalOrExpression.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -8,15 +8,15 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/DestroyObjectOwnerFunction.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/GetOriginalObjectFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMFunctionType.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "DestroyObjectOwnerFunction.hpp"
+#include "Environment.hpp"
+#include "GetOriginalObjectFunction.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LLVMFunctionType.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "Names.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;

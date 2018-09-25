@@ -9,12 +9,12 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/DerivedTypes.h>
 
-#include "wisey/Composer.hpp"
-#include "wisey/FieldImmutableArrayReferenceVariable.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ImmutableArrayType.hpp"
-#include "wisey/LocalImmutableArrayReferenceVariable.hpp"
-#include "wisey/ParameterImmutableArrayReferenceVariable.hpp"
+#include "Composer.hpp"
+#include "FieldImmutableArrayReferenceVariable.hpp"
+#include "IRWriter.hpp"
+#include "ImmutableArrayType.hpp"
+#include "LocalImmutableArrayReferenceVariable.hpp"
+#include "ParameterImmutableArrayReferenceVariable.hpp"
 
 using namespace std;
 using namespace wisey;

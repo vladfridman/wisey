@@ -13,7 +13,7 @@
 
 #include "MockStatement.hpp"
 #include "TestFileRunner.hpp"
-#include "wisey/CompoundStatement.hpp"
+#include "CompoundStatement.hpp"
 
 using namespace llvm;
 using namespace wisey;

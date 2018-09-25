@@ -13,9 +13,9 @@
 
 #include "TestFileRunner.hpp"
 #include "MockExpression.hpp"
-#include "wisey/ConstantDefinition.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "ConstantDefinition.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

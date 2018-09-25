@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/PackageType.hpp"
+#include "ArrayType.hpp"
+#include "IObjectType.hpp"
+#include "PackageType.hpp"
 
 using namespace std;
 using namespace llvm;

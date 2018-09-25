@@ -13,9 +13,9 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockExpression.hpp"
-#include "wisey/ArraySpecificTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "ArraySpecificTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

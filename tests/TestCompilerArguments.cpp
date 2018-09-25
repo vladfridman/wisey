@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/CompilerArguments.hpp"
+#include "CompilerArguments.hpp"
 
 using namespace std;
 using namespace wisey;

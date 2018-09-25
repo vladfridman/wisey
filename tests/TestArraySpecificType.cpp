@@ -15,10 +15,10 @@
 
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ArrayOwnerType.hpp"
-#include "wisey/ArraySpecificType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayOwnerType.hpp"
+#include "ArraySpecificType.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

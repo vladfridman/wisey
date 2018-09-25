@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/FieldPointerVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
+#include "AutoCast.hpp"
+#include "FieldPointerVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
 
 using namespace std;
 using namespace llvm;

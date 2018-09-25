@@ -17,9 +17,9 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/DereferenceExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "DereferenceExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;

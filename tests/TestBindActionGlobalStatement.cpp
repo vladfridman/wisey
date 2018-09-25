@@ -12,10 +12,10 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/BindActionGlobalStatement.hpp"
-#include "wisey/ControllerTypeSpecifier.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "BindActionGlobalStatement.hpp"
+#include "ControllerTypeSpecifier.hpp"
+#include "InterfaceTypeSpecifier.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

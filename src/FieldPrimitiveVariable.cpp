@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/FieldPrimitiveVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "AutoCast.hpp"
+#include "FieldPrimitiveVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace llvm;

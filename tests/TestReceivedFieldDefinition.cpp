@@ -16,11 +16,11 @@
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ControllerTypeSpecifierFull.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ReceivedFieldDefinition.hpp"
+#include "ControllerTypeSpecifierFull.hpp"
+#include "FakeExpression.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "ReceivedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

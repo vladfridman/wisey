@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMGlobalIdentifier.hpp"
-#include "wisey/Names.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LLVMGlobalIdentifier.hpp"
+#include "Names.hpp"
 
 using namespace std;
 using namespace llvm;

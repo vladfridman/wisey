@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Constant.hpp"
-#include "wisey/ConstantReference.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
+#include "Constant.hpp"
+#include "ConstantReference.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -15,12 +15,12 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/ExternalStaticMethod.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "Argument.hpp"
+#include "ExternalStaticMethod.hpp"
+#include "IRGenerationContext.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

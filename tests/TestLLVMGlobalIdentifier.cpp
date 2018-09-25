@@ -15,10 +15,10 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMGlobalIdentifier.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMGlobalIdentifier.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

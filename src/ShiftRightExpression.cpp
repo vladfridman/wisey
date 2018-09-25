@@ -6,11 +6,11 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntExpressionChecker.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ShiftRightExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "IntExpressionChecker.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ShiftRightExpression.hpp"
 
 using namespace llvm;
 using namespace std;

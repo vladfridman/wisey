@@ -6,12 +6,12 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/GlobalStringConstant.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/ImportProfile.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ProgramFile.hpp"
+#include "GlobalStringConstant.hpp"
+#include "IObjectType.hpp"
+#include "IRGenerationContext.hpp"
+#include "ImportProfile.hpp"
+#include "Log.hpp"
+#include "ProgramFile.hpp"
 
 using namespace llvm;
 using namespace std;

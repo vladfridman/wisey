@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/CheckArrayNotReferencedFunction.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
+#include "CheckArrayNotReferencedFunction.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
 using namespace std;

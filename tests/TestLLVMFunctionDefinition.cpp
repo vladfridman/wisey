@@ -16,9 +16,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileRunner.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMFunctionDefinition.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMFunctionDefinition.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

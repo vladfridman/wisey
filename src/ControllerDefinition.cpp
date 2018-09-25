@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Controller.hpp"
-#include "wisey/ControllerDefinition.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/Log.hpp"
+#include "Controller.hpp"
+#include "ControllerDefinition.hpp"
+#include "Environment.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace std;

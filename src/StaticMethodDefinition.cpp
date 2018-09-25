@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Argument.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/StaticMethod.hpp"
-#include "wisey/StaticMethodDefinition.hpp"
+#include "Argument.hpp"
+#include "IRGenerationContext.hpp"
+#include "StaticMethod.hpp"
+#include "StaticMethodDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

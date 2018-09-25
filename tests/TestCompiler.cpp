@@ -13,7 +13,7 @@
 #include <llvm/ExecutionEngine/GenericValue.h>
 
 #include "TestFileRunner.hpp"
-#include "wisey/Compiler.hpp"
+#include "Compiler.hpp"
 
 using namespace std;
 using namespace llvm;

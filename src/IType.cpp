@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IType.hpp"
-#include "wisey/Log.hpp"
+#include "IRGenerationContext.hpp"
+#include "IType.hpp"
+#include "Log.hpp"
 
 using namespace wisey;
 

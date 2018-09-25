@@ -14,8 +14,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/DestroyReferenceArrayFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "DestroyReferenceArrayFunction.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

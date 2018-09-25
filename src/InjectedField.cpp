@@ -6,18 +6,18 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/AutoCast.hpp"
-#include "wisey/Controller.hpp"
-#include "wisey/ControllerOwner.hpp"
-#include "wisey/InjectedField.hpp"
-#include "wisey/InterfaceOwner.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMFunction.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/ParameterReferenceVariableStatic.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "AutoCast.hpp"
+#include "Controller.hpp"
+#include "ControllerOwner.hpp"
+#include "InjectedField.hpp"
+#include "InterfaceOwner.hpp"
+#include "IRWriter.hpp"
+#include "LLVMFunction.hpp"
+#include "Log.hpp"
+#include "Names.hpp"
+#include "ParameterReferenceVariableStatic.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;

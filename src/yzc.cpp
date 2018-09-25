@@ -6,9 +6,9 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Compiler.hpp"
-#include "wisey/YzcArgumentParser.hpp"
-#include "wisey/Log.hpp"
+#include "Compiler.hpp"
+#include "YzcArgumentParser.hpp"
+#include "Log.hpp"
 
 using namespace std;
 using namespace wisey;

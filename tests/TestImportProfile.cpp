@@ -13,8 +13,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/ImportProfile.hpp"
+#include "IRGenerationContext.hpp"
+#include "ImportProfile.hpp"
 
 using namespace llvm;
 using namespace std;

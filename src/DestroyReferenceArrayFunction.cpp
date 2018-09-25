@@ -8,15 +8,15 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Composer.hpp"
-#include "wisey/DestroyReferenceArrayFunction.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrintOutStatement.hpp"
-#include "wisey/StringLiteral.hpp"
-#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
+#include "Composer.hpp"
+#include "DestroyReferenceArrayFunction.hpp"
+#include "FakeExpression.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrintOutStatement.hpp"
+#include "StringLiteral.hpp"
+#include "ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
 using namespace std;

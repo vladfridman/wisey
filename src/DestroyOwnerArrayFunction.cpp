@@ -8,17 +8,17 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/DestroyOwnerArrayFunction.hpp"
-#include "wisey/DestroyObjectOwnerFunction.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrintOutStatement.hpp"
-#include "wisey/StringLiteral.hpp"
-#include "wisey/ThreadExpression.hpp"
-#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
+#include "DestroyOwnerArrayFunction.hpp"
+#include "DestroyObjectOwnerFunction.hpp"
+#include "FakeExpression.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrintOutStatement.hpp"
+#include "StringLiteral.hpp"
+#include "ThreadExpression.hpp"
+#include "ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
 using namespace std;

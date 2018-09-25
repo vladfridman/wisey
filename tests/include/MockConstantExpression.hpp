@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IConstantExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "IConstantExpression.hpp"
+#include "IRGenerationContext.hpp"
 
 /**
  * Defines a mock object for IConstantExpression

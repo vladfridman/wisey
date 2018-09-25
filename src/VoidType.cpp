@@ -6,13 +6,13 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/Cast.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/VoidType.hpp"
+#include "ArrayType.hpp"
+#include "Cast.hpp"
+#include "IObjectType.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "VoidType.hpp"
 
 using namespace llvm;
 using namespace std;

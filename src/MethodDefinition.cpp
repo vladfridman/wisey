@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Argument.hpp"
-#include "wisey/Method.hpp"
-#include "wisey/MethodDefinition.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
+#include "Argument.hpp"
+#include "Method.hpp"
+#include "MethodDefinition.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -17,10 +17,10 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/SubtractExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "PrimitiveTypes.hpp"
+#include "SubtractExpression.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;

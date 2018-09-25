@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/EmptyStatement.hpp"
+#include "EmptyStatement.hpp"
 
 using namespace llvm;
 using namespace wisey;

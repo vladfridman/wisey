@@ -9,10 +9,10 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/TypeBuilder.h>
 
-#include "wisey/Environment.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/Names.hpp"
+#include "Environment.hpp"
+#include "IRWriter.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "Names.hpp"
 
 using namespace llvm;
 using namespace std;

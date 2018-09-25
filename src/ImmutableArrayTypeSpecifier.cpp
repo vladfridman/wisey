@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/ImmutableArrayTypeSpecifier.hpp"
+#include "ArrayType.hpp"
+#include "ImmutableArrayTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

@@ -23,12 +23,12 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IInterfaceTypeSpecifier.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IdentifierChain.hpp"
-#include "wisey/LocalPrimitiveVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/UndefinedType.hpp"
+#include "IInterfaceTypeSpecifier.hpp"
+#include "IRGenerationContext.hpp"
+#include "IdentifierChain.hpp"
+#include "LocalPrimitiveVariable.hpp"
+#include "PrimitiveTypes.hpp"
+#include "UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;

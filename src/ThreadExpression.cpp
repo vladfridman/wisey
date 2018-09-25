@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;

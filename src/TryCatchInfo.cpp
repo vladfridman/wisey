@@ -8,13 +8,13 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Catch.hpp"
-#include "wisey/Cleanup.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/ModelOwner.hpp"
-#include "wisey/TryCatchInfo.hpp"
+#include "Catch.hpp"
+#include "Cleanup.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "ModelOwner.hpp"
+#include "TryCatchInfo.hpp"
 
 using namespace llvm;
 using namespace std;

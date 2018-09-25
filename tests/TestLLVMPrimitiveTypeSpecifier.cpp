@@ -11,8 +11,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "LLVMPrimitiveTypeSpecifier.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -14,7 +14,7 @@
 #include "MockObjectOwnerType.hpp"
 #include "MockObjectTypeSpecifier.hpp"
 #include "MockObjectType.hpp"
-#include "wisey/ObjectOwnerTypeSpecifier.hpp"
+#include "ObjectOwnerTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

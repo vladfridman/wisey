@@ -18,12 +18,12 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ArrayAllocation.hpp"
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/ArrayOwnerType.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayAllocation.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "ArrayOwnerType.hpp"
+#include "IRWriter.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;

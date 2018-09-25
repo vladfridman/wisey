@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayOwnerTypeSpecifier.hpp"
+#include "ArrayOwnerTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

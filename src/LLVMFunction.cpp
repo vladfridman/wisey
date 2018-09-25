@@ -6,16 +6,16 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Argument.hpp"
-#include "wisey/IMethodCall.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMFunction.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LocalSystemReferenceVariable.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/MethodQualifier.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "Argument.hpp"
+#include "IMethodCall.hpp"
+#include "IRWriter.hpp"
+#include "LLVMFunction.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LocalSystemReferenceVariable.hpp"
+#include "Log.hpp"
+#include "MethodQualifier.hpp"
+#include "Names.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;

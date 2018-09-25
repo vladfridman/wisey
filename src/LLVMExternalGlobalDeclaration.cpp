@@ -8,7 +8,7 @@
 
 #include <llvm/IR/GlobalVariable.h>
 
-#include "wisey/LLVMExternalGlobalDeclaration.hpp"
+#include "LLVMExternalGlobalDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

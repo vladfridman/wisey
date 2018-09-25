@@ -11,10 +11,10 @@
 #include <gtest/gtest.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodSignature.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "IRGenerationContext.hpp"
+#include "MethodSignature.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

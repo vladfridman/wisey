@@ -8,8 +8,8 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMFunctionType.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMFunctionType.hpp"
 
 using namespace std;
 using namespace wisey;

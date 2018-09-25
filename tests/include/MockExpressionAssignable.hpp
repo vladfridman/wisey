@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IExpressionAssignable.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "IExpressionAssignable.hpp"
+#include "IRGenerationContext.hpp"
 
 /**
  * Defines a mock object for IExpressionAssignable

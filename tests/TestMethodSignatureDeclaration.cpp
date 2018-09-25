@@ -14,14 +14,14 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/AccessLevel.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodSignature.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/VariableDeclaration.hpp"
+#include "AccessLevel.hpp"
+#include "Argument.hpp"
+#include "IRGenerationContext.hpp"
+#include "MethodSignature.hpp"
+#include "MethodSignatureDeclaration.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/WiseyObjectOwnerTypeSpecifier.hpp"
+#include "WiseyObjectOwnerTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

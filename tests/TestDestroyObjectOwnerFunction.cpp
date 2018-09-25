@@ -14,8 +14,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/DestroyObjectOwnerFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "DestroyObjectOwnerFunction.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

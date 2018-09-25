@@ -6,8 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ImportProfile.hpp"
-#include "wisey/Log.hpp"
+#include "ImportProfile.hpp"
+#include "Log.hpp"
 
 using namespace std;
 using namespace wisey;

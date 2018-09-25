@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IMethodDefinition.hpp"
-#include "wisey/MethodSignature.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
-#include "wisey/Names.hpp"
+#include "IMethodDefinition.hpp"
+#include "MethodSignature.hpp"
+#include "MethodSignatureDeclaration.hpp"
+#include "Names.hpp"
 
 using namespace llvm;
 using namespace std;

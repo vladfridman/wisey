@@ -14,9 +14,9 @@
 #include "MockExpression.hpp"
 #include "MockConcreteObjectType.hpp"
 #include "MockType.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/StateFieldDefinition.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "StateFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

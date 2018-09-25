@@ -9,12 +9,12 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/NullType.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayType.hpp"
+#include "IObjectType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "NullType.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

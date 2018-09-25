@@ -10,8 +10,8 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/ObjectKindGlobal.hpp"
+#include "IRGenerationContext.hpp"
+#include "ObjectKindGlobal.hpp"
 
 using namespace std;
 using namespace llvm;

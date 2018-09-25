@@ -12,7 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "MockType.hpp"
-#include "wisey/IType.hpp"
+#include "IType.hpp"
 
 using namespace wisey;
 

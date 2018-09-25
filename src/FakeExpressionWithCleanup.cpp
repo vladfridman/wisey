@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/FakeExpressionWithCleanup.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "FakeExpressionWithCleanup.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

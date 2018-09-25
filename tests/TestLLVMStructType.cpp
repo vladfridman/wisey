@@ -17,10 +17,10 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LLVMStructType.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LLVMStructType.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

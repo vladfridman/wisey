@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/FieldLLVMVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPointerType.hpp"
-#include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
-#include "wisey/LLVMi32Type.hpp"
-#include "wisey/ParameterLLVMVariable.hpp"
+#include "FieldLLVMVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPointerType.hpp"
+#include "LLVMPrimitiveTypeSpecifier.hpp"
+#include "LLVMi32Type.hpp"
+#include "ParameterLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;

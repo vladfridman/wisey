@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayAllocation.hpp"
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
+#include "ArrayAllocation.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
 
 using namespace std;
 using namespace wisey;

@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/ArraySpecificType.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "ArraySpecificType.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

@@ -8,10 +8,10 @@
 
 #include "llvm/IR/Constants.h"
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StringLiteral.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StringLiteral.hpp"
 
 using namespace llvm;
 using namespace std;

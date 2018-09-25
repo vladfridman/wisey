@@ -8,20 +8,20 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/Cast.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/FieldPrimitiveVariable.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IdentifierChain.hpp"
-#include "wisey/LocalPrimitiveVariable.hpp"
-#include "wisey/MethodCall.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/ParameterPrimitiveVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/StringType.hpp"
+#include "ArrayType.hpp"
+#include "Cast.hpp"
+#include "FakeExpression.hpp"
+#include "FieldPrimitiveVariable.hpp"
+#include "IObjectType.hpp"
+#include "IRWriter.hpp"
+#include "IdentifierChain.hpp"
+#include "LocalPrimitiveVariable.hpp"
+#include "MethodCall.hpp"
+#include "Names.hpp"
+#include "ParameterPrimitiveVariable.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "StringType.hpp"
 
 using namespace llvm;
 using namespace std;

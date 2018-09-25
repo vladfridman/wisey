@@ -8,13 +8,13 @@
 
 #include <sstream>
 
-#include "wisey/ArrayGetSizeMethod.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IdentifierChain.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StringGetLengthMethod.hpp"
-#include "wisey/UndefinedType.hpp"
+#include "ArrayGetSizeMethod.hpp"
+#include "IRGenerationContext.hpp"
+#include "IdentifierChain.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StringGetLengthMethod.hpp"
+#include "UndefinedType.hpp"
 
 using namespace std;
 using namespace llvm;

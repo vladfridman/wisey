@@ -14,9 +14,9 @@
 
 #include <iostream>
 
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/InjectionArgument.hpp"
+#include "IConcreteObjectType.hpp"
+#include "IRGenerationContext.hpp"
+#include "InjectionArgument.hpp"
 
 /**
  * Defines a mock object for IExpression

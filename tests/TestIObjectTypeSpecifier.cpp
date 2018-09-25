@@ -13,9 +13,9 @@
 
 #include "MockObjectType.hpp"
 #include "TestFileRunner.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/IObjectTypeSpecifier.hpp"
-#include "wisey/Model.hpp"
+#include "FakeExpression.hpp"
+#include "IObjectTypeSpecifier.hpp"
+#include "Model.hpp"
 
 using namespace llvm;
 using namespace std;

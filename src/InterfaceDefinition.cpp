@@ -8,8 +8,8 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Interface.hpp"
-#include "wisey/InterfaceDefinition.hpp"
+#include "Interface.hpp"
+#include "InterfaceDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

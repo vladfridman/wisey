@@ -8,22 +8,22 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ControllerTypeSpecifierFull.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/FakeExpressionWithCleanup.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IdentifierChain.hpp"
-#include "wisey/LLVMFunctionCall.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/MethodCall.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PoolBuilder.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StaticMethodCall.hpp"
-#include "wisey/ThrowNullPointerExceptionFunction.hpp"
+#include "ControllerTypeSpecifierFull.hpp"
+#include "Environment.hpp"
+#include "FakeExpression.hpp"
+#include "FakeExpressionWithCleanup.hpp"
+#include "IRWriter.hpp"
+#include "IdentifierChain.hpp"
+#include "LLVMFunctionCall.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "Log.hpp"
+#include "MethodCall.hpp"
+#include "Names.hpp"
+#include "PoolBuilder.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StaticMethodCall.hpp"
+#include "ThrowNullPointerExceptionFunction.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -18,12 +18,12 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FieldLLVMVariable.hpp"
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/StateField.hpp"
+#include "FieldLLVMVariable.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "ParameterReferenceVariable.hpp"
+#include "StateField.hpp"
 
 using namespace llvm;
 using namespace std;

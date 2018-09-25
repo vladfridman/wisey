@@ -15,12 +15,12 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IFieldVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
-#include "wisey/StateField.hpp"
+#include "IFieldVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "ParameterReferenceVariable.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
+#include "StateField.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -6,14 +6,14 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IVariable.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReturnStatement.hpp"
+#include "AutoCast.hpp"
+#include "Composer.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "IVariable.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReturnStatement.hpp"
 
 #include <llvm/IR/Instructions.h>
 

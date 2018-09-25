@@ -15,8 +15,8 @@
 #include "MockObjectTypeSpecifier.hpp"
 #include "MockObjectOwnerType.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/InjectedFieldDefinition.hpp"
-#include "wisey/ObjectOwnerTypeSpecifier.hpp"
+#include "InjectedFieldDefinition.hpp"
+#include "ObjectOwnerTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

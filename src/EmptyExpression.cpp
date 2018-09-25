@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/EmptyExpression.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "EmptyExpression.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

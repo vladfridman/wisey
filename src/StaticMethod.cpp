@@ -6,19 +6,19 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Argument.hpp"
-#include "wisey/Cleanup.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/CompoundStatement.hpp"
-#include "wisey/EmptyStatement.hpp"
-#include "wisey/IMethodCall.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Model.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/StaticMethod.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "Argument.hpp"
+#include "Cleanup.hpp"
+#include "Composer.hpp"
+#include "CompoundStatement.hpp"
+#include "EmptyStatement.hpp"
+#include "IMethodCall.hpp"
+#include "IRWriter.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "Log.hpp"
+#include "Model.hpp"
+#include "Names.hpp"
+#include "StaticMethod.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;

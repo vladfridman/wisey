@@ -9,16 +9,16 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/DerivedTypes.h>
 
-#include "wisey/ArrayOwnerType.hpp"
-#include "wisey/ArrayType.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/FieldArrayReferenceVariable.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ImmutableArrayType.hpp"
-#include "wisey/LocalArrayReferenceVariable.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ParameterArrayReferenceVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayOwnerType.hpp"
+#include "ArrayType.hpp"
+#include "Composer.hpp"
+#include "FieldArrayReferenceVariable.hpp"
+#include "IRWriter.hpp"
+#include "ImmutableArrayType.hpp"
+#include "LocalArrayReferenceVariable.hpp"
+#include "Log.hpp"
+#include "ParameterArrayReferenceVariable.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

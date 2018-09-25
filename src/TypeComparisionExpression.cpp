@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/InstanceOfFunction.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/TypeComparisionExpression.hpp"
+#include "InstanceOfFunction.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypes.hpp"
+#include "TypeComparisionExpression.hpp"
 
 using namespace llvm;
 using namespace std;

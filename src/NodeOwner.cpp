@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/FieldOwnerVariable.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/NodeOwner.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/ParameterOwnerVariable.hpp"
+#include "FieldOwnerVariable.hpp"
+#include "IRWriter.hpp"
+#include "NodeOwner.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "ParameterOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;

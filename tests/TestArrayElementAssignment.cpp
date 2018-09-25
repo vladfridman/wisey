@@ -18,14 +18,14 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ArrayElementAssignment.hpp"
-#include "wisey/ArrayOwnerType.hpp"
-#include "wisey/ArrayType.hpp"
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntConstant.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayElementAssignment.hpp"
+#include "ArrayOwnerType.hpp"
+#include "ArrayType.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "IntConstant.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

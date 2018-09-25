@@ -15,9 +15,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockObjectType.hpp"
-#include "wisey/IObjectDefinition.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
+#include "IObjectDefinition.hpp"
+#include "IRGenerationContext.hpp"
+#include "ModelTypeSpecifier.hpp"
 
 using namespace std;
 using namespace llvm;

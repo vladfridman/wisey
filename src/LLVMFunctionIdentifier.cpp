@@ -6,9 +6,9 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/LLVMFunction.hpp"
-#include "wisey/LLVMFunctionIdentifier.hpp"
-#include "wisey/Log.hpp"
+#include "LLVMFunction.hpp"
+#include "LLVMFunctionIdentifier.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace std;

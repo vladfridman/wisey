@@ -9,14 +9,14 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/ArrayElementAssignment.hpp"
-#include "wisey/ArrayElementExpression.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/FieldImmutableArrayReferenceVariable.hpp"
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
+#include "AutoCast.hpp"
+#include "ArrayElementAssignment.hpp"
+#include "ArrayElementExpression.hpp"
+#include "Composer.hpp"
+#include "FieldImmutableArrayReferenceVariable.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
 
 using namespace std;
 using namespace llvm;

@@ -15,15 +15,15 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/AccessLevel.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/InterfaceDefinition.hpp"
-#include "wisey/InterfaceTypeSpecifierFull.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "AccessLevel.hpp"
+#include "FakeExpression.hpp"
+#include "InterfaceDefinition.hpp"
+#include "InterfaceTypeSpecifierFull.hpp"
+#include "IRGenerationContext.hpp"
+#include "MethodSignatureDeclaration.hpp"
+#include "ModelTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -8,14 +8,14 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrintErrStatement.hpp"
-#include "wisey/StringType.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrintErrStatement.hpp"
+#include "StringType.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -6,11 +6,11 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Cleanup.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/TryCatchInfo.hpp"
+#include "Cleanup.hpp"
+#include "Environment.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "IRWriter.hpp"
+#include "TryCatchInfo.hpp"
 
 using namespace llvm;
 using namespace std;

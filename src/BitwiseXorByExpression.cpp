@@ -9,11 +9,11 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/BitwiseXorByExpression.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntExpressionChecker.hpp"
+#include "BitwiseXorByExpression.hpp"
+#include "FakeExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "IntExpressionChecker.hpp"
 
 using namespace llvm;
 using namespace std;

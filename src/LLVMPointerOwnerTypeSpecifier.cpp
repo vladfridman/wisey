@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPointerOwnerTypeSpecifier.hpp"
-#include "wisey/LLVMPointerTypeSpecifier.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPointerOwnerTypeSpecifier.hpp"
+#include "LLVMPointerTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

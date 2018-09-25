@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IType.hpp"
 
 /**
  * Defines a mock object for IType

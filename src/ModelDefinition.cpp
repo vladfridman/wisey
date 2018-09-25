@@ -10,9 +10,9 @@
 #include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/DerivedTypes.h>
 
-#include "wisey/Environment.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ModelDefinition.hpp"
+#include "Environment.hpp"
+#include "Log.hpp"
+#include "ModelDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

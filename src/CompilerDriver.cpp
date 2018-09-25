@@ -8,10 +8,10 @@
 
 #include <sys/stat.h>
 
-#include "wisey/CompilerDriver.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/WiseycArgumentParser.hpp"
-#include "wisey/WiseylibcArgumentParser.hpp"
+#include "CompilerDriver.hpp"
+#include "Log.hpp"
+#include "WiseycArgumentParser.hpp"
+#include "WiseylibcArgumentParser.hpp"
 
 using namespace std;
 using namespace wisey;

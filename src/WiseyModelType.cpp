@@ -8,18 +8,18 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/AdjustReferenceCountFunction.hpp"
-#include "wisey/ArrayType.hpp"
-#include "wisey/CastObjectFunction.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/FieldReferenceVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/WiseyModelOwnerType.hpp"
-#include "wisey/WiseyModelType.hpp"
+#include "AdjustReferenceCountFunction.hpp"
+#include "ArrayType.hpp"
+#include "CastObjectFunction.hpp"
+#include "Composer.hpp"
+#include "FieldReferenceVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LocalReferenceVariable.hpp"
+#include "ParameterReferenceVariable.hpp"
+#include "PrimitiveTypes.hpp"
+#include "WiseyModelOwnerType.hpp"
+#include "WiseyModelType.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
-#include "wisey/LLVMVoidType.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPrimitiveTypeSpecifier.hpp"
+#include "LLVMVoidType.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -6,8 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Log.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "Log.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace wisey;

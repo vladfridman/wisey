@@ -18,10 +18,10 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/GetTypeNameMethod.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "GetTypeNameMethod.hpp"
+#include "FakeExpression.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

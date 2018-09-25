@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/LLVMExternalStructDefinition.hpp"
+#include "LLVMExternalStructDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

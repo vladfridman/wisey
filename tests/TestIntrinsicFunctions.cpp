@@ -15,8 +15,8 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
+#include "IRWriter.hpp"
+#include "IntrinsicFunctions.hpp"
 
 using namespace llvm;
 using namespace std;

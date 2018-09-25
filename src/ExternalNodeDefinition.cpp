@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ExternalNodeDefinition.hpp"
-#include "wisey/NodeDefinition.hpp"
+#include "ExternalNodeDefinition.hpp"
+#include "NodeDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

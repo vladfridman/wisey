@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ControllerDefinition.hpp"
-#include "wisey/ExternalControllerDefinition.hpp"
+#include "ControllerDefinition.hpp"
+#include "ExternalControllerDefinition.hpp"
 
 using namespace std;
 using namespace llvm;

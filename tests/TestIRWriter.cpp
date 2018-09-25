@@ -13,8 +13,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/EmptyStatement.hpp"
-#include "wisey/IRWriter.hpp"
+#include "EmptyStatement.hpp"
+#include "IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;

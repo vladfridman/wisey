@@ -6,9 +6,9 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ContinueStatement.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
+#include "ContinueStatement.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace wisey;

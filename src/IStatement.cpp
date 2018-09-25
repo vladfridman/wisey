@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IStatement.hpp"
+#include "IRGenerationContext.hpp"
+#include "IStatement.hpp"
 
 using namespace std;
 using namespace llvm;

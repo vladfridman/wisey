@@ -17,13 +17,13 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/WiseyObjectOwnerType.hpp"
-#include "wisey/WiseyObjectType.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/StateField.hpp"
-#include "wisey/WiseyModelType.hpp"
-#include "wisey/WiseyModelOwnerType.hpp"
+#include "IRGenerationContext.hpp"
+#include "WiseyObjectOwnerType.hpp"
+#include "WiseyObjectType.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "StateField.hpp"
+#include "WiseyModelType.hpp"
+#include "WiseyModelOwnerType.hpp"
 
 using namespace llvm;
 using namespace std;

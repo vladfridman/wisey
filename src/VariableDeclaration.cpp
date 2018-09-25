@@ -9,20 +9,20 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Assignment.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/Identifier.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalArrayOwnerVariable.hpp"
-#include "wisey/LocalArrayReferenceVariable.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/LocalPrimitiveVariable.hpp"
-#include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/VariableDeclaration.hpp"
+#include "Assignment.hpp"
+#include "Environment.hpp"
+#include "Identifier.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LocalArrayOwnerVariable.hpp"
+#include "LocalArrayReferenceVariable.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "LocalPrimitiveVariable.hpp"
+#include "LocalReferenceVariable.hpp"
+#include "Log.hpp"
+#include "Names.hpp"
+#include "VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

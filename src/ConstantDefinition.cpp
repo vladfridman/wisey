@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ConstantDefinition.hpp"
+#include "ConstantDefinition.hpp"
 
 using namespace std;
 using namespace wisey;

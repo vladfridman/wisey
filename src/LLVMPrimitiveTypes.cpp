@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace wisey;
 

@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Catch.hpp"
-#include "wisey/Environment.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ModelOwner.hpp"
-#include "wisey/ParameterOwnerVariable.hpp"
+#include "Catch.hpp"
+#include "Environment.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "IRWriter.hpp"
+#include "ModelOwner.hpp"
+#include "ParameterOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;

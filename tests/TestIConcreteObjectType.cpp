@@ -17,13 +17,13 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "FakeExpression.hpp"
+#include "IConcreteObjectType.hpp"
+#include "IRGenerationContext.hpp"
+#include "InterfaceTypeSpecifier.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

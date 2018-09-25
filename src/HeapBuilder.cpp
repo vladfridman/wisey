@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Environment.hpp"
-#include "wisey/HeapBuilder.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/Log.hpp"
+#include "Environment.hpp"
+#include "HeapBuilder.hpp"
+#include "IRWriter.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/LLVMStructSpecifier.hpp"
+#include "LLVMStructSpecifier.hpp"
 
 using namespace std;
 using namespace llvm;

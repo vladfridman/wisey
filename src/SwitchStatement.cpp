@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/CaseStatement.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/SwitchStatement.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "CaseStatement.hpp"
+#include "IRWriter.hpp"
+#include "SwitchStatement.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;

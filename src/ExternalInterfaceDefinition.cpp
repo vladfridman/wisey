@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ExternalInterfaceDefinition.hpp"
-#include "wisey/Interface.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
+#include "ExternalInterfaceDefinition.hpp"
+#include "Interface.hpp"
+#include "MethodSignatureDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

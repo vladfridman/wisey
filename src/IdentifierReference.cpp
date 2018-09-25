@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IdentifierReference.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/UndefinedType.hpp"
+#include "IdentifierReference.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ILLVMType.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalLLVMVariable.hpp"
-#include "wisey/ParameterLLVMVariable.hpp"
+#include "ILLVMType.hpp"
+#include "IRWriter.hpp"
+#include "LocalLLVMVariable.hpp"
+#include "ParameterLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;

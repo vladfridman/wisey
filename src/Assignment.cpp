@@ -8,10 +8,10 @@
 
 #include <sstream>
 
-#include "wisey/Assignment.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
+#include "Assignment.hpp"
+#include "Composer.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace wisey;

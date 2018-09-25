@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalLLVMVariable.hpp"
-#include "wisey/Log.hpp"
+#include "AutoCast.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LocalLLVMVariable.hpp"
+#include "Log.hpp"
 
 using namespace std;
 using namespace llvm;

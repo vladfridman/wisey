@@ -16,10 +16,10 @@
 
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

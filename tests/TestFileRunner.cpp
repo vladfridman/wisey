@@ -14,9 +14,9 @@
 #include <llvm-c/Target.h>
 
 #include "TestFileRunner.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Compiler.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "Compiler.hpp"
 
 using namespace llvm;
 using namespace std;

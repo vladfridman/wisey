@@ -19,9 +19,9 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ArrayElementExpression.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayElementExpression.hpp"
+#include "IRWriter.hpp"
+#include "PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;

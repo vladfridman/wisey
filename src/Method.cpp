@@ -8,20 +8,20 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Argument.hpp"
-#include "wisey/CastExpression.hpp"
-#include "wisey/Cleanup.hpp"
-#include "wisey/Composer.hpp"
-#include "wisey/CompoundStatement.hpp"
-#include "wisey/EmptyStatement.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IMethodCall.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/Method.hpp"
-#include "wisey/Model.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "Argument.hpp"
+#include "CastExpression.hpp"
+#include "Cleanup.hpp"
+#include "Composer.hpp"
+#include "CompoundStatement.hpp"
+#include "EmptyStatement.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "IMethodCall.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "Method.hpp"
+#include "Model.hpp"
+#include "Names.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;

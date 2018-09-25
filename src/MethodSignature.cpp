@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Argument.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Interface.hpp"
-#include "wisey/MethodSignature.hpp"
+#include "Argument.hpp"
+#include "IRGenerationContext.hpp"
+#include "Interface.hpp"
+#include "MethodSignature.hpp"
 
 using namespace llvm;
 using namespace std;

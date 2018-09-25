@@ -14,8 +14,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IsObjectFunction.hpp"
+#include "IRGenerationContext.hpp"
+#include "IsObjectFunction.hpp"
 
 using namespace llvm;
 using namespace std;

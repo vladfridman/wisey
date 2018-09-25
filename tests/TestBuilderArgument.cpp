@@ -16,9 +16,9 @@
 
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/BuilderArgument.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "BuilderArgument.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;

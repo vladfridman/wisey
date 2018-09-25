@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ExternalStaticMethod.hpp"
-#include "wisey/ExternalStaticMethodDefinition.hpp"
-#include "wisey/IMethodDefinition.hpp"
+#include "ExternalStaticMethod.hpp"
+#include "ExternalStaticMethodDefinition.hpp"
+#include "IMethodDefinition.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -10,9 +10,9 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/LLVMPointerTypeSpecifier.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
+#include "LLVMPointerTypeSpecifier.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LLVMPrimitiveTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

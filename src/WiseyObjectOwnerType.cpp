@@ -8,15 +8,15 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/DestroyObjectOwnerFunction.hpp"
-#include "wisey/FieldOwnerVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/ParameterOwnerVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/WiseyObjectOwnerType.hpp"
+#include "ArrayType.hpp"
+#include "DestroyObjectOwnerFunction.hpp"
+#include "FieldOwnerVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LocalOwnerVariable.hpp"
+#include "ParameterOwnerVariable.hpp"
+#include "PrimitiveTypes.hpp"
+#include "WiseyObjectOwnerType.hpp"
 
 using namespace llvm;
 using namespace std;

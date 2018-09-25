@@ -14,8 +14,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/ThrowArrayIndexExceptionFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "ThrowArrayIndexExceptionFunction.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

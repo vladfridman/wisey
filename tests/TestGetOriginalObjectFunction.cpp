@@ -13,8 +13,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "wisey/GetOriginalObjectFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "GetOriginalObjectFunction.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

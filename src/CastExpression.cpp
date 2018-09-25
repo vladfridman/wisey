@@ -8,10 +8,10 @@
 
 #include <sstream>
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/CastExpression.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
+#include "AutoCast.hpp"
+#include "CastExpression.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
 
 using namespace std;
 using namespace llvm;

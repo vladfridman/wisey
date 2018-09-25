@@ -18,9 +18,9 @@
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "MockObjectTypeSpecifier.hpp"
-#include "wisey/ConstantReference.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "ConstantReference.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
 
 using namespace std;
 using namespace wisey;

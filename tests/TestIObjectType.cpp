@@ -16,8 +16,8 @@
 
 #include "MockObjectType.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "IObjectType.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace std;
 using namespace llvm;

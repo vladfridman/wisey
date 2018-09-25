@@ -14,9 +14,9 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMFunctionType.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMFunctionType.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

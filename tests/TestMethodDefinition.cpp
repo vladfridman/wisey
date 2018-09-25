@@ -15,14 +15,14 @@
 #include "MockObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/AccessLevel.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/IModelTypeSpecifier.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodDefinition.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/VariableDeclaration.hpp"
+#include "AccessLevel.hpp"
+#include "Argument.hpp"
+#include "IModelTypeSpecifier.hpp"
+#include "IRGenerationContext.hpp"
+#include "MethodDefinition.hpp"
+#include "PrimitiveTypes.hpp"
+#include "PrimitiveTypeSpecifier.hpp"
+#include "VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

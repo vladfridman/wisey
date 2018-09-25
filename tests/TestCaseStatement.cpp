@@ -20,11 +20,11 @@
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/Block.hpp"
-#include "wisey/CaseStatement.hpp"
-#include "wisey/FloatConstant.hpp"
-#include "wisey/IntConstant.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "Block.hpp"
+#include "CaseStatement.hpp"
+#include "FloatConstant.hpp"
+#include "IntConstant.hpp"
+#include "IRGenerationContext.hpp"
 
 using ::testing::_;
 using ::testing::Mock;

@@ -9,12 +9,12 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 
-#include "wisey/Cleanup.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/TryCatchInfo.hpp"
-#include "wisey/TryCatchStatement.hpp"
+#include "Cleanup.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
+#include "TryCatchInfo.hpp"
+#include "TryCatchStatement.hpp"
 
 using namespace llvm;
 using namespace std;

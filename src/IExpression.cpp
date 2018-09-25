@@ -8,9 +8,9 @@
 
 #include <sstream>
 
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/UndefinedType.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "UndefinedType.hpp"
 
 using namespace std;
 using namespace wisey;

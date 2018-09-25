@@ -19,10 +19,10 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/InjectedField.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ThreadExpression.hpp"
+#include "InjectedField.hpp"
+#include "Names.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;

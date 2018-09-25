@@ -17,12 +17,12 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
-#include "wisey/Identifier.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPointerTypeSpecifier.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
-#include "wisey/LLVMVariableDeclaration.hpp"
+#include "Identifier.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPointerTypeSpecifier.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LLVMPrimitiveTypeSpecifier.hpp"
+#include "LLVMVariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

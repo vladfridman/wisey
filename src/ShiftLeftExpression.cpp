@@ -8,11 +8,11 @@
 
 #include <llvm/IR/InstrTypes.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntExpressionChecker.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ShiftLeftExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "IntExpressionChecker.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ShiftLeftExpression.hpp"
 
 using namespace llvm;
 using namespace std;

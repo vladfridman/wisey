@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Argument.hpp"
-#include "wisey/IMethodDescriptor.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Names.hpp"
+#include "Argument.hpp"
+#include "IMethodDescriptor.hpp"
+#include "IRGenerationContext.hpp"
+#include "Names.hpp"
 
 using namespace std;
 using namespace llvm;

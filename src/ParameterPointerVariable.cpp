@@ -9,9 +9,9 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ParameterPointerVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "ParameterPointerVariable.hpp"
 
 using namespace std;
 using namespace llvm;

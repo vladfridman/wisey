@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AccessLevel.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/LLVMFunction.hpp"
-#include "wisey/LLVMFunctionDefinition.hpp"
+#include "AccessLevel.hpp"
+#include "Argument.hpp"
+#include "LLVMFunction.hpp"
+#include "LLVMFunctionDefinition.hpp"
 
 using namespace std;
 using namespace llvm;

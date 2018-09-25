@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IObjectTypeSpecifier.hpp"
-#include "wisey/Log.hpp"
+#include "IObjectTypeSpecifier.hpp"
+#include "Log.hpp"
 
 using namespace std;
 using namespace wisey;

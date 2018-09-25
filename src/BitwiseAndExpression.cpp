@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/BitwiseAndExpression.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntExpressionChecker.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "BitwiseAndExpression.hpp"
+#include "IRWriter.hpp"
+#include "IntExpressionChecker.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

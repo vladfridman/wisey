@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/FieldLLVMVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
-#include "wisey/LLVMi16Type.hpp"
-#include "wisey/ParameterLLVMVariable.hpp"
+#include "FieldLLVMVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMPrimitiveTypeSpecifier.hpp"
+#include "LLVMi16Type.hpp"
+#include "ParameterLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;

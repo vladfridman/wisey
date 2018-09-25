@@ -17,9 +17,9 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/StringGetLengthMethod.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "StringGetLengthMethod.hpp"
+#include "FakeExpression.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

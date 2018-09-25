@@ -14,8 +14,8 @@
 
 #include <iostream>
 
-#include "wisey/IMethodDescriptor.hpp"
-#include "wisey/IObjectType.hpp"
+#include "IMethodDescriptor.hpp"
+#include "IObjectType.hpp"
 
 /**
  * Defines a mock object for IObjectType

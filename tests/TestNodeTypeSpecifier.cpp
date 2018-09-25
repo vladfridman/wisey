@@ -12,9 +12,9 @@
 #include <gmock/gmock.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/NodeTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "FakeExpression.hpp"
+#include "NodeTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

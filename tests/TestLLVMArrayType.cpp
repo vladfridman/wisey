@@ -14,9 +14,9 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMArrayType.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMArrayType.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

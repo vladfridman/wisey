@@ -17,8 +17,8 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMVoidType.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMVoidType.hpp"
 
 using namespace llvm;
 using namespace std;

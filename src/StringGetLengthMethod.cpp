@@ -6,11 +6,11 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IExpression.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StringGetLengthMethod.hpp"
+#include "IExpression.hpp"
+#include "IRWriter.hpp"
+#include "IntrinsicFunctions.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StringGetLengthMethod.hpp"
 
 using namespace std;
 using namespace llvm;

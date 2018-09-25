@@ -12,9 +12,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IVariable.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IVariable.hpp"
 
 /**
  * Defines a mock object for IVariable

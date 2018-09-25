@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ExternalModelDefinition.hpp"
-#include "wisey/ModelDefinition.hpp"
+#include "ExternalModelDefinition.hpp"
+#include "ModelDefinition.hpp"
 
 using namespace std;
 using namespace llvm;

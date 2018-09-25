@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/CheckArrayNotReferencedFunction.hpp"
-#include "wisey/DestroyPrimitiveArrayFunction.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/PrintOutStatement.hpp"
-#include "wisey/StringLiteral.hpp"
+#include "CheckArrayNotReferencedFunction.hpp"
+#include "DestroyPrimitiveArrayFunction.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "PrintOutStatement.hpp"
+#include "StringLiteral.hpp"
 
 using namespace llvm;
 using namespace std;

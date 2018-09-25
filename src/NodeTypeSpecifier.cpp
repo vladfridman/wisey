@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Node.hpp"
-#include "wisey/NodeTypeSpecifier.hpp"
+#include "Node.hpp"
+#include "NodeTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

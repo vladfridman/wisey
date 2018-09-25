@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IStatement.hpp"
+#include "IRGenerationContext.hpp"
+#include "IStatement.hpp"
 
 /**
  * Defines a mock object for IStatement

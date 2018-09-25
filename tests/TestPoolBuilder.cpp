@@ -20,13 +20,13 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Names.hpp"
-#include "wisey/NodeTypeSpecifier.hpp"
-#include "wisey/PoolBuilder.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "Names.hpp"
+#include "NodeTypeSpecifier.hpp"
+#include "PoolBuilder.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

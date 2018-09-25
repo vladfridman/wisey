@@ -8,17 +8,17 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/DestroyOwnerArrayFunction.hpp"
-#include "wisey/DestroyPrimitiveArrayFunction.hpp"
-#include "wisey/DestroyReferenceArrayFunction.hpp"
-#include "wisey/FieldImmutableArrayOwnerVariable.hpp"
-#include "wisey/GlobalStringConstant.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ImmutableArrayOwnerType.hpp"
-#include "wisey/ImmutableArrayType.hpp"
-#include "wisey/LocalImmutableArrayOwnerVariable.hpp"
-#include "wisey/ParameterImmutableArrayOwnerVariable.hpp"
+#include "DestroyOwnerArrayFunction.hpp"
+#include "DestroyPrimitiveArrayFunction.hpp"
+#include "DestroyReferenceArrayFunction.hpp"
+#include "FieldImmutableArrayOwnerVariable.hpp"
+#include "GlobalStringConstant.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "ImmutableArrayOwnerType.hpp"
+#include "ImmutableArrayType.hpp"
+#include "LocalImmutableArrayOwnerVariable.hpp"
+#include "ParameterImmutableArrayOwnerVariable.hpp"
 
 using namespace std;
 using namespace wisey;

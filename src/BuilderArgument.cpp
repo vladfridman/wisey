@@ -6,11 +6,11 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/BuilderArgument.hpp"
+#include "IConcreteObjectType.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "Log.hpp"
+#include "BuilderArgument.hpp"
 
 using namespace llvm;
 using namespace std;

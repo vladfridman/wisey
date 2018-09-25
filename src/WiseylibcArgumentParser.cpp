@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Log.hpp"
-#include "wisey/WiseylibcArgumentParser.hpp"
+#include "Log.hpp"
+#include "WiseylibcArgumentParser.hpp"
 
 using namespace std;
 using namespace wisey;

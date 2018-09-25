@@ -15,10 +15,10 @@
 
 #include "TestPrefix.hpp"
 #include "MockType.hpp"
-#include "wisey/ArrayType.hpp"
-#include "wisey/CheckArrayNotReferencedFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayType.hpp"
+#include "CheckArrayNotReferencedFunction.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

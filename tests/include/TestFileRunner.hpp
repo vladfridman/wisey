@@ -11,7 +11,7 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/Compiler.hpp"
+#include "Compiler.hpp"
 
 /**
  * Runs a sample wisey file through compiler and checks whether the expected result matched 

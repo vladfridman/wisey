@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/FieldLLVMVariable.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMStructType.hpp"
-#include "wisey/ParameterLLVMVariable.hpp"
+#include "FieldLLVMVariable.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMStructType.hpp"
+#include "ParameterLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;

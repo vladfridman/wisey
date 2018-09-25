@@ -21,14 +21,14 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/Catch.hpp"
-#include "wisey/EmptyStatement.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LocalPrimitiveVariable.hpp"
-#include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/Model.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "Catch.hpp"
+#include "EmptyStatement.hpp"
+#include "IRGenerationContext.hpp"
+#include "LocalPrimitiveVariable.hpp"
+#include "LocalReferenceVariable.hpp"
+#include "Model.hpp"
+#include "ModelTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -17,11 +17,11 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
-#include "wisey/IExpression.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/LocalLLVMVariable.hpp"
+#include "IExpression.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "LLVMPrimitiveTypes.hpp"
+#include "LocalLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;

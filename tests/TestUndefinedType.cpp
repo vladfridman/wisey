@@ -11,8 +11,8 @@
 #include <gtest/gtest.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/UndefinedType.hpp"
+#include "IRGenerationContext.hpp"
+#include "UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;

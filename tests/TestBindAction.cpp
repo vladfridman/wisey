@@ -10,10 +10,10 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/BindAction.hpp"
-#include "wisey/ControllerTypeSpecifier.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "BindAction.hpp"
+#include "ControllerTypeSpecifier.hpp"
+#include "InterfaceTypeSpecifier.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

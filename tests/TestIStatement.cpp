@@ -15,9 +15,9 @@
 
 #include "MockType.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/IStatement.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "IStatement.hpp"
 
 using namespace llvm;
 using namespace wisey;

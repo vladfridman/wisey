@@ -15,9 +15,9 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMFunctionCall.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMFunctionCall.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

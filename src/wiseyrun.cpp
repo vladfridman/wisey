@@ -6,10 +6,10 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Compiler.hpp"
-#include "wisey/CompilerArguments.hpp"
-#include "wisey/YzcArgumentParser.hpp"
-#include "wisey/Log.hpp"
+#include "Compiler.hpp"
+#include "CompilerArguments.hpp"
+#include "YzcArgumentParser.hpp"
+#include "Log.hpp"
 
 using namespace std;
 using namespace wisey;

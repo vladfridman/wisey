@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/GlobalStringConstant.hpp"
-#include "wisey/ObjectKindGlobal.hpp"
+#include "IRGenerationContext.hpp"
+#include "GlobalStringConstant.hpp"
+#include "ObjectKindGlobal.hpp"
 
 using namespace llvm;
 using namespace std;

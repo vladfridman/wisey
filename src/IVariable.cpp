@@ -8,9 +8,9 @@
 
 #include <sstream>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IVariable.hpp"
-#include "wisey/Log.hpp"
+#include "IRGenerationContext.hpp"
+#include "IVariable.hpp"
+#include "Log.hpp"
 
 using namespace std;
 using namespace wisey;

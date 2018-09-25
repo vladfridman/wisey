@@ -20,11 +20,11 @@
 #include <llvm/Target/TargetMachine.h>
 #include <llvm-c/Target.h>
 
-#include "wisey/Compiler.hpp"
-#include "wisey/EssentialFunctions.hpp"
-#include "wisey/Log.hpp"
-#include "wisey/ProgramSuffix.hpp"
-#include "wisey/Optimizer.hpp"
+#include "Compiler.hpp"
+#include "EssentialFunctions.hpp"
+#include "Log.hpp"
+#include "ProgramSuffix.hpp"
+#include "Optimizer.hpp"
 
 using namespace std;
 using namespace llvm;

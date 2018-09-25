@@ -20,11 +20,11 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/Injector.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StateField.hpp"
+#include "IRGenerationContext.hpp"
+#include "Injector.hpp"
+#include "InterfaceTypeSpecifier.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StateField.hpp"
 
 using namespace llvm;
 using namespace std;

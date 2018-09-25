@@ -6,11 +6,11 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "ArraySpecificOwnerType.hpp"
+#include "IConcreteObjectType.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

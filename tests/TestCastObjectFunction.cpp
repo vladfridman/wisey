@@ -15,8 +15,8 @@
 
 #include "MockObjectType.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/CastObjectFunction.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "CastObjectFunction.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

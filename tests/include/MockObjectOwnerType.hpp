@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "wisey/IMethodDescriptor.hpp"
-#include "wisey/IObjectOwnerType.hpp"
+#include "IMethodDescriptor.hpp"
+#include "IObjectOwnerType.hpp"
 
 /**
  * Defines a mock object for IOwnerObjectType

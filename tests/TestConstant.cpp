@@ -17,8 +17,8 @@
 #include "MockObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/Constant.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "Constant.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

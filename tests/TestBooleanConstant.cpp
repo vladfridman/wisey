@@ -16,9 +16,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileRunner.hpp"
-#include "wisey/BooleanConstant.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "BooleanConstant.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

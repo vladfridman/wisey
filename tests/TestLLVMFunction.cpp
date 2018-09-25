@@ -12,11 +12,11 @@
 #include <gmock/gmock.h>
 
 #include "MockConcreteObjectType.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/IMethodCall.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMFunction.hpp"
-#include "wisey/LLVMPrimitiveTypes.hpp"
+#include "Argument.hpp"
+#include "IMethodCall.hpp"
+#include "IRGenerationContext.hpp"
+#include "LLVMFunction.hpp"
+#include "LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -12,11 +12,11 @@
 #include <gmock/gmock.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/ControllerTypeSpecifier.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/Method.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReceivedField.hpp"
+#include "ControllerTypeSpecifier.hpp"
+#include "FakeExpression.hpp"
+#include "Method.hpp"
+#include "PrimitiveTypes.hpp"
+#include "ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

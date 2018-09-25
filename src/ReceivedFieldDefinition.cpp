@@ -6,9 +6,9 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ReceivedField.hpp"
-#include "wisey/ReceivedFieldDefinition.hpp"
-#include "wisey/Log.hpp"
+#include "ReceivedField.hpp"
+#include "ReceivedFieldDefinition.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace std;

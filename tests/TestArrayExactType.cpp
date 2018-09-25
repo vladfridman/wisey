@@ -14,10 +14,10 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/ArrayExactType.hpp"
-#include "wisey/ArrayOwnerType.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "ArrayExactType.hpp"
+#include "ArrayOwnerType.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;

@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/WiseyModelOwnerType.hpp"
-#include "wisey/WiseyModelOwnerTypeSpecifier.hpp"
+#include "IRGenerationContext.hpp"
+#include "WiseyModelOwnerType.hpp"
+#include "WiseyModelOwnerTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

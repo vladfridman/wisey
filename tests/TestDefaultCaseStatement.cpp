@@ -12,9 +12,9 @@
 #include <gmock/gmock.h>
 
 #include "MockStatement.hpp"
-#include "wisey/Block.hpp"
-#include "wisey/DefaultCaseStatement.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "Block.hpp"
+#include "DefaultCaseStatement.hpp"
+#include "IRGenerationContext.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;

@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "wisey/PrimitiveTypes.hpp"
+#include "PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

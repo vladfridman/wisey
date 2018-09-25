@@ -13,10 +13,10 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/NullExpression.hpp"
-#include "wisey/NullType.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
+#include "NullExpression.hpp"
+#include "NullType.hpp"
 
 using namespace llvm;
 using namespace std;

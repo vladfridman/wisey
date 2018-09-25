@@ -20,11 +20,11 @@
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
 #include "TestFileRunner.hpp"
-#include "wisey/Block.hpp"
-#include "wisey/CompoundStatement.hpp"
-#include "wisey/IfElseStatement.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "Block.hpp"
+#include "CompoundStatement.hpp"
+#include "IfElseStatement.hpp"
+#include "IRGenerationContext.hpp"
+#include "PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;

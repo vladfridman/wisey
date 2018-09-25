@@ -6,9 +6,9 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AutoCast.hpp"
-#include "wisey/ArrayElementAssignment.hpp"
-#include "wisey/IRWriter.hpp"
+#include "AutoCast.hpp"
+#include "ArrayElementAssignment.hpp"
+#include "IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;

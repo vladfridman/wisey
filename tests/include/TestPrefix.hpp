@@ -9,9 +9,9 @@
 #ifndef TestPrefix_h
 #define TestPrefix_h
 
-#include "wisey/ControllerDefinition.hpp"
-#include "wisey/InterfaceDefinition.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "ControllerDefinition.hpp"
+#include "InterfaceDefinition.hpp"
+#include "IRGenerationContext.hpp"
 
 namespace wisey {
   class IObjectElementDefinition;

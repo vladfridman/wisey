@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Cleanup.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
+#include "Cleanup.hpp"
+#include "IRWriter.hpp"
+#include "Log.hpp"
 
 using namespace llvm;
 using namespace std;

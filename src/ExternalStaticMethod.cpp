@@ -8,11 +8,11 @@
 
 #include <llvm/IR/TypeBuilder.h>
 
-#include "wisey/AccessLevel.hpp"
-#include "wisey/Argument.hpp"
-#include "wisey/ExternalStaticMethod.hpp"
-#include "wisey/IMethodCall.hpp"
-#include "wisey/IRGenerationContext.hpp"
+#include "AccessLevel.hpp"
+#include "Argument.hpp"
+#include "ExternalStaticMethod.hpp"
+#include "IMethodCall.hpp"
+#include "IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

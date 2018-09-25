@@ -6,10 +6,10 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StoreInReference.hpp"
+#include "IRGenerationContext.hpp"
+#include "IRWriter.hpp"
+#include "PrimitiveTypes.hpp"
+#include "StoreInReference.hpp"
 
 using namespace std;
 using namespace llvm;

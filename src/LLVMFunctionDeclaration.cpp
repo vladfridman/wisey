@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/LLVMFunctionDeclaration.hpp"
+#include "LLVMFunctionDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

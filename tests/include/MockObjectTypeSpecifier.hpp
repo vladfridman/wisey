@@ -9,7 +9,7 @@
 #ifndef MockObjectTypeSpecifier_h
 #define MockObjectTypeSpecifier_h
 
-#include "wisey/IObjectTypeSpecifier.hpp"
+#include "IObjectTypeSpecifier.hpp"
 
 /**
  * Defines a mock object for IObjectTypeSpecifier

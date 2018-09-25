@@ -14,8 +14,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
+#include "IRGenerationContext.hpp"
+#include "ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
 using namespace std;
