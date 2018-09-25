@@ -44,6 +44,7 @@ LDFLAGS = `llvm-config --ldflags --system-libs --libs all`
 
 # This flag is different on different OS
 LDTESTFLAGS := -lgtest -lgmock 
+UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
   LDTESTFLAGS += --force_link lib/libwisey.a
 endif
