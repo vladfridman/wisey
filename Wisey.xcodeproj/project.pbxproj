@@ -384,8 +384,6 @@
 		F53400DF1DFBE7ED0002BF7E /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FE1DE5ED0700074D66 /* libcurses.dylib */; };
 		F53400E01DFBE7ED0002BF7E /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
 		F53400E11DFBE7ED0002BF7E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
-		F53400E41DFBF1D10002BF7E /* libgmock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53400E21DFBF1D10002BF7E /* libgmock.a */; };
-		F53400E51DFBF1D10002BF7E /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53400E31DFBF1D10002BF7E /* libgtest.a */; };
 		F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; };
 		F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; };
 		F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */; };
@@ -531,6 +529,8 @@
 		F556E6541EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */; };
 		F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */; };
 		F556E65A1EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */; };
+		F556ED80215A81ED006ECC45 /* libgmock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F556ED7F215A81ED006ECC45 /* libgmock.a */; };
+		F556ED82215A81F0006ECC45 /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F556ED81215A81F0006ECC45 /* libgtest.a */; };
 		F55A7E9C2100CFE300A3D419 /* AdjustByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A7E9B2100CFE300A3D419 /* AdjustByExpression.cpp */; };
 		F55A7E9D2100CFE300A3D419 /* AdjustByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A7E9B2100CFE300A3D419 /* AdjustByExpression.cpp */; };
 		F55A7E9F2100DE0100A3D419 /* TestAdjustByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A7E9E2100DE0100A3D419 /* TestAdjustByExpression.cpp */; };
@@ -1758,6 +1758,8 @@
 		F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IConcreteObjectType.cpp; path = src/IConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIConcreteObjectType.cpp; path = tests/TestIConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockConcreteObjectType.hpp; path = tests/include/MockConcreteObjectType.hpp; sourceTree = "<group>"; };
+		F556ED7F215A81ED006ECC45 /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = ../../../usr/local/lib/libgmock.a; sourceTree = "<group>"; };
+		F556ED81215A81F0006ECC45 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../../usr/local/lib/libgtest.a; sourceTree = "<group>"; };
 		F55A7E9A2100CDD300A3D419 /* AdjustByExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustByExpression.hpp; path = include/wisey/AdjustByExpression.hpp; sourceTree = "<group>"; };
 		F55A7E9B2100CFE300A3D419 /* AdjustByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustByExpression.cpp; path = src/AdjustByExpression.cpp; sourceTree = "<group>"; };
 		F55A7E9E2100DE0100A3D419 /* TestAdjustByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustByExpression.cpp; path = tests/TestAdjustByExpression.cpp; sourceTree = "<group>"; };
@@ -2261,8 +2263,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F50709B9214C2E2700CBDAE5 /* libwisey.a in Frameworks */,
-				F53400E41DFBF1D10002BF7E /* libgmock.a in Frameworks */,
-				F53400E51DFBF1D10002BF7E /* libgtest.a in Frameworks */,
+				F556ED80215A81ED006ECC45 /* libgmock.a in Frameworks */,
+				F556ED82215A81F0006ECC45 /* libgtest.a in Frameworks */,
 				F53400DF1DFBE7ED0002BF7E /* libcurses.dylib in Frameworks */,
 				F53400E01DFBE7ED0002BF7E /* libm.dylib in Frameworks */,
 				F53400E11DFBE7ED0002BF7E /* libz.dylib in Frameworks */,
@@ -2598,6 +2600,8 @@
 		F53060C71F7947800098D637 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F556ED81215A81F0006ECC45 /* libgtest.a */,
+				F556ED7F215A81ED006ECC45 /* libgmock.a */,
 				F50709BB214C302200CBDAE5 /* libdata.a */,
 				F50709B8214C2E2700CBDAE5 /* libwisey.a */,
 				F5F55E9B213AF78300FF3A28 /* libLLVMAggressiveInstCombine.a */,
