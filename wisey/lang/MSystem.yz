@@ -1,5 +1,7 @@
 package wisey.lang;
 
+external ::llvm::i64 wProcessorCount;
+
 model MSystem {
 
   /**
@@ -15,7 +17,7 @@ model MSystem {
    * Returns system configuration value for the number of processors
    */
   public static long getProcessorCount() {
-    return ::llvm::function::sysconf(58);
+    return ::llvm::global::wProcessorCount;
   }
 
   /**

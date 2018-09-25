@@ -11,6 +11,7 @@
 FILE* wStdIn = stdin;
 FILE* wStdOut = stdout;
 FILE* wStdErr = stderr;
+int64_t wProcessorCount = std::thread::hardware_concurrency();
 
 /**
  * Library of functions that work with STL data structures and memory pool
