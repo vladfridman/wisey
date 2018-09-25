@@ -42,6 +42,15 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 # Flags used for linking
 LDFLAGS = `llvm-config --ldflags --system-libs --libs all`
 
+# This flag is different on different OS
+LDTESTFLAGS := -lgtest -lgmock 
+ifeq ($(UNAME_S),Linux)
+  LDTESTFLAGS += --force_link lib/libwisey.a
+endif
+ifeq ($(UNAME_S),Darwin)
+  LDTESTFLAGS += -force_load lib/libwisey.a
+endif
+
 default: ${BINDIR}/yzc
 
 clean:
@@ -97,4 +106,4 @@ ${BINDIR}/yzc: $(OBJEXCEPTMAINS) ${BUILDDIR}/yzc.o | ${BINDIR}
 	$(LD) -o $@ $^ $(LDFLAGS)
 
 ${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/yzc ${BINDIR}/wiseyc ${BINDIR}/wiseylibc
-	$(LD) -o $@ $^ $(LDFLAGS) -L$(LIBDIR) -lgtest -lgmock -force_load lib/libwisey.a
+	$(LD) -o $@ $^ $(LDFLAGS) -L$(LIBDIR) ${LDTESTFLAGS}
