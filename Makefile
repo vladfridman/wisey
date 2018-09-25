@@ -46,7 +46,7 @@ LDFLAGS = `llvm-config --ldflags --system-libs --libs all`
 LDTESTFLAGS := -lgtest -lgmock 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-  LDTESTFLAGS += --force_link lib/libwisey.a
+  LDTESTFLAGS += --force-link lib/libwisey.a
 endif
 ifeq ($(UNAME_S),Darwin)
   LDTESTFLAGS += -force_load lib/libwisey.a
