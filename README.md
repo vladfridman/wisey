@@ -38,7 +38,6 @@ Prerequisites: g++ installed
   `make; ar -rv libgtest.a gtest-all.o`
   `sudo cp libgtest.a /usr/local/lib/libgtest.a` 
   `sudo cp -r ../include/gtest /usr/local/include/`
-
   `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make`
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
   `make; ar -rv libgmock.a gmock-all.o`
@@ -76,7 +75,6 @@ Prerequisites: g++ installed
   `make; ar -rv libgtest.a gtest-all.o`
   `sudo cp libgtest.a /usr/local/lib/libgtest.a` 
   `sudo cp -r ../include/gtest /usr/local/include/`
-
   `cd ~; git clone https://github.com/google/googlemock.git; cd ~/googletest/googlemock/make`
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
   `make; ar -rv libgmock.a gmock-all.o`
