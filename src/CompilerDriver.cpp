@@ -50,7 +50,7 @@ void CompilerDriver::compileRunnable(int argc, char **argv) {
     return;
   }
 
-  command = "ld -macosx_version_min " + mOsVersion;
+  command = "g++";
   for (string path : compilerArguments.getLibraryPaths()) {
     command += " " + path;
   }
@@ -58,7 +58,7 @@ void CompilerDriver::compileRunnable(int argc, char **argv) {
     command += " " + path;
   }
   command += " -L" + mWiseyLibDir;
-  command += " -lwisey -lc++ -lSystem -arch " + mArchitecture + " ";
+  command += " -lwisey -lpthread ";
   command += "-o " + runnableFileName + " " + objectFileName;
   executeCommand(command);
 }
@@ -124,22 +124,10 @@ bool CompilerDriver::prepareForRunnable() {
     return false;
   }
 
-  if (!checkCommandExists("ld")) {
-    cerr << "ld command is not found" << endl;
+  if (!checkCommandExists("g++")) {
+    cerr << "g++ command is not found" << endl;
     return false;
   }
-
-  if (!checkCommandExists("uname")) {
-    cerr << "uname command is not found" << endl;
-    return false;
-  }
-  mArchitecture = getArchitecture();
-
-  if (!checkCommandExists("sw_vers")) {
-    cerr << "sw_vers command is not found" << endl;
-    return false;
-  }
-  mOsVersion = getMacOsXVersion();
 
   return checkYzcInstall();
 }
@@ -172,28 +160,6 @@ bool CompilerDriver::checkFileExists(const char* fileName) const {
 bool CompilerDriver::checkCommandExists(string check) const {
   string command = "command -v " + check + " > /dev/null 2>&1";
   return !system(command.c_str());
-}
-
-string CompilerDriver::getMacOsXVersion() const {
-  char line[256];
-  FILE* sw_vers = popen("sw_vers -productVersion", "r");
-  fgets(line, sizeof(line), sw_vers);
-  if (line[strlen(line) - 1] == '\n') {
-    line[strlen(line) - 1] = '\0';
-  }
-  pclose(sw_vers);
-  return string(line);
-}
-
-string CompilerDriver::getArchitecture() const {
-  char line[256];
-  FILE* sw_vers = popen("uname -m", "r");
-  fgets(line, sizeof(line), sw_vers);
-  if (line[strlen(line) - 1] == '\n') {
-    line[strlen(line) - 1] = '\0';
-  }
-  pclose(sw_vers);
-  return string(line);
 }
 
 int CompilerDriver::executeCommand(string command) const {

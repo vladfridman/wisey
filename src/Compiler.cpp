@@ -128,12 +128,6 @@ void Compiler::saveBinary(string outputFile) {
                                                    features,
                                                    targetOptions,
                                                    relocModel);
-  Log::i("Target CPU " + targetMachine->getTargetCPU().str());
-  if (targetMachine->getRelocationModel() == Reloc::Model::PIC_) {
-    Log::i("Relocation model is PIC");
-  } else {
-    Log::i("Relocation model is NOT PIC");
-  }
 
   mContext.getModule()->setDataLayout(targetMachine->createDataLayout());
   mContext.getModule()->setTargetTriple(targetTriple);

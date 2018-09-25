@@ -20,8 +20,6 @@ namespace wisey {
     std::string mWiseyHome;
     std::string mWiseyHeaders;
     std::string mWiseyLibDir;
-    std::string mOsVersion;
-    std::string mArchitecture;
 
   public:
     
@@ -48,10 +46,6 @@ namespace wisey {
     bool checkFileExists(char const* fileName) const;
     
     bool checkCommandExists(std::string check) const;
-    
-    std::string getMacOsXVersion() const;
-
-    std::string getArchitecture() const;
 
     int executeCommand(std::string command) const;
 
