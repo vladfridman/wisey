@@ -35,8 +35,6 @@ controller CCallStack {
 
   /**
    * Print a stack trace for an exception.
-   *
-   * The last element in the stack trace is the call to this method and is not printed
    */
   public NString* reportException(IException exception) {
     NString* message = NString.create();

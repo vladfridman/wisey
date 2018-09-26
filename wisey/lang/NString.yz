@@ -1,8 +1,8 @@
 package wisey.lang;
 
 /**
- * String node allows one to work with a modifiable string
- *
+ * String node allows one to work with a modifiable string.
+ * <br/>
  * Instantiate this object by calling one of the static create methods
  */
 node NString {

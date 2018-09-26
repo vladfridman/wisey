@@ -34,10 +34,32 @@ gtag('config', 'UA-126333404-1');
             
           </td>
           <td class="elementDescriptionRight">
-            Memory pool implementation using APR memory pools.
+            Memory pool implementation. 
 <br/>
-This controller is used by the system and should not be called directly.
-Its methods are optmized out of the cotrnoller and are implmented directly in the compiler.
+Memory pool is used to allocate large number of small objects. It provides fast allocation time.
+Memory pool counts the number of objects allocated on it. When all pool objects are deallocated
+the memory pool clears its memory. If memory pool is non-empty at the time of its destruction
+the MMemoryPoolNonEmpty exception will be thrown.
+<br/>
+This controller is used by the system. Its methods are optmized out of the cotrnoller 
+and are implmented directly in the compiler.
+<br/>
+Example of using a memory pool:
+<pre>
+controller CProgram implements IProgram {
+  inject CMemoryPool* mPool;
+
+
+  public int run(immutable string[] arguments) override {
+
+    NCar* car = build(NCar).withYear(2018).onPool(mPool);
+
+    // an exception will be thrown if we set mPool to null because it is non-empty
+    mPool = null;
+    return 1;
+  }
+}
+</pre>
 
           </td>
         </tr>

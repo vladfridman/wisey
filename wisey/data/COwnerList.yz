@@ -4,6 +4,19 @@ import wisey.lang.CMemoryPool;
 
 /**
  * List where every element is an owner reference to an object.
+ * <pre>
+ * controller CProgram implements IProgram {
+ *   inject COwnerList* mOwnerList;
+ * 
+ *   public int run(immutable string[] arguments) override {
+ *     MCar* tesla = build(MCar).withYear(2019).onHeap(); 
+ *     // tesla is null after this instruction because ownership has been passed to the list
+ *     mOwnerList.pushBack(tesla);
+ *     // returns 2019
+ *     return mOwnerList.front().getYear();
+ *   }
+ * }
+ * </pre>
  */
 controller COwnerList {
 

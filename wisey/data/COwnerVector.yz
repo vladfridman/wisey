@@ -4,6 +4,21 @@ import wisey.lang.MSystem;
 
 /**
  * Vector where every element is an owner reference to an object.
+ * <pre>
+ * controller CProgram implements IProgram {
+ *   inject COwnerVector* mOwnerVector;
+ * 
+ *   public int run(immutable string[] arguments) override {
+ *     MCar* tesla = build(MCar).withYear(2019).onHeap(); 
+ *     // tesla is null after this instruction because ownership has been passed to the list
+ *     mOwnerVector.pushBack(tesla);
+ *     // Get ownership back from the vector to the MCar object
+ *     tesla = mOwnerVector.popBack();
+ *     // returns 2019
+ *     return tesla.getYear();
+ *   }
+ * }
+ * </pre>
  */
 controller COwnerVector {
 

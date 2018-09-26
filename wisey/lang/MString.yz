@@ -2,7 +2,7 @@ package wisey.lang;
 
 /**
  * String model is an immutable representation of a string. 
- *
+ * <br/>
  * Instantiate this object by calling one of the static create methods
  */
 model MString {

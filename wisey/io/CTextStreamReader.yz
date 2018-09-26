@@ -4,13 +4,27 @@ import wisey.lang.NString;
 
 /**
  * Reads lines from a text stream
+ * <br/>
+ * Example:
+ * <pre>
+ * // Create text stream from standard input
+ * CTextStreamReader* stream = CTextStreamReader.openSystemIn();
+ *
+ * // read a line from stream 
+ * NString* line = stream.readLineIntoNString(line)
+ *
+ * // close the stream
+ * stream.close();
+ * </pre>
  */
 controller CTextStreamReader {
 
   private constant int BUFFER_SIZE = 256;
 
   /**
-   * Pointer to the native stream
+   * Pointer to the native stream. 
+   *
+   * You don't need to initialize this when instantiating using a static method.
    */
   receive ::llvm::struct::__sFILE::pointer mStream;
 

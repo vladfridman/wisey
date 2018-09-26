@@ -5,6 +5,22 @@ package wisey.lang;
  *
  * Bind your program controller to this interface and your controller's run() method
  * will get invoked.
+ * <br/>
+ * Example of a compilable program:
+ * <pre>
+ * package wisey.install.examples;
+ * 
+ * import wisey.lang.IProgram;
+ * 
+ * controller CHelloWorld implements IProgram {
+ *   public int run(immutable string[] arguments) override {
+ *     printout("Hello world!\n");
+ *     return 0;
+ *   }
+ * }
+ *
+ * bind(IProgram, CHelloWorld);
+ * </pre>
  */
 interface IProgram {
 

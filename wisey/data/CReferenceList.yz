@@ -4,6 +4,20 @@ import wisey.lang.CMemoryPool;
 
 /**
  * List where every element is a reference to an object.
+ * <pre>
+ * controller CProgram implements IProgram {
+ *   inject CReferenceList* mReferenceList;
+ * 
+ *   public int run(immutable string[] arguments) override {
+ *     MCar* tesla = build(MCar).withYear(2019).onHeap(); 
+ *     // tesla is not null after this because list only keeps a reference to the object
+ *     mReferenceList.pushBack(tesla);
+ *     // This throws an exception: tesla owner reference can not be destroyed
+ *     // because the reference list has a refrence to the object. Clear the list to fix.
+ *     return mReferenceList.front().getYear();
+ *   }
+ * }
+ * </pre>
  */
 controller CReferenceList {
 

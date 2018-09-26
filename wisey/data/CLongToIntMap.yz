@@ -2,6 +2,18 @@ package wisey.data;
 
 /**
  * Map of int keys to long values.
+ * <br/>
+ * Example:
+ * <pre>
+ * // Can be injected in a field as well
+ * CLongToIntMap* map = CLongToIntMap.create();
+ *
+ * // put a key, value pair into the map
+ * map.put(2l, 3);
+ *
+ * // clear the map
+ * map.clear();
+ * </pre>
  */
 controller CLongToIntMap {
 

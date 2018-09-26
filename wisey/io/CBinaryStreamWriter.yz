@@ -3,10 +3,25 @@ package wisey.io;
 import wisey.lang.NString;
 
 /**
- * Writes array of bytes to a stream
+ * Writes array of bytes to a stream. Instantiate this object using one of the static methods.
+ * <br/>
+ * Example:
+ * <pre>
+ * // Create binary stream to standard out
+ * CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut();
+ *
+ * // write byte[] array into the stream 
+ * stream.writeImmutable(array);
+ *
+ * // close the stream
+ * stream.close();
+ * </pre>
  */
 controller CBinaryStreamWriter {
 
+  /**
+   * Do not need to initialize this when instantiating using a static method
+   */
   receive ::llvm::struct::__sFILE::pointer mStream;
 
   /**

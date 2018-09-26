@@ -35,6 +35,23 @@ gtag('config', 'UA-126333404-1');
           </td>
           <td class="elementDescriptionRight">
             Map of owner references to wisey objects
+<pre>
+controller CProgram implements IProgram {
+  inject CReferenceToOwnerMap* mMap;
+
+
+  public int run(immutable string[] arguments) override {
+    string make = "Tesla";
+    MCar* tesla = build(MCar).withMake(make).onHeap(); 
+    // Store entry in the map where key is "Tesla" and value is the MCar object allocated above
+    // tesla is null after this instruction
+    mMap.put(tesla.getMake(), tesla);
+    // Get ownership back from the map to the MCar object
+    tesla = mMap.take(make);
+    return 0;
+  }
+}
+</pre>
 
           </td>
         </tr>

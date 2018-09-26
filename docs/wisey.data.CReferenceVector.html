@@ -35,6 +35,20 @@ gtag('config', 'UA-126333404-1');
           </td>
           <td class="elementDescriptionRight">
             Vector of references to objects
+<pre>
+controller CProgram implements IProgram {
+  inject CReferenceVector* mReferenceVector;
+
+
+  public int run(immutable string[] arguments) override {
+    MCar* tesla = build(MCar).withYear(2019).onHeap(); 
+    // tesla is not null after this because list only keeps a reference to the object
+    mReferenceVector.pushBack(tesla);
+    // Returns 2019
+    return mReferenceVector.popBack().getYear();
+  } 
+}
+</pre>
 
           </td>
         </tr>

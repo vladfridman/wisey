@@ -6,11 +6,25 @@ import wisey.lang.NString;
  * Writes to a text stream. 
  *
  * Create an instance of this object by calling one of create static methods
+ * <br/>
+ * Example:
+ * <pre>
+ * // Create text stream to a file
+ * CTextStreamWriter* stream = CTextStreamWriter.open(NString.createFromString("test.txt"));
+ *
+ * // write a line to a file
+ * print(stream, "This is a test\n");
+ *
+ * // close the stream
+ * stream.close();
+ * </pre>
  */
 controller CTextStreamWriter {
 
   /**
    * File handle pointer pointing to the native stream. 
+   *
+   * You don't need to initialize this when instantiating using a static method.
    */
   receive ::llvm::struct::__sFILE::pointer mStream;
 
