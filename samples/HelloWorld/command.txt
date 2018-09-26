@@ -1,0 +1,2 @@
+wiseyc HelloWorld.yz
+./runnable
