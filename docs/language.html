@@ -580,7 +580,9 @@ controller CCatcher {
             <p>
             Wisey supports the following expressions for object types:
             <li><b>(CCar) a</b> (cast object to a type CCar) This may throw a runtime exception when cast is not possible
-            <li><b>a instanceof CCar</b> returns true if a is an instance of CCar. Can be used with interfaces as well.
+            <li><b>a instanceof CCar</b> returns true if a is an instance of CCar. Can be used with interfaces as well
+            <li><b>this</b> returns a regular reference to the current object
+            <li><b>thread</b> returns a regular reference to the current thread
           </td>
         </tr>
       </tbody>
