@@ -51,7 +51,7 @@ controller CMandelbrot implements IProgram {
       MResult* result = mThreadPool.getResult();
       results[result.getY()] = result;
     }
-    mThreadPool.stop();
+    mThreadPool.waitAndStop();
 
     CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut();
     printout("P4\n" + n + " " + n + "\n");

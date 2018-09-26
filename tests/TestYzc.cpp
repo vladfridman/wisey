@@ -134,6 +134,7 @@ TEST_F(YzcTest, extractHeadersTest) {
                "\n"
                "/* llvm Globals */\n"
                "\n"
+               "external ::llvm::i64 wProcessorCount;\n"
                "external ::llvm::struct::__sFILE::pointer wStdErr;\n"
                "external ::llvm::struct::__sFILE::pointer wStdIn;\n"
                "external ::llvm::struct::__sFILE::pointer wStdOut;\n",

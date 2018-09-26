@@ -431,7 +431,7 @@ external controller wisey.threads.CThreadPool {
   void submit(
     ::wisey::model* worker);
   void start();
-  void stop();
+  void waitAndStop();
   ::wisey::model* getResult();
   wisey.threads.IWorker* getWorker();
   void addResult(

@@ -59,7 +59,7 @@ controller CThreadPool {
   /**
    * Wait for all pool threads to finish and stop the pool
    */
-  public void stop() {
+  public void waitAndStop() {
     for (int i = 0; i < mThreads.getSize(); i++) {
       mWorkers.push(build(MEnder).onHeap());
     }

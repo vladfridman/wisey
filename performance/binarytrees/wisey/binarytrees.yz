@@ -62,7 +62,7 @@ controller CBinaryTrees implements IProgram {
       results[(result.getDepth() - MIN_DEPTH) / 2] = result;
       resultCount++;
     }
-    mThreadPool.stop();
+    mThreadPool.waitAndStop();
 
     for (int i = 0; i < results.getSize(); i++) {
       results[i].printme();

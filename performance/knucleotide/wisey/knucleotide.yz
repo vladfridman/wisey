@@ -74,7 +74,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       MFragmentWorkerResult* result = mThreadPool.getResult();
       fragments[result.getArrayIndex()] = result.toController();
     }
-    mThreadPool.stop();
+    mThreadPool.waitAndStop();
     return fragments;
   }
 
