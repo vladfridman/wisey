@@ -12,14 +12,13 @@ model MException implements IException {
   }
 
   public NString* report() override {
-    return callstack.reportException(this);
+    return thread.getCallStack().reportException(this);
   }
 }
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException* exception = build(MException).withValue(255).onHeap();
-    throw exception;
+    throw build(MException).withValue(255).onHeap();
   }
 }
 

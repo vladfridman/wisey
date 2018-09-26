@@ -668,6 +668,11 @@ def printDoc(objects, destinationDir, dictionary):
   file.write('</script>\n')
   file.write('</head>\n')
   file.write('<body>\n')
+  file.write('<div class="contents">\n')
+  file.write('  <a href="language.html">Reference</a>\n')
+  file.write('  &nbsp;&nbsp;\n')
+  file.write('  <a href="download.html">Download</a>\n')
+  file.write('</div>\n')
   file.write('  <div class="contents">\n')
 
   for o in objects:
