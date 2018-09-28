@@ -10,7 +10,7 @@ http://wisey.ninja/language.html
 
 ### Explore  wisey library ###
 
-http:://wisey.ninja
+http://wisey.ninja
 
 ### Developer set up on Mac OS X x86 64 bit ###
 
