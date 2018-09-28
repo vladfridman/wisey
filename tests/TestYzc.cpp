@@ -90,7 +90,7 @@ TEST_F(YzcTest, helpTest) {
 TEST_F(YzcTest, outputToFileTest) {
   system("mkdir -p build");
 
-  system("bin/yzc tests/samples/test_addition.yz wisey/headers/libwisey.yz -o "
+  system("bin/yzc tests/samples/test_addition.yz build/libwisey.yz -o "
          "build/test.o 2>&1");
   system("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test");
@@ -101,7 +101,7 @@ TEST_F(YzcTest, outputToFileTest) {
 
 TEST_F(YzcTest, extractHeadersTest) {
   system("mkdir -p build");
-  system("bin/yzc tests/samples/test_addition.yz wisey/headers/libwisey.yz "
+  system("bin/yzc tests/samples/test_addition.yz build/libwisey.yz "
          "-H build/test.yzh --no-output 2>&1");
   
   ifstream stream;
@@ -147,17 +147,17 @@ TEST_F(YzcTest, emitLLVMTest) {
 
   string resultWithoutEmitLLVM =
   TestFileRunner::exec("bin/yzc -o build/test.bc tests/samples/test_addition.yz "
-                             "wisey/headers/libwisey.yz");
+                             "build/libwisey.yz");
   EXPECT_EQ(resultWithoutEmitLLVM.find("define i32 @main"), string::npos);
   
   string resultWithEmitLLVM = TestFileRunner::exec("bin/yzc --emit-llvm -o build/test.bc "
                                                    "tests/samples/test_addition.yz "
-                                                   "wisey/headers/libwisey.yz");
+                                                   "build/libwisey.yz");
   EXPECT_NE(resultWithEmitLLVM.find("define i32 @main"), string::npos);
   
   resultWithEmitLLVM = TestFileRunner::exec("bin/yzc -e -o build/test.bc "
                                             "tests/samples/test_addition.yz "
-                                            "wisey/headers/libwisey.yz");
+                                            "build/libwisey.yz");
   EXPECT_NE(resultWithEmitLLVM.find("define i32 @main"), string::npos);
 }
 

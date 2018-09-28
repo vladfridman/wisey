@@ -27,7 +27,7 @@ struct CompilerTest : public ::testing::Test {
   CompilerTest() : mCompiler(mCompilerArguments) { }
 };
 
-const string CompilerTest::LIBWISEY =  "wisey/headers/libwisey.yz";
+const string CompilerTest::LIBWISEY =  "build/libwisey.yz";
 
 TEST_F(CompilerTest, compileAndRunTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");

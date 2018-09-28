@@ -17,7 +17,7 @@ INCLUDEDIR = ${CURDIR}/include
 # Tests header files
 TESTINCLUDEDIR = ${CURDIR}/tests/include
 # System lib directory
-LIBDIR = ${CURDIR}/lib
+LIBDIR = ${CURDIR}/build
 # List of source files
 SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
@@ -49,7 +49,7 @@ ifeq ($(UNAME_S),Linux)
   LDTESTFLAGS += -Wl,--whole-archive -lwisey -Wl,--no-whole-archive
 endif
 ifeq ($(UNAME_S),Darwin)
-  LDTESTFLAGS += -force_load lib/libwisey.a
+  LDTESTFLAGS += -force_load build/libwisey.a
 endif
 
 default: ${BINDIR}/yzc
