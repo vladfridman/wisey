@@ -14,8 +14,6 @@ http://wisey.ninja
 
 ### Developer set up on Mac OS X x86 64 bit ###
 
-Prerequisites: g++ installed
-
 1. Install Xcode from App Store, Install command line tools: `xcode-select --install`
 2. Install prerequesites: `sudo apt-get update; sudo apt-get install cmake subversion python flex bison`
 3. Install LLVM
