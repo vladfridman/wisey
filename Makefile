@@ -26,6 +26,8 @@ OBJ = $(SOURCES:src/%.cpp=$(BUILDDIR)/%.o) $(BUILDDIR)/Tokens.o $(BUILDDIR)/y.ta
 MAINS = $(BUILDDIR)/wiseyrun.o $(BUILDDIR)/wiseyc.o $(BUILDDIR)/wiseylibc.o $(BUILDDIR)/yzc.o
 # Objects except the object files that contain main functions
 OBJEXCEPTMAINS = $(filter-out $(MAINS), $(OBJ))
+# Objects needed for compiler drivers
+OBJECTSFORDRIVERS = $(BUILDDIR)/CompilerDriver.o $(BUILDDIR)/Log.o $(BUILDDIR)/WiseycArgumentParser.o $(BUILDDIR)/WiseylibcArgumentParser.o $(BUILDDIR)/CompilerArguments.o 
 # Test directory
 TESTDIR = tests
 # Test sources
@@ -97,10 +99,10 @@ $(BUILDDIR)/yzc.o: ${SRCDIR}/yzc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 $(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
-${BINDIR}/wiseyc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseyc.o | ${BINDIR}
+${BINDIR}/wiseyc: $(OBJECTSFORDRIVERS) ${BUILDDIR}/wiseyc.o | ${BINDIR}
 	$(LD) -o $@ $^ $(LDFLAGS)
 
-${BINDIR}/wiseylibc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseylibc.o | ${BINDIR}
+${BINDIR}/wiseylibc: $(OBJECTSFORDRIVERS) ${BUILDDIR}/wiseylibc.o | ${BINDIR}
 	$(LD) -o $@ $^ $(LDFLAGS)
 
 ${BINDIR}/yzc: $(OBJEXCEPTMAINS) ${BUILDDIR}/yzc.o | ${BINDIR}
