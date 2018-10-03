@@ -15,7 +15,7 @@ http://wisey.ninja
 ### Developer set up on Mac OS X x86 64 bit ###
 
 1. Install Xcode from App Store, Install command line tools: `xcode-select --install`
-2. Install prerequesites: `sudo apt-get update; sudo apt-get install cmake subversion python flex bison`
+2. Install prerequesites: `brew install cmake subversion python flex bison`
 3. Install LLVM
   `cd ~; mkdir llvm; cd llvm;`
   `svn co http://llvm.org/svn/llvm-project/llvm/branches/release_70 llvm;`
