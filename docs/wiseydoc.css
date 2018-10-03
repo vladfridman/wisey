@@ -3,7 +3,7 @@ body, table, div, p, dl {
 }
 
 body {
-  background-color: white;
+  background-color: #f8faf8;
   color: black;
   margin: 0;
 }
@@ -15,8 +15,8 @@ div.contents {
 }
 
 h2.sectionHeader {
-  border-bottom: 1px solid #9ACD32;
-  color: #006400;
+  border-bottom: 1px solid #71b1d0;
+  color: #639AB3;
   font-size: 150%;
   font-weight: normal;
   margin-top: 1.75em;
@@ -31,13 +31,13 @@ tr.header h2 {
 }
 
 a {
-  color: #008000;
+  color: #639AB3;
   font-weight: normal;
   text-decoration: none;
 }
 
 a:visited {
-  color: #006400;
+  color: #639AB3;
 }
 
 a:hover {
@@ -65,7 +65,7 @@ table.docSection {
 }
 
 .elementSeparator {
-  border-bottom: 1px solid #e2f0de;
+  border-bottom: 1px solid #71b1d0;
   line-height: 1px;
   margin: 0px;
   padding: 0px;
@@ -80,8 +80,8 @@ table.docSection {
 }
 
 pre {
-  border: 1px solid #e2f0de;
-  background-color: #292929;
+  border: 1px solid #C4E8FF;
+  background-color: #f8faf8;
   padding: 4px 6px;
   margin: 4px 8px 4px 2px;
   overflow: auto;
@@ -90,6 +90,6 @@ pre {
   line-height: 125%;
   font-family: monospace, fixed;
   font-size: 100%;
-  color: #3bd03b;
+  color: #639AB3;
 }
 
