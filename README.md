@@ -34,24 +34,24 @@ http://wisey.ninja
 7. Compile wisey library
   `cd ~/wiseydev;`
   `g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++11 libsrc/libdata/libdata.cpp -o build/libdata.o;` 
-  `bin/wiseylibc -v -Abuild/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o build/libwisey.a -H build/libwisey.yz`
+  `bin/wiseylibc -v -Abuild/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o build/libwisey.a -H build/libwisey.yz;`
   `cp build/libwisey.a $WISEY_HOME/lib; cp build/libwisey.yz $WISEY_HOME/headers;`
 8. Install googletest and googlemock:
   `cd ~; git clone https://github.com/google/googletest.git; cd ~/googletest/googletest/make;`
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
-  `make; ar -rv libgtest.a gtest-all.o;`
+  `make -j8; ar -rv libgtest.a gtest-all.o;`
   `sudo cp libgtest.a /usr/local/lib/libgtest.a;` 
   `sudo cp -r ../include/gtest /usr/local/include/;`
   `cd ~/googletest/googlemock/make;`
   modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
-  `make; ar -rv libgmock.a gmock-all.o;`
+  `make -j8; ar -rv libgmock.a gmock-all.o;`
   `sudo cp libgmock.a /usr/local/lib/libgmock.a;`
   `sudo cp -r ../include/gmock /usr/local/include/;`
 9. Make and run tests
   `cd ~/wisey; make -j8 tests;`
   `bin/runtests`
 10. Optional: Setup XCode project for LLVM: 
-  Install Xcode from App Store, Install command line tools: `xcode-select --install`
+  Install Xcode from App Store, Install command line tools: `xcode-select --install;`
   `mkdir ~/llvm/llvmxcodebuild; cd ~/llvm/llvmxcodebuild;`
   `cmake -G Xcode CMAKE_BUILD_TYPE="Debug" /Users/vlad/llvm/llvm;`
   `open LLVM.xcodeproj;`
@@ -78,15 +78,15 @@ http://wisey.ninja
 6. Compile wisey library
   `cd ~/wisey;`
   `g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++11 libsrc/libdata/libdata.cpp -o build/libdata.o;` 
-  `bin/wiseylibc -v -Alib/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o build/libwisey.a -H build/libwisey.yz && rm lib/libwisey.o lib/libdata.o;`
+  `bin/wiseylibc -v -Alib/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o build/libwisey.a -H build/libwisey.yz;`
   `cp build/libwisey.a $WISEY_HOME/lib; cp build/libwisey.yz $WISEY_HOME/headers;`
 7. Install googletest and googlemock:
   `cd ~; git clone https://github.com/google/googletest.git; cd ~/googletest/googletest/make;`
-  `make; ar -rv libgtest.a gtest-all.o;`
+  `make -j8; ar -rv libgtest.a gtest-all.o;`
   `sudo cp libgtest.a /usr/local/lib/libgtest.a;` 
   `sudo cp -r ../include/gtest /usr/local/include/;`
   `cd ~/googletest/googlemock/make; `
-  `make; ar -rv libgmock.a gmock-all.o;`
+  `make -j8; ar -rv libgmock.a gmock-all.o;`
   `sudo cp libgmock.a /usr/local/lib/libgmock.a;`
   `sudo cp -r ../include/gmock /usr/local/include/;`
 8. Make tests
