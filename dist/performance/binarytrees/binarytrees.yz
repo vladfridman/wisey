@@ -1,0 +1,163 @@
+package wisey.data;
+
+import wisey.data.COwnerVector;
+import wisey.lang.CMemoryPool;
+import wisey.lang.MString;
+import wisey.lang.MSystem;
+import wisey.lang.NString;
+import wisey.lang.IProgram;
+import wisey.threads.IWorker;
+import wisey.threads.IThread;
+import wisey.threads.CThreadPool;
+
+/**
+ * Tests Wisey performance analogous to the binary-trees test from The Benchmarks Game 
+ *
+ * The test repeatedly creates and destroys binry trees. The max tree depth is supplied from
+ * command line
+ */
+controller CBinaryTrees implements IProgram {
+
+  /**
+   * Minimum binary tree depth
+   */
+  public constant int MIN_DEPTH = 4;
+
+  // Memory pool where nodes of the long lived tree are allocated
+  inject immediate CMemoryPool* mLongLivedPool;
+  // Thread pool for running workers that allocate trees in parallel
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+  // Vector of worker objects
+  inject immediate COwnerVector* mWorkers;
+
+  // Execution starts here, maximum depth is passed from command line through arguments
+  public int run(immutable string[] arguments) override {
+    int n = NString.createFromString(arguments[1]).toInt();
+
+    int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
+    int stretchDepth = maxDepth + 1;
+
+    NTreeNode* treeNode = bottomUpTree(stretchDepth, mLongLivedPool);
+    printout("stretch tree of depth " + stretchDepth + "\t check: " 
+       + treeNode.itemCheck() + "\n");
+
+    treeNode = bottomUpTree(maxDepth, mLongLivedPool);
+
+    for (int depth = MIN_DEPTH; depth <= maxDepth; depth = depth + 2) {
+      IWorker* worker = build(MWorker)
+        .withMaxDepth(maxDepth)
+        .withDepth(depth)
+        .onHeap();
+      mWorkers.pushBack(worker);
+    }
+    while (mWorkers.getSize()) {
+      IWorker* worker = mWorkers.popBack();
+      mThreadPool.submit(worker);
+    }
+    mThreadPool.start();
+    MResult*[]* results = new MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
+    int resultCount = 0;
+    while (resultCount < results.getSize()) {
+      MResult* result = mThreadPool.getResult();
+      results[(result.getDepth() - MIN_DEPTH) / 2] = result;
+      resultCount++;
+    }
+    mThreadPool.waitAndStop();
+
+    for (int i = 0; i < results.getSize(); i++) {
+      results[i].printme();
+    }
+    printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode.itemCheck() + "\n");
+
+    return 1;
+  }
+
+  /**
+   * Creates a binary tree of the given depth on the given memory pool
+   */
+  private static NTreeNode* bottomUpTree(int depth, CMemoryPool pool) {
+    if (0 < depth) {
+      return build(NTreeNode)
+        .withLeft(bottomUpTree(depth - 1, pool))
+        .withRight(bottomUpTree(depth - 1, pool))
+        .onPool(pool);
+    }
+    return build(NTreeNode).withLeft(null).withRight(null).onPool(pool);
+  }
+
+  /**
+   * Represents one node on the tree
+   */
+  private node NTreeNode {
+    receive NTreeNode* mLeft;
+    receive NTreeNode* mRight;
+
+    /**
+     * This is used to check that the test runs correctly
+     */
+    public int itemCheck() {
+      if (null == mLeft) {
+        return 1;
+      }
+      return 1 + mLeft.itemCheck() + mRight.itemCheck();
+    }
+  }
+
+  /**
+   * In order to optimize performance only one CMemoryPool is created per thread.
+   *
+   * This is achieved by having a context scoped object CThreadMemoryPool.
+   * When an object is scoped to IThread only one instance of it is created per IThread.
+   */
+  private controller CThreadMemoryPool inScope IThread {
+    inject immediate CMemoryPool* mMemeryPool;
+
+    public CMemoryPool getMemoryPool() {
+      return mMemeryPool;
+    }
+  }
+
+  /**
+   * Represents a worker that runs on its own thread
+   */
+  private model MWorker implements IWorker {
+    int mMaxDepth;
+    int mDepth;
+
+    /**
+     * work() method is where execution starts for an IWorker
+     */
+    public void work() override {
+      CMemoryPool pool = inject(CThreadMemoryPool).onHeap().getMemoryPool();
+      int check = 0;
+
+      int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
+      for (int i = 1; i <= iterations; i++) {
+        check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
+      }
+      thread.send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
+    }
+  }
+
+  /**
+   * Result of MWorker's work() method are wrapped in this model and sent to the calling thread
+   */
+  private model MResult {
+    int mIterations;
+    int mDepth;
+    int mCheck;
+
+    /**
+     * Prints results of the tree check
+     */
+    public void printme() {
+      printout(mIterations + "\t trees of depth " + mDepth + "\t check: " + mCheck + "\n");
+    }
+
+    public int getDepth() {
+      return mDepth;
+    }
+  }
+}
+
+bind(IProgram, CBinaryTrees);

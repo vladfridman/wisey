@@ -1,0 +1,49 @@
+package wisey.install.examples;
+
+import wisey.lang.IProgram;
+import wisey.lang.MSystem;
+import wisey.threads.CThreadPool;
+import wisey.threads.IWorker;
+
+/**
+ * Main controller that will execute our program.
+ * It must implement IProgram interface that has only one method: run()
+ */ 
+controller CHelloWorldMultiThreaded implements IProgram {
+  // Initialize the thread pool controller based on the number availible processors
+  inject CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+
+  /**
+   * Command line parameters are passed to run() method in a form of an immutable array of strings
+   */
+  public int run(immutable string[] arguments) override {
+    printout("processor count: " + MSystem.getProcessorCount() + " \n");
+    // Instantiate worker models that will then be executed in separate threads
+    for (int i = 0; i < 10; i++) {
+      MWorker* worker = build(MWorker).withThreadNumber(i).onHeap();
+      mThreadPool.submit(worker);
+    }
+    // Start executing thread pool threads, sleep for a while and then stop
+    mThreadPool.start();
+    mThreadPool.waitAndStop();
+    return 0;
+  }
+
+
+  /**
+   * Worker implementation that takes sleeps for a random number of microseconds and prints message
+   */
+  private model MWorker implements IWorker {
+    int mThreadNumber;
+
+    public void work() override {
+      thread.usleep(MSystem.getRandomNumber(0, 500));
+      printout("Hello world from thread " + mThreadNumber + "!\n");
+    }
+  }
+}
+
+/**
+ * Bind IProgram interface to our controller
+ */
+bind(IProgram, CHelloWorldMultiThreaded);

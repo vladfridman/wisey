@@ -1,0 +1,146 @@
+package wisey.performance.testing;
+
+import wisey.io.CBinaryStreamWriter;
+import wisey.lang.IProgram;
+import wisey.lang.MString;
+import wisey.lang.MSystem;
+import wisey.lang.NString;
+import wisey.threads.IWorker;
+import wisey.threads.CThreadPool;
+
+/**
+ * Tests wisey performance analogous to mandelbrot test from The Benchmarks Game
+ */
+controller CMandelbrot implements IProgram {
+  // Thread pool for running workers that compute part of the mandelbrot map
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+
+  state immutable double[]* mCrb;
+  state immutable double[]* mCib;
+
+  // Execution starts here, size of the mandelbrot map passed from command line through arguments
+  public int run(immutable string[] arguments) override {
+    int n = 6000;
+    if (arguments.getSize() >= 2) {
+      n = NString.createFromString(arguments[1]).toInt();
+    }
+
+    double[]* crb = new double[n + 7]; 
+    double[]* cib = new double[n + 7];
+    double invN = 2.0d / n; 
+    for (int i = 0; i < n; i++) { 
+      cib[i] = i * invN - 1.0; 
+      crb[i] = i * invN - 1.5; 
+    }
+    mCrb = crb;
+    mCib = cib;
+
+    int width = (n + 7) / 8;
+    for (int i = 0; i < n; i++) {
+      IWorker* worker = build(MWorker)
+        .withCrb(mCrb)
+        .withCib(mCib)
+        .withWidth(width)
+        .withY(i)
+        .onHeap();
+      mThreadPool.submit(worker);
+    }
+    mThreadPool.start();
+    MResult*[]* results = new MResult*[n];
+    for (int resultCount = 0; resultCount < n; resultCount++) {
+      MResult* result = mThreadPool.getResult();
+      results[result.getY()] = result;
+    }
+    mThreadPool.waitAndStop();
+
+    CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut();
+    printout("P4\n" + n + " " + n + "\n");
+    for (int i = 0; i < n; i++) {
+      stream.writeImmutable(results[i].getArray());
+    }
+    stream.close();
+
+    return 1;
+  }
+
+  /**
+   * Represents a worker that runs part of the mandelbrot computation
+   */
+  private model MWorker implements IWorker {
+    immutable double[] mCrb;
+    immutable double[] mCib;
+    int mY;
+    int mWidth;
+
+    public void work() override {
+      byte[]* line = new byte[mWidth]; 
+      for (int xb = 0; xb < mWidth; xb++) {
+        int result = getByte(xb * 8, mY);
+        line[xb] = (byte) result;
+      }
+      thread.send(build(MResult).withArray(line).withY(mY).onHeap());
+    }
+
+    /**
+     * work() method is where execution starts for an IWorker
+     */
+    private int getByte(int x, int y) {
+      int res = 0;
+      for (int i = 0; i < 8; i += 2) {
+        double Zr1 = mCrb[x + i];
+        double Zi1 = mCib[y];
+
+        double Zr2 = mCrb[x + i + 1];
+        double Zi2 = mCib[y];
+
+        int b = 0;
+        int j = 49;
+
+        do {
+          double nZr1 = Zr1 * Zr1 - Zi1 * Zi1 + mCrb[x + i];
+          double nZi1 = Zr1 * Zi1 + Zr1 * Zi1 + mCib[y];
+          Zr1 = nZr1;
+          Zi1 = nZi1;
+
+          double nZr2 = Zr2 * Zr2 - Zi2 * Zi2 + mCrb[x + i + 1];
+          double nZi2 = Zr2 * Zi2 + Zr2 * Zi2 + mCib[y];
+          Zr2 = nZr2;
+          Zi2 = nZi2;
+
+          if (Zr1 * Zr1 + Zi1 * Zi1 > 4) {
+            b |= 2;
+            if (b == 3) {
+              break;
+            }
+          }
+          if (Zr2 * Zr2 + Zi2 * Zi2 > 4) {
+            b |= 1;
+            if (b == 3) {
+              break;
+            }
+          }
+        } while(--j > 0);
+        res = (res << 2) + b;
+      }
+      return res ^ -1;
+    }
+  }
+
+  /**
+   * Result of MWorker's work() method are wrapped in this model and sent to the calling thread
+   */
+  private model MResult {
+    immutable byte[]* mArray;
+    int mY;
+
+    public immutable byte[] getArray() {
+      return mArray;
+    }
+
+    public int getY() {
+      return mY;
+    }
+  }
+}
+
+bind(IProgram, CMandelbrot);

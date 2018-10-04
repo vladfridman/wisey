@@ -1,0 +1,1 @@
+This is a thir-party java program that is used to generate an input file for the knucleotide performance test.

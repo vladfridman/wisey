@@ -1,0 +1,338 @@
+package wisey.performance.testing;
+
+import wisey.io.CTextStreamReader;
+import wisey.data.COwnerVector;
+import wisey.data.CLongToIntMap;
+import wisey.data.IObjectComparator;
+import wisey.lang.CMemoryPool;
+import wisey.lang.IProgram;
+import wisey.lang.MSystem;
+import wisey.lang.NString;
+import wisey.threads.IThread;
+import wisey.threads.IWorker;
+import wisey.threads.CThreadPool;
+
+/**
+ * Tests Wisey performance analogous to the k-nucleotide test from The Benchmarks Game 
+ *
+ * The test needs an input file that is craeted by another program called faster 
+ * It is easiest to run java to generate the input file and then feed it into this test
+ * The command to generate the input file and then run this test shoud be in command.txt file
+ */
+controller CKNucleotide implements IProgram, IObjectComparator {
+  private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
+  private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
+
+  // Thread pool for running workers process part of the input
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+
+  // Execution starts here, input data is read from standard input
+  public int run(immutable string[] arguments) override {
+    immutable byte[]* sequence = read();
+
+    int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
+    CFragment*[]* fragments = createFragments(sequence, fragmentLengths);
+
+    NString stringBuilder = NString.create();
+    stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]));
+    stringBuilder.appendNString(
+      writeFrequencies((float) sequence.getSize() - 1.0, 
+      sumTwoMaps(fragments[1], fragments[2])));
+
+    string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
+    for (int i = 0; i < nucleotideFragments.getSize(); i++) {
+      string nucleotideFragment = nucleotideFragments[i];
+      stringBuilder.appendNString(writeCount(fragments, nucleotideFragment));
+    }
+
+    printout(stringBuilder);
+    return 1;
+  }
+
+  /**
+   * This devides work into subparts and launches workers on a thread pool to do the work
+   */
+  private CFragment*[]* createFragments(immutable byte[] sequence, int[] fragmentLengths) {
+    int arrayIndex = 0;
+    for (int i = 0; i < fragmentLengths.getSize(); i++) {
+      int fragmentLength = fragmentLengths[i];
+      for (int index = 0; index < fragmentLength; index++) {
+        int offset = index;
+        MFragmentWorker* worker = build(MFragmentWorker)
+          .withSequence(sequence)
+          .withOffset(offset)
+          .withFragmentLength(fragmentLength)
+          .withArrayIndex(arrayIndex)
+          .onHeap();
+        mThreadPool.submit(worker);
+        arrayIndex++;
+      }
+    }
+    mThreadPool.start();
+    CFragment*[]* fragments = new CFragment*[arrayIndex];
+    for (int i = 0; i < fragments.getSize(); i++) {
+      MFragmentWorkerResult* result = mThreadPool.getResult();
+      fragments[result.getArrayIndex()] = result.toController();
+    }
+    mThreadPool.waitAndStop();
+    return fragments;
+  }
+
+  /**
+   * Computation is devided into fragments, each fragment computed by a separate worker
+   */
+  private model MFragmentWorker implements IWorker {
+    immutable byte[] mSequence;
+    int mOffset;
+    int mFragmentLength;
+    int mArrayIndex;
+
+    /**
+     * work() method is where execution starts for an IWorker
+     */
+    public void work() override {
+      CLongToIntMap map = inject(CFragmentWorkerContext).onHeap().getMap();
+      int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1;
+      for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
+        long key = 0;
+        for (int i = index; i < index + mFragmentLength; i++) {
+          key = key * 4 + mSequence[i];
+        }
+        map.addTo(key, 1);
+      }
+
+      MFragmentWorkerResult* result = build(MFragmentWorkerResult)
+        .withKeys(map.getKeys())
+        .withValues(map.getValues())
+        .withKeyLength(mFragmentLength)
+        .withArrayIndex(mArrayIndex)
+        .onHeap();
+      map.clear();
+      thread.send(result);
+    }
+  }
+
+  /**
+   * MFragmentWorker's result is a model that is passed back to the calling thread
+   *
+   * Result of the MFragmentWorker computation is a long to int map, but it can not
+   * be passed between threads because it is a controller which is mutable. 
+   * Therefore we have to pass arrays of keys and values and then reconstruct the map
+   * at the recieving side
+   */
+  private model MFragmentWorkerResult {
+    immutable long[]* mKeys;
+    immutable int[]* mValues;
+    int mKeyLength;
+    int mArrayIndex;
+
+    /**
+     * Convert arrays of keys and values into a map
+     */
+    public CFragment* toController() {
+      CFragment* fragment = inject(CFragment)
+        .withKeyLength(mKeyLength)
+        .onHeap();
+      for (int i = 0; i < mKeys.getSize(); i++) {
+        fragment.getMap().put(mKeys[i], mValues[i]);
+      }
+      return fragment;
+    }
+
+    public int getArrayIndex() {
+      return mArrayIndex;
+    }
+  }
+
+  /**
+   * Represents result of MFragmentWorker computation with the results converted into a map
+   */
+  private controller CFragment {
+    inject CLongToIntMap* mMap;
+    receive int mKeyLength;
+
+    public CLongToIntMap getMap() {
+      return mMap;
+    }
+
+    public int getKeyLength() {
+      return mKeyLength;
+    }
+  }
+
+  /**
+   * Represents aggregated result key/value pair
+   */
+  private node NKeyValuePair {
+    receive long mKey;
+    receive int mValue;
+
+    public long getKey() {
+      return mKey;
+    }
+
+    public int getValue() {
+      return mValue;
+    }
+  }
+
+  /**
+   * This context injected object provides one instance of CLongToIntMap for one IThread
+   */
+  private controller CFragmentWorkerContext inScope IThread {
+    inject immediate CLongToIntMap* mMap;
+
+    public CLongToIntMap getMap() {
+      return mMap;
+    }
+  }
+
+  /**
+   * Used to compute keys to check performance test correctness
+   */
+  private static long getKey(byte[] arr, int offset, int length) {
+    long key = 0;
+    for (int i = offset; i < offset + length; i++) {
+      key = key * 4 + arr[i];
+    }
+    return key;
+  }
+
+  /**
+   * Sums two maps of int to long from two fragments
+   */
+  private CFragment sumTwoMaps(CFragment fragment1, CFragment fragment2) {
+    long[]* keysArray = fragment2.getMap().getKeys();
+    int[]* valuesArray = fragment2.getMap().getValues();
+    for (int i = 0; i < keysArray.getSize(); i++) {
+      long key = keysArray[i];
+      fragment1.getMap().addTo(key, valuesArray[i]);
+    }
+    return fragment1;
+  }
+
+  /**
+   * Writes test results into a string
+   */
+  private NString* writeFrequencies(float totalCount, CFragment frequencies) {
+    long[]* keysArray = frequencies.getMap().getKeys();
+    int[]* valuesArray = frequencies.getMap().getValues();
+    COwnerVector* vector = inject(COwnerVector).onHeap();
+    for (int i = 0; i < keysArray.getSize(); i++) {
+      NKeyValuePair* pair = build(NKeyValuePair)
+        .withKey(keysArray[i])
+        .withValue(valuesArray[i])
+        .onHeap();
+      vector.pushBack(pair);
+    }
+    vector.sort(this);
+    NString* sb = NString.create();
+    int keyLength = frequencies.getKeyLength();
+    for (int i = 0; i < keysArray.getSize(); i++) {
+      sb.appendNString(keyToString(keysArray[i], keyLength));
+      sb.appendString(" ");
+      sb.appendNString(NString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount));
+      sb.appendString("\n");
+    }
+    sb.appendString("\n");
+    return sb;
+  }
+
+  /**
+   * Compare function used for sorting of the NKeyValuePair vector 
+   */
+  private boolean compare(NKeyValuePair left, NKeyValuePair right) override {
+    return left.getValue() < right.getValue();
+  }
+
+  /**
+   * Not sure what this does but it repeats the algorithm from Java version of the test
+   */
+  private static NString* keyToString(long keyParam, int length) {
+    long key = keyParam;
+    char[]* res = new char[length];
+    for (int i = 0; i < length; i++) {
+      res[length - i - 1] = NUCLEOTIDES[(int) (key & 0x3)];
+      key = key >> 2;
+    }
+    return NString.createFromCharArray(res);
+  }
+
+  /**
+   * Writes other test results into a string
+   */
+  private NString* writeCount(CFragment*[] fragments, string nucleotideFragment) {
+    byte[]* key = toCodesFromString(nucleotideFragment);
+    long k = getKey(key, 0, (int) nucleotideFragment.getLength());
+    int count = 0;
+    for (int i = 0; i < fragments.getSize(); i++) {
+      CFragment fragment = (CFragment) fragments[i];
+      if (fragment.getKeyLength() == nucleotideFragment.getLength()) {
+        if (fragment.getMap().has(k)) {
+          count += fragment.getMap().get(k);
+        }
+      }
+    }
+
+    NString* value = NString.createFromInt(count);
+    value.appendString("\t");
+    value.appendString(nucleotideFragment);
+    value.appendString("\n");
+    return value;
+  }
+
+  /**
+   * Take nucleotide fragment and convert it to byte array of codes
+   */
+  private static byte[]* toCodesFromString(string input) {
+    NString* nstring = NString.createFromString(input);
+    char[] nstringContent = nstring.getContent();
+    byte[]* result = new byte[nstringContent.getSize() - 1];
+    for (int i = 0; i < nstringContent.getSize() - 1; i++) {
+      result[i] = CODES[(byte) nstringContent[i] & 0x7];
+    }
+    return result;
+  }
+
+  /**
+   * Reads input data from standard input
+   */
+  private byte[]* read() {
+    NString* line = NString.create();
+    CTextStreamReader* stream = CTextStreamReader.openSystemIn();
+    while ((line = stream.readLineIntoNString(line)) != null) {
+      if (line.startsWith(">THREE")) {
+        break;
+      }
+    }
+
+    byte[]* bytes = new byte[1048576];
+    long position = 0;
+    while ((line = stream.readLineIntoNString(line)) != null && line.charAt(0) != '>') {
+      if (line.getLength() + position > bytes.getSize()) {
+        byte[]* newBytes = new byte[bytes.getSize() * 2];
+        MSystem.copyMemory(newBytes, bytes, position);
+        bytes = newBytes;
+      }
+      for (int i = 0; i < line.getLength(); i++) {
+        bytes[position++] = (byte) line.charAt(i);
+      }
+    }
+    stream.close();
+
+    return toCodes(bytes, position);
+  }
+
+  /**
+   * Converts input data into nucleotide codes
+   */
+  private static byte[]* toCodes(byte[] sequence, long length) {
+    byte[]* result = new byte[length];
+    for (int i = 0; i < length; i++) {
+      result[i] = CODES[sequence[i] & 0x7];
+    }
+    return result;
+  }
+}
+
+bind(IProgram, CKNucleotide);

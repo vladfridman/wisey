@@ -1,0 +1,23 @@
+package wisey.install.examples;
+
+import wisey.lang.IProgram;
+
+/**
+ * Main controller that will execute our program.
+ * It must implement IProgram interface that has only one method: run()
+ */
+controller CHelloWorld implements IProgram {
+
+  /**
+   * Command line parameters are passed to run() method in a form of an immutable array of strings
+   */
+  public int run(immutable string[] arguments) override {
+    printout("Hello world!\n");
+    return 0;
+  }
+}
+
+/**
+ * Bind IProgram interface to our controller
+ */
+bind(IProgram, CHelloWorld);
