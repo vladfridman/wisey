@@ -68,7 +68,6 @@ http://wisey.ninja
   `make -j8;`
   `sudo make install;`
 3. Checkout wisey code: 
-  Setup SSH https://help.github.com/articles/generating-an-ssh-key/
   `cd ~; git clone git@github.com:vladfridman/wiseydev.git`
 4. Compile wisey compiler
   `cd ~/wiseydev; make -j8 bin/yzc bin/wiseyc bin/wiseylibc;`
@@ -76,7 +75,7 @@ http://wisey.ninja
   `mkdir ~/wisey; mkdir ~/wisey/bin; mkdir ~/wisey/lib; mkdir ~/wisey/headers; export WISEY_HOME=~/wisey; export PATH=$PATH:$WISEY_HOME/bin;`
   `cp bin/* ~/wisey/bin;`
 6. Compile wisey library
-  `cd ~/wisey;`
+  `cd ~/wiseydev;`
   `g++ -c -pipe -O3 -fomit-frame-pointer -march=native -std=c++11 libsrc/libdata/libdata.cpp -o build/libdata.o;` 
   `bin/wiseylibc -v -Alib/libdata.o wisey/lang/*.yz wisey/threads/*.yz wisey/io/*.yz wisey/data/*.yz -o build/libwisey.a -H build/libwisey.yz;`
   `cp build/libwisey.a $WISEY_HOME/lib; cp build/libwisey.yz $WISEY_HOME/headers;`
@@ -90,6 +89,6 @@ http://wisey.ninja
   `sudo cp libgmock.a /usr/local/lib/libgmock.a;`
   `sudo cp -r ../include/gmock /usr/local/include/;`
 8. Make tests
-  `cd ~/wisey; make -j8 tests;`
+  `cd ~/wiseydev; make -j8 tests;`
   `bin/runtests` # tests that run wisey files do not work on Linux
 

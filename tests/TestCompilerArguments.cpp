@@ -28,7 +28,8 @@ TEST_F(CompilerArgumentsTest, testGetForYzc) {
   mCompilerArguments.setShouldOptimize(false);
   mCompilerArguments.setVerbouse(true);
   mCompilerArguments.setHeaderFile("header.yz");
+  mCompilerArguments.setTargetTriple("x86_64-apple-darwin18.0.0");
   mCompilerArguments.setOutputFile("output.o");
-  EXPECT_STREQ("--no-optimization -H header.yz --verbouse --output output.o --target-triple x86_64-apple-darwin17.7.0 file.yz ",
+  EXPECT_STREQ("--no-optimization -H header.yz --verbouse --output output.o --target-triple x86_64-apple-darwin18.0.0 file.yz ",
                mCompilerArguments.getForYzc().c_str());
 }

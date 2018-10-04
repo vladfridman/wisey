@@ -92,7 +92,7 @@ TEST_F(YzcTest, outputToFileTest) {
 
   system("bin/yzc tests/samples/test_addition.yz build/libwisey.yz -o "
          "build/test.o 2>&1");
-  system("g++ -o build/test build/test.o -Llib -lwisey");
+  system("g++ -o build/test build/test.o -Lbuild -lwisey");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
   
