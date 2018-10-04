@@ -124,7 +124,7 @@ void TestFileRunner::compileAndRunFile(string fileName, int expectedResult) {
   
   string wiseyCompileCommand = "bin/yzc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
-  exec("g++ -o build/test build/test.o -Llib -lwisey");
+  exec("g++ -o build/test build/test.o -Lbuild -lwisey");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
   
@@ -139,7 +139,7 @@ void TestFileRunner::compileAndRunFileCheckOutput(string fileName,
   
   string wiseyCompileCommand = "bin/yzc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
-  exec("g++ -o build/test build/test.o -Llib -lwisey");
+  exec("g++ -o build/test build/test.o -Lbuild -lwisey");
   int result = system("build/test > build/wisey.out 2> build/wisey.err");
   int returnValue = WEXITSTATUS(result);
   
@@ -158,7 +158,7 @@ void TestFileRunner::compileAndRunFileWithInputCheckOutput(string fileName,
   
   string wiseyCompileCommand = "bin/yzc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
-  exec("g++ -o build/test build/test.o -Llib -lwisey");
+  exec("g++ -o build/test build/test.o -Lbuild -lwisey");
   string command = "build/test < " + inputFile + "> build/wisey.out 2> build/wisey.err";
   int result = system(command.c_str());
   int returnValue = WEXITSTATUS(result);

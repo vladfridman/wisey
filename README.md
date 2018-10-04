@@ -38,17 +38,17 @@ http://wisey.ninja
   `cp build/libwisey.a $WISEY_HOME/lib; cp build/libwisey.yz $WISEY_HOME/headers;`
 8. Install googletest and googlemock:
   `cd ~; git clone https://github.com/google/googletest.git; cd ~/googletest/googletest/make;`
-  modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
+  modify Makefile and add '-fvisibility-inlines-hidden -std=c++11' to CXXFLAGS
   `make -j8; ar -rv libgtest.a gtest-all.o;`
   `sudo cp libgtest.a /usr/local/lib/libgtest.a;` 
   `sudo cp -r ../include/gtest /usr/local/include/;`
   `cd ~/googletest/googlemock/make;`
-  modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
+  modify Makefile and add '-fvisibility-inlines-hidden -std=c++11' to CXXFLAGS
   `make -j8; ar -rv libgmock.a gmock-all.o;`
   `sudo cp libgmock.a /usr/local/lib/libgmock.a;`
   `sudo cp -r ../include/gmock /usr/local/include/;`
 9. Make and run tests
-  `cd ~/wisey; make -j8 tests;`
+  `cd ~/wiseydev; make -j8 tests;`
   `bin/runtests`
 10. Optional: Setup XCode project for LLVM: 
   Install Xcode from App Store, Install command line tools: `xcode-select --install;`
