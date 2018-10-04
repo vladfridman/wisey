@@ -92,14 +92,15 @@ IRGenerationContext::~IRGenerationContext() {
 
 int IRGenerationContext::runCode(int argc, char** argv) {
   ExecutionEngine* executionEngine = EngineBuilder(move(mModuleOwner)).create();
-  uint64_t rawMainAddress = executionEngine->getFunctionAddress("main");
-  if (!rawMainAddress) {
+  Function* mainFunction = mModule->getFunction("main");
+  if (!mainFunction) {
     Log::errorNoSourceFile("Function main is not defined. Exiting.");
     delete executionEngine;
     exit(1);
   }
 
   Log::i("Running program");
+  uint64_t rawMainAddress = executionEngine->getFunctionAddress("main");
   int (*main)(int, char**) = (int (*)(int, char**)) rawMainAddress;
   int result = main(argc, argv);
   Log::i("Result: " + to_string(result));
