@@ -11,10 +11,15 @@ You can optionally add these lines to your ~/.profile in order not to run them e
 
 ## Check compiler ##
 
-compile a HelloWorld program: wiseyc $WISEY_HOME/samples/HelloWorld/HelloWorld.yz
-Run the executable: ./runnable
+compile the HelloWorld program and run it: 
 
-compile a multithreaded version of HelloWorld: wiseyc $WISEY_HOME/samples/HelloWorldMultiThreaded/HelloWorldMultiThreaded.yz
+wiseyc $WISEY_HOME/samples/HelloWorld/HelloWorld.yz -o helloworld
+./helloworld
+
+compile a multithreaded version of HelloWorld and run it: 
+
+wiseyc $WISEY_HOME/samples/HelloWorldMultiThreaded/HelloWorldMultiThreaded.yz
+./runnable
 
 ## Resources ##
 
