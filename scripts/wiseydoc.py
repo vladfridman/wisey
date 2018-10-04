@@ -131,7 +131,11 @@ class Object:
     file.write('</head>\n')
     file.write('<body>\n')
     file.write('  <div class="contents">\n')
-    file.write('    <a href="index.html">Index</a>')
+    file.write('  <a href="library.html">Library</a>\n')
+    file.write('  &nbsp;&nbsp;\n')
+    file.write('  <a href="index.html">Language</a>\n')
+    file.write('  &nbsp;&nbsp;\n')
+    file.write('  <a href="download.html">Download</a>\n')
     file.write('  </div>\n')
     file.write('  <div class="contents">\n')
     file.write('    <table class="docSection">\n')
@@ -651,7 +655,7 @@ def printDoc(objects, destinationDir, dictionary):
     o.printDoc(destinationDir, dictionary)
   
   from os.path import isfile, join
-  fileName = join(destinationDir, "index.html")
+  fileName = join(destinationDir, "library.html")
   file = open(fileName, "w")
   print fileName
   package = ''
@@ -669,7 +673,7 @@ def printDoc(objects, destinationDir, dictionary):
   file.write('</head>\n')
   file.write('<body>\n')
   file.write('<div class="contents">\n')
-  file.write('  <a href="language.html">Reference</a>\n')
+  file.write('  <a href="index.html">Language</a>\n')
   file.write('  &nbsp;&nbsp;\n')
   file.write('  <a href="download.html">Download</a>\n')
   file.write('</div>\n')

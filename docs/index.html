@@ -1,118 +1,37 @@
 <html>
-<head>
-<link href="wiseydoc.css" rel="stylesheet" type="text/css">
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126333404-1"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-126333404-1');
-</script>
-</head>
+  <head>
+    <link href="wiseydoc.css" rel="stylesheet" type="text/css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126333404-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-126333404-1');
+    </script>
+  </head>
 <body>
-<div class="contents">
-  <a href="language.html">Reference</a>
-  &nbsp;&nbsp;
-  <a href="download.html">Download</a>
-</div>
+  <div class="contents">
+    <a href="library.html">Library</a>  
+    &nbsp;&nbsp;
+    <a href="download.html">Download</a> 
+  </div>
   <div class="contents">
     <table class="docSection">
       <tbody>
         <tr class="header">
           <td colspan="2">
-            <h2 class="sectionHeader">Package wisey.data</h2>
+            <h2 class="sectionHeader">Wisey Language</h2>
           </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            controller
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.data.CLongToIntMap.html">wisey.data.CLongToIntMap</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            controller
+            Wisey is a general purpose compiled language that provides an infrastructure for scalable and thread safe code development.
           </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.data.COwnerList.html">wisey.data.COwnerList</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            controller
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.data.COwnerVector.html">wisey.data.COwnerVector</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            controller
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.data.CReferenceList.html">wisey.data.CReferenceList</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            controller
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.data.CReferenceToOwnerMap.html">wisey.data.CReferenceToOwnerMap</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            controller
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.data.CReferenceToReferenceMap.html">wisey.data.CReferenceToReferenceMap</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            controller
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.data.CReferenceVector.html">wisey.data.CReferenceVector</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            interface
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.data.IObjectComparator.html">wisey.data.IObjectComparator</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.data.MMapEntryDoesNotExistException.html">wisey.data.MMapEntryDoesNotExistException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
         </tr>
       </tbody>
     </table>
@@ -120,68 +39,17 @@ gtag('config', 'UA-126333404-1');
       <tbody>
         <tr class="header">
           <td colspan="2">
-            <h2 class="sectionHeader">Package wisey.io</h2>
+            <h2 class="sectionHeader">Primitive Types</h2>
           </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            controller
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.io.CBinaryStreamWriter.html">wisey.io.CBinaryStreamWriter</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            controller
+            Wisey supports the following primitive types: boolean, byte, char, double, float, int, long, string. string type refers to string literals - strings that are allocated in the program code space and never change. 
           </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.io.CTextStreamReader.html">wisey.io.CTextStreamReader</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            controller
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.io.CTextStreamWriter.html">wisey.io.CTextStreamWriter</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.io.MFileCouldNotOpenException.html">wisey.io.MFileCouldNotOpenException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.io.MStreamClosedException.html">wisey.io.MStreamClosedException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.io.MStreamCouldNotCloseException.html">wisey.io.MStreamCouldNotCloseException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
         </tr>
       </tbody>
     </table>
@@ -189,148 +57,28 @@ gtag('config', 'UA-126333404-1');
       <tbody>
         <tr class="header">
           <td colspan="2">
-            <h2 class="sectionHeader">Package wisey.lang</h2>
+            <h2 class="sectionHeader">Constant Values</h2>
           </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            controller
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.lang.CMemoryPool.html">wisey.lang.CMemoryPool</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            interface
+            Here are examples of each primitive type constant values:
+<pre>
+boolean bv = true;
+byte b = 7b;
+char c = 'a';
+double d = 5.4d;
+float f = 2.3;
+int i = 5;
+int j = 0x5;
+long l = 5l;
+string s = "hello";
+</pre>
           </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.IException.html">wisey.lang.IException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            interface
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.IProgram.html">wisey.lang.IProgram</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MArrayIndexOutOfBoundsException.html">wisey.lang.MArrayIndexOutOfBoundsException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MCastException.html">wisey.lang.MCastException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MInterfaceNotBoundException.html">wisey.lang.MInterfaceNotBoundException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MMainThreadWorker.html">wisey.lang.MMainThreadWorker</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MMainThreadWorker.MProgramResult.html">wisey.lang.MMainThreadWorker.MProgramResult</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MMemoryPoolNonEmpty.html">wisey.lang.MMemoryPoolNonEmpty</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MNullPointerException.html">wisey.lang.MNullPointerException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MReferenceCountException.html">wisey.lang.MReferenceCountException</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MString.html">wisey.lang.MString</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            model
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.MSystem.html">wisey.lang.MSystem</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="elementDefinitionLeft">
-            node
-          </td>
-          <td class="elementDefinitionRight">
-            <a href="wisey.lang.NString.html">wisey.lang.NString</a>          </td>
-        </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
         </tr>
       </tbody>
     </table>
@@ -338,118 +86,585 @@ gtag('config', 'UA-126333404-1');
       <tbody>
         <tr class="header">
           <td colspan="2">
-            <h2 class="sectionHeader">Package wisey.threads</h2>
+            <h2 class="sectionHeader">Ownership</h2>
           </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            controller
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.CCallStack.html">wisey.threads.CCallStack</a>          </td>
+            There are two types of references to objects or arrays: <b>owner reference</b> and <b>regular reference</b>. 
+            There is only one owner reference pointing to the object/array, but there could be multiple regular references. 
+            An object or an array is destroyed when its owner reference goes out of scope.
+            <p>
+            Owner references are denoted by ‘<b>*</b>’ after the object type. Do not confuse it with C++ style pointer. It is not a pointer, but an owner reference. Here is an example: 
+<pre>
+{ // beginning of some scope
+
+  // Object is allocated, initialized and assigned to an owner reference
+  MCar* car = builder(MCar).withMake("Tesla").onHeap();
+
+} // end of scope, object is destroyed here
+</pre>
+          <p>
+          Ownership can be transferred from one owner reference to another. When this happens the older owner reference is assigned to null. When an owner reference is assigned to null the object it was pointing to is destroyed.
+<pre>
+MCar* car = builder(MCar).withMake("Tesla").onHeap();
+
+// Transfer ownership from car to car2
+MCar* car2 = car; 
+
+// At this point car2 points to the object and car contains null
+
+car2 = null; // Object MCar is destroyed
+</pre>
+          <p>
+          Under the hood when an object is created it is assigned to a temporary owner reference. If the result of object creation is not assigned to an owner 
+          reference then the object will be destroyed when current scope ends.
+<pre>
+{ // beginning of some scope 
+
+  // Temporary variable of object owner type is created and assigned result of build
+  builder(MCar).withMake("Tesla").onHeap();  
+
+} // end of scope, MCar is destroyed here
+</pre>
+          <p>
+          Keeping a regular reference to an object longer that object’s lifetime will cause runtime MReferenceCountException exception.
+<pre>
+// Declare regular reference type variable
+MCar carReference;
+
+{ // beginning of some scope 
+  MCar* carOwner = builder(MCar).withMake("Tesla").onHeap();  
+  carReference = carOwner;
+
+} // Exception thrown here
+</pre>
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Arrays</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            controller
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.CContextManager.html">wisey.threads.CContextManager</a>          </td>
+            Arrays are allocated on heap using <b>new</b> command. Array type is specified by scquare brackets. 
+            <p>
+            Like objects arrays have <b>owner</b> and <b>regular</b> references pointing to them. 
+            An array is deallocated when the owner reference pointing to the array goes out of scope. 
+<pre>
+// one dimentional array of ints allocation
+int[]* a = new int[5];
+
+// two dimentional array of longs allocation
+long[][]* b = new int[2][3];
+
+// array of regular references to object MCar
+MCar[]* c = new MCar[5];
+
+// array of owner references to object MCar
+MCar*[]* c = new MCar*[5];
+</pre>
+           <p>
+           Just like with objects ownership to the array may be transferred. If there are regular references pointing to the array at the time of its deallocation a reference count exception is thrown.
+<pre>
+int[] arrayReference = null;
+{ // beginning of some scope
+  int[]* arrayOwner = new int[5];
+
+  // transfer owner ship to newOnwer, arrayOwner is set to null
+  int[]* newOwner = arrayOwner;
+
+  // assign regular reference to the array object
+  arrayReference = newOwner;
+} // MReferenceCountException is thrown here because the array still has one regular reference
+</pre>
+          <p>
+          Arrays have built in method getSize().
+<pre>
+int[]* arrayOwner = new int[5];
+// returns 5
+arrayOwner.getSize(); 
+</pre>
+          <p>
+          Array index is checked at runtime and an exception is thrown when it is out of range.
+<pre>
+int[]* arrayOwner = new int[5];
+arrayOwner[0] = 1;
+// exception thrown here because the maximum element index is 4
+arrayOwner[5] = 2;
+</pre>
+          <p> 
+          Arrays are initialized to all zeros or nulls. 
+          When an array of regular owner references is destroyed all objects that the array references are also destroyed.
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Object Types</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            controller
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.CPoolThread.html">wisey.threads.CPoolThread</a>          </td>
+            There are several kinds of objects: models, controllers and nodes. Objects are allocated on heap, but nodes can also be allocated on a memory pool. 
+            <p>
+            Models and nodes are allocated using <b>build</b> command. Controllers are allocated using <b>inject</b> command. There are no constructors or destructors.
+            <p>
+            Objects have fields and methods. All fields are private, methods can be public or private. Fields can be of kind: recieved, state or injected. Field names must be of the form 'mFieldName'. Received fields must be initialized at object allocation time.
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Controllers</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            controller
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.CThreadPool.html">wisey.threads.CThreadPool</a>          </td>
+            A controller represents an object that does some work and changes state. A controller may have fields of kind <b>receive</b>, <b>state</b> or <b>inject</b> fields. Receive fields must be initialized at injection time. State fields do not have to be initialized and are all zeros or nulls after controller instantiation. Inject fields are for injection of other controllers. There are no restrictions on field types in controllers. Controller name must start with a <b>C</b>
+<pre>
+controller CService {
+  receive int mInputParameter;
+  state bool mHasStarted;
+  inject CDriver* mDriver;
+
+  public void drive() {
+    mHasStarted = true;
+    mDriver.drive(mInputParameter);
+  }
+}
+</pre>
+            Controllers must be injected and can not be built using <b>build</b> command. In the example above the controller CService injects another controller CDriver in its field. The value of mDriver is null until it is referenced. CDriver is injected when we call drive() method on it. To make sure that the injected field is initialized at the controller creation time use <b>inject immediate</b> field kind.
+            <p>
+            Controllers can also be injected inline using <b>inject</b>, however this is not the preferred way to instantiate a controller:
+<pre>
+CService* service = inject(CService).withInputParameter(5).onHeap();
+</pre>
+            <p>
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Models</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            controller
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.CWorkerThread.html">wisey.threads.CWorkerThread</a>          </td>
+            A model is an immutable object that represents result of controller's work. A model has only fields of kind <b>receive</b>. Once a model is allocated using <b>build</b> its field values do not change. Fields can be of primitve type, model type or immutable array of primitives or models. Model name must start with an <b>M</b>. Here is an example of a model definition:
+<pre>
+model MCar {
+  receive string mMake;
+  // receive keyword is optional in models
+  int mYear;
+
+  public string getMake() {
+    return mMake;
+  }
+
+  public int getYear() {
+    return mYear;
+  }
+}
+</pre>
+            <p>
+            Model are built using <b>build</b> command. Model allocation looks as follows:
+<pre>
+MCar* car = build(MCar).withMake("Tesla").withYear(2019).onHeap();
+</pre>
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Nodes</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            interface
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.IThread.html">wisey.threads.IThread</a>          </td>
+            A node represents an element of a mutable data structure such as a tree or a link list. A node has <b>state</b> and <b>recieve</b> both of which are mutable. Receive fields must be initialized at instantiation time. Node name must start with an <b>N</b>
+<pre>
+node NElement {
+  receive int mData;
+  state NElement* mNext;
+
+  public void setNext(NElement* next) {
+    return mNext = next;
+  }
+
+  public int getData() {
+    return mData;
+  }
+}
+</pre>
+            <p>
+            Nodes are built using <b>build</b> command. Node allocation looks as follows:
+<pre>
+NElement* element1 = build(NElement).withData(1).onHeap();
+NElement* element2 = build(NElement).withData(2).onHeap();
+element1.setNext(element2);
+</pre>
+          <p>
+          Nodes can also be allocated on a memory pool.
+<pre>
+// pool has to be a reference to wisey.lang.CMemoryPool
+NElement* element1 = build(NElement).withData(1).onPool(pool);
+</pre>
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Interfaces</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            interface
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.IThreadRunner.html">wisey.threads.IThreadRunner</a>          </td>
+            An interface specifies method signatures that other objects must implement when the implement that interface. Interface name must start with an <b>I</b>
+<pre>
+interface IDrivable {
+  void drive();
+}
+
+controller CCar implements IDrivable  {
+  // implemented methods must be marked with override
+  public void drive() override {
+    // do something here  
+  }
+}
+</pre>
+            <p>
+            An interface may extend from another interface or multiple interfaces. An object may implement multiple interfaces. 
+<pre>
+interface IHasAutopilot extends IDrivable {
+  void autoPilotOn();
+}
+</pre>
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Constants</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            interface
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.IWorker.html">wisey.threads.IWorker</a>          </td>
+            Constants are defined in the beginning of an object definition with a key word <b>constant</b>. Constant name must be in all captial letters. Constants can be public or private.
+<pre>
+controller CCar {
+  public constant int NUMBER_OF_WHEELS = 4;
+}
+</pre>
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Methods</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            model
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.MContextNonExistantException.html">wisey.threads.MContextNonExistantException</a>          </td>
+            Controllers, models and nodes may have methods. Methods can be private or public. Methods can also be static: one method instance per object type. Interfaces may also have static methods.
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Immutable Arrays</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            model
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.MStackOverflowException.html">wisey.threads.MStackOverflowException</a>          </td>
+            Immutable arrays are a type separate from a normal array. An immutable array is created from a normal array by ownership transfer. At the time of ownership transfer the runtime checks that there are no references to a normal array from which an immutable array is created. If there are active references a reference count exception will be thrown.
+<pre>
+  int[]* array = new int[1];
+  array[0] = 5;
+  immutable int[]* immutableArray = array;
+</pre>
+          </td>
         </tr>
-        <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Exceptions</h2>
+          </td>
         </tr>
         <tr>
           <td class="elementDefinitionLeft">
-            model
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </td>
           <td class="elementDefinitionRight">
-            <a href="wisey.threads.MThreadBoundaryException.html">wisey.threads.MThreadBoundaryException</a>          </td>
+            An exception can be thrown using <b>throw</b> command. It can be caught using <b>catch</b>. An exception must be a model that implements wisey.lang.IException interface.
+<pre>
+model MException implements IException {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+
+  public NString* report() override {
+    return thread.getCallStack().reportException(this);
+  }
+}
+
+controller CThrower {
+  public int doThrow() throws MException {
+    throw build(MException).withValue(255).onHeap();
+  }
+}
+
+controller CCatcher {
+  inject CThrower* mThrower;
+
+  // returns 255
+  public int doTryCatch() {
+    try {
+      mThrower.doThrow();
+    } catch (MException* exception) {
+      return exception.getValue();
+    }
+    return 5;
+  }
+}
+</pre>
+          <p>
+          Exceptions may not be caught using an interface specifier. Each individual exception type must be caught.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Expressions</h2>
+          </td>
         </tr>
         <tr>
-          <td class="elementSeparator" colspan="2">&nbsp;</td>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            Wisey supports the following C-style numerical expressions for primitive number types:
+            <li><b>a + b</b> (addition)
+            <li><b>a - b</b> (subtraction)
+            <li><b>a * b</b> (mutlitplication)
+            <li><b>a / b</b> (division)
+            <li><b>a % b</b> (reminder for integer numbers)
+            <li><b>a >> b</b> (shift a right by b for integer numbers)
+            <li><b>a << b</b> (shift a left by b for integer numbers)
+            <li><b>a & b</b> (bitwise and for integer numbers)
+            <li><b>a | b</b> (bitwise or for integer numbers)
+            <li><b>a ^ b</b> (bitwise xor for integer numbers)
+            <li><b>a += b</b> (increment by)
+            <li><b>a -= b</b> (decrement by)
+            <li><b>a *= b</b> (mutlitply by)
+            <li><b>a /= b</b> (divide by)
+            <li><b>a %= b</b> (reminder and assign)
+            <li><b>a >>= b</b> (shift a right and assign)
+            <li><b>a <<= b</b> (shift a left and assign)
+            <li><b>a &= b</b> (bitwise and with assign)
+            <li><b>a |= b</b> (bitwise or with assign)
+            <li><b>a ^= b</b> (bitwise xor with assign)
+            <li><b>a++</b> (increment by 1)
+            <li><b>a--</b> (decrement by 1)
+            <li><b>++a</b> (increment by 1 and return incremented value)
+            <li><b>--a</b> (decrement by 1 and return incremented value)
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="elementSeparator">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            <p>
+            Wisey supports the following C-style logical expressions for boolean types:
+            <li><b>a && b</b> (logical and)
+            <li><b>a || b</b> (logical or)
+            <li><b>!a</b> (logical not)
+            <li><b>a ? b : c</b> (if a is true return b otherwise c)
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="elementSeparator">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            <p>
+            Wisey supports the following expressions for object types:
+            <li><b>(CCar) a</b> (cast object to a type CCar) This may throw a runtime exception when cast is not possible
+            <li><b>a instanceof CCar</b> returns true if a is an instance of CCar. Can be used with interfaces as well
+            <li><b>this</b> returns a regular reference to the current object
+            <li><b>thread</b> returns a regular reference to the current thread
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Statements</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            Wisey supports the following C-style control statements:
+            <li><b>if (a) { ... }</b> (if statement, brackets are required)
+            <li><b>if (a) { ... } else { ... } </b> (if-else statement, brackets are required)
+            <li><b>switch (a) { case b: ... break; default: ... } </b> (switch statement for integer numbers)
+            <li><b>for (a; b; c) { ... }</b> (for loop)
+            <li><b>while (a) { ... }</b> (while loop)
+            <li><b>do { ... } while (a)</b> (do-while loop)
+            <li><b>continue</b> to continue execution of a loop</li>
+            <li><b>break</b> to break out of a loop</li>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Print Statements</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            Print statements are special. You print things as follows:
+<pre>
+// print to standard out
+printout("Today's year is " + 2019 + "\n");
+// print to standard error
+printout("Today's year is " + 2019 + "\n");
+// print to a text stream where stream is a reference to wisey.io.CTextStreamWriter
+print(stream, "Today's year is " + 2019 + "\n");
+</pre>
+          <p>
+          There is no string concatenation when you use one of the print commands. Each element between '+' must be of printable primitive type or one of the string types.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="docSection">
+      <tbody>
+        <tr class="header">
+          <td colspan="2">
+            <h2 class="sectionHeader">Linking external libraries</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="elementDefinitionLeft">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td class="elementDefinitionRight">
+            You call functions from an external C or C++ library by linking your executable to the library and declaring external functions as follows:
+<pre>
+external ::llvm::function ::llvm::i32 sleep(::llvm::i32);
+</pre>
+          <p>
+          Then you can call those functions in your code:
+<pre>
+::llvm::function::sleep(seconds);
+</pre>
+
+          </td>
         </tr>
       </tbody>
     </table>
