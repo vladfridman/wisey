@@ -12,7 +12,7 @@ http://wisey.ninja/language.html
 
 http://wisey.ninja
 
-### Developer set up on Mac OS X x86 64 bit ###
+### Developer set up on Mac OS X 10.14 Mojave x86 64 bit ###
 
 1. Istall homebrew: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 2. Install prerequesites: `brew install cmake subversion python flex bison`
