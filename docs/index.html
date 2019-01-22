@@ -101,19 +101,19 @@ string s = "hello";
             There is only one owner reference pointing to the object/array, but there could be multiple regular references. 
             An object or an array is destroyed when its owner reference goes out of scope.
             <p>
-            Owner references are denoted by ‘<b>*</b>’ after the object type. Do not confuse it with C++ style pointer. It is not a pointer, but an owner reference. Here is an example: 
+            Owner references are denoted by '<b>*</b>' after the object type. Do not confuse it with C++ style pointer. It is not a pointer, but an owner reference. Here is an example: 
 <pre>
 { // beginning of some scope
 
   // Object is allocated, initialized and assigned to an owner reference
-  MCar* car = builder(MCar).withMake("Tesla").onHeap();
+  MCar* car = build(MCar).withMake("Tesla").onHeap();
 
 } // end of scope, object is destroyed here
 </pre>
           <p>
           Ownership can be transferred from one owner reference to another. When this happens the older owner reference is assigned to null. When an owner reference is assigned to null the object it was pointing to is destroyed.
 <pre>
-MCar* car = builder(MCar).withMake("Tesla").onHeap();
+MCar* car = build(MCar).withMake("Tesla").onHeap();
 
 // Transfer ownership from car to car2
 MCar* car2 = car; 
@@ -129,7 +129,7 @@ car2 = null; // Object MCar is destroyed
 { // beginning of some scope 
 
   // Temporary variable of object owner type is created and assigned result of build
-  builder(MCar).withMake("Tesla").onHeap();  
+  build(MCar).withMake("Tesla").onHeap();  
 
 } // end of scope, MCar is destroyed here
 </pre>
@@ -140,7 +140,7 @@ car2 = null; // Object MCar is destroyed
 MCar carReference;
 
 { // beginning of some scope 
-  MCar* carOwner = builder(MCar).withMake("Tesla").onHeap();  
+  MCar* carOwner = build(MCar).withMake("Tesla").onHeap();  
   carReference = carOwner;
 
 } // Exception thrown here
