@@ -2,15 +2,15 @@
 
 ### Download Wisey compiler ###
 
-http://wisey.ninja/download.html
+http://wisey.info/download.html
 
 ### Read language reference ###
 
-http://wisey.ninja/language.html
+http://wisey.info/language.html
 
 ### Explore  wisey library ###
 
-http://wisey.ninja
+http://wisey.info
 
 ### Developer set up on Mac OS X 10.14 Mojave x86 64 bit ###
 
