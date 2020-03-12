@@ -12,6 +12,14 @@ https://www.wisey.info/index.html
 
 https://www.wisey.info
 
+### Wisey language performance ###
+
+https://www.facebook.com/notes/wisey/wisey-language-performance/970043096514905/
+
+### Thread safety ###
+
+https://www.facebook.com/notes/wisey/thread-safety/966374926881722/
+
 ### Developer set up on Mac OS X 10.14 Mojave x86 64 bit ###
 
 1. Istall homebrew: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
