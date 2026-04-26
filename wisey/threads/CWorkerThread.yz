@@ -201,6 +201,7 @@ controller CWorkerThread implements IThread {
         return;
       }
       ::llvm::function::pthread_cancel(mMyNativeThread);
+      ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8::pointer::pointer) null);
       mIsCancelled = true;
     }
 
