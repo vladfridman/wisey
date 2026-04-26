@@ -109,7 +109,7 @@ TEST_F(IntrinsicFunctionsTest, setMemoryToZeroTest) {
   *mStringStream << *mEntryBlock;
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca i32"
+  "\n  %0 = alloca i32, align 4"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"

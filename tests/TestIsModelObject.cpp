@@ -74,16 +74,16 @@ TEST_F(IsObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine i1 @__isObject(i8* %object, i8 %letter) {"
+  "define i1 @__isObject(i8* %object, i8 %letter) {"
   "\nentry:"
   "\n  %0 = call i8* @__getOriginalObject(i8* %object)"
   "\n  %1 = bitcast i8* %0 to i8***"
-  "\n  %vtable = load i8**, i8*** %1"
+  "\n  %vtable = load i8**, i8*** %1, align 8"
   "\n  %2 = getelementptr i8*, i8** %vtable, i64 1"
-  "\n  %typeArrayI8 = load i8*, i8** %2"
+  "\n  %typeArrayI8 = load i8*, i8** %2, align 8"
   "\n  %3 = bitcast i8* %typeArrayI8 to i8**"
-  "\n  %stringPointer = load i8*, i8** %3"
-  "\n  %firstLetter = load i8, i8* %stringPointer"
+  "\n  %stringPointer = load i8*, i8** %3, align 8"
+  "\n  %firstLetter = load i8, i8* %stringPointer, align 1"
   "\n  %4 = icmp eq i8 %firstLetter, %letter"
   "\n  ret i1 %4"
   "\n}\n";

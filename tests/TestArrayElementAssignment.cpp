@@ -103,12 +103,12 @@ TEST_F(ArrayElementAssignmentTest, generateOwnerArrayAssignmentTest) {
 
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
+  "define internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
   "\ndeclare:"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null, align 8"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i8*"
   "\n  invoke void @systems.vos.wisey.compiler.tests.MModel.destructor(i8* %1, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
@@ -116,19 +116,19 @@ TEST_F(ArrayElementAssignmentTest, generateOwnerArrayAssignmentTest) {
   "\ncleanup:                                          ; preds = %entry"
   "\n  %2 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %3 = alloca { i8*, i32 }"
+  "\n  %3 = alloca { i8*, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %2, { i8*, i32 }* %3"
+  "\n  store { i8*, i32 } %2, { i8*, i32 }* %3, align 8"
   "\n  %4 = getelementptr { i8*, i32 }, { i8*, i32 }* %3, i32 0, i32 0"
-  "\n  %5 = load i8*, i8** %4"
+  "\n  %5 = load i8*, i8** %4, align 8"
   "\n  %6 = call i8* @__cxa_get_exception_ptr(i8* %5)"
   "\n  %7 = getelementptr i8, i8* %6, i64 8"
   "\n  resume { i8*, i32 } %2"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** null"
+  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** null, align 8"
   "\n}"
   "\n";
   
@@ -151,11 +151,11 @@ TEST_F(ArrayElementAssignmentTest, generateReferenceArrayAssignmentTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal i32 @test() {"
+  "define internal i32 @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null, align 8"
   "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.MModel* %0, null"
   "\n  br i1 %1, label %if.end, label %if.notnull"
   "\n"
@@ -166,16 +166,16 @@ TEST_F(ArrayElementAssignmentTest, generateReferenceArrayAssignmentTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i64*"
   "\n  %4 = getelementptr i64, i64* %3, i64 -1"
-  "\n  %5 = atomicrmw add i64* %4, i64 -1 monotonic"
+  "\n  %5 = atomicrmw add i64* %4, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n"
   "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** null"
+  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** null, align 8"
   "\n"
   "\nif.notnull2:                                      ; preds = %if.end"
   "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.MModel* null to i64*"
   "\n  %7 = getelementptr i64, i64* %6, i64 -1"
-  "\n  %8 = atomicrmw add i64* %7, i64 1 monotonic"
+  "\n  %8 = atomicrmw add i64* %7, i64 1 monotonic, align 8"
   "\n  br label %if.end1"
   "\n}"
   "\n";
@@ -200,7 +200,7 @@ TEST_F(ArrayElementAssignmentTest, generatePrimitiveArrayAssignmentTest) {
   *mStringStream << *mEntryBlock;
   string expected =
   "\nentry:                                            ; No predecessors!"
-  "\n  store i32 5, i32* null"
+  "\n  store i32 5, i32* null, align 4"
   "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

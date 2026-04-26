@@ -539,7 +539,7 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
   "\n  %1 = call i8* @__getOriginalObject(i8* %0)"
   "\n  %2 = bitcast i8* %1 to i64*"
   "\n  %3 = getelementptr i64, i64* %2, i64 -1"
-  "\n  %refCounter = load i64, i64* %3\n";
+  "\n  %refCounter = load i64, i64* %3, align 4\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -599,10 +599,10 @@ TEST_F(InterfaceTest, createLocalVariableTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IShape*"
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IShape*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.IShape* null, %systems.vos.wisey.compiler.tests.IShape** %temp\n";
+  "\n  store %systems.vos.wisey.compiler.tests.IShape* null, %systems.vos.wisey.compiler.tests.IShape** %temp, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -651,9 +651,9 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   *mStringStream << *function;
   
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) personality i32 (...)* @__gxx_personality_v0 {"
+  "define %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)** @systems.vos.wisey.compiler.tests.IShape.inject.pointer"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)** @systems.vos.wisey.compiler.tests.IShape.inject.pointer, align 8"
   "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)* %0, null"
   "\n  br i1 %1, label %if.null, label %if.not.null"
   "\n"
@@ -664,18 +664,18 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   "\n  call void @llvm.memset.p0i8.i64(i8* %2, i8 0, i64 ptrtoint (%wisey.lang.MInterfaceNotBoundException.refCounter* getelementptr (%wisey.lang.MInterfaceNotBoundException.refCounter, %wisey.lang.MInterfaceNotBoundException.refCounter* null, i32 1) to i64), i1 false)"
   "\n  %3 = getelementptr %wisey.lang.MInterfaceNotBoundException.refCounter, %wisey.lang.MInterfaceNotBoundException.refCounter* %buildervar, i32 0, i32 1"
   "\n  %4 = getelementptr %wisey.lang.MInterfaceNotBoundException, %wisey.lang.MInterfaceNotBoundException* %3, i32 0, i32 1"
-  "\n  store i8* getelementptr inbounds ([40 x i8], [40 x i8]* @systems.vos.wisey.compiler.tests.IShape.typename, i32 0, i32 0), i8** %4"
+  "\n  store i8* getelementptr inbounds ([40 x i8], [40 x i8]* @systems.vos.wisey.compiler.tests.IShape.typename, i32 0, i32 0), i8** %4, align 8"
   "\n  %5 = bitcast %wisey.lang.MInterfaceNotBoundException* %3 to i8*"
   "\n  %6 = getelementptr i8, i8* %5, i64 0"
   "\n  %7 = bitcast i8* %6 to i32 (...)***"
   "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @wisey.lang.MInterfaceNotBoundException.vtable, i32 0, i32 0, i32 0"
   "\n  %9 = bitcast i8** %8 to i32 (...)**"
-  "\n  store i32 (...)** %9, i32 (...)*** %7"
+  "\n  store i32 (...)** %9, i32 (...)*** %7, align 8"
   "\n  %10 = bitcast { i8*, i8* }* @wisey.lang.MInterfaceNotBoundException.rtti to i8*"
   "\n  %11 = bitcast %wisey.lang.MInterfaceNotBoundException* %3 to i8*"
   "\n  %12 = getelementptr i8, i8* %11, i64 -8"
-  "\n  %13 = call i8* @__cxa_allocate_exception(i64 add (i64 mul nuw (i64 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i64), i64 2), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)))"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %13, i8* %12, i64 add (i64 mul nuw (i64 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i64), i64 2), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)), i1 false)"
+  "\n  %13 = call i8* @__cxa_allocate_exception(i64 add (i64 ptrtoint (%wisey.lang.MInterfaceNotBoundException* getelementptr (%wisey.lang.MInterfaceNotBoundException, %wisey.lang.MInterfaceNotBoundException* null, i32 1) to i64), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)))"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %13, i8* %12, i64 add (i64 ptrtoint (%wisey.lang.MInterfaceNotBoundException* getelementptr (%wisey.lang.MInterfaceNotBoundException, %wisey.lang.MInterfaceNotBoundException* null, i32 1) to i64), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)), i1 false)"
   "\n  tail call void @free(i8* %12)"
   "\n  invoke void @__cxa_throw(i8* %13, i8* %10, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
@@ -687,13 +687,13 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   "\ncleanup:                                          ; preds = %if.null"
   "\n  %15 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %16 = alloca { i8*, i32 }"
+  "\n  %16 = alloca { i8*, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %15, { i8*, i32 }* %16"
+  "\n  store { i8*, i32 } %15, { i8*, i32 }* %16, align 8"
   "\n  %17 = getelementptr { i8*, i32 }, { i8*, i32 }* %16, i32 0, i32 0"
-  "\n  %18 = load i8*, i8** %17"
+  "\n  %18 = load i8*, i8** %17, align 8"
   "\n  %19 = call i8* @__cxa_get_exception_ptr(i8* %18)"
   "\n  %20 = getelementptr i8, i8* %19, i64 8"
   "\n  resume { i8*, i32 } %15"
@@ -788,7 +788,7 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   *mStringStream << *function;
 
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject.function(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) {"
+  "define %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject.function(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) {"
   "\nentry:"
   "\n  %0 = call %systems.vos.wisey.compiler.tests.CController* @systems.vos.wisey.compiler.tests.CController.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CController* %0 to i8*"

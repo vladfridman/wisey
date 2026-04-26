@@ -405,10 +405,10 @@ TEST_F(NodeOwnerTest, createLocalVariableTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %temp\n";
+  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %temp, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -436,10 +436,10 @@ TEST_F(NodeOwnerTest, createParameterVariableTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %var = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n  %var = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %var\n";
+  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %var, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

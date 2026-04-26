@@ -241,7 +241,7 @@ TEST_F(IRWriterTest, newStoreInst) {
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *storeInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  store i32 0, i32* null");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  store i32 0, i32* null, align 4");
   
   IRWriter::createReturnInst(mContext, value);
   
@@ -259,7 +259,7 @@ TEST_F(IRWriterTest, newAllocaInst) {
   EXPECT_EQ(mDeclareBlock->size(), 1u);
   EXPECT_EQ(mBasicBlock->size(), 0u);
   *mStringStream << *allocaInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32, align 4");
 }
 
 TEST_F(IRWriterTest, newLoadInst) {
@@ -270,7 +270,7 @@ TEST_F(IRWriterTest, newLoadInst) {
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *loadInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = load i32, i32* null");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = load i32, i32* null, align 4");
   
   IRWriter::createReturnInst(mContext, value);
   

@@ -84,10 +84,10 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca i32"
+  "\n  %0 = alloca i32, align 4"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i32 0, i32* %0\n";
+  "\n  store i32 0, i32* %0, align 4\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -112,11 +112,11 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca i32"
+  "\n  %0 = alloca i32, align 4"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i32 0, i32* %0"
-  "\n  store i32 5, i32* %0\n";
+  "\n  store i32 0, i32* %0, align 4"
+  "\n  store i32 5, i32* %0, align 4\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -156,10 +156,10 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %foo = alloca %systems.vos.wisey.compiler.tests.MModel*"
+  "\n  %foo = alloca %systems.vos.wisey.compiler.tests.MModel*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %foo\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %foo, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

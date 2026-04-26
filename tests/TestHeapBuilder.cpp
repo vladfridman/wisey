@@ -159,9 +159,9 @@ TEST_F(HeapBuilderTest, generateIRTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal void @test() {"
+  "define internal void @test() {"
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
@@ -171,16 +171,16 @@ TEST_F(HeapBuilderTest, generateIRTest) {
   "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64), i1 false)"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %buildervar, i32 0, i32 1"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %2, i32 0, i32 1"
-  "\n  store i32 3, i32* %3"
+  "\n  store i32 3, i32* %3, align 4"
   "\n  %4 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %2, i32 0, i32 2"
-  "\n  store i32 5, i32* %4"
+  "\n  store i32 5, i32* %4, align 4"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
   "\n  %6 = getelementptr i8, i8* %5, i64 0"
   "\n  %7 = bitcast i8* %6 to i32 (...)***"
   "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MShape.vtable, i32 0, i32 0, i32 0"
   "\n  %9 = bitcast i8** %8 to i32 (...)**"
-  "\n  store i32 (...)** %9, i32 (...)*** %7"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* %2, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  store i32 (...)** %9, i32 (...)*** %7, align 8"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* %2, %systems.vos.wisey.compiler.tests.MShape** %0, align 8"
   "\n}"
   "\n";
   

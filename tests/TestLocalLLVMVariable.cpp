@@ -87,12 +87,12 @@ TEST_F(LocalLLVMVariableTest, generateAssignmentIRTest) {
   
   ASSERT_EQ(1ul, mDeclareBlock->size());
   *mStringStream << mDeclareBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i16");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i16, align 2");
   mStringBuffer.clear();
   
   ASSERT_EQ(1ul, mEntryBlock->size());
   *mStringStream << mEntryBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i16 5, i16* %foo");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i16 5, i16* %foo, align 2");
   mStringBuffer.clear();
 }
 
@@ -104,12 +104,12 @@ TEST_F(LocalLLVMVariableTest, generateIdentifierIRTest) {
   
   ASSERT_EQ(1ul, mDeclareBlock->size());
   *mStringStream << mDeclareBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i16");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i16, align 2");
   mStringBuffer.clear();
   
   ASSERT_EQ(1ul, mEntryBlock->size());
   *mStringStream << mEntryBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i16, i16* %foo");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i16, i16* %foo, align 2");
   mStringBuffer.clear();
 }
 

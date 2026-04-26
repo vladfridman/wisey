@@ -144,7 +144,7 @@ TEST_F(ExternalMethodTest, declareFunctionTest) {
   Function* function = method.declareFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
+  string expected = "declare float @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

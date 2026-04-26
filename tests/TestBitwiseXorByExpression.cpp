@@ -95,12 +95,12 @@ TEST_F(BitwiseXorByExpressionTest, bitwiseAndByTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %foo = alloca i32"
+  "\n  %foo = alloca i32, align 4"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load i32, i32* %foo"
+  "\n  %0 = load i32, i32* %foo, align 4"
   "\n  %1 = xor i32 %0, 3"
-  "\n  store i32 %1, i32* %foo\n";
+  "\n  store i32 %1, i32* %foo, align 4\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

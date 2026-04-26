@@ -178,10 +178,10 @@ TEST_F(FloatTypeTest, createLocalVariableTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca float"
+  "\n  %0 = alloca float, align 4"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store float 0.000000e+00, float* %0\n";
+  "\n  store float 0.000000e+00, float* %0, align 4\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

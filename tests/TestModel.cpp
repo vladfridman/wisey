@@ -551,7 +551,7 @@ TEST_F(ModelTest, incrementReferenceCountTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal i64 @main() {"
+  "define internal i64 @main() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -563,7 +563,7 @@ TEST_F(ModelTest, incrementReferenceCountTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic"
+  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}\n";
 
@@ -577,7 +577,7 @@ TEST_F(ModelTest, decrementReferenceCountTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal i64 @main() {"
+  "define internal i64 @main() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -589,7 +589,7 @@ TEST_F(ModelTest, decrementReferenceCountTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic"
+  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}\n";
 
@@ -606,7 +606,7 @@ TEST_F(ModelTest, getReferenceCountTest) {
   "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i64*"
   "\n  %1 = getelementptr i64, i64* %0, i64 -1"
-  "\n  %refCounter = load i64, i64* %1\n";
+  "\n  %refCounter = load i64, i64* %1, align 4\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -688,10 +688,10 @@ TEST_F(ModelTest, createLocalVariableTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.MSquare*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %temp\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %temp, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -717,7 +717,7 @@ TEST_F(ModelTest, createParameterVariableTest) {
   *mStringStream << *mFunction;
   
   string expected =
-  "\ndefine internal i64 @main() {"
+  "define internal i64 @main() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -729,7 +729,7 @@ TEST_F(ModelTest, createParameterVariableTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic"
+  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}\n";
 

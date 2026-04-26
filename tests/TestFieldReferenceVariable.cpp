@@ -137,7 +137,7 @@ TEST_F(FieldReferenceVariableTest, generateIdentifierIRTest) {
   string expected = string() +
   "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  %foo = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0\n";
+  "\n  %foo = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -166,12 +166,12 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentIRTest) {
   
   *mStringStream << *mFunction;
   string expected = string() +
-  "\ndefine internal i32 @main() {"
+  "define internal i32 @main() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0, align 8"
   "\n  %2 = icmp eq %systems.vos.wisey.compiler.tests.NNode* %1, null"
   "\n  br i1 %2, label %if.end, label %if.notnull"
   "\n"
@@ -182,20 +182,20 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentIRTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i64*"
   "\n  %5 = getelementptr i64, i64* %4, i64 -1"
-  "\n  %count = load i64, i64* %5"
+  "\n  %count = load i64, i64* %5, align 4"
   "\n  %6 = add i64 %count, -1"
-  "\n  store i64 %6, i64* %5"
+  "\n  store i64 %6, i64* %5, align 4"
   "\n  br label %if.end"
   "\n"
   "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0"
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0, align 8"
   "\n"
   "\nif.notnull2:                                      ; preds = %if.end"
   "\n  %7 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i64*"
   "\n  %8 = getelementptr i64, i64* %7, i64 -1"
-  "\n  %count3 = load i64, i64* %8"
+  "\n  %count3 = load i64, i64* %8, align 4"
   "\n  %9 = add i64 %count3, 1"
-  "\n  store i64 %9, i64* %8"
+  "\n  store i64 %9, i64* %8, align 4"
   "\n  br label %if.end1"
   "\n}\n";
 
@@ -221,13 +221,13 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentWithCastIRTest) {
   "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 2"
-  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3"
+  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3, align 8"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
   "\n  call void @__adjustReferenceCounter(i8* %5, i64 -1)"
   "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %2 to i8*"
   "\n  call void @__adjustReferenceCounter(i8* %6, i64 1)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %3\n";
+  "%systems.vos.wisey.compiler.tests.IInterface** %3, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

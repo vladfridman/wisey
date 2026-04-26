@@ -74,7 +74,7 @@ TEST_F(AdjustReferenceCountFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__adjustReferenceCounter(i8* %object, i64 %adjustment) {"
+  "define void @__adjustReferenceCounter(i8* %object, i64 %adjustment) {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %object, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
@@ -94,13 +94,13 @@ TEST_F(AdjustReferenceCountFunctionTest, getTest) {
   "\n  br i1 %5, label %safe.adjust, label %unsafe.adjust"
   "\n"
   "\nsafe.adjust:                                      ; preds = %if.not.model, %if.notnull"
-  "\n  %6 = atomicrmw add i64* %3, i64 %adjustment monotonic"
+  "\n  %6 = atomicrmw add i64* %3, i64 %adjustment monotonic, align 8"
   "\n  ret void"
   "\n"
   "\nunsafe.adjust:                                    ; preds = %if.not.model"
-  "\n  %count = load i64, i64* %3"
+  "\n  %count = load i64, i64* %3, align 4"
   "\n  %7 = add i64 %count, %adjustment"
-  "\n  store i64 %7, i64* %3"
+  "\n  store i64 %7, i64* %3, align 4"
   "\n  ret void"
   "\n}\n";
 

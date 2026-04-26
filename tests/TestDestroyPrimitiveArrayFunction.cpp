@@ -90,7 +90,7 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyPrimitiveArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i8* %exception) {"
+  "define void @__destroyPrimitiveArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i8* %exception) {"
   "\nentry:"
   "\n  %isNull = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"

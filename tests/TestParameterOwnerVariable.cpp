@@ -106,10 +106,10 @@ TEST_F(ParameterOwnerVariableTest, generateIdentifierIRTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0\n";
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -137,10 +137,10 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0, align 8"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
   "\n  call void @systems.vos.wisey.compiler.tests.MShape.destructor(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
   
@@ -160,10 +160,10 @@ TEST_F(ParameterOwnerVariableTest, setToNullTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

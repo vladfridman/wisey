@@ -92,7 +92,7 @@ TEST_F(ParameterImmutableArrayReferenceVariableTest, decrementReferenceCounterTe
   *mStringStream << *mFunction;
   
   string expected =
-  "\ndefine internal i32 @test() {"
+  "define internal i32 @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -103,7 +103,7 @@ TEST_F(ParameterImmutableArrayReferenceVariableTest, decrementReferenceCounterTe
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* null to i64*"
-  "\n  %2 = atomicrmw add i64* %1, i64 -1 monotonic"
+  "\n  %2 = atomicrmw add i64* %1, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}\n";
   

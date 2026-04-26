@@ -294,10 +294,10 @@ TEST_F(ControllerOwnerTest, createLocalVariableTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp\n";
+  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -328,10 +328,10 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %var = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n  %var = alloca %systems.vos.wisey.compiler.tests.CMultiplier*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %var\n";
+  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %var, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

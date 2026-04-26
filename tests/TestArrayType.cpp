@@ -144,10 +144,10 @@ TEST_F(ArrayTypeTest, createLocalVariableTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0\n";
+  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -170,7 +170,7 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
   *mStringStream << *mFunction;
   
   string expected =
-  "\ndefine internal i32 @main() {"
+  "define internal i32 @main() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -181,9 +181,9 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i64] }* null to i64*"
-  "\n  %count = load i64, i64* %1"
+  "\n  %count = load i64, i64* %1, align 4"
   "\n  %2 = add i64 %count, 1"
-  "\n  store i64 %2, i64* %1"
+  "\n  store i64 %2, i64* %1, align 4"
   "\n  br label %if.end"
   "\n}\n";
 

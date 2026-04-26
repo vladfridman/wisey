@@ -97,10 +97,10 @@ TEST_F(LocalImmutableArrayReferenceVariableTest, generateIdentifierIRTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo\n";
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -129,12 +129,12 @@ TEST_F(LocalImmutableArrayReferenceVariableTest, generateWholeArrayAssignmentTes
   *mStringStream << *mFunction;
 
   string expected =
-  "\ndefine internal i32 @test() {"
+  "define internal i32 @test() {"
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo, align 8"
   "\n  %1 = icmp eq { i64, i64, i64, [0 x i32] }* %0, null"
   "\n  br i1 %1, label %if.end, label %if.notnull"
   "\n"
@@ -144,15 +144,15 @@ TEST_F(LocalImmutableArrayReferenceVariableTest, generateWholeArrayAssignmentTes
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %3 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
-  "\n  %4 = atomicrmw add i64* %3, i64 -1 monotonic"
+  "\n  %4 = atomicrmw add i64* %3, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n"
   "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo"
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo, align 8"
   "\n"
   "\nif.notnull2:                                      ; preds = %if.end"
   "\n  %5 = bitcast { i64, i64, i64, [0 x i32] }* null to i64*"
-  "\n  %6 = atomicrmw add i64* %5, i64 1 monotonic"
+  "\n  %6 = atomicrmw add i64* %5, i64 1 monotonic, align 8"
   "\n  br label %if.end1"
   "\n}\n";
 

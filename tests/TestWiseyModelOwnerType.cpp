@@ -174,10 +174,10 @@ TEST_F(WiseyModelOwnerTypeTest, createLocalVariableTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %temp = alloca i8*"
+  "\n  %temp = alloca i8*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i8* null, i8** %temp\n";
+  "\n  store i8* null, i8** %temp, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

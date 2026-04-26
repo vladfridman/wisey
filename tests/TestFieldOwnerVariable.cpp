@@ -143,7 +143,7 @@ TEST_F(FieldOwnerVariableTest, generateIdentifierIRTest) {
   string expected = string() +
   "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  %foo = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0\n";
+  "\n  %foo = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -173,13 +173,13 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   
   *mStringStream << *mFunction;
   string expected = string() +
-  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
+  "define internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\ndeclare:"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0, align 8"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
   "\n  invoke void @systems.vos.wisey.compiler.tests.NNode.destructor(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
@@ -187,13 +187,13 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   "\ncleanup:                                          ; preds = %entry"
   "\n  %3 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %4 = alloca { i8*, i32 }"
+  "\n  %4 = alloca { i8*, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %3, { i8*, i32 }* %4"
+  "\n  store { i8*, i32 } %3, { i8*, i32 }* %4, align 8"
   "\n  %5 = getelementptr { i8*, i32 }, { i8*, i32 }* %4, i32 0, i32 0"
-  "\n  %6 = load i8*, i8** %5"
+  "\n  %6 = load i8*, i8** %5, align 8"
   "\n  %7 = call i8* @__cxa_get_exception_ptr(i8* %6)"
   "\n  %8 = getelementptr i8, i8* %7, i64 8"
   "\n  %9 = icmp eq %systems.vos.wisey.compiler.tests.NObject* null, null"
@@ -205,13 +205,13 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   "\nif.notnull:                                       ; preds = %cleanup.cont"
   "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.NObject* null to i64*"
   "\n  %11 = getelementptr i64, i64* %10, i64 -1"
-  "\n  %count = load i64, i64* %11"
+  "\n  %count = load i64, i64* %11, align 4"
   "\n  %12 = add i64 %count, -1"
-  "\n  store i64 %12, i64* %11"
+  "\n  store i64 %12, i64* %11, align 4"
   "\n  br label %if.end"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0"
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0, align 8"
   "\n}\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -232,7 +232,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
 
   *mStringStream << *mFunction;
   string expected = string() +
-  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
+  "define internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\ndeclare:"
   "\n  br label %entry"
   "\n"
@@ -241,7 +241,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
-  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3"
+  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3, align 8"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
   "\n  invoke void @__destroyObjectOwnerFunction(i8* %5, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
@@ -249,13 +249,13 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   "\ncleanup:                                          ; preds = %entry"
   "\n  %6 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %7 = alloca { i8*, i32 }"
+  "\n  %7 = alloca { i8*, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %6, { i8*, i32 }* %7"
+  "\n  store { i8*, i32 } %6, { i8*, i32 }* %7, align 8"
   "\n  %8 = getelementptr { i8*, i32 }, { i8*, i32 }* %7, i32 0, i32 0"
-  "\n  %9 = load i8*, i8** %8"
+  "\n  %9 = load i8*, i8** %8, align 8"
   "\n  %10 = call i8* @__cxa_get_exception_ptr(i8* %9)"
   "\n  %11 = getelementptr i8, i8* %10, i64 8"
   "\n  %12 = icmp eq %systems.vos.wisey.compiler.tests.NObject* null, null"
@@ -267,13 +267,13 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   "\nif.notnull:                                       ; preds = %cleanup.cont"
   "\n  %13 = bitcast %systems.vos.wisey.compiler.tests.NObject* null to i64*"
   "\n  %14 = getelementptr i64, i64* %13, i64 -1"
-  "\n  %count = load i64, i64* %14"
+  "\n  %count = load i64, i64* %14, align 4"
   "\n  %15 = add i64 %count, -1"
-  "\n  store i64 %15, i64* %14"
+  "\n  store i64 %15, i64* %14, align 4"
   "\n  br label %if.end"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, %systems.vos.wisey.compiler.tests.IInterface** %3"
+  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, %systems.vos.wisey.compiler.tests.IInterface** %3, align 8"
   "\n}\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -286,7 +286,7 @@ TEST_F(FieldOwnerVariableTest, setToNullTest) {
   string expected = string() +
   "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0\n";
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

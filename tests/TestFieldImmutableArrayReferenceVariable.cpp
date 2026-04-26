@@ -118,7 +118,7 @@ TEST_F(FieldImmutableArrayReferenceVariableTest, generateIdentifierIRTest) {
   string expected = string() +
   "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0\n";
+  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -146,12 +146,12 @@ TEST_F(FieldImmutableArrayReferenceVariableTest, generateWholeArrayAssignmentTes
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal i32 @test() {"
+  "define internal i32 @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
+  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0, align 8"
   "\n  %2 = icmp eq { i64, i64, i64, [0 x i32] }* %1, null"
   "\n  br i1 %2, label %if.end, label %if.notnull"
   "\n"
@@ -161,15 +161,15 @@ TEST_F(FieldImmutableArrayReferenceVariableTest, generateWholeArrayAssignmentTes
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %4 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i64*"
-  "\n  %5 = atomicrmw add i64* %4, i64 -1 monotonic"
+  "\n  %5 = atomicrmw add i64* %4, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n"
   "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0"
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0, align 8"
   "\n"
   "\nif.notnull2:                                      ; preds = %if.end"
   "\n  %6 = bitcast { i64, i64, i64, [0 x i32] }* null to i64*"
-  "\n  %7 = atomicrmw add i64* %6, i64 1 monotonic"
+  "\n  %7 = atomicrmw add i64* %6, i64 1 monotonic, align 8"
   "\n  br label %if.end1"
   "\n}\n";
 

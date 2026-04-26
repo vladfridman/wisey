@@ -119,7 +119,7 @@ TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {
 
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal i32 @test() {"
+  "define internal i32 @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -131,7 +131,7 @@ TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic"
+  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

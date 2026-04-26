@@ -97,10 +97,10 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo\n";
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -129,13 +129,13 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
+  "define internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
-  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo, align 8"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
   "\n  invoke void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @\"immutable int[]*\", i32 0, i32 0), i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
@@ -143,19 +143,19 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   "\ncleanup:                                          ; preds = %entry"
   "\n  %2 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %3 = alloca { i8*, i32 }"
+  "\n  %3 = alloca { i8*, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %2, { i8*, i32 }* %3"
+  "\n  store { i8*, i32 } %2, { i8*, i32 }* %3, align 8"
   "\n  %4 = getelementptr { i8*, i32 }, { i8*, i32 }* %3, i32 0, i32 0"
-  "\n  %5 = load i8*, i8** %4"
+  "\n  %5 = load i8*, i8** %4, align 8"
   "\n  %6 = call i8* @__cxa_get_exception_ptr(i8* %5)"
   "\n  %7 = getelementptr i8, i8* %6, i64 8"
   "\n  resume { i8*, i32 } %2"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo"
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo, align 8"
   "\n}\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

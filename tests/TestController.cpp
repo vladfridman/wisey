@@ -607,7 +607,7 @@ TEST_F(ControllerTest, incrementReferenceCountTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal void @test() {"
+  "define internal void @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -619,9 +619,9 @@ TEST_F(ControllerTest, incrementReferenceCountTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2"
+  "\n  %count = load i64, i64* %2, align 4"
   "\n  %3 = add i64 %count, 1"
-  "\n  store i64 %3, i64* %2"
+  "\n  store i64 %3, i64* %2, align 4"
   "\n  br label %if.end"
   "\n}\n";
   
@@ -636,7 +636,7 @@ TEST_F(ControllerTest, decrementReferenceCountTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal void @test() {"
+  "define internal void @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -648,9 +648,9 @@ TEST_F(ControllerTest, decrementReferenceCountTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2"
+  "\n  %count = load i64, i64* %2, align 4"
   "\n  %3 = add i64 %count, -1"
-  "\n  store i64 %3, i64* %2"
+  "\n  store i64 %3, i64* %2, align 4"
   "\n  br label %if.end"
   "\n}\n";
 
@@ -664,7 +664,7 @@ TEST_F(ControllerTest, incrementReferenceCountForThreadTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal void @test() {"
+  "define internal void @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -676,7 +676,7 @@ TEST_F(ControllerTest, incrementReferenceCountForThreadTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic"
+  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}\n";
 
@@ -690,7 +690,7 @@ TEST_F(ControllerTest, decrementReferenceCountForThreadTest) {
 
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal void @test() {"
+  "define internal void @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -702,7 +702,7 @@ TEST_F(ControllerTest, decrementReferenceCountForThreadTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic"
+  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}\n";
 
@@ -720,7 +720,7 @@ TEST_F(ControllerTest, getReferenceCountTest) {
   "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
   "\n  %1 = getelementptr i64, i64* %0, i64 -1"
-  "\n  %refCounter = load i64, i64* %1\n";
+  "\n  %refCounter = load i64, i64* %1, align 4\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -748,7 +748,7 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) {"
+  "define %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) {"
   "\ndeclare:"
   "\n  br label %entry"
   "\n"
@@ -759,9 +759,9 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i1 false)"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.NOwner** %2"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.NOwner** %2, align 8"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MReference* %mReference, %systems.vos.wisey.compiler.tests.MReference** %3"
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* %mReference, %systems.vos.wisey.compiler.tests.MReference** %3, align 8"
   "\n  %4 = icmp eq %systems.vos.wisey.compiler.tests.MReference* %mReference, null"
   "\n  br i1 %4, label %if.end, label %if.notnull"
   "\n"
@@ -771,13 +771,13 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   "\n  %7 = bitcast i8* %6 to i32 (...)***"
   "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
   "\n  %9 = bitcast i8** %8 to i32 (...)**"
-  "\n  store i32 (...)** %9, i32 (...)*** %7"
+  "\n  store i32 (...)** %9, i32 (...)*** %7, align 8"
   "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %1"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.MReference* %mReference to i64*"
   "\n  %11 = getelementptr i64, i64* %10, i64 -1"
-  "\n  %12 = atomicrmw add i64* %11, i64 1 monotonic"
+  "\n  %12 = atomicrmw add i64* %11, i64 1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}"
   "\n";
@@ -821,7 +821,7 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.CSimpleController* @systems.vos.wisey.compiler.tests.CSimpleController.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) personality i32 (...)* @__gxx_personality_v0 {"
+  "define %systems.vos.wisey.compiler.tests.CSimpleController* @systems.vos.wisey.compiler.tests.CSimpleController.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %isNull = icmp eq %wisey.threads.IThread* %thread, null"
   "\n  br i1 %isNull, label %if.null, label %if.not.null"
@@ -832,22 +832,22 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
   "\n  %0 = bitcast %wisey.threads.IThread* %thread to %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)***"
-  "\n  %vtable = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)**, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*** %0"
+  "\n  %vtable = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)**, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*** %0, align 8"
   "\n  %1 = getelementptr %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %vtable, i64 3"
-  "\n  %2 = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %1"
+  "\n  %2 = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %1, align 8"
   "\n  %3 = invoke %wisey.threads.CContextManager* %2(%wisey.threads.IThread* %thread, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
   "\n          to label %invoke.continue1 unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %if.not.null, %if.null"
   "\n  %4 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %5 = alloca { i8*, i32 }"
+  "\n  %5 = alloca { i8*, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %4, { i8*, i32 }* %5"
+  "\n  store { i8*, i32 } %4, { i8*, i32 }* %5, align 8"
   "\n  %6 = getelementptr { i8*, i32 }, { i8*, i32 }* %5, i32 0, i32 0"
-  "\n  %7 = load i8*, i8** %6"
+  "\n  %7 = load i8*, i8** %6, align 8"
   "\n  %8 = call i8* @__cxa_get_exception_ptr(i8* %7)"
   "\n  %9 = getelementptr i8, i8* %8, i64 8"
   "\n  resume { i8*, i32 } %4"
@@ -870,13 +870,13 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\ncleanup5:                                         ; preds = %if.not.null13, %if.null12, %invoke.continue8, %if.not.null3, %if.null2"
   "\n  %11 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %12 = alloca { i8*, i32 }"
+  "\n  %12 = alloca { i8*, i32 }, align 8"
   "\n  br label %cleanup.cont6"
   "\n"
   "\ncleanup.cont6:                                    ; preds = %cleanup5"
-  "\n  store { i8*, i32 } %11, { i8*, i32 }* %12"
+  "\n  store { i8*, i32 } %11, { i8*, i32 }* %12, align 8"
   "\n  %13 = getelementptr { i8*, i32 }, { i8*, i32 }* %12, i32 0, i32 0"
-  "\n  %14 = load i8*, i8** %13"
+  "\n  %14 = load i8*, i8** %13, align 8"
   "\n  %15 = call i8* @__cxa_get_exception_ptr(i8* %14)"
   "\n  %16 = getelementptr i8, i8* %15, i64 8"
   "\n  resume { i8*, i32 } %11"
@@ -904,7 +904,7 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n  %24 = bitcast i8* %23 to i32 (...)***"
   "\n  %25 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CSimpleController.vtable, i32 0, i32 0, i32 0"
   "\n  %26 = bitcast i8** %25 to i32 (...)**"
-  "\n  store i32 (...)** %26, i32 (...)*** %24"
+  "\n  store i32 (...)** %26, i32 (...)*** %24, align 8"
   "\n  %isNull14 = icmp eq %wisey.threads.CContextManager* %3, null"
   "\n  br i1 %isNull14, label %if.null12, label %if.not.null13"
   "\n"
@@ -988,18 +988,18 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CParent.mChild.inject(%systems.vos.wisey.compiler.tests.CParent* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer) {"
+  "define %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CParent.mChild.inject(%systems.vos.wisey.compiler.tests.CParent* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer) {"
   "\ndeclarations:"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declarations"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.CChild*, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.CChild*, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer, align 8"
   "\n  %isNull = icmp eq %systems.vos.wisey.compiler.tests.CChild* %0, null"
   "\n  br i1 %isNull, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
   "\n  %1 = call %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CChild.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
-  "\n  store %systems.vos.wisey.compiler.tests.CChild* %1, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer"
+  "\n  store %systems.vos.wisey.compiler.tests.CChild* %1, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer, align 8"
   "\n  ret %systems.vos.wisey.compiler.tests.CChild* %1"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
@@ -1272,10 +1272,10 @@ TEST_F(ControllerTest, createLocalVariableTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp\n";
+  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -1301,7 +1301,7 @@ TEST_F(ControllerTest, createParameterVariableTest) {
   *mStringStream << *mFunction;
   
   string expected =
-  "\ndefine internal void @test() {"
+  "define internal void @test() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
@@ -1313,9 +1313,9 @@ TEST_F(ControllerTest, createParameterVariableTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
   "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2"
+  "\n  %count = load i64, i64* %2, align 4"
   "\n  %3 = add i64 %count, 1"
-  "\n  store i64 %3, i64* %2"
+  "\n  store i64 %3, i64* %2, align 4"
   "\n  br label %if.end"
   "\n}\n";
 

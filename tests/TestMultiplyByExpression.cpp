@@ -95,12 +95,12 @@ TEST_F(MultiplyByExpressionTest, floatMultiplyByTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %foo = alloca float"
+  "\n  %foo = alloca float, align 4"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load float, float* %foo"
+  "\n  %0 = load float, float* %foo, align 4"
   "\n  %1 = fmul float %0, 0x400A666660000000"
-  "\n  store float %1, float* %foo\n";
+  "\n  store float %1, float* %foo, align 4\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

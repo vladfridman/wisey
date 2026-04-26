@@ -120,13 +120,13 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   *mStringStream << *mFunction;
   
   string expected =
-  "\ndefine internal i32 @test() {"
+  "define internal i32 @test() {"
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
+  "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0, align 8"
   "\n  %3 = icmp eq %systems.vos.wisey.compiler.tests.MShape* %2, null"
   "\n  br i1 %3, label %if.end, label %if.notnull"
   "\n"
@@ -137,16 +137,16 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i64*"
   "\n  %6 = getelementptr i64, i64* %5, i64 -1"
-  "\n  %7 = atomicrmw add i64* %6, i64 -1 monotonic"
+  "\n  %7 = atomicrmw add i64* %6, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n"
   "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0, align 8"
   "\n"
   "\nif.notnull2:                                      ; preds = %if.end"
   "\n  %8 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
   "\n  %9 = getelementptr i64, i64* %8, i64 -1"
-  "\n  %10 = atomicrmw add i64* %9, i64 1 monotonic"
+  "\n  %10 = atomicrmw add i64* %9, i64 1 monotonic, align 8"
   "\n  br label %if.end1"
   "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -165,7 +165,7 @@ TEST_F(LocalReferenceVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *instruction;
   string expected =
-  "  %7 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0";
+  "  %7 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0, align 8";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -188,12 +188,12 @@ TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
   *mStringStream << *mFunction;
   
   string expected =
-  "\ndefine internal i32 @test() {"
+  "define internal i32 @test() {"
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0, align 8"
   "\n  %2 = icmp eq %systems.vos.wisey.compiler.tests.MShape* %1, null"
   "\n  br i1 %2, label %if.end, label %if.notnull"
   "\n"
@@ -202,7 +202,7 @@ TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i64*"
   "\n  %4 = getelementptr i64, i64* %3, i64 -1"
-  "\n  %5 = atomicrmw add i64* %4, i64 -1 monotonic"
+  "\n  %5 = atomicrmw add i64* %4, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}"
   "\n";
@@ -236,11 +236,11 @@ TEST_F(LocalReferenceVariableTest, setToNullTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0, align 8"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0, align 8\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

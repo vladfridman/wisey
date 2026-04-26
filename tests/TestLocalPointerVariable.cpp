@@ -109,11 +109,11 @@ TEST_F(LocalPointerVariableTest, identifierTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca i64*"
+  "\n  %0 = alloca i64*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i64* null, i64** %0"
-  "\n  %1 = load i64*, i64** %0\n";
+  "\n  store i64* null, i64** %0, align 8"
+  "\n  %1 = load i64*, i64** %0, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -138,12 +138,12 @@ TEST_F(LocalPointerVariableTest, assignmentTest) {
   *mStringStream << *mEntryBlock;
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca i64*"
+  "\n  %0 = alloca i64*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i64* null, i64** %0"
+  "\n  store i64* null, i64** %0, align 8"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
-  "\n  store i64* %1, i64** %0\n";
+  "\n  store i64* %1, i64** %0, align 8\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

@@ -67,12 +67,12 @@ TEST_F(GetOriginalObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine i8* @__getOriginalObject(i8* %pointer) {"
+  "define i8* @__getOriginalObject(i8* %pointer) {"
   "\nentry:"
   "\n  %0 = bitcast i8* %pointer to i8***"
-  "\n  %vtable = load i8**, i8*** %0"
+  "\n  %vtable = load i8**, i8*** %0, align 8"
   "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %1"
+  "\n  %unthunkbypointer = load i8*, i8** %1, align 8"
   "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
   "\n  %2 = getelementptr i8, i8* %pointer, i64 %unthunkby"
   "\n  ret i8* %2"

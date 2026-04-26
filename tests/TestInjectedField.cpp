@@ -227,7 +227,7 @@ TEST_F(InjectedFieldTest, getValueForImmediateInjectedFieldTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:                                            ; No predecessors!"
-  "\n  %mFoo = load i8*, i8** null\n";
+  "\n  %mFoo = load i8*, i8** null, align 8\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -268,17 +268,17 @@ TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%systems.vos.wisey.compiler.tests.CController* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8** %fieldPointer) {"
+  "define i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%systems.vos.wisey.compiler.tests.CController* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8** %fieldPointer) {"
   "\ndeclarations:"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declarations"
-  "\n  %0 = load i8*, i8** %fieldPointer"
+  "\n  %0 = load i8*, i8** %fieldPointer, align 8"
   "\n  %isNull = icmp eq i8* %0, null"
   "\n  br i1 %isNull, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
-  "\n  store i8* null, i8** %fieldPointer"
+  "\n  store i8* null, i8** %fieldPointer, align 8"
   "\n  ret i8* null"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"

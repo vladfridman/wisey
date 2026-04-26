@@ -75,7 +75,7 @@ TEST_F(DestroyNativeObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyNativeObjectFunction(i8* %thisGeneric) {"
+  "define void @__destroyNativeObjectFunction(i8* %thisGeneric) {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %thisGeneric, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"

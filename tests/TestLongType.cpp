@@ -178,10 +178,10 @@ TEST_F(LongTypeTest, createLocalVariableTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %0 = alloca i64"
+  "\n  %0 = alloca i64, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i64 0, i64* %0\n";
+  "\n  store i64 0, i64* %0, align 4\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

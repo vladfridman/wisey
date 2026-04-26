@@ -397,10 +397,10 @@ TEST_F(ModelOwnerTest, createLocalVariableTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.MSquare*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %temp\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %temp, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -428,10 +428,10 @@ TEST_F(ModelOwnerTest, createParameterVariableTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %var = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  %var = alloca %systems.vos.wisey.compiler.tests.MSquare*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %var\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %var, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

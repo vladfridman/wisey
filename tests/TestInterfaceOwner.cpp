@@ -162,10 +162,10 @@ TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IObject*"
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IObject*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %temp\n";
+  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %temp, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -193,10 +193,10 @@ TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %var = alloca %systems.vos.wisey.compiler.tests.IObject*"
+  "\n  %var = alloca %systems.vos.wisey.compiler.tests.IObject*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %var\n";
+  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %var, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

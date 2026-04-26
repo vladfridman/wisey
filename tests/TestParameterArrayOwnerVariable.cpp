@@ -84,10 +84,10 @@ TEST_F(ParameterArrayOwnerVariableTest, generateIdentifierIRTest) {
 
   string expected =
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo\n";
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -107,10 +107,10 @@ TEST_F(ParameterArrayOwnerVariableTest, freeTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo, align 8"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
   "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @\"int[]*\", i32 0, i32 0), i8* null)"
   "\n";
@@ -127,10 +127,10 @@ TEST_F(ParameterArrayOwnerVariableTest, setToNullTest) {
   
   string expected =
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo\n";
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo, align 8\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

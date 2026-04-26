@@ -155,7 +155,7 @@ TEST_F(MethodTest, definePublicFunctionTest) {
   Function* function = method.declareFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
+  string expected = "declare float @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -176,7 +176,7 @@ TEST_F(MethodTest, definePrivateFunctionTest) {
   Function* function = method.declareFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
+  string expected = "declare internal float @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -201,7 +201,7 @@ TEST_F(MethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 %intargument) {"
+  "define void @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 %intargument) {"
   "\ndeclarations:"
   "\n  br label %entry"
   "\n"
