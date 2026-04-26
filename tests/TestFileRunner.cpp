@@ -77,7 +77,9 @@ void TestFileRunner::runFilesCheckOutput(vector<string> fileNames,
   fclose(wiseyStdErr);
   
   mCompiler.run(0, NULL);
-  
+
+  fflush(stdout);
+  fflush(stderr);
   dup2(oldStdOut, STDOUT_FILENO);
   dup2(oldStdErr, STDERR_FILENO);
   
