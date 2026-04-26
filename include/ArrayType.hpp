@@ -84,7 +84,13 @@ namespace wisey {
     std::string getTypeName() const override;
     
     llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
-    
+
+    /**
+     * Returns the underlying llvm::StructType for the array's outermost
+     * struct (the { i64 refcount, i64, i64, [0 x T] } shell).
+     */
+    llvm::Type* getLLVMStructType(IRGenerationContext& context) const;
+
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
     bool canAutoCastTo(IRGenerationContext& context, const IType* toType) const override;

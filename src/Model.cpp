@@ -239,6 +239,10 @@ llvm::PointerType* Model::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
+llvm::Type* Model::getLLVMStructType(IRGenerationContext& context) const {
+  return mStructType;
+}
+
 bool Model::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType->isNative() && toType->isReference()) {
     return !toType->isController() && !toType->isNode();
@@ -356,7 +360,7 @@ void Model::defineRTTI(IRGenerationContext& context) const {
                                            int8PointerType);
   Value* Idx[1];
   Idx[0] = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 2);
-  Type* elementType = cxxabiv117ClassType->getType()->getPointerElementType();
+  Type* elementType = int8PointerType;
   llvm::Constant* cxxabiv117ClassTypeElement =
     ConstantExpr::getGetElementPtr(elementType, cxxabiv117ClassType, Idx);
   llvm::Constant* cxxabiv117ClassTypeElementBitcast =

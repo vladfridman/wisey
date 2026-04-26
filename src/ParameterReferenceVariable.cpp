@@ -23,9 +23,6 @@ ParameterReferenceVariable::ParameterReferenceVariable(string name,
                                                        int line) :
 mName(name), mType(type), mValue(value), mLine(line) {
   assert(value->getType()->isPointerTy());
-  if (!type->isNative()) {
-    assert(value->getType()->getPointerElementType()->isStructTy());
-  }
 }
 
 ParameterReferenceVariable::~ParameterReferenceVariable() {

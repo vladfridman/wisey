@@ -25,8 +25,6 @@ ParameterArrayOwnerVariable::ParameterArrayOwnerVariable(string name,
                                                          int line) :
 mName(name), mArrayOwnerType(arrayOwnerType), mValueStore(valueStore), mLine(line) {
   assert(valueStore->getType()->isPointerTy());
-  assert(valueStore->getType()->getPointerElementType()->isPointerTy());
-  assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
 }
 
 ParameterArrayOwnerVariable::~ParameterArrayOwnerVariable() {

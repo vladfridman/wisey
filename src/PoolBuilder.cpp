@@ -144,15 +144,28 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
   Value* index[2];
   index[0] = zero;
   index[1] = two;
-  Type* cMemoryPoolType = IConcreteObjectType::getCMemoryPoolStruct(context)->getPointerTo();
+  Type* cMemoryPoolStructType = IConcreteObjectType::getCMemoryPoolStruct(context);
+  Type* cMemoryPoolType = cMemoryPoolStructType->getPointerTo();
   Value* poolCast = IRWriter::newBitCastInst(context, pool, cMemoryPoolType);
-  Value* aprPoolStore = IRWriter::createGetElementPtrInst(context, poolCast, index);
-  Value* aprPool = IRWriter::newLoadInst(context, aprPoolStore, "");
-  
+  Value* aprPoolStore = IRWriter::createGetElementPtrInst(context,
+                                                          cMemoryPoolStructType,
+                                                          poolCast,
+                                                          index);
+  Value* aprPool = IRWriter::newLoadInst(context,
+                                         Type::getInt8Ty(llvmContext)->getPointerTo(),
+                                         aprPoolStore,
+                                         "");
+
   index[0] = zero;
   index[1] = one;
-  Value* objectCountStore = IRWriter::createGetElementPtrInst(context, poolCast, index);
-  Value* objectCount = IRWriter::newLoadInst(context, objectCountStore, "");
+  Value* objectCountStore = IRWriter::createGetElementPtrInst(context,
+                                                              cMemoryPoolStructType,
+                                                              poolCast,
+                                                              index);
+  Value* objectCount = IRWriter::newLoadInst(context,
+                                             Type::getInt64Ty(llvmContext),
+                                             objectCountStore,
+                                             "");
   llvm::Constant* oneLong = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, objectCount, oneLong, "");
   IRWriter::newStoreInst(context, sum, objectCountStore);
@@ -167,27 +180,28 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
   index[0] = zero;
   index[1] = zero;
   Value* shellObject = IRWriter::newBitCastInst(context, memory, refStruct->getPointerTo());
-  Instruction* refCounter = IRWriter::createGetElementPtrInst(context, shellObject, index);
+  Instruction* refCounter = IRWriter::createGetElementPtrInst(context, refStruct, shellObject, index);
   IRWriter::newStoreInst(context, ConstantInt::get(Type::getInt64Ty(llvmContext), 0), refCounter);
   index[0] = zero;
   index[1] = one;
-  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, shellObject, index);
-  
+  Type* buildableStructType = buildable->getLLVMStructType(context);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, refStruct, shellObject, index);
+
   unsigned long numberOfInterfaces = buildable->getFlattenedInterfaceHierarchy().size();
   unsigned long poolStoreIndex = numberOfInterfaces > 1 ? numberOfInterfaces + 1 : 1;
   index[0] = zero;
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), poolStoreIndex);
-  Instruction* poolStore = IRWriter::createGetElementPtrInst(context, objectStart, index);
+  Instruction* poolStore = IRWriter::createGetElementPtrInst(context, buildableStructType, objectStart, index);
   IRWriter::newStoreInst(context, pool, poolStore);
-  
+
   assert(creationArguments.size() == buildable->getFields().size());
-  
+
   auto iterator = creationArguments.begin();
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (const IField* field : buildable->getFields()) {
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), buildable->getFieldIndex(field));
     GetElementPtrInst* fieldPointer =
-    IRWriter::createGetElementPtrInst(context, objectStart, index);
+    IRWriter::createGetElementPtrInst(context, buildableStructType, objectStart, index);
     IRWriter::newStoreInst(context, *iterator, fieldPointer);
     const IType* fieldType = field->getType();
     if (fieldType->isReference()) {

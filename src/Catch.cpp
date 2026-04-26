@@ -59,8 +59,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   CallInst* exceptionPointer = IRWriter::createCallInst(context, beginCatchFunction, arguments, "");
   
   const Model* exceptionType = getType(context)->getReference();
-  llvm::PointerType* exceptionLLVMType = exceptionType->getLLVMType(context);
-  Type* exceptionStructLLVMType = exceptionLLVMType->getPointerElementType();
+  Type* exceptionStructLLVMType = exceptionType->getLLVMStructType(context);
   llvm::Constant* modelSize = ConstantExpr::getSizeOf(exceptionStructLLVMType);
   llvm::Constant* refCounterSize = ConstantExpr::getSizeOf(Type::getInt64Ty(llvmContext));
   llvm::Constant* mallocSize = ConstantExpr::getAdd(modelSize, refCounterSize);

@@ -30,7 +30,7 @@ llvm::Constant* GlobalStringConstant::get(IRGenerationContext& context, string v
   Value* Idx[2];
   Idx[0] = zeroInt32;
   Idx[1] = zeroInt32;
-  Type* elementType = global->getType()->getPointerElementType();
+  Type* elementType = global->getValueType();
   
   return ConstantExpr::getGetElementPtr(elementType, global, Idx);
 }

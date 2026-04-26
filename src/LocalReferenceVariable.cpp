@@ -27,10 +27,6 @@ LocalReferenceVariable::LocalReferenceVariable(string name,
                                                int line) :
 mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false), mLine(line) {
   assert(valueStore->getType()->isPointerTy());
-  assert(valueStore->getType()->getPointerElementType()->isPointerTy());
-  if (!type->isNative()) {
-    assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
-  }
 }
 
 LocalReferenceVariable::~LocalReferenceVariable() {

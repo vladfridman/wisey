@@ -6,9 +6,8 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/ADT/Triple.h>
-#include <llvm/IR/LegacyPassManager.h>
-#include <llvm/Transforms/IPO/PassManagerBuilder.h>
+#include <llvm/TargetParser/Triple.h>
+#include <llvm/Passes/PassBuilder.h>
 #include <llvm/Target/TargetMachine.h>
 #include <llvm/MC/TargetRegistry.h>
 #include <llvm/Support/TargetSelect.h>
@@ -21,21 +20,22 @@ using namespace llvm;
 using namespace wisey;
 
 void Optimizer::optimize(IRGenerationContext& context) {
-  legacy::PassManager passManager;
-  legacy::FunctionPassManager functionPassManager(context.getModule());
-  
-  PassManagerBuilder Builder;
-  Builder.OptLevel = 3u;
-  Builder.SizeLevel = 0;
+  PassBuilder passBuilder;
+  LoopAnalysisManager loopAnalysisManager;
+  FunctionAnalysisManager functionAnalysisManager;
+  CGSCCAnalysisManager cgsccAnalysisManager;
+  ModuleAnalysisManager moduleAnalysisManager;
 
-  Builder.populateFunctionPassManager(functionPassManager);
-  Builder.populateModulePassManager(passManager);
+  passBuilder.registerModuleAnalyses(moduleAnalysisManager);
+  passBuilder.registerCGSCCAnalyses(cgsccAnalysisManager);
+  passBuilder.registerFunctionAnalyses(functionAnalysisManager);
+  passBuilder.registerLoopAnalyses(loopAnalysisManager);
+  passBuilder.crossRegisterProxies(loopAnalysisManager,
+                                   functionAnalysisManager,
+                                   cgsccAnalysisManager,
+                                   moduleAnalysisManager);
 
-  functionPassManager.doInitialization();
-  for (Function& function : *context.getModule()) {
-    functionPassManager.run(function);
-  }
-  functionPassManager.doFinalization();
-
-  passManager.run(*context.getModule());
+  ModulePassManager modulePassManager =
+    passBuilder.buildPerModuleDefaultPipeline(OptimizationLevel::O3);
+  modulePassManager.run(*context.getModule(), moduleAnalysisManager);
 }

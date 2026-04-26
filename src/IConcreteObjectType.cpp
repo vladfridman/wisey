@@ -964,7 +964,7 @@ getOrCreateRefCounterStruct(IRGenerationContext& context, const IConcreteObjectT
   structType = StructType::create(llvmContext, structName);
   vector<Type*> types;
   types.push_back(Type::getInt64Ty(llvmContext));
-  types.push_back(object->getLLVMType(context)->getPointerElementType());
+  types.push_back(object->getLLVMStructType(context));
   structType->setBody(types);
 
   return structType;

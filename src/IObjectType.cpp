@@ -31,7 +31,7 @@ llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType* object,
   Value* Idx[2];
   Idx[0] = zeroInt32;
   Idx[1] = zeroInt32;
-  Type* elementType = nameGlobal->getType()->getPointerElementType();
+  Type* elementType = nameGlobal->getValueType();
   
   return ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 }

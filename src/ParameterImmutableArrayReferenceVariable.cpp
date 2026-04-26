@@ -26,7 +26,6 @@ ParameterImmutableArrayReferenceVariable(string name,
                                          int line) :
 mName(name), mImmutableArrayType(immutableArrayType), mValue(value), mLine(line) {
   assert(value->getType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->isStructTy());
 }
 
 ParameterImmutableArrayReferenceVariable::~ParameterImmutableArrayReferenceVariable() {

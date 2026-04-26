@@ -109,6 +109,16 @@ namespace wisey {
      * Create a GetElementPtrInst instruction for a given array or struct with given indexes
      */
     static llvm::GetElementPtrInst* createGetElementPtrInst(IRGenerationContext& context,
+                                                            llvm::Type* elementType,
+                                                            llvm::Value* value,
+                                                            llvm::ArrayRef<llvm::Value *> index);
+
+    /**
+     * Backwards-compat overload that recovers the element type from the
+     * producer instruction (alloca/gep/global). Asserts if recovery fails;
+     * such call sites must use the explicit-type overload.
+     */
+    static llvm::GetElementPtrInst* createGetElementPtrInst(IRGenerationContext& context,
                                                             llvm::Value* value,
                                                             llvm::ArrayRef<llvm::Value *> index);
     
@@ -137,6 +147,14 @@ namespace wisey {
 
     /**
      * Add LoadInst instruction to the the current basic block loading a variable value from pointer
+     */
+    static llvm::LoadInst* newLoadInst(IRGenerationContext& context,
+                                       llvm::Type* loadType,
+                                       llvm::Value* pointer,
+                                       std::string variableName);
+
+    /**
+     * Backwards-compat overload. See createGetElementPtrInst note above.
      */
     static llvm::LoadInst* newLoadInst(IRGenerationContext& context,
                                        llvm::Value* pointer,

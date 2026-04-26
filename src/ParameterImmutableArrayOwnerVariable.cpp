@@ -29,8 +29,6 @@ mImmutableArrayOwnerType(immutableArrayOwnerType),
 mValueStore(valueStore),
 mLine(line) {
   assert(valueStore->getType()->isPointerTy());
-  assert(valueStore->getType()->getPointerElementType()->isPointerTy());
-  assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
 }
 
 ParameterImmutableArrayOwnerVariable::~ParameterImmutableArrayOwnerVariable() {

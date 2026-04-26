@@ -23,7 +23,6 @@ ParameterReferenceVariableStatic::ParameterReferenceVariableStatic(string name,
                                                                    int line) :
 mName(name), mType(type), mValue(value), mLine(line) {
   assert(value->getType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->isStructTy());
 }
 
 ParameterReferenceVariableStatic::~ParameterReferenceVariableStatic() {

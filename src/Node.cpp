@@ -229,6 +229,10 @@ llvm::PointerType* Node::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
+llvm::Type* Node::getLLVMStructType(IRGenerationContext& context) const {
+  return mStructType;
+}
+
 bool Node::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType->isNative() && toType->isReference()) {
     return !toType->isController() && !toType->isModel();

@@ -12,6 +12,7 @@
 #include <llvm/ExecutionEngine/MCJIT.h>
 #include <llvm/IR/IRPrintingPasses.h>
 #include <llvm/IR/LegacyPassManager.h>
+#include <llvm/Pass.h>
 #include <llvm/IR/Verifier.h>
 
 #include "IRGenerationContext.hpp"

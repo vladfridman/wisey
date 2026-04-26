@@ -158,7 +158,7 @@ void StringType::createLocalVariable(IRGenerationContext& context,
   Value* Idx[2];
   Idx[0] = zeroInt32;
   Idx[1] = zeroInt32;
-  Type* elementType = emptyString->getType()->getPointerElementType();
+  Type* elementType = emptyString->getValueType();
   
   Value* value = ConstantExpr::getGetElementPtr(elementType, emptyString, Idx);
 

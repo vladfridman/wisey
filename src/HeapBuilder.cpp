@@ -89,10 +89,14 @@ Value* HeapBuilder::build(IRGenerationContext& context,
                                                                    buildable,
                                                                    "buildervar");
   LLVMContext& llvmContext = context.getLLVMContext();
+  Type* refCounterType = IConcreteObjectType::getOrCreateRefCounterStruct(context, buildable);
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context,
+                                                               refCounterType,
+                                                               malloc,
+                                                               index);
   
   vector<Value*> creationArguments;
   buildable->generateCreationArguments(context,

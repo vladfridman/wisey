@@ -56,7 +56,10 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context, int line) {
   Value* exceptionShell = IRWriter::createCallInst(context, getException, arguments, "");
   Value* idx[1];
   idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), Environment::getAddressSizeInBytes());
-  Value* exception = IRWriter::createGetElementPtrInst(context, exceptionShell, idx);
+  Value* exception = IRWriter::createGetElementPtrInst(context,
+                                                       Type::getInt8Ty(llvmContext),
+                                                       exceptionShell,
+                                                       idx);
 
   landingPad->setCleanup(true);
 

@@ -43,7 +43,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
 
   interfaces = object->getInterfaces();
   for (Interface* interface : interfaces) {
-    types.push_back(interface->getLLVMType(context)->getPointerElementType());
+    types.push_back(interface->getLLVMStructType(context));
   }
   if (interfaces.size() == 0) {
     llvm::Type* functionType = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), true);

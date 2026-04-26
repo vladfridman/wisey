@@ -92,31 +92,35 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
                                                            PrimitiveTypes::LONG,
                                                            0);
 
-  Value* index[2];
-  index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 1);
-  Value* arraySizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
-  Value* arraySize = IRWriter::newLoadInst(context, arraySizeStore, "arraySize");
+  // Array layout: { i64 refcount, i64 size, i64 elementSize, [0 x T] data }
+  // Byte offsets: refcount=0, size=8, elementSize=16, data=24
+  Type* int8Ty = Type::getInt8Ty(llvmContext);
+  Type* int64Ty = Type::getInt64Ty(llvmContext);
+
+  Value* sizeIdx[1];
+  sizeIdx[0] = ConstantInt::get(int64Ty, 8);
+  Value* arraySizeStore = IRWriter::createGetElementPtrInst(context, int8Ty, arrayStructPointer, sizeIdx);
+  Value* arraySize = IRWriter::newLoadInst(context, int64Ty, arraySizeStore, "arraySize");
   Composer::checkArrayIndex(context, indexValueCast, arraySize, line);
-  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
-  Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
-  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext),
-                              ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+
+  Value* elemSizeIdx[1];
+  elemSizeIdx[0] = ConstantInt::get(int64Ty, 16);
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, int8Ty, arrayStructPointer, elemSizeIdx);
+  Value* elementSize = IRWriter::newLoadInst(context, int64Ty, elementSizeStore, "elementSize");
+
+  Value* dataIdx[1];
+  dataIdx[0] = ConstantInt::get(int64Ty, 24);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, int8Ty, arrayStructPointer, dataIdx);
 
   Value* offset = IRWriter::createBinaryOperator(context,
                                                  Instruction::Mul,
                                                  elementSize,
                                                  indexValueCast,
                                                  "offset");
-  
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* genericPointer = IRWriter::newBitCastInst(context, arrayPointer, int8Pointer);
+
   Value* idx[1];
   idx[0] = offset;
-  
-  return IRWriter::createGetElementPtrInst(context, genericPointer, idx);
+  return IRWriter::createGetElementPtrInst(context, int8Ty, arrayPointer, idx);
 }
 
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,

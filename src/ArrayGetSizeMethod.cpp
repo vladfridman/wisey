@@ -33,11 +33,18 @@ Value* ArrayGetSizeMethod::generateIR(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* arrayValue = expression->generateIR(context, PrimitiveTypes::VOID);
   Composer::checkForNull(context, arrayValue, line);
-  Value* index[2];
-  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayValue, index);
-  return IRWriter::newLoadInst(context, sizeStore, "");
+  // Array layout: { i64 refcount, i64 size, i64, [0 x T] }. The size field
+  // sits at byte offset 8 from the array pointer.
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 8);
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context,
+                                                       Type::getInt8Ty(llvmContext),
+                                                       arrayValue,
+                                                       index);
+  return IRWriter::newLoadInst(context,
+                               Type::getInt64Ty(llvmContext),
+                               sizeStore,
+                               "");
 }
 
 string ArrayGetSizeMethod::getName() const {

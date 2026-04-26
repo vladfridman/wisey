@@ -29,17 +29,10 @@ StoreInReference::~StoreInReference() {
 }
 
 void StoreInReference::generateIR(IRGenerationContext& context) const {
-  const IType* valueType = mValueExpression->getType(context);
   const IType* pointerType = mPointerExpression->getType(context);
-  Type* valueLLVMType = valueType->getLLVMType(context);
   Type* pointerLLVMType = pointerType->getLLVMType(context);
   if (!pointerLLVMType->isPointerTy()) {
     context.reportError(mLine, "Second parameter in ::llvm::store is not of pointer type");
-    throw 1;
-  }
-  if (pointerLLVMType->getPointerElementType() != valueLLVMType) {
-    context.reportError(mLine, "First parameter in ::llvm::store is not of type that is "
-                        "compatable with pointer type of the second parameter");
     throw 1;
   }
   Value* value = mValueExpression->generateIR(context, PrimitiveTypes::VOID);

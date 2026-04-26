@@ -28,7 +28,6 @@ ParameterArrayReferenceVariable::ParameterArrayReferenceVariable(string name,
                                                                  int line) :
 mName(name), mArrayType(arrayType), mValue(value), mLine(line) {
   assert(value->getType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->isStructTy());
 }
 
 ParameterArrayReferenceVariable::~ParameterArrayReferenceVariable() {

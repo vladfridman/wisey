@@ -79,6 +79,15 @@ namespace wisey {
      * Override method from IType because ObjectOwner llvm type is always a PointerType
      */
     virtual llvm::PointerType* getLLVMType(IRGenerationContext& context) const override = 0;
+
+    /**
+     * Returns the underlying llvm::StructType that this object's pointer type
+     * points to, or nullptr if there is none. Needed under opaque pointers
+     * because PointerType no longer carries pointee information.
+     */
+    virtual llvm::Type* getLLVMStructType(IRGenerationContext& context) const {
+      return nullptr;
+    }
     
     /**
      * Returns pointer reference counter value for this object

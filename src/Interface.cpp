@@ -165,7 +165,7 @@ void Interface::buildMethods(IRGenerationContext& context) {
   types.push_back(vtableType);
   
   for (Interface* parentInterface : mParentInterfaces) {
-    types.push_back(parentInterface->getLLVMType(context)->getPointerElementType());
+    types.push_back(parentInterface->getLLVMStructType(context));
   }
   
   mStructType->setBody(types);
@@ -641,6 +641,10 @@ string Interface::getShortName() const {
 
 llvm::PointerType* Interface::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
+}
+
+llvm::Type* Interface::getLLVMStructType(IRGenerationContext& context) const {
+  return mStructType;
 }
 
 /**

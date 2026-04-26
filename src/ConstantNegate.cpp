@@ -31,8 +31,13 @@ int ConstantNegate::getLine() const {
 llvm::Constant* ConstantNegate::generateIR(IRGenerationContext& context,
                                            const IType* assignToType) const {
   llvm::Constant* expressionValue = mExpression->generateIR(context, assignToType);
-  return expressionValue->getType()->isIntegerTy()
-  ? ConstantExpr::getNeg(expressionValue) : ConstantExpr::getFNeg(expressionValue);
+  if (expressionValue->getType()->isIntegerTy()) {
+    return ConstantExpr::getNeg(expressionValue);
+  }
+  ConstantFP* fp = llvm::cast<ConstantFP>(expressionValue);
+  llvm::APFloat negated = fp->getValueAPF();
+  negated.changeSign();
+  return ConstantFP::get(fp->getType()->getContext(), negated);
 }
 
 const IType* ConstantNegate::getType(IRGenerationContext& context) const {

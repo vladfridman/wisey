@@ -102,7 +102,7 @@ void Compiler::extractHeaders(string headerFile) {
 }
 
 void Compiler::saveBinary(string outputFile) {
-  auto fileType = CGFT_ObjectFile;
+  auto fileType = CodeGenFileType::ObjectFile;
   auto targetTriple = mArguments.getTargetTriple();
   Log::i("Generating binary object for architecture: " + targetTriple);
   InitializeAllTargetInfos();
@@ -122,7 +122,7 @@ void Compiler::saveBinary(string outputFile) {
   auto features = "";
   
   TargetOptions targetOptions;
-  auto relocModel = Optional<Reloc::Model>(Reloc::PIC_);
+  auto relocModel = std::optional<Reloc::Model>(Reloc::PIC_);
   auto targetMachine = target->createTargetMachine(targetTriple,
                                                    cpu,
                                                    features,

@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/Support/Signals.h>
+
 #include "Cleanup.hpp"
 #include "IRWriter.hpp"
 #include "Log.hpp"
@@ -158,38 +160,93 @@ Instruction* IRWriter::createMalloc(IRGenerationContext& context,
                                     Value* arraySize,
                                     string variableName) {
   BasicBlock* currentBlock = context.getBasicBlock();
-  
+
   if(currentBlock->getTerminator()) {
     return NULL;
   }
 
-  Type* pointerType = Type::getInt64Ty(context.getLLVMContext());
-  Instruction* malloc = CallInst::CreateMalloc(currentBlock,
-                                               pointerType,
-                                               structType,
-                                               allocSize,
-                                               arraySize,
-                                               nullptr,
-                                               variableName);
-  currentBlock->getInstList().push_back(malloc);
-  
-  return malloc;
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Module* module = currentBlock->getModule();
+  Type* int64Ty = Type::getInt64Ty(llvmContext);
+  Type* int8PtrTy = PointerType::get(llvmContext, 0);
+
+  FunctionCallee mallocFn = module->getOrInsertFunction("malloc", int8PtrTy, int64Ty);
+
+  Value* totalSize;
+  auto* arraySizeConst = dyn_cast<ConstantInt>(arraySize);
+  if (arraySizeConst && arraySizeConst->isOne()) {
+    totalSize = allocSize;
+  } else {
+    totalSize = BinaryOperator::CreateMul(allocSize, arraySize, "", currentBlock);
+  }
+
+  CallInst* mallocCall = CallInst::Create(mallocFn, {totalSize}, "malloccall", currentBlock);
+  mallocCall->setTailCall();
+
+  if (!variableName.empty()) {
+    mallocCall->setName(variableName);
+  }
+  return mallocCall;
 }
 
 Instruction* IRWriter::createFree(IRGenerationContext& context, Value* value) {
   BasicBlock* currentBlock = context.getBasicBlock();
-  
+
   if(currentBlock->getTerminator()) {
     return NULL;
   }
 
-  Instruction* instruction = CallInst::CreateFree(value, currentBlock);
-  currentBlock->getInstList().push_back(instruction);
-  
-  return instruction;
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Module* module = currentBlock->getModule();
+  Type* voidTy = Type::getVoidTy(llvmContext);
+  Type* int8PtrTy = PointerType::get(llvmContext, 0);
+
+  FunctionCallee freeFn = module->getOrInsertFunction("free", voidTy, int8PtrTy);
+  CallInst* freeCall = CallInst::Create(freeFn, {value}, "", currentBlock);
+  freeCall->setTailCall();
+  return freeCall;
+}
+
+/**
+ * Recover the pointee type from a value's producer. Used by the legacy
+ * (no-type) overloads of newLoadInst/createGetElementPtrInst as a stop-gap
+ * during the opaque-pointer migration. Returns nullptr if the type cannot
+ * be recovered (e.g. bitcast pointers — opaque pointers erase pointee type).
+ */
+static Type* recoverPointeeType(Value* pointer) {
+  if (auto* alloca = llvm::dyn_cast<AllocaInst>(pointer)) {
+    return alloca->getAllocatedType();
+  }
+  if (auto* gep = llvm::dyn_cast<GetElementPtrInst>(pointer)) {
+    return gep->getResultElementType();
+  }
+  if (auto* gv = llvm::dyn_cast<GlobalVariable>(pointer)) {
+    return gv->getValueType();
+  }
+  if (auto* load = llvm::dyn_cast<LoadInst>(pointer)) {
+    return load->getType();
+  }
+  // BitCastInst and CallInst returning a pointer: in wisey the dominant
+  // pattern is bitcast-to-i8*-then-byte-gep / opaque-malloc-then-byte-gep,
+  // so default to i8. Sites that need a different element type must use
+  // the explicit-type overload.
+  if (llvm::isa<BitCastInst>(pointer) || llvm::isa<CallInst>(pointer)) {
+    return Type::getInt8Ty(pointer->getContext());
+  }
+  return nullptr;
 }
 
 GetElementPtrInst* IRWriter::createGetElementPtrInst(IRGenerationContext& context,
+                                                     Value* value,
+                                                     ArrayRef<Value *> index) {
+  Type* elementType = recoverPointeeType(value);
+  assert(elementType && "createGetElementPtrInst: cannot recover element type; "
+         "use the explicit-type overload");
+  return createGetElementPtrInst(context, elementType, value, index);
+}
+
+GetElementPtrInst* IRWriter::createGetElementPtrInst(IRGenerationContext& context,
+                                                     Type* elementType,
                                                      Value* value,
                                                      ArrayRef<Value *> index) {
   BasicBlock* currentBlock = context.getBasicBlock();
@@ -198,7 +255,7 @@ GetElementPtrInst* IRWriter::createGetElementPtrInst(IRGenerationContext& contex
     return NULL;
   }
 
-  return GetElementPtrInst::Create(value->getType()->getPointerElementType(),
+  return GetElementPtrInst::Create(elementType,
                                    value,
                                    index,
                                    "",
@@ -238,13 +295,23 @@ AllocaInst* IRWriter::newAllocaInst(IRGenerationContext& context, Type* type, st
 LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
                                 Value* pointer,
                                 string variableName) {
+  Type* loadType = recoverPointeeType(pointer);
+  assert(loadType && "newLoadInst: cannot recover load type; "
+         "use the explicit-type overload");
+  return newLoadInst(context, loadType, pointer, variableName);
+}
+
+LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
+                                Type* loadType,
+                                Value* pointer,
+                                string variableName) {
   BasicBlock* currentBlock = context.getBasicBlock();
-  
+
   if(currentBlock->getTerminator()) {
     return NULL;
   }
-  
-  return new LoadInst(pointer->getType()->getPointerElementType(), pointer, variableName, currentBlock);
+
+  return new LoadInst(loadType, pointer, variableName, currentBlock);
 }
 
 CastInst* IRWriter::createSExtOrBitCast(IRGenerationContext& context,
@@ -375,7 +442,7 @@ FCmpInst* IRWriter::newFCmpInst(IRGenerationContext& context,
     return NULL;
   }
   
-  return new FCmpInst(*currentBlock, predicate, leftValue, rightValue, variableName);
+  return new FCmpInst(currentBlock, predicate, leftValue, rightValue, variableName);
 }
 
 ICmpInst* IRWriter::newICmpInst(IRGenerationContext& context,
@@ -388,8 +455,8 @@ ICmpInst* IRWriter::newICmpInst(IRGenerationContext& context,
   if(currentBlock->getTerminator()) {
     return NULL;
   }
-  
-  return new ICmpInst(*currentBlock, predicate, leftValue, rightValue, variableName);
+
+  return new ICmpInst(currentBlock, predicate, leftValue, rightValue, variableName);
 }
 
 ResumeInst* IRWriter::createResumeInst(IRGenerationContext& context,

@@ -62,8 +62,7 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   Value* excpetionShellStart =
   IRWriter::createGetElementPtrInst(context, expressionValueBitcast, index);
 
-  llvm::Constant* modelSize = ConstantExpr::getSizeOf(model->getLLVMType(context)->
-                                                      getPointerElementType());
+  llvm::Constant* modelSize = ConstantExpr::getSizeOf(model->getLLVMStructType(context));
   llvm::Constant* refCounterSize = ConstantExpr::getSizeOf(Type::getInt64Ty(llvmContext));
   llvm::Constant* mallocSize = ConstantExpr::getAdd(modelSize, refCounterSize);
   

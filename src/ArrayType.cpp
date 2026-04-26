@@ -57,8 +57,12 @@ string ArrayType::getTypeName() const {
 }
 
 llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
+  return getLLVMStructType(context)->getPointerTo();
+}
+
+llvm::Type* ArrayType::getLLVMStructType(IRGenerationContext& context) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  
+
   llvm::Type* type = mElementType->getLLVMType(context);
   for (unsigned long i = 0; i < mNumberOfDimensions; i++) {
     llvm::ArrayType* arrayType = llvm::ArrayType::get(type, 0);
@@ -69,8 +73,7 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
     types.push_back(arrayType);
     type = llvm::StructType::get(llvmContext, types);
   }
-
-  return type->getPointerTo();
+  return type;
 }
 
 bool ArrayType::canCastTo(IRGenerationContext& context, const IType *toType) const {
@@ -229,10 +232,14 @@ llvm::Instruction* ArrayType::inject(IRGenerationContext& context,
 }
 
 llvm::Value* ArrayType::extractLLVMArray(IRGenerationContext& context, llvm::Value* arrayPointer) {
+  // Array layout: { i64 refcount, i64, i64, [0 x T] }. Skip the three i64
+  // header fields (24 bytes) to reach the data array.
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::Value* index[2];
-  index[0] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
-  index[1] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 3);
-  
-  return IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  llvm::Value* index[1];
+  index[0] = llvm::ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 24);
+
+  return IRWriter::createGetElementPtrInst(context,
+                                           llvm::Type::getInt8Ty(llvmContext),
+                                           arrayPointer,
+                                           index);
 }
