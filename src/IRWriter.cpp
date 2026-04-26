@@ -72,12 +72,26 @@ CallInst* IRWriter::createCallInst(IRGenerationContext& context,
                                    vector<Value*> arguments,
                                    string resultName) {
   BasicBlock* currentBlock = context.getBasicBlock();
-  
+
   if(currentBlock->getTerminator()) {
     return NULL;
   }
-  
+
   return CallInst::Create(function, arguments, resultName, currentBlock);
+}
+
+CallInst* IRWriter::createCallInst(IRGenerationContext& context,
+                                   FunctionType* functionType,
+                                   Value* function,
+                                   vector<Value*> arguments,
+                                   string resultName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+
+  return CallInst::Create(functionType, function, arguments, resultName, currentBlock);
 }
 
 InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
@@ -86,13 +100,13 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
                                        string resultName,
                                        int line) {
   BasicBlock* currentBlock = context.getBasicBlock();
-  
+
   if(currentBlock->getTerminator()) {
     return NULL;
   }
-  
+
   BasicBlock* landingPadBlock = context.getScopes().getLandingPadBlock(context, line);
-  
+
   BasicBlock* invokeContinueBlock = BasicBlock::Create(context.getLLVMContext(),
                                                        "invoke.continue",
                                                        currentBlock->getParent());
@@ -102,9 +116,39 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
                                               arguments,
                                               resultName,
                                               currentBlock);
-  
+
   context.setBasicBlock(invokeContinueBlock);
-  
+
+  return invokeInst;
+}
+
+InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
+                                       FunctionType* functionType,
+                                       Value* function,
+                                       vector<Value*> arguments,
+                                       string resultName,
+                                       int line) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+
+  BasicBlock* landingPadBlock = context.getScopes().getLandingPadBlock(context, line);
+
+  BasicBlock* invokeContinueBlock = BasicBlock::Create(context.getLLVMContext(),
+                                                       "invoke.continue",
+                                                       currentBlock->getParent());
+  InvokeInst* invokeInst = InvokeInst::Create(functionType,
+                                              function,
+                                              invokeContinueBlock,
+                                              landingPadBlock,
+                                              arguments,
+                                              resultName,
+                                              currentBlock);
+
+  context.setBasicBlock(invokeContinueBlock);
+
   return invokeInst;
 }
 
@@ -200,7 +244,7 @@ LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
     return NULL;
   }
   
-  return new LoadInst(pointer, variableName, currentBlock);
+  return new LoadInst(pointer->getType()->getPointerElementType(), pointer, variableName, currentBlock);
 }
 
 CastInst* IRWriter::createSExtOrBitCast(IRGenerationContext& context,
@@ -362,7 +406,7 @@ ResumeInst* IRWriter::createResumeInst(IRGenerationContext& context,
 UnreachableInst* IRWriter::newUnreachableInst(IRGenerationContext& context) {
 
   BasicBlock* currentBlock = context.getBasicBlock();
-  string test = currentBlock->getName();
+  string test = currentBlock->getName().str();
   
   if(currentBlock->getTerminator()) {
     return NULL;

@@ -86,7 +86,7 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
   llvm::Constant* zero = llvm::Constant::getNullValue(IntegerType::getInt32Ty(llvmContext));
   llvm::Constant* indices[] = {zero, zero};
   
-  return ConstantExpr::getGetElementPtr(NULL, globalVariableString, indices, true);
+  return ConstantExpr::getGetElementPtr(globalVariableString->getValueType(), globalVariableString, indices, true);
 }
 
 void IPrintStatement::addPrintArguments(IRGenerationContext& context,

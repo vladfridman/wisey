@@ -15,7 +15,7 @@
 #include <llvm/IR/PassManager.h>
 #include <llvm/IR/Verifier.h>
 #include <llvm/Support/FileSystem.h>
-#include <llvm/Support/TargetRegistry.h>
+#include <llvm/MC/TargetRegistry.h>
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/Target/TargetMachine.h>
 #include <llvm-c/Target.h>
@@ -102,7 +102,7 @@ void Compiler::extractHeaders(string headerFile) {
 }
 
 void Compiler::saveBinary(string outputFile) {
-  auto fileType = TargetMachine::CGFT_ObjectFile;
+  auto fileType = CGFT_ObjectFile;
   auto targetTriple = mArguments.getTargetTriple();
   Log::i("Generating binary object for architecture: " + targetTriple);
   InitializeAllTargetInfos();
@@ -133,7 +133,7 @@ void Compiler::saveBinary(string outputFile) {
   mContext.getModule()->setTargetTriple(targetTriple);
 
   error_code errorCode;
-  raw_fd_ostream destinationRawStream(outputFile, errorCode, sys::fs::F_None);
+  raw_fd_ostream destinationRawStream(outputFile, errorCode, sys::fs::OF_None);
   
   if (errorCode) {
     errs() << "Could not open file: " << errorCode.message();

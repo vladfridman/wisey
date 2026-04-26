@@ -93,6 +93,14 @@ namespace wisey {
                                     const IMethodDescriptor* methodDescriptor,
                                     std::vector<llvm::Value*> arguments,
                                     const IType* assignToType) const;
+
+    llvm::Value* createFunctionCallIndirect(IRGenerationContext& context,
+                                            const IObjectType* object,
+                                            llvm::FunctionType* functionType,
+                                            llvm::Value* function,
+                                            const IMethodDescriptor* methodDescriptor,
+                                            std::vector<llvm::Value*> arguments,
+                                            const IType* assignToType) const;
     
     llvm::Function* getMethodFunction(IRGenerationContext& context,
                                       const IMethodDescriptor* methodDescriptor) const;

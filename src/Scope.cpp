@@ -100,7 +100,7 @@ void Scope::freeOwnedMemory(IRGenerationContext& context, Value* exception, int 
   BasicBlock* currentBlock = context.getBasicBlock();
   if(currentBlock != NULL &&
      currentBlock->size() > 0 &&
-     TerminatorInst::classof(&currentBlock->back())) {
+     currentBlock->back().isTerminator()) {
     return;
   }
   

@@ -38,7 +38,7 @@ void LLVMExternalGlobalDeclaration::prototypeMethods(IRGenerationContext& contex
                                               GlobalValue::ExternalLinkage,
                                               nullptr,
                                               mName.c_str());
-  global->setAlignment(8);
+  global->setAlignment(Align(8));
   context.setLLVMGlobalVariable(variableType, mName);
 }
 

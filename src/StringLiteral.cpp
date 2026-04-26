@@ -42,7 +42,7 @@ llvm::Constant* wisey::StringLiteral::generateIR(IRGenerationContext& context,
   llvm::Constant* zero = llvm::Constant::getNullValue(IntegerType::getInt32Ty(llvmContext));
   llvm::Constant* indices[] = {zero, zero};
 
-  return ConstantExpr::getGetElementPtr(NULL, globalVariableString, indices, true);
+  return ConstantExpr::getGetElementPtr(globalVariableString->getValueType(), globalVariableString, indices, true);
 }
 
 string wisey::StringLiteral::unescape(const string& input) {

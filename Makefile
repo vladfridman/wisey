@@ -11,7 +11,9 @@ BUILDDIR = build
 # Source file directory
 SRCDIR = ${CURDIR}/src
 # System header files that include the headers for LLVM
-ISYSTEMDIR = /usr/local/include
+ISYSTEMDIR = $(shell llvm-config --includedir)
+# Googletest install prefix (brew on macOS, /usr on Linux)
+GTESTDIR = $(shell brew --prefix googletest 2>/dev/null)
 # Project header files
 INCLUDEDIR = ${CURDIR}/include
 # Tests header files
@@ -39,7 +41,7 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-Wno-vla-extension -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers \
 	-pedantic -Wno-long-long -Wnon-virtual-dtor -Wno-deprecated-register \
 	-Wno-unneeded-internal-declaration -Wdelete-non-virtual-dtor -Werror=date-time \
-	-std=c++11 -g -fno-rtti \
+	-std=c++17 -g -fno-rtti \
 	-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -c
 # Flags used for linking
 LDFLAGS = `llvm-config --ldflags --system-libs --libs all`
@@ -79,7 +81,7 @@ ${PARSERDIR}/Tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
 	flex -o $@ ${SRCDIR}/Tokens.lpp
 
 $(BUILDDIR)/Test%.o: ${TESTDIR}/Test%.cpp | ${BUILDDIR}
-	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} -I${TESTINCLUDEDIR} $(CFLAGS) -Wno-covered-switch-default $<
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${GTESTDIR}/include -I${INCLUDEDIR} -I${PARSERDIR} -I${TESTINCLUDEDIR} $(CFLAGS) -Wno-covered-switch-default $<
 
 $(BUILDDIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
@@ -109,4 +111,4 @@ ${BINDIR}/yzc: $(OBJEXCEPTMAINS) ${BUILDDIR}/yzc.o | ${BINDIR}
 	$(LD) -o $@ $^ $(LDFLAGS)
 
 ${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/yzc ${BINDIR}/wiseyc ${BINDIR}/wiseylibc
-	$(LD) -o $@ $^ $(LDFLAGS) -L$(LIBDIR) ${LDTESTFLAGS}
+	$(LD) -o $@ $^ $(LDFLAGS) -L$(LIBDIR) -L${GTESTDIR}/lib ${LDTESTFLAGS}

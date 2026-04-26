@@ -30,7 +30,7 @@ LLVMExternalStructDefinition::~LLVMExternalStructDefinition() {
 
 IObjectType* LLVMExternalStructDefinition::prototypeObject(IRGenerationContext& context,
                                                            ImportProfile* importProfile) const {
-  StructType* structType = context.getModule()->getTypeByName(mName);
+  StructType* structType = StructType::getTypeByName(context.getLLVMContext(), mName);
   assert(structType == NULL);
   
   structType = StructType::create(context.getLLVMContext(), mName);

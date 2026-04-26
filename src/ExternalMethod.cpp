@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/TypeBuilder.h>
-
 #include "AccessLevel.hpp"
 #include "Argument.hpp"
 #include "ExternalMethod.hpp"

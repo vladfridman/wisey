@@ -30,7 +30,7 @@ mShouldGenerateMain(true),
 mObjectType(NULL),
 mCurrentMethod(NULL),
 mIsRunningComposingCallbacks(false) {
-  mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
+  mModuleOwner = std::make_unique<llvm::Module>("wisey", mLLVMContext);
   mModule = mModuleOwner.get();
 }
 

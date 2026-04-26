@@ -966,7 +966,8 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   callArguments.push_back(thread);
   callArguments.push_back(callstack);
   Value* injectValue = IRWriter::createCallInst(context,
-                                                (Function*) actualInjectFunction,
+                                                functionType,
+                                                actualInjectFunction,
                                                 callArguments,
                                                 "");
   IRWriter::createReturnInst(context, injectValue);

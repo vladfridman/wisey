@@ -214,7 +214,7 @@ bool Composer::shouldSkipCallStack(IRGenerationContext& context) {
 
 StructType* Composer::getCCallStackStruct(IRGenerationContext& context) {
   string structTypeName = "CCallStack";
-  StructType* structType = context.getModule()->getTypeByName(structTypeName);
+  StructType* structType = StructType::getTypeByName(context.getLLVMContext(), structTypeName);
   if (structType) {
     return structType;
   }
@@ -314,11 +314,12 @@ void Composer::adjustReferenceCountSafely(IRGenerationContext& context,
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
                     counter,
                     adjustment,
+                    Align(8),
                     AtomicOrdering::Monotonic,
                     SyncScope::System,
                     ifNotNullBlock);
   IRWriter::createBranch(context, ifEndBlock);
-  
+
   context.setBasicBlock(ifEndBlock);
 }
 
@@ -367,6 +368,7 @@ void Composer::adjustArrayReferenceCountSafely(IRGenerationContext& context,
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
                     counter,
                     adjustment,
+                    Align(8),
                     AtomicOrdering::Monotonic,
                     SyncScope::System,
                     ifNotNullBlock);

@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/Support/Host.h>
 #include <llvm/Target/TargetMachine.h>
 
 #include "CompilerArguments.hpp"

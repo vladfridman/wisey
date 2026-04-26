@@ -128,24 +128,25 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                               interface->getMethodIndex(context, methodDescriptor, mLine) +
                               VTABLE_METHODS_OFFSET);
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
-  Function* function = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
-  
+  Value* function = IRWriter::newLoadInst(context, virtualFunction, "");
+
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
   Value* callStackObject = callStackVariable->generateIdentifierIR(context, mLine);
-  
+
   vector<Value*> arguments;
   arguments.push_back(objectValue);
   arguments.push_back(threadObject);
   arguments.push_back(callStackObject);
 
-  return createFunctionCall(context,
-                            interface,
-                            function,
-                            methodDescriptor,
-                            arguments,
-                            assignToType);
+  return createFunctionCallIndirect(context,
+                                    interface,
+                                    functionType,
+                                    function,
+                                    methodDescriptor,
+                                    arguments,
+                                    assignToType);
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
@@ -231,12 +232,55 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   Value* result = mCanThrow
   ? (Value*) IRWriter::createInvokeInst(context, function, arguments, "", mLine)
   : (Value*) IRWriter::createCallInst(context, function, arguments, "");
-  
+
   const IType* returnType = methodDescriptor->getReturnType();
   if (!returnType->isOwner() || assignToType->isOwner()) {
     return result;
   }
-  
+
+  string variableName = IVariable::getTemporaryVariableName(this);
+  returnType->createLocalVariable(context, variableName, mLine);
+  vector<const IExpression*> arrayIndicies;
+  context.getScopes().getVariable(variableName)->
+  generateAssignmentIR(context, new FakeExpression(result, returnType), arrayIndicies, mLine);
+
+  return result;
+}
+
+Value* MethodCall::createFunctionCallIndirect(IRGenerationContext& context,
+                                              const IObjectType* object,
+                                              FunctionType* functionType,
+                                              Value* function,
+                                              const IMethodDescriptor* methodDescriptor,
+                                              vector<Value*> arguments,
+                                              const IType* assignToType) const {
+  Composer::setLineNumber(context, mLine);
+
+  vector<const Argument*> methodArguments = methodDescriptor->getArguments();
+  vector<const Argument*>::iterator methodArgumentIterator = methodArguments.begin();
+  for (const IExpression* callArgument : mArguments) {
+    const Argument* methodArgument = *methodArgumentIterator;
+    Value* callArgumentValue = callArgument->generateIR(context, methodArgument->getType());
+    const IType* callArgumentType = callArgument->getType(context);
+    const IType* methodArgumentType = methodArgument->getType();
+    Value* callArgumentValueCasted = AutoCast::maybeCast(context,
+                                                         callArgumentType,
+                                                         callArgumentValue,
+                                                         methodArgumentType,
+                                                         mLine);
+    arguments.push_back(callArgumentValueCasted);
+    methodArgumentIterator++;
+  }
+
+  Value* result = mCanThrow
+  ? (Value*) IRWriter::createInvokeInst(context, functionType, function, arguments, "", mLine)
+  : (Value*) IRWriter::createCallInst(context, functionType, function, arguments, "");
+
+  const IType* returnType = methodDescriptor->getReturnType();
+  if (!returnType->isOwner() || assignToType->isOwner()) {
+    return result;
+  }
+
   string variableName = IVariable::getTemporaryVariableName(this);
   returnType->createLocalVariable(context, variableName, mLine);
   vector<const IExpression*> arrayIndicies;

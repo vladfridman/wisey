@@ -955,7 +955,7 @@ llvm::Instruction* IConcreteObjectType::createMallocForObject(IRGenerationContex
 llvm::StructType* IConcreteObjectType::
 getOrCreateRefCounterStruct(IRGenerationContext& context, const IConcreteObjectType* object) {
   string structName = object->getTypeName() + ".refCounter";
-  StructType* structType = context.getModule()->getTypeByName(structName);
+  StructType* structType = StructType::getTypeByName(context.getLLVMContext(), structName);
   if (structType) {
     return structType;
   }
@@ -989,7 +989,7 @@ const IMethod* IConcreteObjectType::findMethodInObject(string methodName,
 
 StructType* IConcreteObjectType::getCMemoryPoolStruct(IRGenerationContext& context) {
   string structName = "CMemoryPool";
-  StructType* structType = context.getModule()->getTypeByName(structName);
+  StructType* structType = StructType::getTypeByName(context.getLLVMContext(), structName);
   if (structType) {
     return structType;
   }

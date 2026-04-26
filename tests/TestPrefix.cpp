@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/TypeBuilder.h>
-
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
@@ -137,56 +135,54 @@ void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
 void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Module* module = context.getModule();
-  
-  FunctionType* functionType = llvm::TypeBuilder<int(char *, ...), false>::get(llvmContext);
+
+  Type* voidTy = Type::getVoidTy(llvmContext);
+  Type* int1Ty = Type::getInt1Ty(llvmContext);
+  Type* int8Ty = Type::getInt8Ty(llvmContext);
+  Type* int32Ty = Type::getInt32Ty(llvmContext);
+  Type* int64Ty = Type::getInt64Ty(llvmContext);
+  Type* int8PtrTy = Type::getInt8PtrTy(llvmContext);
+
+  FunctionType* functionType = FunctionType::get(int32Ty, {int8PtrTy}, true);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "printf", module);
-  
-  functionType = llvm::TypeBuilder<int(types::i<8>*, char *, ...), false>::get(llvmContext);
+
+  functionType = FunctionType::get(int32Ty, {int8PtrTy, int8PtrTy}, true);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "fprintf", module);
-  
-  functionType = llvm::TypeBuilder<long(types::i<8>*), false>::get(llvmContext);
+
+  functionType = FunctionType::get(int64Ty, {int8PtrTy}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "strlen", module);
 
-  functionType = TypeBuilder<void (types::i<8>*,
-                                   types::i<8>*,
-                                   types::i<8>*), false>::get(llvmContext);
+  functionType = FunctionType::get(voidTy, {int8PtrTy, int8PtrTy, int8PtrTy}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_throw", module);
 
-  functionType = TypeBuilder<types::i<8>* (types::i<64>), false>::get(llvmContext);
+  functionType = FunctionType::get(int8PtrTy, {int64Ty}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_allocate_exception", module);
 
-  functionType = TypeBuilder<void (types::i<8>*), false>::get(llvmContext);
+  functionType = FunctionType::get(voidTy, {int8PtrTy}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_call_unexpected", module);
 
-  functionType = TypeBuilder<types::i<8>* (types::i<8>*), false>::get(llvmContext);
+  functionType = FunctionType::get(int8PtrTy, {int8PtrTy}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_begin_catch", module);
-  
-  functionType = TypeBuilder<void (), false>::get(llvmContext);
+
+  functionType = FunctionType::get(voidTy, {}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_end_catch", module);
-  
-  functionType = TypeBuilder<types::i<8>* (types::i<8>*), false>::get(llvmContext);
+
+  functionType = FunctionType::get(int8PtrTy, {int8PtrTy}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_get_exception_ptr", module);
 
-  functionType = TypeBuilder<types::i<32> (...), false>::get(llvmContext);
+  functionType = FunctionType::get(int32Ty, {}, true);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__gxx_personality_v0", module);
 
-  functionType = TypeBuilder<types::i<32> (types::i<8>*), false>::get(llvmContext);
+  functionType = FunctionType::get(int32Ty, {int8PtrTy}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.eh.typeid.for", module);
 
-  functionType = TypeBuilder<void (types::i<8>*,
-                                   types::i<8>*,
-                                   types::i<64>,
-                                   types::i<1>), false>::get(llvmContext);
+  functionType = FunctionType::get(voidTy, {int8PtrTy, int8PtrTy, int64Ty, int1Ty}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memcpy.p0i8.p0i8.i64", module);
 
-  functionType = TypeBuilder<void (types::i<8>*,
-                                   types::i<8>,
-                                   types::i<64>,
-                                   types::i<1>), false>::get(llvmContext);
-  
+  functionType = FunctionType::get(voidTy, {int8PtrTy, int8Ty, int64Ty, int1Ty}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memset.p0i8.i64", module);
 
-  functionType = TypeBuilder<types::i<8>* (types::i<8>*, types::i<64>), false>::get(llvmContext);
+  functionType = FunctionType::get(int8PtrTy, {int8PtrTy, int64Ty}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "mem_pool_alloc", module);
 
   vector<const IType*> argumentTypes;
@@ -196,7 +192,7 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   context.getLLVMFunctionType(LLVMPrimitiveTypes::I8->getPointerType(context, 0), argumentTypes);
   context.registerLLVMExternalFunctionNamedType("mem_pool_alloc", llvmFunctionType, 0);
 
-  functionType = TypeBuilder<void(types::i<8>*), false>::get(llvmContext);
+  functionType = FunctionType::get(voidTy, {int8PtrTy}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "mem_pool_clear", module);
 
   argumentTypes.clear();

@@ -7,7 +7,6 @@
 //
 
 #include <llvm/IR/Constants.h>
-#include <llvm/IR/TypeBuilder.h>
 
 #include "Environment.hpp"
 #include "IRWriter.hpp"

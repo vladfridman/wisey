@@ -60,12 +60,33 @@ namespace wisey {
                                           llvm::Function* function,
                                           std::vector<llvm::Value*> arguments,
                                           std::string resultName);
+
+    /**
+     * Create an indirect call: function value loaded at runtime,
+     * with explicit FunctionType (required by LLVM 9+).
+     */
+    static llvm::CallInst* createCallInst(IRGenerationContext& context,
+                                          llvm::FunctionType* functionType,
+                                          llvm::Value* function,
+                                          std::vector<llvm::Value*> arguments,
+                                          std::string resultName);
     
     /**
      * Create a call to a given function using invoke with supplied arguments
      */
     static llvm::InvokeInst* createInvokeInst(IRGenerationContext& context,
                                               llvm::Function* function,
+                                              std::vector<llvm::Value*> arguments,
+                                              std::string resultName,
+                                              int line);
+
+    /**
+     * Create an invoke for an indirect call: function value loaded at runtime,
+     * with explicit FunctionType (required by LLVM 9+).
+     */
+    static llvm::InvokeInst* createInvokeInst(IRGenerationContext& context,
+                                              llvm::FunctionType* functionType,
+                                              llvm::Value* function,
                                               std::vector<llvm::Value*> arguments,
                                               std::string resultName,
                                               int line);

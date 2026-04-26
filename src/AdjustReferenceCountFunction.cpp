@@ -115,6 +115,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
                     counter,
                     adjustment,
+                    Align(8),
                     AtomicOrdering::Monotonic,
                     SyncScope::System,
                     safeAdjustBlock);

@@ -7,7 +7,6 @@
 //
 
 #include <llvm/IR/Instructions.h>
-#include <llvm/IR/TypeBuilder.h>
 
 #include "Cleanup.hpp"
 #include "IntrinsicFunctions.hpp"
