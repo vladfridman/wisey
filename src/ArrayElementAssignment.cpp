@@ -53,8 +53,8 @@ generateOwnerElementAssignment(IRGenerationContext& context,
   Value* assignToValue = assignToExpression->generateIR(context, elementType);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
-  
-  Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
+
+  Value* elementLoaded = IRWriter::newLoadInst(context, elementType->getLLVMType(context), elementStore, "");
   ((const IOwnerType*) elementType)->free(context, elementLoaded, NULL, NULL, line);
   
   IRWriter::newStoreInst(context, newValue, elementStore);
@@ -71,8 +71,8 @@ generateReferenceElementAssignment(IRGenerationContext& context,
   Value* assignToValue = assignToExpression->generateIR(context, elementType);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
-  
-  Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
+
+  Value* elementLoaded = IRWriter::newLoadInst(context, elementType->getLLVMType(context), elementStore, "");
   const IReferenceType* referenceType = (const IReferenceType*) elementType;
   referenceType->decrementReferenceCount(context, elementLoaded);
   referenceType->incrementReferenceCount(context, newValue);

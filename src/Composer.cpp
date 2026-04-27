@@ -309,7 +309,7 @@ void Composer::adjustReferenceCountSafely(IRGenerationContext& context,
   Value* objectStart = IRWriter::newBitCastInst(context, object, int64Pointer);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
-  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
+  Value* counter = IRWriter::createGetElementPtrInst(context, Type::getInt64Ty(llvmContext), objectStart, index);
   llvm::Constant* adjustment = ConstantInt::get(Type::getInt64Ty(llvmContext), adjustmentValue);
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
                     counter,

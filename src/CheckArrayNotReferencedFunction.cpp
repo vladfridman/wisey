@@ -123,7 +123,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNull);
-  Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "refCount");
+  Value* referenceCount = IRWriter::newLoadInst(context, int64type, arrayPointer, "refCount");
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "isZero");
   IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
   
@@ -142,18 +142,18 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   context.setBasicBlock(multiDimensional);
   Value* index[1];
   index[0] = one;
-  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
-  Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, int64type, arrayPointer, index);
+  Value* size = IRWriter::newLoadInst(context, int64type, sizeStore, "size");
   index[0] = two;
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
-  Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, int64type, arrayPointer, index);
+  Value* elementSize = IRWriter::newLoadInst(context, int64type, elementSizeStore, "elementSize");
   Value* numberOfDimensionsMinusOne = IRWriter::createBinaryOperator(context,
                                                                      llvm::Instruction::Sub,
                                                                      numberOfDimensions,
                                                                      one,
                                                                      "dimensionsMinusOne");
   index[0] = ConstantInt::get(int64type, ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* arrayStore = IRWriter::createGetElementPtrInst(context, int64type, arrayPointer, index);
   Value* array = IRWriter::newBitCastInst(context, arrayStore, bytePointer);
   Value* indexStore = IRWriter::newAllocaInst(context, int64type, "indexStore");
   IRWriter::newStoreInst(context, zero, indexStore);
@@ -162,15 +162,15 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(forCond);
-  Value* offsetValue = IRWriter::newLoadInst(context, offsetStore, "offset");
-  Value* indexValue = IRWriter::newLoadInst(context, indexStore, "index");
+  Value* offsetValue = IRWriter::newLoadInst(context, int64type, offsetStore, "offset");
+  Value* indexValue = IRWriter::newLoadInst(context, int64type, indexStore, "index");
   Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, indexValue, size, "cmp");
   IRWriter::createConditionalBranch(context, forBody, returnVoid, compare);
   
   context.setBasicBlock(forBody);
   Value* idx[1];
   idx[0] = offsetValue;
-  Value* elementStore = IRWriter::createGetElementPtrInst(context, array, idx);
+  Value* elementStore = IRWriter::createGetElementPtrInst(context, Type::getInt8Ty(llvmContext), array, idx);
   Value* newIndex = IRWriter::createBinaryOperator(context,
                                                    Instruction::Add,
                                                    indexValue,

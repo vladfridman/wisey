@@ -233,8 +233,13 @@ GetElementPtrInst* IRWriter::createGetElementPtrInst(IRGenerationContext& contex
                                                      Value* value,
                                                      ArrayRef<Value *> index) {
   Type* elementType = recoverPointeeType(value);
-  assert(elementType && "createGetElementPtrInst: cannot recover element type; "
-         "use the explicit-type overload");
+  if (!elementType) {
+    llvm::errs() << "GEP recover FAIL: ";
+    value->print(llvm::errs());
+    llvm::errs() << "\n";
+    llvm::sys::PrintStackTrace(llvm::errs());
+    abort();
+  }
   return createGetElementPtrInst(context, elementType, value, index);
 }
 
@@ -289,8 +294,13 @@ LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
                                 Value* pointer,
                                 string variableName) {
   Type* loadType = recoverPointeeType(pointer);
-  assert(loadType && "newLoadInst: cannot recover load type; "
-         "use the explicit-type overload");
+  if (!loadType) {
+    llvm::errs() << "LOAD recover FAIL: ";
+    pointer->print(llvm::errs());
+    llvm::errs() << "\n";
+    llvm::sys::PrintStackTrace(llvm::errs());
+    abort();
+  }
   return newLoadInst(context, loadType, pointer, variableName);
 }
 

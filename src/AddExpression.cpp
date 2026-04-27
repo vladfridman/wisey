@@ -9,6 +9,7 @@
 #include "AddExpression.hpp"
 #include "AutoCast.hpp"
 #include "IRWriter.hpp"
+#include "LLVMPointerType.hpp"
 #include "PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -51,7 +52,9 @@ Value* AddExpression::generateIR(IRGenerationContext& context,
   if (leftType->isPointer()) {
     Value* index[1];
     index[0] = rightValue;
-    return IRWriter::createGetElementPtrInst(context, leftValue, index);
+    const LLVMPointerType* ptrType = static_cast<const LLVMPointerType*>(leftType);
+    Type* pointeeType = ptrType->getBaseType()->getLLVMType(context);
+    return IRWriter::createGetElementPtrInst(context, pointeeType, leftValue, index);
   }
 
   if (StringType::isStringVariation(context, leftType, mLine) ||

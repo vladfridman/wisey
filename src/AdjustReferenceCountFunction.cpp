@@ -102,7 +102,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   Value* objectStart = IRWriter::newBitCastInst(context, original, int64PointerType);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
-  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
+  Value* counter = IRWriter::createGetElementPtrInst(context, Type::getInt64Ty(llvmContext), objectStart, index);
   Value* isModel = IsObjectFunction::callIsModel(context, object);
 
   IRWriter::createConditionalBranch(context, safeAdjustBlock, ifNotModelBlock, isModel);

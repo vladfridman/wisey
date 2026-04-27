@@ -81,7 +81,8 @@ bool Catch::generateIR(IRGenerationContext& context,
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
+  Type* refCounterStructType = IConcreteObjectType::getOrCreateRefCounterStruct(context, exceptionType);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, refCounterStructType, malloc, index);
 
   Value* pointer = IRWriter::newAllocaInst(context, objectStart->getType(), "exceptionPointer");
   IRWriter::newStoreInst(context, objectStart, pointer);

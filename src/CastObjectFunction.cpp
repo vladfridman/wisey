@@ -157,7 +157,7 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
   Value* index[1];
   index[0] = thunkBy;
-  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
+  Value* thunk = IRWriter::createGetElementPtrInst(context, int8Type, bitcast, index);
   IRWriter::createReturnInst(context, thunk);
   
   context.setBasicBlock(zeroExactly);

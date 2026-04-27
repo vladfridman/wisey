@@ -87,16 +87,18 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
   Value* index[2];
   index[0] = zero;
   index[1] = one;
-  Type* int8ArrayType = llvm::ArrayType::get(int8Type, 0)->getPointerTo();
-  Type* int64ArrayType = llvm::ArrayType::get(int64Type, 0)->getPointerTo();
+  Type* int8ArrayElemType = llvm::ArrayType::get(int8Type, 0);
+  Type* int64ArrayElemType = llvm::ArrayType::get(int64Type, 0);
+  Type* int8ArrayType = int8ArrayElemType->getPointerTo();
+  Type* int64ArrayType = int64ArrayElemType->getPointerTo();
   Value* int64ArrayPointer = IRWriter::newBitCastInst(context, arrayStructPointer, int64ArrayType);
-  Value* sizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayElemType, int64ArrayPointer, index);
   Value* sizeValue = get<0>(arrayData.front());
   IRWriter::newStoreInst(context, sizeValue, sizeStore);
-  
+
   Value* elementSize = get<1>(arrayData.front());
   index[1] = two;
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayElemType, int64ArrayPointer, index);
   IRWriter::newStoreInst(context, elementSize, elementSizeStore);
 
   if (arrayData.size() == 1) {
@@ -110,27 +112,27 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
   BasicBlock* forEnd = BasicBlock::Create(llvmContext, "for.end", function);
 
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, int64ArrayElemType, int64ArrayPointer, index);
   Value* int8ArrayPointer = IRWriter::newBitCastInst(context, arrayPointer, int8ArrayType);
   Value* indexStore = IRWriter::newAllocaInst(context, int64Type, "index");
   IRWriter::newStoreInst(context, zero, indexStore);
   IRWriter::createBranch(context, forCond);
-  
+
   context.setBasicBlock(forCond);
-  
-  Value* indexValue = IRWriter::newLoadInst(context, indexStore, "index");
+
+  Value* indexValue = IRWriter::newLoadInst(context, int64Type, indexStore, "index");
   Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, indexValue, sizeValue, "cmp");
   IRWriter::createConditionalBranch(context, forBody, forEnd, compare);
-  
+
   context.setBasicBlock(forBody);
-  
+
   Value* offset = IRWriter::createBinaryOperator(context,
                                                  Instruction::Mul,
                                                  indexValue,
                                                  elementSize,
                                                  "");
   index[1] = offset;
-  Value* arrayElement = IRWriter::createGetElementPtrInst(context, int8ArrayPointer, index);
+  Value* arrayElement = IRWriter::createGetElementPtrInst(context, int8ArrayElemType, int8ArrayPointer, index);
   arrayData.pop_front();
   initializeEmptyArray(context, arrayElement, arrayData);
   Value* newIndex = IRWriter::createBinaryOperator(context,
