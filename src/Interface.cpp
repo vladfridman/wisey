@@ -573,7 +573,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                               -interfaceIndex * Environment::getAddressSizeInBytes());
   Value* concreteOjbectThis =
-  IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
+  IRWriter::createGetElementPtrInst(context, int8Type, castedInterfaceThis, index);
   Value* castObjectThis = IRWriter::newBitCastInst(context,
                                                    concreteOjbectThis,
                                                    object->getLLVMType(context));

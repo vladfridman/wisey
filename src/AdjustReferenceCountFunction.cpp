@@ -122,7 +122,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   IRWriter::createReturnInst(context, NULL);
 
   context.setBasicBlock(unsafeAdjustBlock);
-  Value* count = IRWriter::newLoadInst(context, counter, "count");
+  Value* count = IRWriter::newLoadInst(context, Type::getInt64Ty(context.getLLVMContext()), counter, "count");
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createReturnInst(context, NULL);

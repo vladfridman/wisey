@@ -61,7 +61,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   const IType* elementType = arrayType->getElementType();
   Type* resultLLVMType = elementType->getLLVMType(context);
   Value* resultStore = IRWriter::newBitCastInst(context, pointer, resultLLVMType->getPointerTo());
-  Value* result = IRWriter::newLoadInst(context, resultStore, "");
+  Value* result = IRWriter::newLoadInst(context, resultLLVMType, resultStore, "");
   
   if (assignToType->isOwner()) {
     assert(elementType->isOwner() || (elementType->isReference() && elementType->isNative()));

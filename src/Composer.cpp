@@ -281,8 +281,8 @@ void Composer::adjustReferenceCountUnsafely(IRGenerationContext& context,
   Value* objectStart = IRWriter::newBitCastInst(context, object, int64Pointer);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
-  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
-  Value* count = IRWriter::newLoadInst(context, counter, "count");
+  Value* counter = IRWriter::createGetElementPtrInst(context, Type::getInt64Ty(llvmContext), objectStart, index);
+  Value* count = IRWriter::newLoadInst(context, Type::getInt64Ty(llvmContext), counter, "count");
   llvm::Constant* adjustment = ConstantInt::get(Type::getInt64Ty(llvmContext), adjustmentValue);
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
@@ -340,11 +340,11 @@ void Composer::adjustArrayReferenceCountUnsafely(IRGenerationContext& context,
   llvm::Constant* adjustment = ConstantInt::get(Type::getInt64Ty(llvmContext), adjustmentValue);
   Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* counter = IRWriter::newBitCastInst(context, array, int64Pointer);
-  Value* count = IRWriter::newLoadInst(context, counter, "count");
+  Value* count = IRWriter::newLoadInst(context, Type::getInt64Ty(llvmContext), counter, "count");
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createBranch(context, ifEndBlock);
-  
+
   context.setBasicBlock(ifEndBlock);
 }
 

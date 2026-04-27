@@ -112,7 +112,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   Value* index[1];
   unsigned long thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
+  Value* thunk = IRWriter::createGetElementPtrInst(context, int8Type, bitcast, index);
   return IRWriter::newBitCastInst(context, thunk, llvmType);
 }
 
@@ -144,7 +144,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
     Value* index[1];
     unsigned int thunkBy = vTableIndex * Environment::getAddressSizeInBytes();
     index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-    vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
+    vTableStart = IRWriter::createGetElementPtrInst(context, Type::getInt8Ty(llvmContext), vTableStartCalculation, index);
     
     Value* vTablePointer =
     IRWriter::newBitCastInst(context, vTableStart, vTableType->getPointerTo());

@@ -119,16 +119,18 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
 
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(context, methodDescriptor, interface, mLine);
-  Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
+  Type* funcPtrTy = functionType->getPointerTo();
+  Type* vTablePointeeTy = funcPtrTy->getPointerTo();
+  Type* pointerToVTablePointer = vTablePointeeTy->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, objectValue, pointerToVTablePointer);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
+  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointeeTy, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
                               interface->getMethodIndex(context, methodDescriptor, mLine) +
                               VTABLE_METHODS_OFFSET);
-  GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
-  Value* function = IRWriter::newLoadInst(context, virtualFunction, "");
+  GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, funcPtrTy, vTable, index);
+  Value* function = IRWriter::newLoadInst(context, funcPtrTy, virtualFunction, "");
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);

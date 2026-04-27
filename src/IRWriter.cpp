@@ -223,16 +223,9 @@ static Type* recoverPointeeType(Value* pointer) {
   if (auto* gv = llvm::dyn_cast<GlobalVariable>(pointer)) {
     return gv->getValueType();
   }
-  if (auto* load = llvm::dyn_cast<LoadInst>(pointer)) {
-    return load->getType();
-  }
-  // BitCastInst and CallInst returning a pointer: in wisey the dominant
-  // pattern is bitcast-to-i8*-then-byte-gep / opaque-malloc-then-byte-gep,
-  // so default to i8. Sites that need a different element type must use
-  // the explicit-type overload.
-  if (llvm::isa<BitCastInst>(pointer) || llvm::isa<CallInst>(pointer)) {
-    return Type::getInt8Ty(pointer->getContext());
-  }
+  // Load/Bitcast/Call: under opaque pointers the pointee type is not
+  // recoverable from the IR. Sites loading or GEPing through these must
+  // use the explicit-type overload.
   return nullptr;
 }
 
