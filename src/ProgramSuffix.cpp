@@ -97,24 +97,26 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
                                                    argumentsArrayI8Pointer,
                                                    genericArrayType->getLLVMType(context));
 
+  Type* arrayStructType = genericArrayType->getLLVMStructType(context);
+  Type* int64Type = Type::getInt64Ty(llvmContext);
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* arraySizeStore = IRWriter::createGetElementPtrInst(context, argumentsArray, index);
-  Value* arraySize = IRWriter::newLoadInst(context, arraySizeStore, "");
+  Value* arraySizeStore = IRWriter::createGetElementPtrInst(context, arrayStructType, argumentsArray, index);
+  Value* arraySize = IRWriter::newLoadInst(context, int64Type, arraySizeStore, "");
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, argumentsArray, index);
-  Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "");
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructType, argumentsArray, index);
+  Value* elementSize = IRWriter::newLoadInst(context, int64Type, elementSizeStore, "");
 
   Value* size = IRWriter::createBinaryOperator(context,
                                                Instruction::Mul,
                                                arraySize,
                                                elementSize,
                                                "");
-  
+
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-  Value* arrayStore = IRWriter::createGetElementPtrInst(context, argumentsArray, index);
+  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayStructType, argumentsArray, index);
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* arrayStoreBitcast = IRWriter::newBitCastInst(context, arrayStore, int8PointerType);
   Value* argvBitcast = IRWriter::newBitCastInst(context, argv, int8PointerType);
