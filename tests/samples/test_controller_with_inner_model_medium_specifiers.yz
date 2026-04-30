@@ -5,9 +5,9 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CProgram.MMyModel* object = build(CProgram.MMyModel).withValue(7).onHeap();
+    CProgram.MMyModel* object = build(CProgram.MMyModel).withValue(7).onHeap();   // -> CProgram.MMyModel*
 
-    return object.getValue();
+    return object.getValue();                                         // -> int
   }
 
   public model MMyModel {

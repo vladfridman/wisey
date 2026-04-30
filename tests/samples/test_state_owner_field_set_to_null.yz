@@ -33,7 +33,7 @@ controller CProgram implements IProgram {
     mService.set();
     mService.get();
 
-    return mService.check();
+    return mService.check();                                          // -> int
   }
 } 
 

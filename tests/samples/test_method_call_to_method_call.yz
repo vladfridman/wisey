@@ -10,7 +10,7 @@ model MCircle {
   }
 
   public int getDiameter() {
-    return 2 * getRadius();
+    return 2 * getRadius();                                           // -> int
   }
 }
 
@@ -18,7 +18,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MCircle circle = build(MCircle).withRadius(5).onHeap();           // -> MCircle*
-    return circle.getDiameter();
+    return circle.getDiameter();                                      // -> int
   }
 }
 

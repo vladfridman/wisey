@@ -9,7 +9,7 @@ controller CProgram implements IProgram {
   }
 
   public int run(immutable string[] arguments) override {
-    return getResult(3);
+    return getResult(3);                                              // -> int
   }
 }
 

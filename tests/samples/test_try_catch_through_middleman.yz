@@ -12,7 +12,7 @@ model MException implements IException {
   }
 
   public NString* report() override {
-    return callstack.reportException(this);
+    return callstack.reportException(this);                           // -> NString*
   }
 }
 
@@ -27,7 +27,7 @@ controller CMiddleMan {
   inject CThrower* mThrower;
 
   public int call() throws MException {
-    return mThrower.doThrow();
+    return mThrower.doThrow();                                        // -> int
   } 
 }
 
@@ -36,9 +36,9 @@ controller CCatcher {
 
   public int doTryCatch() {
     try {
-      return mMiddleMan.call();
+      return mMiddleMan.call();                                       // -> int
     } catch (MException* exception) {
-      return exception.getValue();
+      return exception.getValue();                                    // -> int
     }
   }
 }
@@ -47,7 +47,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher.doTryCatch();
+    return mCatcher.doTryCatch();                                     // -> int
   }
 }
 

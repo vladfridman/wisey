@@ -6,9 +6,9 @@ import wisey.lang.NString;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NString* nstring = NString.createFromString("lorem ipsum");
+    NString* nstring = NString.createFromString("lorem ipsum");       // -> NString*
 
-    return nstring.charAt(5) == ' ';
+    return nstring.charAt(5) == ' ';                                  // -> int
   }
 }
 

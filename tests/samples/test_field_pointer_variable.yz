@@ -16,13 +16,13 @@ controller CProgram implements IProgram {
 
   private int method() {
     MModel reference = mPointer;
-    return reference.getValue();
+    return reference.getValue();                                      // -> int
   }
 
   public int run(immutable string[] arguments) override {
     MModel* mymodel = build(MModel).withValue(1).onHeap();            // -> MModel*
     mPointer = mymodel;
-    return method();
+    return method();                                                  // -> int
   }
 }
 

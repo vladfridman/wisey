@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MMyModel* object = build(MMyModel).withValue(7).onHeap();         // -> MMyModel*
 
-    return object.getValue();
+    return object.getValue();                                         // -> int
   }
 
 }

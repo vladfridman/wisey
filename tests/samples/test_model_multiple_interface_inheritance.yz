@@ -34,7 +34,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MFridge* fridge = build(MFridge).withSize(5).onHeap();            // -> MFridge*
 
-    return fridge.getSize();
+    return fridge.getSize();                                          // -> int
   }
 }
 

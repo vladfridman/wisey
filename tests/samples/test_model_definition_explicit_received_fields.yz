@@ -27,7 +27,7 @@ controller CProgram implements IProgram {
       .withColor(build(MColor).withColor(6.7d).onHeap())
       .onHeap();
 
-    return rectangle.getWidth();
+    return rectangle.getWidth();                                      // -> int
   }
 }
 

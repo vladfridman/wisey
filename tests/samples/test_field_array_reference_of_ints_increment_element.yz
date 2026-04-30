@@ -30,7 +30,7 @@ controller CProgram implements IProgram {
     mycontroller.increment();
     mycontroller.increment();
 
-    return mycontroller.getValue();
+    return mycontroller.getValue();                                   // -> int
   }
 }
 

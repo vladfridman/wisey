@@ -19,7 +19,7 @@ controller CFibonacciCalculator {
 
   public MIntNumber calculate() {
     if(mIsComputed) {
-      return getCachedResult();
+      return getCachedResult();                                       // -> MIntNumber
     }
 
     int previous = 0;
@@ -27,7 +27,7 @@ controller CFibonacciCalculator {
     
     if (mIndex <= 0) {
       setCachedResult(mIndex);
-      return getCachedResult();
+      return getCachedResult();                                       // -> MIntNumber
     }
 
     for (int i = 1; i < mIndex; i++) {
@@ -36,7 +36,7 @@ controller CFibonacciCalculator {
       current = next;
     }
     setCachedResult(current);
-    return getCachedResult();
+    return getCachedResult();                                         // -> MIntNumber
   }
 
   private void setCachedResult(int result) {
@@ -52,9 +52,9 @@ controller CProgram implements IProgram {
   inject CFibonacciCalculator* mFibonacciCalculator.withIndex(8);
 
   public int run(immutable string[] arguments) override {
-    MIntNumber intNumber = mFibonacciCalculator.calculate();
+    MIntNumber intNumber = mFibonacciCalculator.calculate();          // -> MIntNumber
     intNumber.getNumber();
-    return intNumber.getNumber();
+    return intNumber.getNumber();                                     // -> int
   }
 }
 

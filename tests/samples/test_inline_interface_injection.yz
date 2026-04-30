@@ -19,7 +19,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     IHasValue* hasValue = inject(IHasValue).onHeap();                 // -> IHasValue*
-    return hasValue.getValue();
+    return hasValue.getValue();                                       // -> int
   }
 }
 

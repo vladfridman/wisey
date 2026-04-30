@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MData data = build(MData).withValue(3).onHeap();                  // -> MData*
 
-    return data.getValue();
+    return data.getValue();                                           // -> int
   }
 } 
 

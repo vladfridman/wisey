@@ -21,7 +21,7 @@ controller CController {
   }
 
   public int getCarYear() {
-    return mArray[4].getYear();
+    return mArray[4].getYear();                                       // -> int
   }
 }
 
@@ -32,7 +32,7 @@ controller CProgram implements IProgram {
     mycontroller.init();
     mycontroller.getOwner();
 
-    return mycontroller.getCarYear();
+    return mycontroller.getCarYear();                                 // -> int
   }
 }
 

@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
     MCar* car = build(MCar).withYear(2018).onHeap();                  // -> MCar*
 
     printerr("Car year: " + car + "\n");
-    return car.getYear();
+    return car.getYear();                                             // -> int
   }
 }
 

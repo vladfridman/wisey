@@ -8,7 +8,7 @@ controller CService {
   }
 
   private CService.MCar* getCar() {
-    return build(CService.MCar).onHeap();
+    return build(CService.MCar).onHeap();                             // -> CService.MCar*
   }
 }
 

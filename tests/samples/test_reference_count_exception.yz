@@ -27,10 +27,10 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData dataRef = mService.set();
+    MData dataRef = mService.set();                                   // -> MData
     mService.clear();
 
-    return dataRef.getValue();
+    return dataRef.getValue();                                        // -> int
   }
 } 
 

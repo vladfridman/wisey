@@ -13,7 +13,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MModel* myModel = build(MModel).onHeap();                         // -> MModel*
-    return myModel.foo(1);
+    return myModel.foo(1);                                            // -> int
   }
 }
 

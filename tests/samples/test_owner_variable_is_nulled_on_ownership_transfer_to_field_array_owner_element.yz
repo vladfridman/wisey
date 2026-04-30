@@ -15,7 +15,7 @@ controller CController {
   public int getCarYear() {
     MCar* car = build(MCar).onHeap();                                 // -> MCar*
     mArray[4] = car;
-    return car.getYear();
+    return car.getYear();                                             // -> int
   }
 }
 
@@ -24,7 +24,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     CController* mycontroller = inject(CController).withArray(new MCar*[5]).onHeap();   // -> CController*
 
-    return mycontroller.getCarYear();
+    return mycontroller.getCarYear();                                 // -> int
   }
 }
 

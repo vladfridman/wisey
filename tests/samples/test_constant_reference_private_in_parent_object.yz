@@ -6,7 +6,7 @@ controller CProgram implements IProgram {
   private constant int MY_CONSTANT = 5;
 
   public int run(immutable string[] arguments) override {
-    return build(MCar).onHeap().getValue();
+    return build(MCar).onHeap().getValue();                           // -> int
   }
 
   private model MCar {

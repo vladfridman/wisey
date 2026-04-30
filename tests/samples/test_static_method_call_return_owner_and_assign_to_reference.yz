@@ -11,14 +11,14 @@ model MData {
 controller CService {
 
   public static MData* newData() {
-    return build(MData).onHeap();
+    return build(MData).onHeap();                                     // -> MData*
   }
 }
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    MData data = CService.newData();
-    return data.getResult();
+    MData data = CService.newData();                                  // -> MData
+    return data.getResult();                                          // -> int
   }
 }
 

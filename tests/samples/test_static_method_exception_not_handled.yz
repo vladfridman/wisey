@@ -8,7 +8,7 @@ model MException implements IException {
   int mValue;
 
   public NString* report() override {
-    return NString.create();
+    return NString.create();                                          // -> NString*
   }
 }
 
@@ -21,13 +21,13 @@ controller CThrower {
 
 controller CCatcher {
   public static int doSomething() {
-    return CThrower.doThrow();
+    return CThrower.doThrow();                                        // -> int
   }
 }
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    return CCatcher.doSomething();
+    return CCatcher.doSomething();                                    // -> int
   }
 }
 

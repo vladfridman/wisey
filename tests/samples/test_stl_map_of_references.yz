@@ -26,8 +26,8 @@ controller CProgram implements IProgram {
     ::llvm::function::stl_map_put_reference(map, car1ref, car1);
     ::llvm::function::stl_map_put_reference(map, car2ref, car2);
 
-    MCar value1 = ::llvm::function::stl_map_get(map, car1ref);
-    MCar value2 = ::llvm::function::stl_map_get(map, car2ref);
+    MCar value1 = ::llvm::function::stl_map_get(map, car1ref);        // -> MCar
+    MCar value2 = ::llvm::function::stl_map_get(map, car2ref);        // -> MCar
     printout("car year = " + value1.getYear() + "\n");
     printout("car year = " + value2.getYear() + "\n");
     ::llvm::function::stl_map_of_references_clear(map);

@@ -11,7 +11,7 @@ model MData {
 controller CService {
 
   public int getResultFromData(MData* data) {
-    return data.getResult();
+    return data.getResult();                                          // -> int
   }
 }
 
@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MData* data = build(MData).onHeap();                              // -> MData*
-    return mService.getResultFromData(data);
+    return mService.getResultFromData(data);                          // -> int
   }
 }
 

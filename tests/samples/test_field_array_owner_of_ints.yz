@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
     CController* mycontroller = inject(CController).withArray(new int[5][3]).onHeap();   // -> CController*
     mycontroller.setValue(5);
 
-    return mycontroller.getValue();
+    return mycontroller.getValue();                                   // -> int
   }
 }
 

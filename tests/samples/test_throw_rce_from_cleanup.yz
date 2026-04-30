@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     mCarRef = build(MCar).onHeap();                                   // -> MCar*
     MCar* owner = null;
-    return owner.getYear();
+    return owner.getYear();                                           // -> int
   }
 }
 

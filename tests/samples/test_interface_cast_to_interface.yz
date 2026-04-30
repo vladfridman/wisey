@@ -40,7 +40,7 @@ controller CProgram implements IProgram {
     IObject object = fridge;
     IDevice device = (IDevice) object;
   
-    return device.getSize();
+    return device.getSize();                                          // -> int
   }
 } 
 

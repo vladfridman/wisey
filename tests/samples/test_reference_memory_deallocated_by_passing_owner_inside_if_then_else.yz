@@ -31,7 +31,7 @@ controller CProgram implements IProgram {
       mService.capture(data);
     }
     
-    return data.getValue();
+    return data.getValue();                                           // -> int
   }
 } 
 

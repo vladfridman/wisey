@@ -6,9 +6,9 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NString* nstring = NString.createFromString("123");
-    NString* copy = nstring.copy();
-    return (int) nstring.getLength();
+    NString* nstring = NString.createFromString("123");               // -> NString*
+    NString* copy = nstring.copy();                                   // -> NString*
+    return (int) nstring.getLength();                                 // -> int
   }
 }
 

@@ -10,7 +10,7 @@ model MCar {
   }
 
   public static int getValue(MCar car) {
-    return car.getYear();
+    return car.getYear();                                             // -> int
   }
 }
 
@@ -19,7 +19,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MCar* car = build(MCar).withYear(2017).onHeap();                  // -> MCar*
 
-    return MCar.getValue(car);
+    return MCar.getValue(car);                                        // -> int
   }
 }
 

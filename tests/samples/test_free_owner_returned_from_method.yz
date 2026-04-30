@@ -12,7 +12,7 @@ model MCar {
 controller CProgram implements IProgram {
 
   private MCar* getOwner() {
-    return build(MCar).onHeap();
+    return build(MCar).onHeap();                                      // -> MCar*
   }
 
   public int run(immutable string[] arguments) override {

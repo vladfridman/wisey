@@ -23,7 +23,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MModel* myModel = build(MModel).withSubModel(build(MSubModel).withValue(3).onHeap()).onHeap();   // -> MModel*
     
-    return myModel.getSubModel().getValue();
+    return myModel.getSubModel().getValue();                          // -> int
   }
 } 
 

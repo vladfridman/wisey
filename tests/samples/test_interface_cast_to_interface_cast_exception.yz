@@ -46,7 +46,7 @@ controller CProgram implements IProgram {
     IObject object = foo;
     IDevice device = (IDevice) object;
     
-    return device.getSize();
+    return device.getSize();                                          // -> int
   }
 } 
 

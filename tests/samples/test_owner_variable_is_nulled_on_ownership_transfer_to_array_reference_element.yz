@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
     MCar* car = build(MCar).onHeap();                                 // -> MCar*
     array[4] = car;
 
-    return car.getYear();
+    return car.getYear();                                             // -> int
   }
 }
 

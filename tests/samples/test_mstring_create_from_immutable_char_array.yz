@@ -12,9 +12,9 @@ controller CProgram implements IProgram {
     array[1] = 'e';
     array[2] = 'f';
     immutable char[]* immutableArray = array;
-    MString* mstring = MString.createFromImmutableCharArray(immutableArray);
+    MString* mstring = MString.createFromImmutableCharArray(immutableArray);   // -> MString*
     printout("mstring: " + mstring + " length: " + mstring.getLength() + "\n");
-    return (int) mstring.getLength();
+    return (int) mstring.getLength();                                 // -> int
   }
 }
 

@@ -12,7 +12,7 @@ controller CProgram implements IProgram {
     int[][]* array = new int[3][3];
     array[2][2] = 1;
     int[] reference = array[1];
-    return test(array);
+    return test(array);                                               // -> int
   }
 }
 

@@ -21,7 +21,7 @@ controller CProgram implements IProgram {
     CController* mycontroller = inject(CController).withArray(array).onHeap();   // -> CController*
     mycontroller.setValue(true);
 
-    return mycontroller.getValue();
+    return mycontroller.getValue();                                   // -> int
   }
 }
 

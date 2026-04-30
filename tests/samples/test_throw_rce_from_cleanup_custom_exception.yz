@@ -13,7 +13,7 @@ model MData {
 
 model MMyException implements wisey.lang.IException {
   public NString* report() override {
-    return callstack.reportException(this);
+    return callstack.reportException(this);                           // -> NString*
   }
 }
 

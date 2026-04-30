@@ -21,7 +21,7 @@ controller CProgram implements IProgram {
 
     data.setValue(6);
 
-    return data.getValue();
+    return data.getValue();                                           // -> int
   }
 } 
 

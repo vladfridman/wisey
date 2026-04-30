@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
     MModel* b;
 
     b = a = m;
-    return b.getValue();
+    return b.getValue();                                              // -> int
   }
 }
 

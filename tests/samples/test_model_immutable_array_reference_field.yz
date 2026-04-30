@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
     array[2] = 5;
     immutable int[]* immutableArray = array;
     MCar* car = build(MCar).withArray(immutableArray).onHeap();       // -> MCar*
-    return car.getValue();
+    return car.getValue();                                            // -> int
   }
 }
 

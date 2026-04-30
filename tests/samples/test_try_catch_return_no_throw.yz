@@ -22,9 +22,9 @@ controller CCatcher {
 
   public int doTryCatch() {
     try {
-      return mThrower.doThrow();
+      return mThrower.doThrow();                                      // -> int
     } catch (MException* exception) {
-      return exception.getValue();
+      return exception.getValue();                                    // -> int
     }
   }
 }
@@ -33,7 +33,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher.doTryCatch();
+    return mCatcher.doTryCatch();                                     // -> int
   }
 }
 

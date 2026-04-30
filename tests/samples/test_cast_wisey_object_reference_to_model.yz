@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
     ::wisey::object objectOwner = build(MContainer).onHeap();
     MContainer containerOwner = objectOwner;
 
-    return containerOwner.getValue();
+    return containerOwner.getValue();                                 // -> int
   }
 }
 

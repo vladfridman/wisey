@@ -29,7 +29,7 @@ controller CProgram implements IProgram {
     MData dataRef = data;
     MData anotherRef = dataRef;
     
-    return anotherRef.getValue();
+    return anotherRef.getValue();                                     // -> int
   }
 } 
 

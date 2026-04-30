@@ -17,6 +17,6 @@ model MRunner {
   public static void run() {
     CGarage* garage = inject(CGarage).onHeap();                       // -> CGarage*
 
-    MCar* owner = garage.getCar();
+    MCar* owner = garage.getCar();                                    // -> MCar*
   }
 }

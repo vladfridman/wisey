@@ -7,12 +7,12 @@ import wisey.lang.MString;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NString* nstring = NString.createFromString("123");
+    NString* nstring = NString.createFromString("123");               // -> NString*
     printout("Before nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
-    MString* appnedix = MString.createFromString("4567");
+    MString* appnedix = MString.createFromString("4567");             // -> MString*
     nstring.appendMString(appnedix);
     printout("After nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
-    return (int) nstring.getLength();
+    return (int) nstring.getLength();                                 // -> int
   }
 }
 

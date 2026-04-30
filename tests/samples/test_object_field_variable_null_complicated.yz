@@ -23,7 +23,7 @@ controller CService {
   }
 
   public int getValue() {
-    return mModel.getValue();
+    return mModel.getValue();                                         // -> int
   }
 }
 
@@ -33,7 +33,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     mService.setModel();
     mService.setAnotherModel();
-    return mService.getValue();
+    return mService.getValue();                                       // -> int
   }
 } 
 

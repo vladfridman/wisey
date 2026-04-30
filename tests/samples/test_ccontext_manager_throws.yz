@@ -26,7 +26,7 @@ controller CProgram implements IProgram {
 
     mContextManager.setContext(mycontext, mContext);
     mContextManager.setInstance(mycontext, toyotaMake, toyota);
-    CCar car = mContextManager.getInstance(mycontext, toyotaMake);
+    CCar car = mContextManager.getInstance(mycontext, toyotaMake);    // -> CCar
     printout("In context " + mycontext + " looking for " + toyotaMake + " got " + 
       car.getMake() + " back\n");
     car = null;

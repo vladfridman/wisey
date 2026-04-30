@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 
 controller CService {
   public static int getNumber() {
-    return CService.getDouble();
+    return CService.getDouble();                                      // -> int
   }
 
   private static int getDouble() {
@@ -14,7 +14,7 @@ controller CService {
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    return CService.getNumber();
+    return CService.getNumber();                                      // -> int
   }
 }
 

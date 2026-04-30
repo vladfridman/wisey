@@ -22,7 +22,7 @@ controller CService {
   }
 
   public int getValue() {
-    return mData.getValue();
+    return mData.getValue();                                          // -> int
   }
 }
 
@@ -33,7 +33,7 @@ controller CProgram implements IProgram {
     mService.set();
     mService.clear();
 
-    return mService.getValue();
+    return mService.getValue();                                       // -> int
   }
 } 
 

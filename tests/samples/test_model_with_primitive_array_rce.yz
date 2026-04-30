@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
     array[3][3] = 5;
     int[] reference = array[2];
     MMyModel* mymodel = build(MMyModel).withArray(array).onHeap();    // -> MMyModel*
-    return mymodel.getValue();
+    return mymodel.getValue();                                        // -> int
   }
 }
 

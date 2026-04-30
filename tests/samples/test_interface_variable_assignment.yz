@@ -44,7 +44,7 @@ controller CProgram implements IProgram {
     MSquare* square = build(MSquare).withWidth(5).onHeap();           // -> MSquare*
 
     IShape shape = square;
-    return shape.getArea();
+    return shape.getArea();                                           // -> int
   }
 }
 

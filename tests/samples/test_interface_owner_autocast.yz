@@ -41,7 +41,7 @@ controller CProgram implements IProgram {
     IHasFreezer* freezer = device;
     IObject* object = freezer;
 
-    return object.getSize();
+    return object.getSize();                                          // -> int
   }
 } 
 

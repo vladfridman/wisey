@@ -31,7 +31,7 @@ controller CProgram implements IProgram {
     mWorkerThread.start(build(MWorker).onHeap());
     printout("Worker thread started\n");
     printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
-    int result = ((MWorker.MResult) mWorkerThread.awaitResult()).getResult();
+    int result = ((MWorker.MResult) mWorkerThread.awaitResult()).getResult();   // -> int
     printout("Worker thread finished with result: " + result + "\n");
     printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
 

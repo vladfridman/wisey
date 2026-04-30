@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
     MComparator* comparator1 = build(MComparator).onHeap();           // -> MComparator*
     MComparator* comparator2 = build(MComparator).onHeap();           // -> MComparator*
 
-    return comparator1.isTheSame(comparator2);
+    return comparator1.isTheSame(comparator2);                        // -> int
   }
 }
 

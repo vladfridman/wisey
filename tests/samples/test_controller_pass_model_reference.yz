@@ -21,7 +21,7 @@ controller CService {
   }
 
   public int getData() {
-    return mData.getResult();
+    return mData.getResult();                                         // -> int
   }
 }
 
@@ -29,9 +29,9 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData* data = mService.newData();
+    MData* data = mService.newData();                                 // -> MData*
     mService.setData(data);
-    return mService.getData();
+    return mService.getData();                                        // -> int
   }
 }
 

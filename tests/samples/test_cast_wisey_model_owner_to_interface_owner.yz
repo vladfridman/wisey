@@ -21,7 +21,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     ::wisey::model* object = build(MObject).onHeap();
     IHasSomething* hasSomething = object;
-    return hasSomething.getSomething();
+    return hasSomething.getSomething();                               // -> int
   }
 }
 

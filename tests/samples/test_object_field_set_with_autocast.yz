@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     mService.setValue(true);
 
-    return mService.getValue();
+    return mService.getValue();                                       // -> int
   }
 }
 

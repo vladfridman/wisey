@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
     try {
       mCarRef = build(MCar).onHeap();                                 // -> MCar*
       MCar* owner = null;
-      return owner.getYear();
+      return owner.getYear();                                         // -> int
     } catch (wisey.lang.MNullPointerException* exception) {
       printerr("Caught!!!\n");
       exception.report();

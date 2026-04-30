@@ -10,14 +10,14 @@ model MColor {
 
 model MShape {
   public static int getValue() {
-    return MColor.getValue();
+    return MColor.getValue();                                         // -> int
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return MShape.getValue();
+    return MShape.getValue();                                         // -> int
   }
 }
 
