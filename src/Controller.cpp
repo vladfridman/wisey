@@ -320,15 +320,16 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   context.getScopes().setVariable(context, callstackVariable);
 
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
+  Type* refCounterType = IConcreteObjectType::getOrCreateRefCounterStruct(context, controller);
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
-  
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, refCounterType, malloc, index);
+
   controller->initializeReceivedFields(context, function, objectStart);
   controller->injectInjectedFields(context, objectStart);
   initializeVTable(context, controller, objectStart);
-  
+
   IRWriter::createReturnInst(context, objectStart);
 
   context.setBasicBlock(declareBlock);
@@ -415,15 +416,16 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   context.setBasicBlock(ifNullBlock);
 
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
+  Type* refCounterType2 = IConcreteObjectType::getOrCreateRefCounterStruct(context, controller);
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, refCounterType2, malloc, index);
 
   controller->initializeReceivedFields(context, function, objectStart);
   controller->injectInjectedFields(context, objectStart);
   initializeVTable(context, controller, objectStart);
-  
+
   methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
                                          Names::getSetInstanceMethodName(),
                                          0);

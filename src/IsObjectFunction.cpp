@@ -92,20 +92,22 @@ void IsObjectFunction::compose(IRGenerationContext& context, llvm::Function* fun
   
   context.setBasicBlock(entryBlock);
   Value* original = GetOriginalObjectFunction::call(context, object);
-  Type* int8DoublePointerType = Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo();
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  Type* int8PtrType = int8Type->getPointerTo();
+  Type* int8DoublePointerType = int8PtrType->getPointerTo();
   Type* int8TriplePointerType = int8DoublePointerType->getPointerTo();
   Value* vTablePointer = IRWriter::newBitCastInst(context, original, int8TriplePointerType);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
+  LoadInst* vTable = IRWriter::newLoadInst(context, int8DoublePointerType, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
-  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
+  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, int8PtrType, vTable, index);
+  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, int8PtrType, typeArrayPointerI8, "typeArrayI8");
   BitCastInst* arrayOfStrings = IRWriter::newBitCastInst(context,
                                                          typeArrayI8,
                                                          int8DoublePointerType);
-  LoadInst* stringPointer = IRWriter::newLoadInst(context, arrayOfStrings, "stringPointer");
-  
-  Value* firstLetter = IRWriter::newLoadInst(context, stringPointer, "firstLetter");
+  LoadInst* stringPointer = IRWriter::newLoadInst(context, int8PtrType, arrayOfStrings, "stringPointer");
+
+  Value* firstLetter = IRWriter::newLoadInst(context, int8Type, stringPointer, "firstLetter");
   
   Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letter, "");
   IRWriter::createReturnInst(context, condition);

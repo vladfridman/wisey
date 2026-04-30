@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "ArrayType.hpp"
 #include "Composer.hpp"
 #include "GlobalStringConstant.hpp"
 #include "IMethodCall.hpp"
@@ -57,20 +58,27 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   llvm::Constant* one = ConstantInt::get(i32, 1);
   llvm::Constant* two = ConstantInt::get(i32, 2);
   llvm::Constant* three = ConstantInt::get(i32, 3);
-  PointerType* callStackStuct = getCCallStackStruct(context)->getPointerTo();
+  Type* callStackStructType = getCCallStackStruct(context);
+  PointerType* callStackStuct = callStackStructType->getPointerTo();
   Value* callStack = IRWriter::newBitCastInst(context, callStackValue, callStackStuct);
+  ArrayType* stringArrayType = context.getArrayType(PrimitiveTypes::STRING, 1);
+  Type* stringArrayStructType = stringArrayType->getLLVMStructType(context);
+  Type* stringArrayPointerType = stringArrayType->getLLVMType(context);
+  ArrayType* intArrayType = context.getArrayType(PrimitiveTypes::INT, 1);
+  Type* intArrayStructType = intArrayType->getLLVMStructType(context);
+  Type* intArrayPointerType = intArrayType->getLLVMType(context);
   Value* indexes[2];
   indexes[0] = zero;
   indexes[1] = three;
-  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStack, indexes);
-  Value* callstackIndex = IRWriter::newLoadInst(context, callstackIndexStore, "");
+  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStackStructType, callStack, indexes);
+  Value* callstackIndex = IRWriter::newLoadInst(context, i32, callstackIndexStore, "");
   Value* condition = IRWriter::newICmpInst(context,
                                            ICmpInst::ICMP_SGE,
                                            callstackIndex,
                                            maxIndex,
                                            "");
   IRWriter::createConditionalBranch(context, ifOverflowBlock, ifContinueBlock, condition);
-  
+
   context.setBasicBlock(ifOverflowBlock);
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadValue = threadVariable->generateIdentifierIR(context, 0);
@@ -87,21 +95,23 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
 
   context.setBasicBlock(ifContinueBlock);
   indexes[1] = one;
-  Value* infoArrayStructPointer = IRWriter::createGetElementPtrInst(context, callStack, indexes);
-  Value* infoArrayStruct = IRWriter::newLoadInst(context, infoArrayStructPointer, "");
+  Value* infoArrayStructPointer = IRWriter::createGetElementPtrInst(context, callStackStructType, callStack, indexes);
+  Value* infoArrayStruct = IRWriter::newLoadInst(context, stringArrayPointerType, infoArrayStructPointer, "");
   indexes[1] = three;
-  Value* infoArrayPointer = IRWriter::createGetElementPtrInst(context, infoArrayStruct, indexes);
+  Value* infoArrayPointer = IRWriter::createGetElementPtrInst(context, stringArrayStructType, infoArrayStruct, indexes);
   indexes[1] = callstackIndex;
-  Value* infoStore = IRWriter::createGetElementPtrInst(context, infoArrayPointer, indexes);
+  Type* stringArrayElementType = llvm::ArrayType::get(PrimitiveTypes::STRING->getLLVMType(context), 0);
+  Value* infoStore = IRWriter::createGetElementPtrInst(context, stringArrayElementType, infoArrayPointer, indexes);
   IRWriter::newStoreInst(context, infoConstant, infoStore);
-  
+
   indexes[1] = two;
-  Value* linesArrayStructPointer = IRWriter::createGetElementPtrInst(context, callStack, indexes);
-  Value* linesArrayStruct = IRWriter::newLoadInst(context, linesArrayStructPointer, "");
+  Value* linesArrayStructPointer = IRWriter::createGetElementPtrInst(context, callStackStructType, callStack, indexes);
+  Value* linesArrayStruct = IRWriter::newLoadInst(context, intArrayPointerType, linesArrayStructPointer, "");
   indexes[1] = three;
-  Value* lineArrayPointer = IRWriter::createGetElementPtrInst(context, linesArrayStruct, indexes);
+  Value* lineArrayPointer = IRWriter::createGetElementPtrInst(context, intArrayStructType, linesArrayStruct, indexes);
   indexes[1] = callstackIndex;
-  Value* lineStore = IRWriter::createGetElementPtrInst(context, lineArrayPointer, indexes);
+  Type* intArrayElementType = llvm::ArrayType::get(PrimitiveTypes::INT->getLLVMType(context), 0);
+  Value* lineStore = IRWriter::createGetElementPtrInst(context, intArrayElementType, lineArrayPointer, indexes);
   llvm::Constant* lineNumber = ConstantInt::get(i32, line);
   IRWriter::newStoreInst(context, lineNumber, lineStore);
   
@@ -126,13 +136,14 @@ void Composer::popCallStack(IRGenerationContext& context) {
   llvm::Constant* zero = ConstantInt::get(i32, 0);
   llvm::Constant* one = ConstantInt::get(i32, 1);
   llvm::Constant* three = ConstantInt::get(i32, 3);
-  PointerType* callStackStuct = getCCallStackStruct(context)->getPointerTo();
+  Type* callStackStructType = getCCallStackStruct(context);
+  PointerType* callStackStuct = callStackStructType->getPointerTo();
   Value* callStack = IRWriter::newBitCastInst(context, callStackValue, callStackStuct);
   Value* indexes[2];
   indexes[0] = zero;
   indexes[1] = three;
-  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStack, indexes);
-  Value* callstackIndex = IRWriter::newLoadInst(context, callstackIndexStore, "");
+  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStackStructType, callStack, indexes);
+  Value* callstackIndex = IRWriter::newLoadInst(context, i32, callstackIndexStore, "");
   Value* newCallstackIndex = IRWriter::createBinaryOperator(context,
                                                             Instruction::Sub,
                                                             callstackIndex,
@@ -161,25 +172,30 @@ void Composer::setLineNumberAtRuntime(IRGenerationContext& context,
   llvm::Constant* one = ConstantInt::get(i32, 1);
   llvm::Constant* two = ConstantInt::get(i32, 2);
   llvm::Constant* three = ConstantInt::get(i32, 3);
-  PointerType* callStackStuct = getCCallStackStruct(context)->getPointerTo();
+  Type* callStackStructType = getCCallStackStruct(context);
+  PointerType* callStackStuct = callStackStructType->getPointerTo();
   Value* callStack = IRWriter::newBitCastInst(context, callStackValue, callStackStuct);
+  ArrayType* intArrayType = context.getArrayType(PrimitiveTypes::INT, 1);
+  Type* intArrayStructType = intArrayType->getLLVMStructType(context);
+  Type* intArrayPointerType = intArrayType->getLLVMType(context);
   Value* indexes[2];
   indexes[0] = zero;
   indexes[1] = three;
-  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStack, indexes);
-  Value* callstackIndex = IRWriter::newLoadInst(context, callstackIndexStore, "");
+  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStackStructType, callStack, indexes);
+  Value* callstackIndex = IRWriter::newLoadInst(context, i32, callstackIndexStore, "");
   Value* newCallstackIndex = IRWriter::createBinaryOperator(context,
                                                             Instruction::Sub,
                                                             callstackIndex,
                                                             one,
                                                             "");
   indexes[1] = two;
-  Value* arrayStructPointer = IRWriter::createGetElementPtrInst(context, callStack, indexes);
-  Value* arrayStruct = IRWriter::newLoadInst(context, arrayStructPointer, "");
+  Value* arrayStructPointer = IRWriter::createGetElementPtrInst(context, callStackStructType, callStack, indexes);
+  Value* arrayStruct = IRWriter::newLoadInst(context, intArrayPointerType, arrayStructPointer, "");
   indexes[1] = three;
-  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStruct, indexes);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, intArrayStructType, arrayStruct, indexes);
   indexes[1] = newCallstackIndex;
-  Value* lineStore = IRWriter::createGetElementPtrInst(context, arrayPointer, indexes);
+  Type* intArrayElementType = llvm::ArrayType::get(PrimitiveTypes::INT->getLLVMType(context), 0);
+  Value* lineStore = IRWriter::createGetElementPtrInst(context, intArrayElementType, arrayPointer, indexes);
   IRWriter::newStoreInst(context, lineNumber, lineStore);
 }
 

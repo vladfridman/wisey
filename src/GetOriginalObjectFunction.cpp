@@ -73,10 +73,11 @@ void GetOriginalObjectFunction::compose(IRGenerationContext& context, Function* 
   context.setBasicBlock(basicBlock);
 
   Value* unthunkBy = getUnthunkBy(context, interfacePointer);
-  
+
   Value* index[1];
   index[0] = unthunkBy;
-  Value* originalObject = IRWriter::createGetElementPtrInst(context, interfacePointer, index);
+  Type* int8Type = Type::getInt8Ty(context.getLLVMContext());
+  Value* originalObject = IRWriter::createGetElementPtrInst(context, int8Type, interfacePointer, index);
   
   IRWriter::createReturnInst(context, originalObject);
 
@@ -87,14 +88,16 @@ Value* GetOriginalObjectFunction::getUnthunkBy(IRGenerationContext& context, Val
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
-  Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
+  Type* int8PtrType = int8Type->getPointerTo();
+  Type* int8PtrPtrType = int8PtrType->getPointerTo();
+  Type* pointerType = int8PtrPtrType->getPointerTo();
   BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, value, pointerType);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
+  LoadInst* vTable = IRWriter::newLoadInst(context, int8PtrPtrType, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
-  GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, vTable, index);
-  
-  LoadInst* pointerToVal = IRWriter::newLoadInst(context, unthunkPointer, "unthunkbypointer");
+  GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, int8PtrType, vTable, index);
+
+  LoadInst* pointerToVal = IRWriter::newLoadInst(context, int8PtrType, unthunkPointer, "unthunkbypointer");
   Value* unthunkBy = IRWriter::newPtrToIntInst(context,
                                                pointerToVal,
                                                Type::getInt64Ty(llvmContext),

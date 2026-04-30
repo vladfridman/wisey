@@ -132,17 +132,19 @@ BitCastInst* InstanceOfFunction::composeEntryBlock(IRGenerationContext& context,
   
   context.setBasicBlock(ifNotNullBlock);
   Value* originalObjectVTable = GetOriginalObjectFunction::call(context, haystackArgument);
-  Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  
+  Type* int8PtrType = int8Type->getPointerTo();
+  Type* int8PtrPtrType = int8PtrType->getPointerTo();
+  Type* pointerToArrayOfStrings = int8PtrPtrType->getPointerTo();
+
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, originalObjectVTable, pointerToArrayOfStrings);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
+  LoadInst* vTable = IRWriter::newLoadInst(context, int8PtrPtrType, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
-  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
+  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, int8PtrType, vTable, index);
+  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, int8PtrType, typeArrayPointerI8, "typeArrayI8");
   BitCastInst* arrayOfStrings =
-  IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
+  IRWriter::newBitCastInst(context, typeArrayI8, int8PtrPtrType);
   
   IRWriter::createBranch(context, whileCond);
   
@@ -156,15 +158,16 @@ LoadInst* InstanceOfFunction::composeWhileConditionBlock(IRGenerationContext& co
                                                          Value* iterator,
                                                          Value* arrayOfStrings) {
   Type* int8Type = Type::getInt8Ty(context.getLLVMContext());
-  
+  Type* int8PtrType = int8Type->getPointerTo();
+
   context.setBasicBlock(whileCond);
-  
+
   LoadInst* iteratorLoaded = IRWriter::newLoadInst(context, iterator, "");
   Value* index[1];
   index[0] = iteratorLoaded;
-  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
-  
-  LoadInst* stringPointer = IRWriter::newLoadInst(context, stringPointerPointer, "stringPointer");
+  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, int8PtrType, arrayOfStrings, index);
+
+  LoadInst* stringPointer = IRWriter::newLoadInst(context, int8PtrType, stringPointerPointer, "stringPointer");
   
   Value* nullPointerValue = ConstantPointerNull::get(int8Type->getPointerTo());
   Value* checkStringIsNull =

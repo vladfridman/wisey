@@ -79,18 +79,20 @@ void GetOriginalObjectNameFunction::compose(IRGenerationContext& context, Functi
   context.setBasicBlock(basicBlock);
   
   Value* originalObjectVTable = GetOriginalObjectFunction::call(context, object);
-  Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
+  Type* int8PtrType = int8Type->getPointerTo();
+  Type* int8PtrPtrType = int8PtrType->getPointerTo();
+  Type* pointerToArrayOfStrings = int8PtrPtrType->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, originalObjectVTable, pointerToArrayOfStrings);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
+  LoadInst* vTable = IRWriter::newLoadInst(context, int8PtrPtrType, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
-  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
+  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, int8PtrType, vTable, index);
+  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, int8PtrType, typeArrayPointerI8, "typeArrayI8");
   BitCastInst* arrayOfStrings =
-  IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
-  Value* namePointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
-  LoadInst* fromTypeName = IRWriter::newLoadInst(context, namePointer, "name");
+  IRWriter::newBitCastInst(context, typeArrayI8, int8PtrPtrType);
+  Value* namePointer = IRWriter::createGetElementPtrInst(context, int8PtrType, arrayOfStrings, index);
+  LoadInst* fromTypeName = IRWriter::newLoadInst(context, int8PtrType, namePointer, "name");
 
   IRWriter::createReturnInst(context, fromTypeName);
 }

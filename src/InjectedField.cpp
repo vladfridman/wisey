@@ -298,7 +298,7 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   
   context.setBasicBlock(entryBlock);
   context.setDeclarationsBlock(declarations);
-  Value* fieldValue = IRWriter::newLoadInst(context, fieldPointer, "");
+  Value* fieldValue = IRWriter::newLoadInst(context, injectedField->getType()->getLLVMType(context), fieldPointer, "");
   Value* null = ConstantPointerNull::get((PointerType*) fieldValue->getType());
   Value* condition =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, fieldValue, null, "isNull");

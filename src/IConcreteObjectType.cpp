@@ -495,7 +495,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                               -Environment::getAddressSizeInBytes());
-  Value* refCounterObject = IRWriter::createGetElementPtrInst(context, thisGeneric, index);
+  Value* refCounterObject = IRWriter::createGetElementPtrInst(context, Type::getInt8Ty(llvmContext), thisGeneric, index);
   IRWriter::createFree(context, refCounterObject);
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
@@ -591,12 +591,15 @@ void IConcreteObjectType::composeNodeDestructorBody(IRGenerationContext& context
   
   unsigned long interfacesCount = concreteObject->getFlattenedInterfaceHierarchy().size();
   unsigned long poolOffset = interfacesCount > 0 ? interfacesCount : 1;
+  Type* int8PtrType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Type* concreteStructType = concreteObject->getLLVMStructType(context);
+  Type* memoryPoolStructType = getCMemoryPoolStruct(context);
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), poolOffset);
-  Value* poolStore = IRWriter::createGetElementPtrInst(context, thisValue, index);
-  Value* poolUncast = IRWriter::newLoadInst(context, poolStore, "");
-  
+  Value* poolStore = IRWriter::createGetElementPtrInst(context, concreteStructType, thisValue, index);
+  Value* poolUncast = IRWriter::newLoadInst(context, int8PtrType, poolStore, "");
+
   nullValue = ConstantPointerNull::get((llvm::PointerType*) poolUncast->getType());
   isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, poolUncast, nullValue, "");
   BasicBlock* poolIsNullBlock = BasicBlock::Create(llvmContext, "pool.is.null", function);
@@ -606,7 +609,7 @@ void IConcreteObjectType::composeNodeDestructorBody(IRGenerationContext& context
   context.setBasicBlock(poolIsNullBlock);
   Value* idx[1];
   idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -Environment::getAddressSizeInBytes());
-  Value* shellObject = IRWriter::createGetElementPtrInst(context, thisGeneric, idx);
+  Value* shellObject = IRWriter::createGetElementPtrInst(context, Type::getInt8Ty(llvmContext), thisGeneric, idx);
   IRWriter::createFree(context, shellObject);
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
@@ -617,15 +620,15 @@ void IConcreteObjectType::composeNodeDestructorBody(IRGenerationContext& context
   }
   IRWriter::createReturnInst(context, NULL);
 
-  
+
   context.setBasicBlock(poolIsNotNullBlock);
   Value* pool = IRWriter::newBitCastInst(context,
                                          poolUncast,
-                                         getCMemoryPoolStruct(context)->getPointerTo());
+                                         memoryPoolStructType->getPointerTo());
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* countStore = IRWriter::createGetElementPtrInst(context, pool, index);
-  Value* count = IRWriter::newLoadInst(context, countStore, "");
+  Value* countStore = IRWriter::createGetElementPtrInst(context, memoryPoolStructType, pool, index);
+  Value* count = IRWriter::newLoadInst(context, Type::getInt64Ty(llvmContext), countStore, "");
   llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
   Value* countMinusOne = IRWriter::createBinaryOperator(context,
                                                         Instruction::Sub,
@@ -643,8 +646,8 @@ void IConcreteObjectType::composeNodeDestructorBody(IRGenerationContext& context
   context.setBasicBlock(poolCountZeroBlock);
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
-  Value* aprPoolStore = IRWriter::createGetElementPtrInst(context, pool, index);
-  Value* aprPool = IRWriter::newLoadInst(context, aprPoolStore, "");
+  Value* aprPoolStore = IRWriter::createGetElementPtrInst(context, memoryPoolStructType, pool, index);
+  Value* aprPool = IRWriter::newLoadInst(context, int8PtrType, aprPoolStore, "");
   ExpressionList clearArguments;
   clearArguments.push_back(new FakeExpression(aprPool, LLVMPrimitiveTypes::I8->
                                               getPointerType(context, 0)));
@@ -735,12 +738,12 @@ Value* IConcreteObjectType::getFieldPointer(IRGenerationContext& context,
                                             const IConcreteObjectType* object,
                                             IField* field) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  
+
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
-  
-  return IRWriter::createGetElementPtrInst(context, thisValue, index);
+
+  return IRWriter::createGetElementPtrInst(context, object->getLLVMStructType(context), thisValue, index);
 }
 
 string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjectType* object) {
@@ -1015,13 +1018,14 @@ void IConcreteObjectType::addMemoryPoolDestructor(IRGenerationContext& context,
                                                            "object.count.not.zero",
                                                            function);
   llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  Type* memoryPoolType = getCMemoryPoolStruct(context)->getPointerTo();
+  Type* memoryPoolStructType = getCMemoryPoolStruct(context);
+  Type* memoryPoolType = memoryPoolStructType->getPointerTo();
   Value* memoryPool = IRWriter::newBitCastInst(context, object, memoryPoolType);
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* objectCountStore = IRWriter::createGetElementPtrInst(context, memoryPool, index);
-  Value* objectCount = IRWriter::newLoadInst(context, objectCountStore, "objectCount");
+  Value* objectCountStore = IRWriter::createGetElementPtrInst(context, memoryPoolStructType, memoryPool, index);
+  Value* objectCount = IRWriter::newLoadInst(context, Type::getInt64Ty(llvmContext), objectCountStore, "objectCount");
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, objectCount, zero, "");
 
   IRWriter::createConditionalBranch(context, objectCountZeroBlock, objectCountNotZeroBlock, isZero);
