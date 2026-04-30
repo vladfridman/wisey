@@ -119,15 +119,16 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   
   Value* originalObjectVTable = GetOriginalObjectFunction::call(context, thisGeneric);
   
-  Type* pointerToVTablePointer = function->getFunctionType()
-  ->getPointerTo()->getPointerTo()->getPointerTo();
+  Type* funcPtrTy = function->getFunctionType()->getPointerTo();
+  Type* vTablePointeeTy = funcPtrTy->getPointerTo();
+  Type* pointerToVTablePointer = vTablePointeeTy->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, originalObjectVTable, pointerToVTablePointer);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
+  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointeeTy, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 2);
-  GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
-  Value* objectDestructor = IRWriter::newLoadInst(context, virtualFunction, "");
+  GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, funcPtrTy, vTable, index);
+  Value* objectDestructor = IRWriter::newLoadInst(context, funcPtrTy, virtualFunction, "");
 
   vector<Value*> arguments;
   arguments.push_back(originalObjectVTable);
