@@ -18,9 +18,9 @@ controller CProgram implements IProgram {
     string toyotaMake = "Toyota";
     string bmwMake = "BMW";
     string mercedesMake = "Mercedes";
-    MCar* toyota = build(MCar).withMake(toyotaMake).onHeap(); 
-    MCar* bmw = build(MCar).withMake(bmwMake).onHeap(); 
-    MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap();
+    MCar* toyota = build(MCar).withMake(toyotaMake).onHeap();        // -> MCar*
+    MCar* bmw = build(MCar).withMake(bmwMake).onHeap();              // -> MCar*
+    MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap();    // -> MCar*
 
     mMap.put(toyota.getMake(), toyota);
     mMap.put(bmw.getMake(), bmw);
@@ -34,25 +34,25 @@ controller CProgram implements IProgram {
       printout("bmw is not null\n");
     }
 
-    MCar car = mMap.get(toyotaMake);
+    MCar car = mMap.get(toyotaMake);                                 // -> MCar
     printout("Lookup " + toyotaMake + ": " + car.getMake() + "\n");
-    car = mMap.get(bmwMake);
+    car = mMap.get(bmwMake);                                         // -> MCar
     printout("Lookup " + bmwMake + ": " + car.getMake() + "\n");
-    car = mMap.get(mercedesMake);
+    car = mMap.get(mercedesMake);                                    // -> MCar
     printout("Lookup " + mercedesMake + ": " + car.getMake() + "\n");
 
     mMap.erase(bmwMake);
-    car = mMap.get(bmwMake);
+    car = mMap.get(bmwMake);                                         // -> MCar
     if (car == null) {
       printout("BMW was erased\n");
     } else {
       printout("BMW is still there\n");
     }
 
-    MCar* carOwner = mMap.take(toyotaMake);
+    MCar* carOwner = mMap.take(toyotaMake);                          // -> MCar*
     printout("Take result: " + carOwner.getMake() + "\n");
     carOwner = null;
-    car = mMap.get(toyotaMake);
+    car = mMap.get(toyotaMake);                                      // -> MCar
     if (car == null) {
       printout("Toyota was erased\n");
     } else {
@@ -63,7 +63,7 @@ controller CProgram implements IProgram {
     mMap.erase(bmwMake);
     mMap.erase(mercedesMake);
 
-    car = mMap.get(mercedesMake);
+    car = mMap.get(mercedesMake);                                    // -> MCar
     if (car == null) {
       printout("Mercedes was erased\n");
     } else {

@@ -23,9 +23,9 @@ model MFibonacciCalculator {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MFibonacciCalculator* calculator = 
-      build(MFibonacciCalculator).withIndex(8).onHeap();
-    return calculator.calculate();
+    MFibonacciCalculator* calculator =
+      build(MFibonacciCalculator).withIndex(8).onHeap();   // -> MFibonacciCalculator*
+    return calculator.calculate();                         // -> int
   }
 } 
 

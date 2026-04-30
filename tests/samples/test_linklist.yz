@@ -44,7 +44,7 @@ controller CLinkList {
   }
 
   public void appendToHead(MData* data) {
-    NNode* newHead = build(NNode).withData(data).onHeap(); 
+    NNode* newHead = build(NNode).withData(data).onHeap();   // -> NNode*
     newHead.setNext(mHead);
     mHead = newHead;
     if (mTail == null) {
@@ -53,13 +53,13 @@ controller CLinkList {
   }
 
   public void appendToTail(MData* data) {
-    NNode* newNode = build(NNode).withData(data).onHeap();
+    NNode* newNode = build(NNode).withData(data).onHeap();   // -> NNode*
     if (mHead == null) {
       mHead = newNode;
       mTail = mHead;
     } else {
       mTail.setNext(newNode);
-      mTail = mTail.getNext();
+      mTail = mTail.getNext();                               // -> NNode
     }
   }
 }
@@ -73,9 +73,18 @@ controller CProgram implements IProgram {
     mLinkList.appendToTail(build(MData).withValue(3).onHeap());
     mLinkList.appendToTail(build(MData).withValue(4).onHeap());
 
-    return mLinkList.getHead().getData().getValue() +
-      mLinkList.getHead().getNext().getNext().getNext().getData().getValue() +
-      mLinkList.getTail().getData().getValue();
+    return mLinkList.getHead()                               // -> NNode
+                    .getData()                               // -> MData
+                    .getValue() +                            // -> int
+           mLinkList.getHead()                               // -> NNode
+                    .getNext()                               // -> NNode
+                    .getNext()                               // -> NNode
+                    .getNext()                               // -> NNode
+                    .getData()                               // -> MData
+                    .getValue() +                            // -> int
+           mLinkList.getTail()                               // -> NNode
+                    .getData()                               // -> MData
+                    .getValue();                             // -> int
   }
 }
 
