@@ -175,7 +175,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
-  StructType* structType = (StructType*) node->getLLVMType(mContext)->getPointerElementType();
+  StructType* structType = (StructType*) node->getLLVMStructType(mContext);
   
   ASSERT_NE(structType, nullptr);
   EXPECT_EQ(structType->getNumElements(), 4u);
@@ -277,17 +277,17 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
     getNamedGlobal("systems.vos.wisey.compiler.tests.NMyNode.vtable");
   
   ASSERT_NE(vTablePointer, nullptr);
-  ASSERT_TRUE(vTablePointer->getType()->getPointerElementType()->isStructTy());
-  EXPECT_EQ(vTablePointer->getType()->getPointerElementType()->getStructNumElements(), 1u);
+  ASSERT_TRUE(vTablePointer->getValueType()->isStructTy());
+  EXPECT_EQ(vTablePointer->getValueType()->getStructNumElements(), 1u);
   llvm::Constant* vTableInitializer = vTablePointer->getInitializer();
   ASSERT_TRUE(vTableInitializer->getType()->isStructTy());
   EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 1u);
-  
+
   GlobalVariable* vModelTypesPointer =
   mContext.getModule()->getNamedGlobal("systems.vos.wisey.compiler.tests.NMyNode.typetable");
   EXPECT_NE(vModelTypesPointer, nullptr);
-  ASSERT_TRUE(vModelTypesPointer->getType()->getPointerElementType()->isArrayTy());
-  EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 4u);
+  ASSERT_TRUE(vModelTypesPointer->getValueType()->isArrayTy());
+  EXPECT_EQ(vModelTypesPointer->getValueType()->getArrayNumElements(), 4u);
 }
 
 TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {

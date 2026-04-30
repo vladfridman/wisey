@@ -73,8 +73,9 @@ TEST_F(ArrayOwnerTypeTest, getNameTest) {
 
 TEST_F(ArrayOwnerTypeTest, getLLVMTypeTest) {
   llvm::PointerType* arrayLLVMType = mArrayOwnerType->getLLVMType(mContext);
-  ASSERT_TRUE(arrayLLVMType->getPointerElementType()->isStructTy());
-  llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
+  EXPECT_TRUE(arrayLLVMType->isPointerTy());
+  llvm::StructType* arrayStruct = (llvm::StructType*) mArrayType->getLLVMStructType(mContext);
+  ASSERT_TRUE(arrayStruct->isStructTy());
 
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));

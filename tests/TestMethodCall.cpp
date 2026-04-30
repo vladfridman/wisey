@@ -147,7 +147,7 @@ public:
 
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    Value* nullPointer = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
+    Value* nullPointer = ConstantPointerNull::get(Type::getInt32Ty(mLLVMContext)->getPointerTo());
     Value* bitcast = IRWriter::newBitCastInst(mContext, nullPointer, mStructType->getPointerTo());
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(bitcast));
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mFooMethod));

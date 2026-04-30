@@ -102,7 +102,7 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID);
   
-  Type* structType = mModel->getLLVMType(mContext)->getPointerElementType();
+  Type* structType = mModel->getLLVMStructType(mContext);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");

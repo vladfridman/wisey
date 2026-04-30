@@ -141,7 +141,7 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   Type* int8Ty = Type::getInt8Ty(llvmContext);
   Type* int32Ty = Type::getInt32Ty(llvmContext);
   Type* int64Ty = Type::getInt64Ty(llvmContext);
-  Type* int8PtrTy = Type::getInt8PtrTy(llvmContext);
+  Type* int8PtrTy = Type::getInt8Ty(llvmContext)->getPointerTo();
 
   FunctionType* functionType = FunctionType::get(int32Ty, {int8PtrTy}, true);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "printf", module);

@@ -76,8 +76,9 @@ TEST_F(ImmutableArrayOwnerTypeTest, getNameTest) {
 
 TEST_F(ImmutableArrayOwnerTypeTest, getLLVMTypeTest) {
   PointerType* arrayLLVMType = mImmutableArrayOwnerType->getLLVMType(mContext);
-  ASSERT_TRUE(arrayLLVMType->getPointerElementType()->isStructTy());
-  StructType* arrayStruct = (StructType*) arrayLLVMType->getPointerElementType();
+  EXPECT_TRUE(arrayLLVMType->isPointerTy());
+  StructType* arrayStruct = (StructType*) mArrayType->getLLVMStructType(mContext);
+  ASSERT_TRUE(arrayStruct->isStructTy());
   
   EXPECT_EQ(Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));

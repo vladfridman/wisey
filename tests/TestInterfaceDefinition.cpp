@@ -112,20 +112,13 @@ TEST_F(InterfaceDefinitionTest, generateIRTest) {
 
   Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0);
   Type* type = interface->getLLVMType(mContext);
-  
+
   ASSERT_NE(type, nullptr);
   EXPECT_TRUE(type->isPointerTy());
-  StructType* structType = (StructType*) type->getPointerElementType();
+  StructType* structType = (StructType*) interface->getLLVMStructType(mContext);
   EXPECT_TRUE(structType->getNumElements() == 1);
   Type* arrayOfFunctionsType = structType->getElementType(0);
   ASSERT_TRUE(arrayOfFunctionsType->isPointerTy());
-  Type* pointerToFunctionType = arrayOfFunctionsType->getPointerElementType();
-  ASSERT_TRUE(pointerToFunctionType->isPointerTy());
-  Type* maybeFunctionType = pointerToFunctionType->getPointerElementType();
-  ASSERT_TRUE(maybeFunctionType->isFunctionTy());
-  FunctionType* functionType = (FunctionType *) maybeFunctionType;
-  EXPECT_EQ(functionType->getReturnType(), Type::getInt32Ty(mLLVMContext));
-  EXPECT_TRUE(functionType->isVarArg());
   
   EXPECT_STREQ(interface->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.IMyInterface");
   EXPECT_STREQ(interface->getShortName().c_str(), "IMyInterface");

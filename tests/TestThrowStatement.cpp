@@ -165,7 +165,7 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
 }
 
 TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
-  Type* structType = mCircleModel->getLLVMType(mContext)->getPointerElementType();
+  Type* structType = mCircleModel->getLLVMStructType(mContext);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
