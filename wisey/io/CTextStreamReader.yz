@@ -38,14 +38,14 @@ controller CTextStreamReader {
     if (stream == null) {
       throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap();
     }
-    return inject(CTextStreamReader).withStream(stream).onHeap();
+    return inject(CTextStreamReader).withStream(stream).onHeap();     // -> CTextStreamReader*
   }
 
   /**
    * Create an instance of the CTextStreamReader to read standard input
    */
   public static CTextStreamReader* openSystemIn() {
-    return inject(CTextStreamReader).withStream(::llvm::global::wStdIn).onHeap();    
+    return inject(CTextStreamReader).withStream(::llvm::global::wStdIn).onHeap();   // -> CTextStreamReader*
   }
 
   /**
@@ -54,8 +54,8 @@ controller CTextStreamReader {
    * New line character will not be part of the returned string
    */
   public NString* readLine() throws MStreamClosedException {
-    NString* line = NString.create();
-    return readLineIntoNString(line);
+    NString* line = NString.create();                                 // -> NString*
+    return readLineIntoNString(line);                                 // -> NString*
   }
 
   /**
@@ -71,7 +71,7 @@ controller CTextStreamReader {
     line.clear();
     ::llvm::i8::pointer result = null;
     long length = 0;
-    long bufferSize = mBuffer.getSize();
+    long bufferSize = mBuffer.getSize();                              // -> long
     mBuffer[bufferSize - 1] = '\0';
 
     do {
@@ -102,7 +102,7 @@ controller CTextStreamReader {
       throw build(MStreamClosedException).onHeap();
     }
 
-    int result = ::llvm::function::fclose(mStream);
+    int result = ::llvm::function::fclose(mStream);                   // -> int
 
     if (result != 0) {
       throw build(MStreamCouldNotCloseException).onHeap();

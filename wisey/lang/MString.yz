@@ -16,7 +16,7 @@ model MString {
    * Creates an MString from a string literal
    */
   public static MString* createFromString(string input) {
-    return copyMemoryAndBuild(input, input.getLength() + 1);
+    return copyMemoryAndBuild(input, input.getLength() + 1);          // -> MString*
   }
 
   /**
@@ -24,12 +24,12 @@ model MString {
    */
   public static MString* createFromCharArray(char[] input) {
     if (input.getSize() == 0) {
-      return copyMemoryAndBuild(input, 1);
+      return copyMemoryAndBuild(input, 1);                            // -> MString*
     }
     long length = input[input.getSize() - 1] == '\0' 
       ? (long) ::llvm::function::strlen(input) + 1
-      : input.getSize() + 1;
-    return copyMemoryAndBuild(input, length);
+      : input.getSize() + 1;                                          // -> long
+    return copyMemoryAndBuild(input, length);                         // -> MString*
   }
 
   /**
@@ -37,26 +37,26 @@ model MString {
    */
   public static MString* createFromImmutableCharArray(immutable char[] input) {
     if (input.getSize() == 0) {
-      return copyMemoryAndBuild(input, 1);
+      return copyMemoryAndBuild(input, 1);                            // -> MString*
     }
     long length = input[input.getSize() - 1] == '\0' 
       ? (long) ::llvm::function::strlen(input) + 1
-      : input.getSize() + 1;
-    return copyMemoryAndBuild(input, length);
+      : input.getSize() + 1;                                          // -> long
+    return copyMemoryAndBuild(input, length);                         // -> MString*
   }
 
   /**
    * Creates NString equivalent
    */
   public NString* toNode() {
-    return NString.createFromImmutableCharArray(mContent);
+    return NString.createFromImmutableCharArray(mContent);            // -> NString*
   }
 
   /**
    * Returns the string length
    */
   public long getLength() {
-    long size = mContent.getSize();
+    long size = mContent.getSize();                                   // -> long
     return size ? size - 1 : 0l;
   }
 
@@ -64,10 +64,10 @@ model MString {
    * Creates a copy of the string
    */
   public MString* copy() {
-    long length = mContent.getSize();
+    long length = mContent.getSize();                                 // -> long
     char[]* buffer = new char[length];
     MSystem.copyMemory(buffer, mContent, length);
-    return build(MString).withContent(buffer).onHeap();
+    return build(MString).withContent(buffer).onHeap();               // -> MString*
   }
 
   /**
@@ -81,40 +81,40 @@ model MString {
    * Compares the string to the given input string and returns 0 if they are equal
    */
   public int compareToString(string input) {
-    return ::llvm::function::strcmp(mContent, input);
+    return ::llvm::function::strcmp(mContent, input);                 // -> int
   }
 
   /**
    * Compares the string to the given input MString and returns 0 if they are equal
    */
   public int compareToMString(MString input) {
-    return ::llvm::function::strcmp(mContent, input.getContent());
+    return ::llvm::function::strcmp(mContent, input.getContent());    // -> int
   }
 
   /**
    * Compares the string to the given input immutable char array and returns 0 if they are equal
    */
   public int compareToImmutableCharArray(immutable char[] input) {
-    return ::llvm::function::strcmp(mContent, input);
+    return ::llvm::function::strcmp(mContent, input);                 // -> int
   }
 
   /**
    * Compares the string to the given input char array and returns 0 if they are equal
    */
   public int compareToCharArray(char[] input) {
-    return ::llvm::function::strcmp(mContent, input);
+    return ::llvm::function::strcmp(mContent, input);                 // -> int
   }
 
   /**
    * Compares two static strings
    */
   public static int compareStrings(string left, string right) {
-    return ::llvm::function::strcmp(left, right);
+    return ::llvm::function::strcmp(left, right);                     // -> int
   }
 
   private static MString* copyMemoryAndBuild(::llvm::i8::pointer source, long length) {
     char[]* buffer = new char[length];
     MSystem.copyMemory(buffer, source, length - 1);
-    return build(MString).withContent(buffer).onHeap();    
+    return build(MString).withContent(buffer).onHeap();               // -> MString*
   }
 }

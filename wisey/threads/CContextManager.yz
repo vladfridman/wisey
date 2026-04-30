@@ -18,7 +18,7 @@ controller CContextManager {
     if (context == null) {
       throw build(MContextNonExistantException).withContextName(contextName).onHeap();
     }
-    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);
+    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);   // -> CReferenceToOwnerMap
     return objectNameToObjectMap.get(objectName);
   }
 
@@ -27,7 +27,7 @@ controller CContextManager {
    */
   public void setContext(string contextName, ::wisey::object context) {
     mContextNameToContextMap.put(contextName, context);
-    CReferenceToReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
+    CReferenceToReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);   // -> CReferenceToReferenceMap
     if (objectNameToObjectMap == null) {
       mContextToObjectMap.put(context, CReferenceToOwnerMap.create());
     }
@@ -53,7 +53,7 @@ controller CContextManager {
     if (context == null) {
       throw build(MContextNonExistantException).withContextName(contextName).onHeap();
     }
-    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);
+    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);   // -> CReferenceToOwnerMap
     objectNameToObjectMap.put(objectName, instance);
   }
 }

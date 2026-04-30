@@ -47,7 +47,7 @@ controller CReferenceVector {
    * Returns vector size
    */
   public long getSize() {
-    return ::llvm::function::stl_object_vector_size(mStdVector);
+    return ::llvm::function::stl_object_vector_size(mStdVector);      // -> long
   }
 
   /**

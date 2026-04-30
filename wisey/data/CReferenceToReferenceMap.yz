@@ -41,7 +41,7 @@ controller CReferenceToReferenceMap {
    * Creates an instance of the CReferenceToReferenceMap
    */
   public static CReferenceToReferenceMap* create() {
-    return inject(CReferenceToReferenceMap).onHeap();
+    return inject(CReferenceToReferenceMap).onHeap();                 // -> CReferenceToReferenceMap*
   }
 
   /**
@@ -62,7 +62,7 @@ controller CReferenceToReferenceMap {
    * Returns map size
    */
   public long getSize() {
-    return ::llvm::function::stl_reference_to_object_map_size(mStdMap);
+    return ::llvm::function::stl_reference_to_object_map_size(mStdMap);   // -> long
   }
 
   private ::llvm::function ::llvm::i8::pointer mapCreate() {

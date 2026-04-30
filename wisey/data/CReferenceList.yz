@@ -78,7 +78,7 @@ controller CReferenceList {
    * Returns the list size
    */
   public long getSize() {
-    return ::llvm::function::stl_object_list_size(mList);
+    return ::llvm::function::stl_object_list_size(mList);             // -> long
   }
 
   /**

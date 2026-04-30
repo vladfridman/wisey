@@ -9,7 +9,7 @@ import wisey.lang.NString;
 model MStreamClosedException implements IException {
 
   public NString* report() override {
-    NString* message = callstack.reportException(this);
+    NString* message = callstack.reportException(this);               // -> NString*
     message.appendString("Details: Stream is not opened and can not be used\n");
 
     return message;

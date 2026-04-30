@@ -15,7 +15,7 @@ model MThreadBoundaryException implements IException {
   receive boolean mIsMethodInternal;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this);
+    NString* message = callstack.reportException(this);               // -> NString*
     if (mIsMethodInternal) {
       message.appendString("Details: method internal to the thread is called from outside the thread\n");
     } else {

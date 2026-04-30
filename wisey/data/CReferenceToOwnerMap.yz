@@ -48,7 +48,7 @@ controller CReferenceToOwnerMap {
    * Creates an instance of the COwnerMap
    */
   public static CReferenceToOwnerMap* create() {
-    return inject(CReferenceToOwnerMap).onHeap();
+    return inject(CReferenceToOwnerMap).onHeap();                     // -> CReferenceToOwnerMap*
   }
 
   /**
@@ -69,7 +69,7 @@ controller CReferenceToOwnerMap {
    * Returns map size
    */
   public long getSize() {
-    return ::llvm::function::stl_reference_to_object_map_size(mStdMap);
+    return ::llvm::function::stl_reference_to_object_map_size(mStdMap);   // -> long
   }
 
   private ::llvm::function ::llvm::i8::pointer mapCreate() {

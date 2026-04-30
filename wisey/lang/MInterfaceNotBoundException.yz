@@ -10,7 +10,7 @@ model MInterfaceNotBoundException implements IException {
   receive string mInterfaceName;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this);
+    NString* message = callstack.reportException(this);               // -> NString*
     message.appendString("Details: Interface ");
     message.appendString(mInterfaceName);
     message.appendString(" is not bound to a controller\n");

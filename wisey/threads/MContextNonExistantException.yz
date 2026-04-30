@@ -14,7 +14,7 @@ model MContextNonExistantException implements IException {
   receive string mContextName;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this);
+    NString* message = callstack.reportException(this);               // -> NString*
     message.appendString("Details: Context ");
     message.appendString(mContextName);
     message.appendString(" does not exist\n");
