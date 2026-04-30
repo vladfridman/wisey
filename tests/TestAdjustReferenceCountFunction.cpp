@@ -59,8 +59,10 @@ TEST_F(AdjustReferenceCountFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  call void @__adjustReferenceCounter(i8* null, i64 1)\n";
+  "\n  call void @__adjustReferenceCounter(ptr null, i64 1)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -74,35 +76,36 @@ TEST_F(AdjustReferenceCountFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "define void @__adjustReferenceCounter(i8* %object, i64 %adjustment) {"
+  "define void @__adjustReferenceCounter(ptr %object, i64 %adjustment) {"
   "\nentry:"
-  "\n  %0 = icmp eq i8* %object, null"
+  "\n  %0 = icmp eq ptr %object, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
   "\n"
   "\nif.null:                                          ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = call i8* @__getOriginalObject(i8* %object)"
-  "\n  %2 = bitcast i8* %1 to i64*"
-  "\n  %3 = getelementptr i64, i64* %2, i64 -1"
-  "\n  %4 = call i1 @__isObject(i8* %object, i8 109)"
+  "\n  %1 = call ptr @__getOriginalObject(ptr %object)"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n  %3 = getelementptr i64, ptr %2, i64 -1"
+  "\n  %4 = call i1 @__isObject(ptr %object, i8 109)"
   "\n  br i1 %4, label %safe.adjust, label %if.not.model"
   "\n"
   "\nif.not.model:                                     ; preds = %if.notnull"
-  "\n  %5 = call i1 @__isObject(i8* %object, i8 116)"
+  "\n  %5 = call i1 @__isObject(ptr %object, i8 116)"
   "\n  br i1 %5, label %safe.adjust, label %unsafe.adjust"
   "\n"
   "\nsafe.adjust:                                      ; preds = %if.not.model, %if.notnull"
-  "\n  %6 = atomicrmw add i64* %3, i64 %adjustment monotonic, align 8"
+  "\n  %6 = atomicrmw add ptr %3, i64 %adjustment monotonic, align 8"
   "\n  ret void"
   "\n"
   "\nunsafe.adjust:                                    ; preds = %if.not.model"
-  "\n  %count = load i64, i64* %3, align 4"
+  "\n  %count = load i64, ptr %3, align 4"
   "\n  %7 = add i64 %count, %adjustment"
-  "\n  store i64 %7, i64* %3, align 4"
+  "\n  store i64 %7, ptr %3, align 4"
   "\n  ret void"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

@@ -127,11 +127,13 @@ TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*, align 8"
+  "\n  %0 = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0, align 8\n";
+  "\n  store ptr null, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -158,11 +160,13 @@ TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %var = alloca { i64, i64, i64, [0 x i64] }*, align 8"
+  "\n  %var = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %var, align 8\n";
+  "\n  store ptr null, ptr %var, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

@@ -92,7 +92,7 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
   
   ASSERT_EQ(1ul, mEntryBlock->size());
   *mStringStream << mEntryBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %foo, align 4");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, ptr %foo, align 4");
   mStringBuffer.clear();
 }
 
@@ -118,7 +118,7 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
   mStringBuffer.clear();
   
   *mStringStream << mEntryBlock->back();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 %conv, i32* %foo, align 4");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 %conv, ptr %foo, align 4");
   mStringBuffer.clear();
 }
 
@@ -135,7 +135,7 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   
   ASSERT_EQ(1ul, mEntryBlock->size());
   *mStringStream << mEntryBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i32, i32* %foo, align 4");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i32, ptr %foo, align 4");
   mStringBuffer.clear();
 }
 

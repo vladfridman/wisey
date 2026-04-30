@@ -116,9 +116,11 @@ TEST_F(FieldImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mEntryBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0, align 8\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, ptr null, i32 0, i32 1"
+  "\n  %1 = load ptr, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -128,8 +130,10 @@ TEST_F(FieldImmutableArrayOwnerVariableTest, generateIdentifierReferenceIRTest) 
   
   *mStringStream << *mEntryBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, ptr null, i32 0, i32 1"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -147,46 +151,47 @@ TEST_F(FieldImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "define internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
+  "define internal i32 @test() personality ptr @__gxx_personality_v0 {"
   "\ndeclare:"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0, align 8"
-  "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i64*"
-  "\n  invoke void @__destroyPrimitiveArrayFunction(i64* %2, i64 1, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @\"immutable int[]*\", i32 0, i32 0), i8* null)"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, ptr null, i32 0, i32 1"
+  "\n  %1 = load ptr, ptr %0, align 8"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n  invoke void @__destroyPrimitiveArrayFunction(ptr %2, i64 1, ptr @\"immutable int[]*\", ptr null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"
-  "\n  %3 = landingpad { i8*, i32 }"
+  "\n  %3 = landingpad { ptr, i32 }"
   "\n          cleanup"
-  "\n  %4 = alloca { i8*, i32 }, align 8"
+  "\n  %4 = alloca { ptr, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %3, { i8*, i32 }* %4, align 8"
-  "\n  %5 = getelementptr { i8*, i32 }, { i8*, i32 }* %4, i32 0, i32 0"
-  "\n  %6 = load i8*, i8** %5, align 8"
-  "\n  %7 = call i8* @__cxa_get_exception_ptr(i8* %6)"
-  "\n  %8 = getelementptr i8, i8* %7, i64 8"
-  "\n  %9 = icmp eq %systems.vos.wisey.compiler.tests.CObject* null, null"
+  "\n  store { ptr, i32 } %3, ptr %4, align 8"
+  "\n  %5 = getelementptr { ptr, i32 }, ptr %4, i32 0, i32 0"
+  "\n  %6 = load ptr, ptr %5, align 8"
+  "\n  %7 = call ptr @__cxa_get_exception_ptr(ptr %6)"
+  "\n  %8 = getelementptr i8, ptr %7, i64 8"
+  "\n  %9 = icmp eq ptr null, null"
   "\n  br i1 %9, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %cleanup.cont"
-  "\n  resume { i8*, i32 } %3"
+  "\n  resume { ptr, i32 } %3"
   "\n"
   "\nif.notnull:                                       ; preds = %cleanup.cont"
-  "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.CObject* null to i64*"
-  "\n  %11 = getelementptr i64, i64* %10, i64 -1"
-  "\n  %count = load i64, i64* %11, align 4"
+  "\n  %10 = bitcast ptr null to ptr"
+  "\n  %11 = getelementptr i64, ptr %10, i64 -1"
+  "\n  %count = load i64, ptr %11, align 4"
   "\n  %12 = add i64 %count, -1"
-  "\n  store i64 %12, i64* %11, align 4"
+  "\n  store i64 %12, ptr %11, align 4"
   "\n  br label %if.end"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0, align 8"
-  "\n}\n";
+  "\n  store ptr null, ptr %0, align 8"
+  "\n}"
+  "\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

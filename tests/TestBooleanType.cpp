@@ -176,11 +176,13 @@ TEST_F(BooleanTypeTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
   "\n  %0 = alloca i1, align 1"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i1 false, i1* %0, align 1\n";
+  "\n  store i1 false, ptr %0, align 1"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

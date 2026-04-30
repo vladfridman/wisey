@@ -112,31 +112,32 @@ TEST_F(ComposerTest, pushCallStackTest) {
   string expected =
   "define internal i32 @main() {"
   "\nentry:"
-  "\n  %0 = load i32, i32* @constant.wisey.threads.CCallStack.CALL_STACK_SIZE, align 4"
-  "\n  %1 = bitcast %wisey.threads.CCallStack* null to %CCallStack*"
-  "\n  %2 = getelementptr %CCallStack, %CCallStack* %1, i32 0, i32 3"
-  "\n  %3 = load i32, i32* %2, align 4"
+  "\n  %0 = load i32, ptr @constant.wisey.threads.CCallStack.CALL_STACK_SIZE, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr %CCallStack, ptr %1, i32 0, i32 3"
+  "\n  %3 = load i32, ptr %2, align 4"
   "\n  %4 = icmp sge i32 %3, %0"
   "\n  br i1 %4, label %if.overflow, label %if.continue"
   "\n"
   "\nif.overflow:                                      ; preds = %entry"
-  "\n  call void @wisey.threads.CCallStack.method.throwStackOverflowException(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
+  "\n  call void @wisey.threads.CCallStack.method.throwStackOverflowException(ptr null, ptr null)"
   "\n  unreachable"
   "\n"
   "\nif.continue:                                      ; preds = %entry"
-  "\n  %5 = getelementptr %CCallStack, %CCallStack* %1, i32 0, i32 1"
-  "\n  %6 = load { i64, i64, i64, [0 x i8*] }*, { i64, i64, i64, [0 x i8*] }** %5, align 8"
-  "\n  %7 = getelementptr { i64, i64, i64, [0 x i8*] }, { i64, i64, i64, [0 x i8*] }* %6, i32 0, i32 3"
-  "\n  %8 = getelementptr [0 x i8*], [0 x i8*]* %7, i32 0, i32 %3"
-  "\n  store i8* getelementptr inbounds ([54 x i8], [54 x i8]* @\"systems.vos.wisey.compiler.tests.MMyModel.foo(test.yz\", i32 0, i32 0), i8** %8, align 8"
-  "\n  %9 = getelementptr %CCallStack, %CCallStack* %1, i32 0, i32 2"
-  "\n  %10 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %9, align 8"
-  "\n  %11 = getelementptr { i64, i64, i64, [0 x i32] }, { i64, i64, i64, [0 x i32] }* %10, i32 0, i32 3"
-  "\n  %12 = getelementptr [0 x i32], [0 x i32]* %11, i32 0, i32 %3"
-  "\n  store i32 5, i32* %12, align 4"
+  "\n  %5 = getelementptr %CCallStack, ptr %1, i32 0, i32 1"
+  "\n  %6 = load ptr, ptr %5, align 8"
+  "\n  %7 = getelementptr { i64, i64, i64, [0 x ptr] }, ptr %6, i32 0, i32 3"
+  "\n  %8 = getelementptr [0 x ptr], ptr %7, i32 0, i32 %3"
+  "\n  store ptr @\"systems.vos.wisey.compiler.tests.MMyModel.foo(test.yz\", ptr %8, align 8"
+  "\n  %9 = getelementptr %CCallStack, ptr %1, i32 0, i32 2"
+  "\n  %10 = load ptr, ptr %9, align 8"
+  "\n  %11 = getelementptr { i64, i64, i64, [0 x i32] }, ptr %10, i32 0, i32 3"
+  "\n  %12 = getelementptr [0 x i32], ptr %11, i32 0, i32 %3"
+  "\n  store i32 5, ptr %12, align 4"
   "\n  %13 = add i32 %3, 1"
-  "\n  store i32 %13, i32* %2, align 4"
-  "\n}\n";
+  "\n  store i32 %13, ptr %2, align 4"
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
@@ -148,12 +149,14 @@ TEST_F(ComposerTest, popCallStackTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:"
-  "\n  %0 = bitcast %wisey.threads.CCallStack* null to %CCallStack*"
-  "\n  %1 = getelementptr %CCallStack, %CCallStack* %0, i32 0, i32 3"
-  "\n  %2 = load i32, i32* %1, align 4"
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr %CCallStack, ptr %0, i32 0, i32 3"
+  "\n  %2 = load i32, ptr %1, align 4"
   "\n  %3 = sub i32 %2, 1"
-  "\n  store i32 %3, i32* %1, align 4\n";
+  "\n  store i32 %3, ptr %1, align 4"
+  "\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();
@@ -164,16 +167,18 @@ TEST_F(ComposerTest, setLineNumberTestTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:"
-  "\n  %0 = bitcast %wisey.threads.CCallStack* null to %CCallStack*"
-  "\n  %1 = getelementptr %CCallStack, %CCallStack* %0, i32 0, i32 3"
-  "\n  %2 = load i32, i32* %1, align 4"
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr %CCallStack, ptr %0, i32 0, i32 3"
+  "\n  %2 = load i32, ptr %1, align 4"
   "\n  %3 = sub i32 %2, 1"
-  "\n  %4 = getelementptr %CCallStack, %CCallStack* %0, i32 0, i32 2"
-  "\n  %5 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %4, align 8"
-  "\n  %6 = getelementptr { i64, i64, i64, [0 x i32] }, { i64, i64, i64, [0 x i32] }* %5, i32 0, i32 3"
-  "\n  %7 = getelementptr [0 x i32], [0 x i32]* %6, i32 0, i32 %3"
-  "\n  store i32 5, i32* %7, align 4\n";
+  "\n  %4 = getelementptr %CCallStack, ptr %0, i32 0, i32 2"
+  "\n  %5 = load ptr, ptr %4, align 8"
+  "\n  %6 = getelementptr { i64, i64, i64, [0 x i32] }, ptr %5, i32 0, i32 3"
+  "\n  %7 = getelementptr [0 x i32], ptr %6, i32 0, i32 %3"
+  "\n  store i32 5, ptr %7, align 4"
+  "\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();
@@ -190,19 +195,20 @@ TEST_F(ComposerTest, incrementReferenceCountUnsafelyTest) {
   string expected =
   "define internal i32 @main() {"
   "\nentry:"
-  "\n  %0 = icmp eq i8* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast i8* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %count = load i64, ptr %2, align 4"
   "\n  %3 = add i64 %count, 1"
-  "\n  store i64 %3, i64* %2, align 4"
+  "\n  store i64 %3, ptr %2, align 4"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -218,19 +224,20 @@ TEST_F(ComposerTest, decrementReferenceCountUnsafelyTest) {
   string expected =
   "define internal i32 @main() {"
   "\nentry:"
-  "\n  %0 = icmp eq i8* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast i8* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %count = load i64, ptr %2, align 4"
   "\n  %3 = add i64 %count, -1"
-  "\n  store i64 %3, i64* %2, align 4"
+  "\n  store i64 %3, ptr %2, align 4"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -246,17 +253,18 @@ TEST_F(ComposerTest, incrementReferenceCountSafelyTest) {
   string expected =
   "define internal i32 @main() {"
   "\nentry:"
-  "\n  %0 = icmp eq i8* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast i8* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic, align 8"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %3 = atomicrmw add ptr %2, i64 1 monotonic, align 8"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -272,17 +280,18 @@ TEST_F(ComposerTest, decrementReferenceCountSafelyTest) {
   string expected =
   "define internal i32 @main() {"
   "\nentry:"
-  "\n  %0 = icmp eq i8* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast i8* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic, align 8"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %3 = atomicrmw add ptr %2, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

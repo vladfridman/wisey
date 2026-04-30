@@ -504,9 +504,10 @@ TEST_F(InterfaceTest, incrementReferenceCountTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  call void @__adjustReferenceCounter(i8* %0, i64 1)\n";
+  "\n  call void @__adjustReferenceCounter(ptr null, i64 1)"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -519,9 +520,10 @@ TEST_F(InterfaceTest, decrementReferenceCountTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  call void @__adjustReferenceCounter(i8* %0, i64 -1)\n";
+  "\n  call void @__adjustReferenceCounter(ptr null, i64 -1)"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -534,12 +536,13 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  %1 = call i8* @__getOriginalObject(i8* %0)"
-  "\n  %2 = bitcast i8* %1 to i64*"
-  "\n  %3 = getelementptr i64, i64* %2, i64 -1"
-  "\n  %refCounter = load i64, i64* %3, align 4\n";
+  "\n  %0 = call ptr @__getOriginalObject(ptr null)"
+  "\n  %1 = bitcast ptr %0 to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %refCounter = load i64, ptr %2, align 4"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -598,11 +601,13 @@ TEST_F(InterfaceTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IShape*, align 8"
+  "\n  %temp = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.IShape* null, %systems.vos.wisey.compiler.tests.IShape** %temp, align 8\n";
+  "\n  store ptr null, ptr %temp, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -629,9 +634,10 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  call void @__adjustReferenceCounter(i8* %0, i64 1)\n";
+  "\n  call void @__adjustReferenceCounter(ptr null, i64 1)"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -651,52 +657,51 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   *mStringStream << *function;
   
   string expected =
-  "define %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) personality i32 (...)* @__gxx_personality_v0 {"
+  "define ptr @systems.vos.wisey.compiler.tests.IShape.inject(ptr %thread, ptr %callstack) personality ptr @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)** @systems.vos.wisey.compiler.tests.IShape.inject.pointer, align 8"
-  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)* %0, null"
+  "\n  %0 = load ptr, ptr @systems.vos.wisey.compiler.tests.IShape.inject.pointer, align 8"
+  "\n  %1 = icmp eq ptr %0, null"
   "\n  br i1 %1, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%wisey.lang.MInterfaceNotBoundException.refCounter* getelementptr (%wisey.lang.MInterfaceNotBoundException.refCounter, %wisey.lang.MInterfaceNotBoundException.refCounter* null, i32 1) to i64))"
-  "\n  %buildervar = bitcast i8* %malloccall to %wisey.lang.MInterfaceNotBoundException.refCounter*"
-  "\n  %2 = bitcast %wisey.lang.MInterfaceNotBoundException.refCounter* %buildervar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %2, i8 0, i64 ptrtoint (%wisey.lang.MInterfaceNotBoundException.refCounter* getelementptr (%wisey.lang.MInterfaceNotBoundException.refCounter, %wisey.lang.MInterfaceNotBoundException.refCounter* null, i32 1) to i64), i1 false)"
-  "\n  %3 = getelementptr %wisey.lang.MInterfaceNotBoundException.refCounter, %wisey.lang.MInterfaceNotBoundException.refCounter* %buildervar, i32 0, i32 1"
-  "\n  %4 = getelementptr %wisey.lang.MInterfaceNotBoundException, %wisey.lang.MInterfaceNotBoundException* %3, i32 0, i32 1"
-  "\n  store i8* getelementptr inbounds ([40 x i8], [40 x i8]* @systems.vos.wisey.compiler.tests.IShape.typename, i32 0, i32 0), i8** %4, align 8"
-  "\n  %5 = bitcast %wisey.lang.MInterfaceNotBoundException* %3 to i8*"
-  "\n  %6 = getelementptr i8, i8* %5, i64 0"
-  "\n  %7 = bitcast i8* %6 to i32 (...)***"
-  "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @wisey.lang.MInterfaceNotBoundException.vtable, i32 0, i32 0, i32 0"
-  "\n  %9 = bitcast i8** %8 to i32 (...)**"
-  "\n  store i32 (...)** %9, i32 (...)*** %7, align 8"
-  "\n  %10 = bitcast { i8*, i8* }* @wisey.lang.MInterfaceNotBoundException.rtti to i8*"
-  "\n  %11 = bitcast %wisey.lang.MInterfaceNotBoundException* %3 to i8*"
-  "\n  %12 = getelementptr i8, i8* %11, i64 -8"
-  "\n  %13 = call i8* @__cxa_allocate_exception(i64 add (i64 ptrtoint (%wisey.lang.MInterfaceNotBoundException* getelementptr (%wisey.lang.MInterfaceNotBoundException, %wisey.lang.MInterfaceNotBoundException* null, i32 1) to i64), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)))"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %13, i8* %12, i64 add (i64 ptrtoint (%wisey.lang.MInterfaceNotBoundException* getelementptr (%wisey.lang.MInterfaceNotBoundException, %wisey.lang.MInterfaceNotBoundException* null, i32 1) to i64), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)), i1 false)"
-  "\n  tail call void @free(i8* %12)"
-  "\n  invoke void @__cxa_throw(i8* %13, i8* %10, i8* null)"
+  "\n  %buildervar = tail call ptr @malloc(i64 ptrtoint (ptr getelementptr (%wisey.lang.MInterfaceNotBoundException.refCounter, ptr null, i32 1) to i64))"
+  "\n  %2 = bitcast ptr %buildervar to ptr"
+  "\n  call void @llvm.memset.p0.i64(ptr %2, i8 0, i64 ptrtoint (ptr getelementptr (%wisey.lang.MInterfaceNotBoundException.refCounter, ptr null, i32 1) to i64), i1 false)"
+  "\n  %3 = getelementptr %wisey.lang.MInterfaceNotBoundException.refCounter, ptr %buildervar, i32 0, i32 1"
+  "\n  %4 = getelementptr %wisey.lang.MInterfaceNotBoundException, ptr %3, i32 0, i32 1"
+  "\n  store ptr @systems.vos.wisey.compiler.tests.IShape.typename, ptr %4, align 8"
+  "\n  %5 = bitcast ptr %3 to ptr"
+  "\n  %6 = getelementptr i8, ptr %5, i64 0"
+  "\n  %7 = bitcast ptr %6 to ptr"
+  "\n  %8 = getelementptr { [3 x ptr] }, ptr @wisey.lang.MInterfaceNotBoundException.vtable, i32 0, i32 0, i32 0"
+  "\n  %9 = bitcast ptr %8 to ptr"
+  "\n  store ptr %9, ptr %7, align 8"
+  "\n  %10 = bitcast ptr @wisey.lang.MInterfaceNotBoundException.rtti to ptr"
+  "\n  %11 = bitcast ptr %3 to ptr"
+  "\n  %12 = getelementptr i8, ptr %11, i64 -8"
+  "\n  %13 = call ptr @__cxa_allocate_exception(i64 add (i64 ptrtoint (ptr getelementptr (%wisey.lang.MInterfaceNotBoundException, ptr null, i32 1) to i64), i64 ptrtoint (ptr getelementptr (i64, ptr null, i32 1) to i64)))"
+  "\n  call void @llvm.memcpy.p0.p0.i64(ptr %13, ptr %12, i64 add (i64 ptrtoint (ptr getelementptr (%wisey.lang.MInterfaceNotBoundException, ptr null, i32 1) to i64), i64 ptrtoint (ptr getelementptr (i64, ptr null, i32 1) to i64)), i1 false)"
+  "\n  tail call void @free(ptr %12)"
+  "\n  invoke void @__cxa_throw(ptr %13, ptr %10, ptr null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  %14 = call %systems.vos.wisey.compiler.tests.IShape* %0(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
-  "\n  ret %systems.vos.wisey.compiler.tests.IShape* %14"
+  "\n  %14 = call ptr %0(ptr %thread, ptr %callstack)"
+  "\n  ret ptr %14"
   "\n"
   "\ncleanup:                                          ; preds = %if.null"
-  "\n  %15 = landingpad { i8*, i32 }"
+  "\n  %15 = landingpad { ptr, i32 }"
   "\n          cleanup"
-  "\n  %16 = alloca { i8*, i32 }, align 8"
+  "\n  %16 = alloca { ptr, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %15, { i8*, i32 }* %16, align 8"
-  "\n  %17 = getelementptr { i8*, i32 }, { i8*, i32 }* %16, i32 0, i32 0"
-  "\n  %18 = load i8*, i8** %17, align 8"
-  "\n  %19 = call i8* @__cxa_get_exception_ptr(i8* %18)"
-  "\n  %20 = getelementptr i8, i8* %19, i64 8"
-  "\n  resume { i8*, i32 } %15"
+  "\n  store { ptr, i32 } %15, ptr %16, align 8"
+  "\n  %17 = getelementptr { ptr, i32 }, ptr %16, i32 0, i32 0"
+  "\n  %18 = load ptr, ptr %17, align 8"
+  "\n  %19 = call ptr @__cxa_get_exception_ptr(ptr %18)"
+  "\n  %20 = getelementptr i8, ptr %19, i64 8"
+  "\n  resume { ptr, i32 } %15"
   "\n"
   "\ninvoke.continue:                                  ; preds = %if.null"
   "\n  unreachable"
@@ -719,8 +724,9 @@ TEST_F(InterfaceTest, injectTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
+  "\n  %0 = call ptr @systems.vos.wisey.compiler.tests.IShape.inject(ptr null, ptr null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -788,13 +794,13 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   *mStringStream << *function;
 
   string expected =
-  "define %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject.function(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) {"
+  "define ptr @systems.vos.wisey.compiler.tests.ITest.inject.function(ptr %thread, ptr %callstack) {"
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CController* @systems.vos.wisey.compiler.tests.CController.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CController* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 0"
-  "\n  %3 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ITest*"
-  "\n  ret %systems.vos.wisey.compiler.tests.ITest* %3"
+  "\n  %0 = call ptr @systems.vos.wisey.compiler.tests.CController.inject(ptr %thread, ptr %callstack)"
+  "\n  %1 = bitcast ptr %0 to ptr"
+  "\n  %2 = getelementptr i8, ptr %1, i64 0"
+  "\n  %3 = bitcast ptr %2 to ptr"
+  "\n  ret ptr %3"
   "\n}"
   "\n";
 

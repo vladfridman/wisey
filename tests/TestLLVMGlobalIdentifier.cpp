@@ -74,8 +74,10 @@ TEST_F(LLVMGlobalIdentifierTest, generateIRTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\nentry:"
-  "\n  %0 = load i8, i8* @myglobal, align 1\n";
+  "\n  %0 = load i8, ptr @myglobal, align 1"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

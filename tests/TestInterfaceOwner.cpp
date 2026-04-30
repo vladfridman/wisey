@@ -161,11 +161,13 @@ TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IObject*, align 8"
+  "\n  %temp = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %temp, align 8\n";
+  "\n  store ptr null, ptr %temp, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -192,11 +194,13 @@ TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %var = alloca %systems.vos.wisey.compiler.tests.IObject*, align 8"
+  "\n  %var = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %var, align 8\n";
+  "\n  store ptr null, ptr %var, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -251,8 +255,9 @@ TEST_F(InterfaceOwnerTest, injectTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
+  "\n  %0 = call ptr @systems.vos.wisey.compiler.tests.ITest.inject(ptr null, ptr null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

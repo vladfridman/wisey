@@ -106,9 +106,11 @@ TEST_F(FieldPrimitiveVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  %foo = load i32, i32* %0, align 4\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n  %foo = load i32, ptr %0, align 4"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -118,8 +120,10 @@ TEST_F(FieldPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -136,9 +140,11 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  store i32 3, i32* %0, align 4\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n  store i32 3, ptr %0, align 4"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -155,10 +161,12 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentWithCastIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
+  ""
+  "\nentry:                                            ; No predecessors!"
   "\n  %conv = sext i8 3 to i32"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  store i32 %conv, i32* %0, align 4\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n  store i32 %conv, ptr %0, align 4"
+  "\n";
  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

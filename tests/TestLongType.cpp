@@ -177,11 +177,13 @@ TEST_F(LongTypeTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
   "\n  %0 = alloca i64, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i64 0, i64* %0, align 4\n";
+  "\n  store i64 0, ptr %0, align 4"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

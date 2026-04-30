@@ -55,8 +55,10 @@ TEST_F(GetOriginalObjectFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call i8* @__getOriginalObject(i8* null)\n";
+  "\n  %0 = call ptr @__getOriginalObject(ptr null)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -67,16 +69,17 @@ TEST_F(GetOriginalObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "define i8* @__getOriginalObject(i8* %pointer) {"
+  "define ptr @__getOriginalObject(ptr %pointer) {"
   "\nentry:"
-  "\n  %0 = bitcast i8* %pointer to i8***"
-  "\n  %vtable = load i8**, i8*** %0, align 8"
-  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %1, align 8"
-  "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %2 = getelementptr i8, i8* %pointer, i64 %unthunkby"
-  "\n  ret i8* %2"
-  "\n}\n";
+  "\n  %0 = bitcast ptr %pointer to ptr"
+  "\n  %vtable = load ptr, ptr %0, align 8"
+  "\n  %1 = getelementptr ptr, ptr %vtable, i64 0"
+  "\n  %unthunkbypointer = load ptr, ptr %1, align 8"
+  "\n  %unthunkby = ptrtoint ptr %unthunkbypointer to i64"
+  "\n  %2 = getelementptr i8, ptr %pointer, i64 %unthunkby"
+  "\n  ret ptr %2"
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

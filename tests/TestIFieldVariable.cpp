@@ -113,8 +113,10 @@ TEST_F(IFieldVariableTest, getFieldPointerTest) {
 
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

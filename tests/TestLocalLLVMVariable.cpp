@@ -92,7 +92,7 @@ TEST_F(LocalLLVMVariableTest, generateAssignmentIRTest) {
   
   ASSERT_EQ(1ul, mEntryBlock->size());
   *mStringStream << mEntryBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i16 5, i16* %foo, align 2");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i16 5, ptr %foo, align 2");
   mStringBuffer.clear();
 }
 
@@ -109,7 +109,7 @@ TEST_F(LocalLLVMVariableTest, generateIdentifierIRTest) {
   
   ASSERT_EQ(1ul, mEntryBlock->size());
   *mStringStream << mEntryBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i16, i16* %foo, align 2");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i16, ptr %foo, align 2");
   mStringBuffer.clear();
 }
 

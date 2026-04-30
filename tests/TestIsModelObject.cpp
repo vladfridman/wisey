@@ -59,8 +59,10 @@ TEST_F(IsObjectFunctionTest, callIsModelTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call i1 @__isObject(i8* null, i8 109)\n";
+  "\n  %0 = call i1 @__isObject(ptr null, i8 109)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -74,19 +76,20 @@ TEST_F(IsObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "define i1 @__isObject(i8* %object, i8 %letter) {"
+  "define i1 @__isObject(ptr %object, i8 %letter) {"
   "\nentry:"
-  "\n  %0 = call i8* @__getOriginalObject(i8* %object)"
-  "\n  %1 = bitcast i8* %0 to i8***"
-  "\n  %vtable = load i8**, i8*** %1, align 8"
-  "\n  %2 = getelementptr i8*, i8** %vtable, i64 1"
-  "\n  %typeArrayI8 = load i8*, i8** %2, align 8"
-  "\n  %3 = bitcast i8* %typeArrayI8 to i8**"
-  "\n  %stringPointer = load i8*, i8** %3, align 8"
-  "\n  %firstLetter = load i8, i8* %stringPointer, align 1"
+  "\n  %0 = call ptr @__getOriginalObject(ptr %object)"
+  "\n  %1 = bitcast ptr %0 to ptr"
+  "\n  %vtable = load ptr, ptr %1, align 8"
+  "\n  %2 = getelementptr ptr, ptr %vtable, i64 1"
+  "\n  %typeArrayI8 = load ptr, ptr %2, align 8"
+  "\n  %3 = bitcast ptr %typeArrayI8 to ptr"
+  "\n  %stringPointer = load ptr, ptr %3, align 8"
+  "\n  %firstLetter = load i8, ptr %stringPointer, align 1"
   "\n  %4 = icmp eq i8 %firstLetter, %letter"
   "\n  ret i1 %4"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

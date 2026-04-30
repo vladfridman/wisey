@@ -123,7 +123,7 @@ TEST_F(AddExpressionTest, pointerAddTest) {
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
-  ASSERT_STREQ("  %0 = getelementptr i8, i8* null, i32 3", mStringStream->str().c_str());
+  ASSERT_STREQ("  %0 = getelementptr i8, ptr null, i32 3", mStringStream->str().c_str());
 }
 
 TEST_F(AddExpressionTest, printToStreamTest) {

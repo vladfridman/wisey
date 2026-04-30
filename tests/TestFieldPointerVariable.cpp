@@ -138,9 +138,11 @@ TEST_F(FieldPointerVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  %foo = load i64*, i64** %0, align 8\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n  %foo = load ptr, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -150,8 +152,10 @@ TEST_F(FieldPointerVariableTest, generateIdentifierreferenceIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -168,10 +172,12 @@ TEST_F(FieldPointerVariableTest, generateAssignmentIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i64*"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  store i64* %0, i64** %1, align 8\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n  store ptr %0, ptr %1, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

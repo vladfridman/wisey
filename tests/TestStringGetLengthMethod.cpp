@@ -84,8 +84,9 @@ TEST_F(StringGetLengthMethodTest, generateIRTest) {
   *mStringStream << *mBasicBlock;
   
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call i64 @strlen(i8* null)"
+  "\n  %0 = call i64 @strlen(ptr null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

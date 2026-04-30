@@ -55,8 +55,10 @@ TEST_F(GetOriginalObjectNameFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call i8* @__getOriginalObjectName(i8* null)\n";
+  "\n  %0 = call ptr @__getOriginalObjectName(ptr null)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -67,18 +69,19 @@ TEST_F(GetOriginalObjectNameFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "define i8* @__getOriginalObjectName(i8* %object) {"
+  "define ptr @__getOriginalObjectName(ptr %object) {"
   "\nentry:"
-  "\n  %0 = call i8* @__getOriginalObject(i8* %object)"
-  "\n  %1 = bitcast i8* %0 to i8***"
-  "\n  %vtable = load i8**, i8*** %1, align 8"
-  "\n  %2 = getelementptr i8*, i8** %vtable, i64 1"
-  "\n  %typeArrayI8 = load i8*, i8** %2, align 8"
-  "\n  %3 = bitcast i8* %typeArrayI8 to i8**"
-  "\n  %4 = getelementptr i8*, i8** %3, i64 1"
-  "\n  %name = load i8*, i8** %4, align 8"
-  "\n  ret i8* %name"
-  "\n}\n";
+  "\n  %0 = call ptr @__getOriginalObject(ptr %object)"
+  "\n  %1 = bitcast ptr %0 to ptr"
+  "\n  %vtable = load ptr, ptr %1, align 8"
+  "\n  %2 = getelementptr ptr, ptr %vtable, i64 1"
+  "\n  %typeArrayI8 = load ptr, ptr %2, align 8"
+  "\n  %3 = bitcast ptr %typeArrayI8 to ptr"
+  "\n  %4 = getelementptr ptr, ptr %3, i64 1"
+  "\n  %name = load ptr, ptr %4, align 8"
+  "\n  ret ptr %name"
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

@@ -135,9 +135,11 @@ TEST_F(FieldReferenceVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  %foo = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0, align 8\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n  %foo = load ptr, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -147,8 +149,10 @@ TEST_F(FieldReferenceVariableTest, generateIdentifierreferenceIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -170,34 +174,35 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentIRTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0, align 8"
-  "\n  %2 = icmp eq %systems.vos.wisey.compiler.tests.NNode* %1, null"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 1"
+  "\n  %1 = load ptr, ptr %0, align 8"
+  "\n  %2 = icmp eq ptr %1, null"
   "\n  br i1 %2, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
-  "\n  %3 = icmp eq %systems.vos.wisey.compiler.tests.NNode* null, null"
+  "\n  %3 = icmp eq ptr null, null"
   "\n  br i1 %3, label %if.end1, label %if.notnull2"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i64*"
-  "\n  %5 = getelementptr i64, i64* %4, i64 -1"
-  "\n  %count = load i64, i64* %5, align 4"
+  "\n  %4 = bitcast ptr %1 to ptr"
+  "\n  %5 = getelementptr i64, ptr %4, i64 -1"
+  "\n  %count = load i64, ptr %5, align 4"
   "\n  %6 = add i64 %count, -1"
-  "\n  store i64 %6, i64* %5, align 4"
+  "\n  store i64 %6, ptr %5, align 4"
   "\n  br label %if.end"
   "\n"
   "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0, align 8"
+  "\n  store ptr null, ptr %0, align 8"
   "\n"
   "\nif.notnull2:                                      ; preds = %if.end"
-  "\n  %7 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i64*"
-  "\n  %8 = getelementptr i64, i64* %7, i64 -1"
-  "\n  %count3 = load i64, i64* %8, align 4"
+  "\n  %7 = bitcast ptr null to ptr"
+  "\n  %8 = getelementptr i64, ptr %7, i64 -1"
+  "\n  %count3 = load i64, ptr %8, align 4"
   "\n  %9 = add i64 %count3, 1"
-  "\n  store i64 %9, i64* %8, align 4"
+  "\n  store i64 %9, ptr %8, align 4"
   "\n  br label %if.end1"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -216,18 +221,17 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentWithCastIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 0"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 2"
-  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3, align 8"
-  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
-  "\n  call void @__adjustReferenceCounter(i8* %5, i64 -1)"
-  "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %2 to i8*"
-  "\n  call void @__adjustReferenceCounter(i8* %6, i64 1)"
-  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %3, align 8\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i8, ptr %0, i64 0"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CController, ptr null, i32 0, i32 2"
+  "\n  %4 = load ptr, ptr %3, align 8"
+  "\n  call void @__adjustReferenceCounter(ptr %4, i64 -1)"
+  "\n  call void @__adjustReferenceCounter(ptr %2, i64 1)"
+  "\n  store ptr %2, ptr %3, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

@@ -123,7 +123,7 @@ TEST_F(WiseyModelTypeTest, castToTest) {
   Value* result = mWiseyModelType->castTo(mContext, value, pointerType, 0);
   *mStringStream << *result;
   
-  EXPECT_STREQ("  %0 = bitcast i8* null to i32*", mStringStream->str().c_str());
+  EXPECT_STREQ("  %0 = bitcast ptr null to ptr", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -134,10 +134,11 @@ TEST_F(WiseyModelTypeTest, castToObjectTest) {
   mWiseyModelType->castTo(mContext, value, &mConcreteObjectType, 0);
   *mStringStream << *mEntryBlock;
   
-  EXPECT_STREQ("\nentry:                                            ; No predecessors!"
-               "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @systems.vos.wisey.compiler.tests.IInterface.typename, i32 0, i32 0))"
-               "\n          to label %invoke.continue unwind label %cleanup"
-               "\n",
+  EXPECT_STREQ(""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = invoke ptr @__castObject(ptr null, ptr @systems.vos.wisey.compiler.tests.IInterface.typename)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n",
                mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -171,11 +172,13 @@ TEST_F(WiseyModelTypeTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %temp = alloca i8*, align 8"
+  "\n  %temp = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i8* null, i8** %temp, align 8\n";
+  "\n  store ptr null, ptr %temp, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

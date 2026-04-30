@@ -155,7 +155,8 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
   Function* function = staticMethod.declareFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "declare float @systems.vos.wisey.compiler.tests.MObject.method.foo(%wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
+  string expected = "declare float @systems.vos.wisey.compiler.tests.MObject.method.foo(ptr, ptr, i32)"
+  "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -176,7 +177,8 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
   Function* function = staticMethod.declareFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "declare internal float @systems.vos.wisey.compiler.tests.MObject.method.foo(%wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
+  string expected = "declare internal float @systems.vos.wisey.compiler.tests.MObject.method.foo(ptr, ptr, i32)"
+  "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -201,7 +203,7 @@ TEST_F(StaticMethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "define void @systems.vos.wisey.compiler.tests.MObject.method.foo(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 %intargument) {"
+  "define void @systems.vos.wisey.compiler.tests.MObject.method.foo(ptr %thread, ptr %callstack, i32 %intargument) {"
   "\ndeclarations:"
   "\n  br label %entry"
   "\n"

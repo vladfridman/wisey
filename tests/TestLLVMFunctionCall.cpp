@@ -98,8 +98,10 @@ TEST_F(LLVMFunctionCallTest, generateIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call i16* @myfunction(i8* null)\n";
+  "\n  %0 = call ptr @myfunction(ptr null)"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

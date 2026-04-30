@@ -75,8 +75,10 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* null, i64 2, i8* null, i8* null)\n";
+  "\n  call void @__destroyPrimitiveArrayFunction(ptr null, i64 2, ptr null, ptr null)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -90,20 +92,20 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "define void @__destroyPrimitiveArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i8* %exception) {"
+  "define void @__destroyPrimitiveArrayFunction(ptr %arrayPointer, i64 %noOfDimensions, ptr %arrayName, ptr %exception) {"
   "\nentry:"
-  "\n  %isNull = icmp eq i64* %arrayPointer, null"
+  "\n  %isNull = icmp eq ptr %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"
   "\n"
   "\nreturn.void:                                      ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  call void @__checkArrayNotReferenced(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i8* %exception)"
-  "\n  %0 = bitcast i64* %arrayPointer to i8*"
-  "\n  tail call void @free(i8* %0)"
+  "\n  call void @__checkArrayNotReferenced(ptr %arrayPointer, i64 %noOfDimensions, ptr %arrayName, ptr %exception)"
+  "\n  tail call void @free(ptr %arrayPointer)"
   "\n  ret void"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

@@ -121,9 +121,11 @@ TEST_F(SubtractExpressionTest, pointerSubtractTest) {
   expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *mBasicBlock;
-  ASSERT_STREQ("\nentry:                                            ; No predecessors!"
-               "\n  %sub = sub i32 0, 3"
-               "\n  %0 = getelementptr i8, i8* null, i32 %sub\n",
+  ASSERT_STREQ(""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %sub = sub i32 0, 3"
+  "\n  %0 = getelementptr i8, ptr null, i32 %sub"
+  "\n",
                mStringStream->str().c_str());
 }
 

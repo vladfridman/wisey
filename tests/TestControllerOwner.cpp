@@ -255,10 +255,12 @@ TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
                                             0);
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 0"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IScienceCalculator*\n";
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i8, ptr %0, i64 0"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -274,10 +276,12 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*\n";
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i8, ptr %0, i64 8"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -293,11 +297,13 @@ TEST_F(ControllerOwnerTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*, align 8"
+  "\n  %temp = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp, align 8\n";
+  "\n  store ptr null, ptr %temp, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -327,11 +333,13 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %var = alloca %systems.vos.wisey.compiler.tests.CMultiplier*, align 8"
+  "\n  %var = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %var, align 8\n";
+  "\n  store ptr null, ptr %var, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -346,8 +354,9 @@ TEST_F(ControllerOwnerTest, injectTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
+  "\n  %0 = call ptr @systems.vos.wisey.compiler.tests.CAdditor.inject(ptr null, ptr null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

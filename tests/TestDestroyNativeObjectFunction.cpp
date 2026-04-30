@@ -60,8 +60,10 @@ TEST_F(DestroyNativeObjectFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  call void @__destroyNativeObjectFunction(i8* null)\n";
+  "\n  call void @__destroyNativeObjectFunction(ptr null)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -75,18 +77,19 @@ TEST_F(DestroyNativeObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "define void @__destroyNativeObjectFunction(i8* %thisGeneric) {"
+  "define void @__destroyNativeObjectFunction(ptr %thisGeneric) {"
   "\nentry:"
-  "\n  %0 = icmp eq i8* %thisGeneric, null"
+  "\n  %0 = icmp eq ptr %thisGeneric, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
   "\n"
   "\nif.null:                                          ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  tail call void @free(i8* %thisGeneric)"
+  "\n  tail call void @free(ptr %thisGeneric)"
   "\n  ret void"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

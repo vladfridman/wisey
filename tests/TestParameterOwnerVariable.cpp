@@ -105,11 +105,13 @@ TEST_F(ParameterOwnerVariableTest, generateIdentifierIRTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
+  "\n  %0 = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0, align 8\n";
+  "\n  %1 = load ptr, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -136,13 +138,15 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
+  "\n  %0 = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0, align 8"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
-  "\n  call void @systems.vos.wisey.compiler.tests.MShape.destructor(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
+  "\n  %1 = load ptr, ptr %0, align 8"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n  call void @systems.vos.wisey.compiler.tests.MShape.destructor(ptr %2, ptr null, ptr null, ptr null)"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -159,11 +163,13 @@ TEST_F(ParameterOwnerVariableTest, setToNullTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*, align 8"
+  "\n  %0 = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0, align 8\n";
+  "\n  store ptr null, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

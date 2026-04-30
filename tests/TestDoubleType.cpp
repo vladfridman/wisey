@@ -178,11 +178,13 @@ TEST_F(DoubleTypeTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
   "\n  %0 = alloca double, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store double 0.000000e+00, double* %0, align 8\n";
+  "\n  store double 0.000000e+00, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

@@ -108,7 +108,7 @@ TEST_F(ReceivedFieldTest, getValueTest) {
   Value* instruction = mField->getValue(mContext, mObject, null, 0);
   
   *mStringStream << *instruction;
-  string expected = "  %mField = load i8, i8* null, align 1";
+  string expected = "  %mField = load i8, ptr null, align 1";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

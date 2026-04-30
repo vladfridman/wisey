@@ -206,8 +206,10 @@ TEST_F(InjectedFieldTest, getValueForDelayedInjectedFieldTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%systems.vos.wisey.compiler.tests.CController* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8** null)\n";
+  "\n  %0 = call ptr @systems.vos.wisey.compiler.tests.CController.mFoo.inject(ptr null, ptr null, ptr null, ptr null)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -226,8 +228,10 @@ TEST_F(InjectedFieldTest, getValueForImmediateInjectedFieldTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %mFoo = load i8*, i8** null, align 8\n";
+  "\n  %mFoo = load ptr, ptr null, align 8"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -268,21 +272,21 @@ TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "define i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%systems.vos.wisey.compiler.tests.CController* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8** %fieldPointer) {"
+  "define ptr @systems.vos.wisey.compiler.tests.CController.mFoo.inject(ptr %this, ptr %thread, ptr %callstack, ptr %fieldPointer) {"
   "\ndeclarations:"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declarations"
-  "\n  %0 = load i8*, i8** %fieldPointer, align 8"
-  "\n  %isNull = icmp eq i8* %0, null"
+  "\n  %0 = load ptr, ptr %fieldPointer, align 8"
+  "\n  %isNull = icmp eq ptr %0, null"
   "\n  br i1 %isNull, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
-  "\n  store i8* null, i8** %fieldPointer, align 8"
-  "\n  ret i8* null"
+  "\n  store ptr null, ptr %fieldPointer, align 8"
+  "\n  ret ptr null"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  ret i8* %0"
+  "\n  ret ptr %0"
   "\n}"
   "\n";
 

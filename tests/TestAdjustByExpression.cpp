@@ -94,13 +94,15 @@ TEST_F(AdjustByExpressionTest, incrementByExpressionTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
   "\n  %foo = alloca i32, align 4"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load i32, i32* %foo, align 4"
+  "\n  %0 = load i32, ptr %foo, align 4"
   "\n  %inc = add i32 %0, 3"
-  "\n  store i32 %inc, i32* %foo, align 4\n";
+  "\n  store i32 %inc, ptr %foo, align 4"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -114,13 +116,15 @@ TEST_F(AdjustByExpressionTest, decrementByExpressionTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
   "\n  %foo = alloca i32, align 4"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load i32, i32* %foo, align 4"
+  "\n  %0 = load i32, ptr %foo, align 4"
   "\n  %dec = sub i32 %0, 3"
-  "\n  store i32 %dec, i32* %foo, align 4\n";
+  "\n  store i32 %dec, ptr %foo, align 4"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

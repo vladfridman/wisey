@@ -166,8 +166,7 @@ TEST_F(IRWriterTest, createMallocTest) {
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *instruction;
   ASSERT_STREQ(mStringStream->str().c_str(),
-               "  %malloccall = tail call i8* @malloc(i64 ptrtoint "
-               "(i8* getelementptr (i8, i8* null, i32 1) to i64))");
+               "  %malloccall = tail call ptr @malloc(i64 ptrtoint (ptr getelementptr (i8, ptr null, i32 1) to i64))");
   
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   IRWriter::createReturnInst(mContext, value);
@@ -185,7 +184,7 @@ TEST_F(IRWriterTest, createFreeTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *instruction;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  tail call void @free(i8* null)");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  tail call void @free(ptr null)");
   
   IRWriter::createReturnInst(mContext, value);
   
@@ -224,7 +223,7 @@ TEST_F(IRWriterTest, newBitCastInst) {
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *bitCastInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast i8* null to i8**");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast ptr null to ptr");
   
   IRWriter::createReturnInst(mContext, value);
   
@@ -243,7 +242,7 @@ TEST_F(IRWriterTest, newStoreInst) {
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *storeInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  store i32 0, i32* null, align 4");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  store i32 0, ptr null, align 4");
   
   IRWriter::createReturnInst(mContext, value);
   
@@ -400,7 +399,7 @@ TEST_F(IRWriterTest, newPtrToIntInstTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *castInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = ptrtoint i32* null to i8");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = ptrtoint ptr null to i8");
   
   IRWriter::createReturnInst(mContext, ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0));
   
@@ -480,7 +479,7 @@ TEST_F(IRWriterTest, createResumeInstTest) {
 
   EXPECT_EQ(mBasicBlock->size(), 2u);
   *mStringStream << *resumeInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  resume { i8*, i32 } %0");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  resume { ptr, i32 } %0");
   
   IRWriter::createResumeInst(mContext, landingPad);
   EXPECT_EQ(mBasicBlock->size(), 2u);

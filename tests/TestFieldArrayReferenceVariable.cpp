@@ -114,9 +114,11 @@ TEST_F(FieldArrayReferenceVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0, align 8\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, ptr null, i32 0, i32 1"
+  "\n  %1 = load ptr, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -126,8 +128,10 @@ TEST_F(FieldArrayReferenceVariableTest, generateIdentifierReferenceIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1\n";
+  ""
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, ptr null, i32 0, i32 1"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -148,32 +152,33 @@ TEST_F(FieldArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0, align 8"
-  "\n  %2 = icmp eq { i64, i64, i64, [0 x i32] }* %1, null"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, ptr null, i32 0, i32 1"
+  "\n  %1 = load ptr, ptr %0, align 8"
+  "\n  %2 = icmp eq ptr %1, null"
   "\n  br i1 %2, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
-  "\n  %3 = icmp eq { i64, i64, i64, [0 x i32] }* null, null"
+  "\n  %3 = icmp eq ptr null, null"
   "\n  br i1 %3, label %if.end1, label %if.notnull2"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %4 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i64*"
-  "\n  %count = load i64, i64* %4, align 4"
+  "\n  %4 = bitcast ptr %1 to ptr"
+  "\n  %count = load i64, ptr %4, align 4"
   "\n  %5 = add i64 %count, -1"
-  "\n  store i64 %5, i64* %4, align 4"
+  "\n  store i64 %5, ptr %4, align 4"
   "\n  br label %if.end"
   "\n"
   "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0, align 8"
+  "\n  store ptr null, ptr %0, align 8"
   "\n"
   "\nif.notnull2:                                      ; preds = %if.end"
-  "\n  %6 = bitcast { i64, i64, i64, [0 x i32] }* null to i64*"
-  "\n  %count3 = load i64, i64* %6, align 4"
+  "\n  %6 = bitcast ptr null to ptr"
+  "\n  %count3 = load i64, ptr %6, align 4"
   "\n  %7 = add i64 %count3, 1"
-  "\n  store i64 %7, i64* %6, align 4"
+  "\n  store i64 %7, ptr %6, align 4"
   "\n  br label %if.end1"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

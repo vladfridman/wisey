@@ -60,8 +60,10 @@ TEST_F(DestroyObjectOwnerFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  call void @__destroyObjectOwnerFunction(i8* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
+  "\n  call void @__destroyObjectOwnerFunction(ptr null, ptr null, ptr null, ptr null)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -75,40 +77,41 @@ TEST_F(DestroyObjectOwnerFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "define void @__destroyObjectOwnerFunction(i8* %thisGeneric, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
+  "define void @__destroyObjectOwnerFunction(ptr %thisGeneric, ptr %thread, ptr %callstack, ptr %exception) personality ptr @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = icmp eq i8* %thisGeneric, null"
+  "\n  %0 = icmp eq ptr %thisGeneric, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
   "\n"
   "\nif.null:                                          ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = call i8* @__getOriginalObject(i8* %thisGeneric)"
-  "\n  %2 = bitcast i8* %1 to void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)***"
-  "\n  %vtable = load void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)**, void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)*** %2, align 8"
-  "\n  %3 = getelementptr void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)*, void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)** %vtable, i64 2"
-  "\n  %4 = load void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)*, void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)** %3, align 8"
-  "\n  invoke void %4(i8* %1, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception)"
+  "\n  %1 = call ptr @__getOriginalObject(ptr %thisGeneric)"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n  %vtable = load ptr, ptr %2, align 8"
+  "\n  %3 = getelementptr ptr, ptr %vtable, i64 2"
+  "\n  %4 = load ptr, ptr %3, align 8"
+  "\n  invoke void %4(ptr %1, ptr %thread, ptr %callstack, ptr %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %if.notnull"
-  "\n  %5 = landingpad { i8*, i32 }"
+  "\n  %5 = landingpad { ptr, i32 }"
   "\n          cleanup"
-  "\n  %6 = alloca { i8*, i32 }, align 8"
+  "\n  %6 = alloca { ptr, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %5, { i8*, i32 }* %6, align 8"
-  "\n  %7 = getelementptr { i8*, i32 }, { i8*, i32 }* %6, i32 0, i32 0"
-  "\n  %8 = load i8*, i8** %7, align 8"
-  "\n  %9 = call i8* @__cxa_get_exception_ptr(i8* %8)"
-  "\n  %10 = getelementptr i8, i8* %9, i64 8"
-  "\n  resume { i8*, i32 } %5"
+  "\n  store { ptr, i32 } %5, ptr %6, align 8"
+  "\n  %7 = getelementptr { ptr, i32 }, ptr %6, i32 0, i32 0"
+  "\n  %8 = load ptr, ptr %7, align 8"
+  "\n  %9 = call ptr @__cxa_get_exception_ptr(ptr %8)"
+  "\n  %10 = getelementptr i8, ptr %9, i64 8"
+  "\n  resume { ptr, i32 } %5"
   "\n"
   "\ninvoke.continue:                                  ; preds = %if.notnull"
   "\n  ret void"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

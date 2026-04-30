@@ -90,11 +90,13 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
+  "\n  %foo = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo, align 8\n";
+  "\n  %0 = load ptr, ptr %foo, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -113,13 +115,14 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, freeTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
+  "\n  %foo = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo, align 8"
-  "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @\"immutable int[]*\", i32 0, i32 0), i8* null)"
+  "\n  %0 = load ptr, ptr %foo, align 8"
+  "\n  %1 = bitcast ptr %0 to ptr"
+  "\n  call void @__destroyPrimitiveArrayFunction(ptr %1, i64 1, ptr @\"immutable int[]*\", ptr null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -133,11 +136,13 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, setToNullTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*, align 8"
+  "\n  %foo = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo, align 8\n";
+  "\n  store ptr null, ptr %foo, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

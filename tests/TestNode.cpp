@@ -503,10 +503,12 @@ TEST_F(NodeTest, castToFirstInterfaceTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 0"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IComplicatedElement*\n";
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i8, ptr %0, i64 0"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -519,10 +521,12 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IElement*\n";
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i8, ptr %0, i64 8"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -562,19 +566,20 @@ TEST_F(NodeTest, incrementReferenceCountTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.NComplicatedNode* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %count = load i64, ptr %2, align 4"
   "\n  %3 = add i64 %count, 1"
-  "\n  store i64 %3, i64* %2, align 4"
+  "\n  store i64 %3, ptr %2, align 4"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -591,19 +596,20 @@ TEST_F(NodeTest, decrementReferenceCountTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.NComplicatedNode* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %count = load i64, ptr %2, align 4"
   "\n  %3 = add i64 %count, -1"
-  "\n  store i64 %3, i64* %2, align 4"
+  "\n  store i64 %3, ptr %2, align 4"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -616,10 +622,12 @@ TEST_F(NodeTest, getReferenceCountTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
-  "\n  %1 = getelementptr i64, i64* %0, i64 -1"
-  "\n  %refCounter = load i64, i64* %1, align 4\n";
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i64, ptr %0, i64 -1"
+  "\n  %refCounter = load i64, ptr %1, align 4"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -664,11 +672,13 @@ TEST_F(NodeTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*, align 8"
+  "\n  %temp = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %temp, align 8\n";
+  "\n  store ptr null, ptr %temp, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -699,19 +709,20 @@ TEST_F(NodeTest, createParameterVariableTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.NComplicatedNode* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %count = load i64, ptr %2, align 4"
   "\n  %3 = add i64 %count, 1"
-  "\n  store i64 %3, i64* %2, align 4"
+  "\n  store i64 %3, ptr %2, align 4"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

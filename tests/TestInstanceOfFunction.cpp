@@ -72,8 +72,10 @@ TEST_F(InstanceOfFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call i32 @__instanceOf(i8* null, i8* null)\n";
+  "\n  %0 = call i32 @__instanceOf(ptr null, ptr null)"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -84,47 +86,48 @@ TEST_F(InstanceOfFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "define i32 @__instanceOf(i8* %haystack, i8* %needle) {"
+  "define i32 @__instanceOf(ptr %haystack, ptr %needle) {"
   "\ndeclarations:"
   "\n  %iterator = alloca i32, align 4"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declarations"
-  "\n  store i32 1, i32* %iterator, align 4"
-  "\n  %0 = icmp eq i8* %haystack, null"
+  "\n  store i32 1, ptr %iterator, align 4"
+  "\n  %0 = icmp eq ptr %haystack, null"
   "\n  br i1 %0, label %return.notfound, label %if.notnull"
   "\n"
   "\nwhile.cond:                                       ; preds = %while.body, %if.notnull"
-  "\n  %1 = load i32, i32* %iterator, align 4"
-  "\n  %2 = getelementptr i8*, i8** %8, i32 %1"
-  "\n  %stringPointer = load i8*, i8** %2, align 8"
-  "\n  %cmpnull = icmp eq i8* %stringPointer, null"
+  "\n  %1 = load i32, ptr %iterator, align 4"
+  "\n  %2 = getelementptr ptr, ptr %8, i32 %1"
+  "\n  %stringPointer = load ptr, ptr %2, align 8"
+  "\n  %cmpnull = icmp eq ptr %stringPointer, null"
   "\n  br i1 %cmpnull, label %return.notfound, label %while.body"
   "\n"
   "\nwhile.body:                                       ; preds = %while.cond"
-  "\n  %3 = load i32, i32* %iterator, align 4"
+  "\n  %3 = load i32, ptr %iterator, align 4"
   "\n  %inc = add i32 %3, 1"
-  "\n  store i32 %inc, i32* %iterator, align 4"
-  "\n  %cmp = icmp eq i8* %stringPointer, %needle"
+  "\n  store i32 %inc, ptr %iterator, align 4"
+  "\n  %cmp = icmp eq ptr %stringPointer, %needle"
   "\n  br i1 %cmp, label %return.found, label %while.cond"
   "\n"
   "\nreturn.notfound:                                  ; preds = %while.cond, %entry"
   "\n  ret i32 -1"
   "\n"
   "\nreturn.found:                                     ; preds = %while.body"
-  "\n  %4 = load i32, i32* %iterator, align 4"
+  "\n  %4 = load i32, ptr %iterator, align 4"
   "\n  %dec = sub i32 %4, 2"
   "\n  ret i32 %dec"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %5 = call i8* @__getOriginalObject(i8* %haystack)"
-  "\n  %6 = bitcast i8* %5 to i8***"
-  "\n  %vtable = load i8**, i8*** %6, align 8"
-  "\n  %7 = getelementptr i8*, i8** %vtable, i64 1"
-  "\n  %typeArrayI8 = load i8*, i8** %7, align 8"
-  "\n  %8 = bitcast i8* %typeArrayI8 to i8**"
+  "\n  %5 = call ptr @__getOriginalObject(ptr %haystack)"
+  "\n  %6 = bitcast ptr %5 to ptr"
+  "\n  %vtable = load ptr, ptr %6, align 8"
+  "\n  %7 = getelementptr ptr, ptr %vtable, i64 1"
+  "\n  %typeArrayI8 = load ptr, ptr %7, align 8"
+  "\n  %8 = bitcast ptr %typeArrayI8 to ptr"
   "\n  br label %while.cond"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

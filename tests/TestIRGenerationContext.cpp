@@ -463,13 +463,14 @@ TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
   
   mContext.printAssembly(stringStream);
   string expected = string() +
-    "; ModuleID = 'wisey'\n" +
-    "source_filename = \"wisey\"\n" +
-    "\n" +
-    "define internal i32 @main(i32 %0, i8** %1) {\n" +
-    "entry:\n" +
-    "  ret i32 5\n" +
-    "}\n";
+    "; ModuleID = 'wisey'"
+    "\nsource_filename = \"wisey\""
+    "\n"
+    "\ndefine internal i32 @main(i32 %0, ptr %1) {"
+    "\nentry:"
+    "\n  ret i32 5"
+    "\n}"
+    "\n";
   
   EXPECT_STREQ(expected.c_str(), stringBuffer.c_str());
 }

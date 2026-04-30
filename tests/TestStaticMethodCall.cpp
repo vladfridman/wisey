@@ -205,7 +205,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   
   *mStringStream << *irValue;
   string expected =
-  "  %call = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.method.foo(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)"
+  "  %call = invoke ptr @systems.vos.wisey.compiler.tests.MSquare.method.foo(ptr null, ptr null, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall->getType(mContext), mReturnedModel);
@@ -240,7 +240,7 @@ TEST_F(StaticMethodCallTest, staticMethodCallCantThrowTest) {
   
   *mStringStream << *irValue;
   string expected =
-  "  %call = call %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.method.foo(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)";
+  "  %call = call ptr @systems.vos.wisey.compiler.tests.MSquare.method.foo(ptr null, ptr null, float 0x4014CCCCC0000000)";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall->getType(mContext), mReturnedModel);
   
@@ -277,8 +277,8 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   Value* irValue = staticMethodCall->generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.method.bar(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)\n"
-               "          to label %invoke.continue unwind label %eh.landing.pad",
+  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.method.bar(ptr null, ptr null, float 0x4014CCCCC0000000)"
+  "\n          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall->getType(mContext), PrimitiveTypes::INT);
   

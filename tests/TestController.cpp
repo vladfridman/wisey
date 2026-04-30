@@ -541,10 +541,12 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
 
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 0"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IScienceCalculator*\n";
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i8, ptr %0, i64 0"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -557,10 +559,12 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*\n";
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i8, ptr %0, i64 8"
+  "\n  %2 = bitcast ptr %1 to ptr"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -611,19 +615,20 @@ TEST_F(ControllerTest, incrementReferenceCountTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.CMultiplier* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %count = load i64, ptr %2, align 4"
   "\n  %3 = add i64 %count, 1"
-  "\n  store i64 %3, i64* %2, align 4"
+  "\n  store i64 %3, ptr %2, align 4"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -640,19 +645,20 @@ TEST_F(ControllerTest, decrementReferenceCountTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.CMultiplier* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %count = load i64, ptr %2, align 4"
   "\n  %3 = add i64 %count, -1"
-  "\n  store i64 %3, i64* %2, align 4"
+  "\n  store i64 %3, ptr %2, align 4"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -668,17 +674,18 @@ TEST_F(ControllerTest, incrementReferenceCountForThreadTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.CThread* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic, align 8"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %3 = atomicrmw add ptr %2, i64 1 monotonic, align 8"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -694,17 +701,18 @@ TEST_F(ControllerTest, decrementReferenceCountForThreadTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.CThread* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic, align 8"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %3 = atomicrmw add ptr %2, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -717,10 +725,12 @@ TEST_F(ControllerTest, getReferenceCountTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
-  "\n  %1 = getelementptr i64, i64* %0, i64 -1"
-  "\n  %refCounter = load i64, i64* %1, align 4\n";
+  "\n  %0 = bitcast ptr null to ptr"
+  "\n  %1 = getelementptr i64, ptr %0, i64 -1"
+  "\n  %refCounter = load i64, ptr %1, align 4"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -748,36 +758,35 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "define %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) {"
+  "define ptr @systems.vos.wisey.compiler.tests.CAdditor.inject(ptr %thread, ptr %callstack, ptr %mOwner, ptr %mReference) {"
   "\ndeclare:"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
-  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.NOwner** %2, align 8"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MReference* %mReference, %systems.vos.wisey.compiler.tests.MReference** %3, align 8"
-  "\n  %4 = icmp eq %systems.vos.wisey.compiler.tests.MReference* %mReference, null"
+  "\n  %injectvar = tail call ptr @malloc(i64 ptrtoint (ptr getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, ptr null, i32 1) to i64))"
+  "\n  %0 = bitcast ptr %injectvar to ptr"
+  "\n  call void @llvm.memset.p0.i64(ptr %0, i8 0, i64 ptrtoint (ptr getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, ptr null, i32 1) to i64), i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, ptr %injectvar, i32 0, i32 1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, ptr %1, i32 0, i32 1"
+  "\n  store ptr %mOwner, ptr %2, align 8"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, ptr %1, i32 0, i32 2"
+  "\n  store ptr %mReference, ptr %3, align 8"
+  "\n  %4 = icmp eq ptr %mReference, null"
   "\n  br i1 %4, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
-  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %1 to i8*"
-  "\n  %6 = getelementptr i8, i8* %5, i64 0"
-  "\n  %7 = bitcast i8* %6 to i32 (...)***"
-  "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
-  "\n  %9 = bitcast i8** %8 to i32 (...)**"
-  "\n  store i32 (...)** %9, i32 (...)*** %7, align 8"
-  "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %1"
+  "\n  %5 = bitcast ptr %1 to ptr"
+  "\n  %6 = getelementptr i8, ptr %5, i64 0"
+  "\n  %7 = bitcast ptr %6 to ptr"
+  "\n  %8 = getelementptr { [3 x ptr] }, ptr @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
+  "\n  %9 = bitcast ptr %8 to ptr"
+  "\n  store ptr %9, ptr %7, align 8"
+  "\n  ret ptr %1"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.MReference* %mReference to i64*"
-  "\n  %11 = getelementptr i64, i64* %10, i64 -1"
-  "\n  %12 = atomicrmw add i64* %11, i64 1 monotonic, align 8"
+  "\n  %10 = bitcast ptr %mReference to ptr"
+  "\n  %11 = getelementptr i64, ptr %10, i64 -1"
+  "\n  %12 = atomicrmw add ptr %11, i64 1 monotonic, align 8"
   "\n  br label %if.end"
   "\n}"
   "\n";
@@ -821,9 +830,9 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "define %systems.vos.wisey.compiler.tests.CSimpleController* @systems.vos.wisey.compiler.tests.CSimpleController.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) personality i32 (...)* @__gxx_personality_v0 {"
+  "define ptr @systems.vos.wisey.compiler.tests.CSimpleController.inject(ptr %thread, ptr %callstack) personality ptr @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %isNull = icmp eq %wisey.threads.IThread* %thread, null"
+  "\n  %isNull = icmp eq ptr %thread, null"
   "\n  br i1 %isNull, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
@@ -831,32 +840,32 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  %0 = bitcast %wisey.threads.IThread* %thread to %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)***"
-  "\n  %vtable = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)**, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*** %0, align 8"
-  "\n  %1 = getelementptr %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %vtable, i64 3"
-  "\n  %2 = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %1, align 8"
-  "\n  %3 = invoke %wisey.threads.CContextManager* %2(%wisey.threads.IThread* %thread, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
+  "\n  %0 = bitcast ptr %thread to ptr"
+  "\n  %vtable = load ptr, ptr %0, align 8"
+  "\n  %1 = getelementptr ptr, ptr %vtable, i64 3"
+  "\n  %2 = load ptr, ptr %1, align 8"
+  "\n  %3 = invoke ptr %2(ptr %thread, ptr %thread, ptr %callstack)"
   "\n          to label %invoke.continue1 unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %if.not.null, %if.null"
-  "\n  %4 = landingpad { i8*, i32 }"
+  "\n  %4 = landingpad { ptr, i32 }"
   "\n          cleanup"
-  "\n  %5 = alloca { i8*, i32 }, align 8"
+  "\n  %5 = alloca { ptr, i32 }, align 8"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %4, { i8*, i32 }* %5, align 8"
-  "\n  %6 = getelementptr { i8*, i32 }, { i8*, i32 }* %5, i32 0, i32 0"
-  "\n  %7 = load i8*, i8** %6, align 8"
-  "\n  %8 = call i8* @__cxa_get_exception_ptr(i8* %7)"
-  "\n  %9 = getelementptr i8, i8* %8, i64 8"
-  "\n  resume { i8*, i32 } %4"
+  "\n  store { ptr, i32 } %4, ptr %5, align 8"
+  "\n  %6 = getelementptr { ptr, i32 }, ptr %5, i32 0, i32 0"
+  "\n  %7 = load ptr, ptr %6, align 8"
+  "\n  %8 = call ptr @__cxa_get_exception_ptr(ptr %7)"
+  "\n  %9 = getelementptr i8, ptr %8, i64 8"
+  "\n  resume { ptr, i32 } %4"
   "\n"
   "\ninvoke.continue:                                  ; preds = %if.null"
   "\n  unreachable"
   "\n"
   "\ninvoke.continue1:                                 ; preds = %if.not.null"
-  "\n  %isNull4 = icmp eq %wisey.threads.CContextManager* %3, null"
+  "\n  %isNull4 = icmp eq ptr %3, null"
   "\n  br i1 %isNull4, label %if.null2, label %if.not.null3"
   "\n"
   "\nif.null2:                                         ; preds = %invoke.continue1"
@@ -864,67 +873,66 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n          to label %invoke.continue7 unwind label %cleanup5"
   "\n"
   "\nif.not.null3:                                     ; preds = %invoke.continue1"
-  "\n  %10 = invoke i8* @wisey.threads.CContextManager.method.getInstance(%wisey.threads.CContextManager* %3, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.typename, i32 0, i32 0), i8* getelementptr inbounds ([51 x i8], [51 x i8]* @systems.vos.wisey.compiler.tests.CSimpleController.typename, i32 0, i32 0))"
+  "\n  %10 = invoke ptr @wisey.threads.CContextManager.method.getInstance(ptr %3, ptr %thread, ptr %callstack, ptr @wisey.threads.IThread.typename, ptr @systems.vos.wisey.compiler.tests.CSimpleController.typename)"
   "\n          to label %invoke.continue8 unwind label %cleanup5"
   "\n"
   "\ncleanup5:                                         ; preds = %if.not.null13, %if.null12, %invoke.continue8, %if.not.null3, %if.null2"
-  "\n  %11 = landingpad { i8*, i32 }"
+  "\n  %11 = landingpad { ptr, i32 }"
   "\n          cleanup"
-  "\n  %12 = alloca { i8*, i32 }, align 8"
+  "\n  %12 = alloca { ptr, i32 }, align 8"
   "\n  br label %cleanup.cont6"
   "\n"
   "\ncleanup.cont6:                                    ; preds = %cleanup5"
-  "\n  store { i8*, i32 } %11, { i8*, i32 }* %12, align 8"
-  "\n  %13 = getelementptr { i8*, i32 }, { i8*, i32 }* %12, i32 0, i32 0"
-  "\n  %14 = load i8*, i8** %13, align 8"
-  "\n  %15 = call i8* @__cxa_get_exception_ptr(i8* %14)"
-  "\n  %16 = getelementptr i8, i8* %15, i64 8"
-  "\n  resume { i8*, i32 } %11"
+  "\n  store { ptr, i32 } %11, ptr %12, align 8"
+  "\n  %13 = getelementptr { ptr, i32 }, ptr %12, i32 0, i32 0"
+  "\n  %14 = load ptr, ptr %13, align 8"
+  "\n  %15 = call ptr @__cxa_get_exception_ptr(ptr %14)"
+  "\n  %16 = getelementptr i8, ptr %15, i64 8"
+  "\n  resume { ptr, i32 } %11"
   "\n"
   "\ninvoke.continue7:                                 ; preds = %if.null2"
   "\n  unreachable"
   "\n"
   "\ninvoke.continue8:                                 ; preds = %if.not.null3"
-  "\n  %17 = invoke i8* @__castObject(i8* %10, i8* getelementptr inbounds ([51 x i8], [51 x i8]* @systems.vos.wisey.compiler.tests.CSimpleController.typename, i32 0, i32 0))"
+  "\n  %17 = invoke ptr @__castObject(ptr %10, ptr @systems.vos.wisey.compiler.tests.CSimpleController.typename)"
   "\n          to label %invoke.continue9 unwind label %cleanup5"
   "\n"
   "\ninvoke.continue9:                                 ; preds = %invoke.continue8"
-  "\n  %18 = bitcast i8* %17 to %systems.vos.wisey.compiler.tests.CSimpleController*"
-  "\n  %19 = icmp eq %systems.vos.wisey.compiler.tests.CSimpleController* %18, null"
+  "\n  %18 = bitcast ptr %17 to ptr"
+  "\n  %19 = icmp eq ptr %18, null"
   "\n  br i1 %19, label %if.null10, label %if.not.null11"
   "\n"
   "\nif.null10:                                        ; preds = %invoke.continue9"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter, %systems.vos.wisey.compiler.tests.CSimpleController.refCounter* null, i32 1) to i64))"
-  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CSimpleController.refCounter*"
-  "\n  %20 = bitcast %systems.vos.wisey.compiler.tests.CSimpleController.refCounter* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %20, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter, %systems.vos.wisey.compiler.tests.CSimpleController.refCounter* null, i32 1) to i64), i1 false)"
-  "\n  %21 = getelementptr %systems.vos.wisey.compiler.tests.CSimpleController.refCounter, %systems.vos.wisey.compiler.tests.CSimpleController.refCounter* %injectvar, i32 0, i32 1"
-  "\n  %22 = bitcast %systems.vos.wisey.compiler.tests.CSimpleController* %21 to i8*"
-  "\n  %23 = getelementptr i8, i8* %22, i64 0"
-  "\n  %24 = bitcast i8* %23 to i32 (...)***"
-  "\n  %25 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CSimpleController.vtable, i32 0, i32 0, i32 0"
-  "\n  %26 = bitcast i8** %25 to i32 (...)**"
-  "\n  store i32 (...)** %26, i32 (...)*** %24, align 8"
-  "\n  %isNull14 = icmp eq %wisey.threads.CContextManager* %3, null"
+  "\n  %injectvar = tail call ptr @malloc(i64 ptrtoint (ptr getelementptr (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter, ptr null, i32 1) to i64))"
+  "\n  %20 = bitcast ptr %injectvar to ptr"
+  "\n  call void @llvm.memset.p0.i64(ptr %20, i8 0, i64 ptrtoint (ptr getelementptr (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter, ptr null, i32 1) to i64), i1 false)"
+  "\n  %21 = getelementptr %systems.vos.wisey.compiler.tests.CSimpleController.refCounter, ptr %injectvar, i32 0, i32 1"
+  "\n  %22 = bitcast ptr %21 to ptr"
+  "\n  %23 = getelementptr i8, ptr %22, i64 0"
+  "\n  %24 = bitcast ptr %23 to ptr"
+  "\n  %25 = getelementptr { [3 x ptr] }, ptr @systems.vos.wisey.compiler.tests.CSimpleController.vtable, i32 0, i32 0, i32 0"
+  "\n  %26 = bitcast ptr %25 to ptr"
+  "\n  store ptr %26, ptr %24, align 8"
+  "\n  %isNull14 = icmp eq ptr %3, null"
   "\n  br i1 %isNull14, label %if.null12, label %if.not.null13"
   "\n"
   "\nif.not.null11:                                    ; preds = %invoke.continue9"
-  "\n  ret %systems.vos.wisey.compiler.tests.CSimpleController* %18"
+  "\n  ret ptr %18"
   "\n"
   "\nif.null12:                                        ; preds = %if.null10"
   "\n  invoke void @__throwNPE()"
   "\n          to label %invoke.continue15 unwind label %cleanup5"
   "\n"
   "\nif.not.null13:                                    ; preds = %if.null10"
-  "\n  %27 = bitcast %systems.vos.wisey.compiler.tests.CSimpleController* %21 to i8*"
-  "\n  invoke void @wisey.threads.CContextManager.method.setInstance(%wisey.threads.CContextManager* %3, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.typename, i32 0, i32 0), i8* getelementptr inbounds ([51 x i8], [51 x i8]* @systems.vos.wisey.compiler.tests.CSimpleController.typename, i32 0, i32 0), i8* %27)"
+  "\n  %27 = bitcast ptr %21 to ptr"
+  "\n  invoke void @wisey.threads.CContextManager.method.setInstance(ptr %3, ptr %thread, ptr %callstack, ptr @wisey.threads.IThread.typename, ptr @systems.vos.wisey.compiler.tests.CSimpleController.typename, ptr %27)"
   "\n          to label %invoke.continue16 unwind label %cleanup5"
   "\n"
   "\ninvoke.continue15:                                ; preds = %if.null12"
   "\n  unreachable"
   "\n"
   "\ninvoke.continue16:                                ; preds = %if.not.null13"
-  "\n  ret %systems.vos.wisey.compiler.tests.CSimpleController* %21"
+  "\n  ret ptr %21"
   "\n}"
   "\n";
   
@@ -988,22 +996,22 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   
   *mStringStream << *function;
   string expected =
-  "define %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CParent.mChild.inject(%systems.vos.wisey.compiler.tests.CParent* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer) {"
+  "define ptr @systems.vos.wisey.compiler.tests.CParent.mChild.inject(ptr %this, ptr %thread, ptr %callstack, ptr %fieldPointer) {"
   "\ndeclarations:"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declarations"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.CChild*, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer, align 8"
-  "\n  %isNull = icmp eq %systems.vos.wisey.compiler.tests.CChild* %0, null"
+  "\n  %0 = load ptr, ptr %fieldPointer, align 8"
+  "\n  %isNull = icmp eq ptr %0, null"
   "\n  br i1 %isNull, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
-  "\n  %1 = call %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CChild.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
-  "\n  store %systems.vos.wisey.compiler.tests.CChild* %1, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer, align 8"
-  "\n  ret %systems.vos.wisey.compiler.tests.CChild* %1"
+  "\n  %1 = call ptr @systems.vos.wisey.compiler.tests.CChild.inject(ptr %thread, ptr %callstack)"
+  "\n  store ptr %1, ptr %fieldPointer, align 8"
+  "\n  ret ptr %1"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  ret %systems.vos.wisey.compiler.tests.CChild* %0"
+  "\n  ret ptr %0"
   "\n}"
   "\n";
   
@@ -1088,8 +1096,9 @@ TEST_F(ControllerTest, injectTest) {
 
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
+  "\n  %0 = call ptr @systems.vos.wisey.compiler.tests.CAdditor.inject(ptr null, ptr null, ptr null, ptr null)"
   "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -1122,8 +1131,9 @@ TEST_F(ControllerTest, injectChangeArgumentOrderTest) {
   
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
+  "\n  %0 = call ptr @systems.vos.wisey.compiler.tests.CAdditor.inject(ptr null, ptr null, ptr null, ptr null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -1271,11 +1281,13 @@ TEST_F(ControllerTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
   
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*, align 8"
+  "\n  %temp = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp, align 8\n";
+  "\n  store ptr null, ptr %temp, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -1305,19 +1317,20 @@ TEST_F(ControllerTest, createParameterVariableTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.CMultiplier* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %count = load i64, i64* %2, align 4"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = getelementptr i64, ptr %1, i64 -1"
+  "\n  %count = load i64, ptr %2, align 4"
   "\n  %3 = add i64 %count, 1"
-  "\n  store i64 %3, i64* %2, align 4"
+  "\n  store i64 %3, ptr %2, align 4"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

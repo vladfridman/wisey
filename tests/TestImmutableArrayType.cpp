@@ -150,11 +150,13 @@ TEST_F(ImmutableArrayTypeTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*, align 8"
+  "\n  %0 = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0, align 8\n";
+  "\n  store ptr null, ptr %0, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -182,16 +184,17 @@ TEST_F(ImmutableArrayTypeTest, createParameterVariableTest) {
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq { i64, i64, i64, [0 x i64] }* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast { i64, i64, i64, [0 x i64] }* null to i64*"
-  "\n  %2 = atomicrmw add i64* %1, i64 1 monotonic, align 8"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = atomicrmw add ptr %1, i64 1 monotonic, align 8"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

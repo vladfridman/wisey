@@ -57,7 +57,7 @@ TEST_F(IObjectTypeTest, getObjectNamePointerTest) {
   llvm::Constant* constant = IObjectType::getObjectNamePointer(&mockObject, mContext);
   
   *mStringStream << *constant;
-  string expected = "i8* getelementptr inbounds ([5 x i8], [5 x i8]* @test, i32 0, i32 0)";
+  string expected = "@test = linkonce_odr constant [5 x i8] c\"test\\00\"";
   
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }

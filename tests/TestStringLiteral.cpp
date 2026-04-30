@@ -46,9 +46,11 @@ TEST_F(StringLiteralTest, stringLiteralTest) {
   *mStringStream << *mContext.getModule();
   *mStringStream << *irValue;
   std::string expected = std::string() +
-    "; ModuleID = 'wisey'\nsource_filename = \"wisey\"\n\n" +
-    "@.str = internal constant [5 x i8] c\"test\\00\"\n" +
-    "i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str, i32 0, i32 0)";
+    "; ModuleID = 'wisey'"
+    "\nsource_filename = \"wisey\""
+    "\n"
+    "\n@.str = internal constant [5 x i8] c\"test\\00\""
+    "\n@.str = internal constant [5 x i8] c\"test\\00\"";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

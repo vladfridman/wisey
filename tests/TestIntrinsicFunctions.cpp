@@ -108,13 +108,15 @@ TEST_F(IntrinsicFunctionsTest, setMemoryToZeroTest) {
   *mStringStream << *mDeclareBlock;
   *mStringStream << *mEntryBlock;
   string expected =
+  ""
   "\ndeclare:"
   "\n  %0 = alloca i32, align 4"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
-  "\n  %1 = bitcast i32* %0 to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64), i1 false)\n";
+  "\n  %1 = bitcast ptr %0 to ptr"
+  "\n  call void @llvm.memset.p0.i64(ptr %1, i8 0, i64 ptrtoint (ptr getelementptr (i32, ptr null, i32 1) to i64), i1 false)"
+  "\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

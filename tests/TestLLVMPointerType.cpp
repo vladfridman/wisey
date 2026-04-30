@@ -101,7 +101,7 @@ TEST_F(LLVMPointerTypeTest, castToTest) {
   Value* result = mLLVMPointerType->castTo(mContext, value, anotherPointerType, 0);
   *mStringStream << *result;
   
-  EXPECT_STREQ("  %0 = bitcast i8* null to i32*", mStringStream->str().c_str());
+  EXPECT_STREQ("  %0 = bitcast ptr null to ptr", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -110,7 +110,7 @@ TEST_F(LLVMPointerTypeTest, castToObjectTest) {
   Value* result = mLLVMPointerType->castTo(mContext, value, &mConcreteObjectType, 0);
   *mStringStream << *result;
   
-  EXPECT_STREQ("  %0 = bitcast i8* null to %mystruct*", mStringStream->str().c_str());
+  EXPECT_STREQ("  %0 = bitcast ptr null to ptr", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -143,11 +143,13 @@ TEST_F(LLVMPointerTypeTest, createLocalVariableTest) {
   *mStringStream << *mEntryBlock;
 
   string expected =
+  ""
   "\ndeclare:"
-  "\n  %temp = alloca i8*, align 8"
+  "\n  %temp = alloca ptr, align 8"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  store i8* null, i8** %temp, align 8\n";
+  "\n  store ptr null, ptr %temp, align 8"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

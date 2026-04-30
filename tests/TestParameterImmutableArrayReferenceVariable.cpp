@@ -96,16 +96,17 @@ TEST_F(ParameterImmutableArrayReferenceVariableTest, decrementReferenceCounterTe
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq { i64, i64, i64, [0 x i32] }* null, null"
+  "\n  %0 = icmp eq ptr null, null"
   "\n  br i1 %0, label %if.end, label %if.notnull"
   "\n"
   "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* null to i64*"
-  "\n  %2 = atomicrmw add i64* %1, i64 -1 monotonic, align 8"
+  "\n  %1 = bitcast ptr null to ptr"
+  "\n  %2 = atomicrmw add ptr %1, i64 -1 monotonic, align 8"
   "\n  br label %if.end"
-  "\n}\n";
+  "\n}"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

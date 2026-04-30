@@ -8,6 +8,7 @@
 
 #include "IRGenerationContext.hpp"
 #include "IRWriter.hpp"
+#include "LLVMPointerType.hpp"
 #include "PrimitiveTypes.hpp"
 #include "StoreInReference.hpp"
 
@@ -29,10 +30,18 @@ StoreInReference::~StoreInReference() {
 }
 
 void StoreInReference::generateIR(IRGenerationContext& context) const {
+  const IType* valueType = mValueExpression->getType(context);
   const IType* pointerType = mPointerExpression->getType(context);
+  Type* valueLLVMType = valueType->getLLVMType(context);
   Type* pointerLLVMType = pointerType->getLLVMType(context);
-  if (!pointerLLVMType->isPointerTy()) {
+  if (!pointerLLVMType->isPointerTy() || !pointerType->isPointer()) {
     context.reportError(mLine, "Second parameter in ::llvm::store is not of pointer type");
+    throw 1;
+  }
+  const LLVMPointerType* llvmPointer = (const LLVMPointerType*) pointerType;
+  if (llvmPointer->getBaseType()->getLLVMType(context) != valueLLVMType) {
+    context.reportError(mLine, "First parameter in ::llvm::store is not of type that is "
+                        "compatable with pointer type of the second parameter");
     throw 1;
   }
   Value* value = mValueExpression->generateIR(context, PrimitiveTypes::VOID);

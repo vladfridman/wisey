@@ -86,8 +86,10 @@ TEST_F(StoreInReferenceTest, generateIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
+  ""
   "\nentry:                                            ; No predecessors!"
-  "\n  store i64 5, i64* null, align 4\n";
+  "\n  store i64 5, ptr null, align 4"
+  "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
