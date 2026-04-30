@@ -17,7 +17,7 @@ controller CService {
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    MData* data = build(MData).onHeap();
+    MData* data = build(MData).onHeap();                              // -> MData*
     int result = CService.getResultFromData(data);
     data.getResult();
     return result;

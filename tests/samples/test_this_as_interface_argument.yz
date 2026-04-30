@@ -15,7 +15,7 @@ model MCaller {
 controller CProgram implements IProgram, IHasValue {
 
   public int run(immutable string[] arguments) override {
-    MCaller* caller = build(MCaller).onHeap();
+    MCaller* caller = build(MCaller).onHeap();                        // -> MCaller*
 
     return caller.makeCall(this);
   }

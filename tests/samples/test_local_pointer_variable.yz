@@ -13,7 +13,7 @@ model MModel {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MModel* mymodel = build(MModel).withValue(5).onHeap();
+    MModel* mymodel = build(MModel).withValue(5).onHeap();            // -> MModel*
     ::llvm::i32::pointer pointer = mymodel;
     MModel reference = pointer;
 

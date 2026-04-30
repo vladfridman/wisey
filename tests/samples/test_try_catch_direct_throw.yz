@@ -20,7 +20,7 @@ controller CCatcher {
 
   public int doTryCatch() {
     try {
-      MException* exception = build(MException).withValue(31).onHeap();
+      MException* exception = build(MException).withValue(31).onHeap();   // -> MException*
       throw exception;
     } catch (MException* exception) {
       return exception.getValue();

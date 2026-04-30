@@ -23,8 +23,8 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IWheel* wheelController = inject(IWheel).onHeap();
-    MCar* car = build(MCar).withWheel(wheelController).onHeap();
+    IWheel* wheelController = inject(IWheel).onHeap();                // -> IWheel*
+    MCar* car = build(MCar).withWheel(wheelController).onHeap();      // -> MCar*
     return car.getWheelWidth();
   }
 }

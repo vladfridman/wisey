@@ -13,7 +13,7 @@ node NNode {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NNode* color = build(NNode).withValue(5).onHeap();
+    NNode* color = build(NNode).withValue(5).onHeap();                // -> NNode*
 
     return color.getValue();
   }

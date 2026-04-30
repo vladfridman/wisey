@@ -8,7 +8,7 @@ interface IMyInterface {
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    IMyInterface reference = inject(IMyInterface).onHeap();
+    IMyInterface reference = inject(IMyInterface).onHeap();           // -> IMyInterface*
     return reference.getValue();
   }
 }

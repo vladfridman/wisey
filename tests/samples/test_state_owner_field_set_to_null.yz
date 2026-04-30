@@ -14,7 +14,7 @@ controller CService {
   state MData* mData;
 
   public void set() {
-    mData = build(MData).withValue(1).onHeap();
+    mData = build(MData).withValue(1).onHeap();                       // -> MData*
   }
 
   public MData* get() {

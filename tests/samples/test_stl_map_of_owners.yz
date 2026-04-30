@@ -19,8 +19,8 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     ::llvm::i8::pointer map = ::llvm::function::stl_map_create();
 
-    MCar* car1 = build(MCar).withYear(2018).onHeap();
-    MCar* car2 = build(MCar).withYear(2017).onHeap();
+    MCar* car1 = build(MCar).withYear(2018).onHeap();                 // -> MCar*
+    MCar* car2 = build(MCar).withYear(2017).onHeap();                 // -> MCar*
     MCar car1ref = car1;
     MCar car2ref = car2;
     ::llvm::function::stl_map_put_owner(map, car1ref, car1);

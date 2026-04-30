@@ -42,7 +42,7 @@ model MFoo implements IObject {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MFoo* foo = build(MFoo).onHeap();
+    MFoo* foo = build(MFoo).onHeap();                                 // -> MFoo*
     IObject object = foo;
     IDevice device = (IDevice) object;
     

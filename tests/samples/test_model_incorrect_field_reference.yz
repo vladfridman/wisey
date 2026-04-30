@@ -9,7 +9,7 @@ model MColor {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MColor* color = build(MColor).withIntensity(2).onHeap();
+    MColor* color = build(MColor).withIntensity(2).onHeap();          // -> MColor*
 
     return color.mWidth;
   }

@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   state MModel* mAnotherModel;
 
   public int run(immutable string[] arguments) override {
-    mModel = build(MModel).withValue(7).onHeap();
+    mModel = build(MModel).withValue(7).onHeap();                     // -> MModel*
     mAnotherModel = mModel;
     
     return mAnotherModel.getValue();

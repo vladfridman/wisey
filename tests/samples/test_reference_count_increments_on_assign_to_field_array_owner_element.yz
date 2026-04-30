@@ -23,8 +23,8 @@ controller CController {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = build(MCar).onHeap();
-    CController* mycontroller = inject(CController).withArray(new MCar[5]).onHeap();
+    MCar* car = build(MCar).onHeap();                                 // -> MCar*
+    CController* mycontroller = inject(CController).withArray(new MCar[5]).onHeap();   // -> CController*
     mycontroller.set(car);
     car = null;
 

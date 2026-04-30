@@ -9,7 +9,7 @@ model MWorker implements IWorker {
   public void work() override {
     thread.sleep(1);
     printout("This is worker thread!\n");
-    MResult* result = build(MResult).withResult(5).onHeap();
+    MResult* result = build(MResult).withResult(5).onHeap();          // -> MResult*
     thread.send(result);
   }
 

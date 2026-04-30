@@ -23,8 +23,8 @@ node NElement {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NElement* first = build(NElement).withValue(1).onHeap();
-    NElement* second = build(NElement).withPrevious(first).withValue(2).onHeap();
+    NElement* first = build(NElement).withValue(1).onHeap();          // -> NElement*
+    NElement* second = build(NElement).withPrevious(first).withValue(2).onHeap();   // -> NElement*
     first.setNext(second);
 
     int sum;

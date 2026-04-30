@@ -13,7 +13,7 @@ node NNode implements IHasAnswer {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NNode nnode = build(NNode).onHeap();
+    NNode nnode = build(NNode).onHeap();                              // -> NNode*
     
     return nnode instanceof IHasAnswer;
   }

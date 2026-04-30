@@ -12,7 +12,7 @@ controller CService {
   state MData* mData;
 
   public MData* newData() {
-    MData* data = build(MData).onHeap();
+    MData* data = build(MData).onHeap();                              // -> MData*
     return data;
   }
 

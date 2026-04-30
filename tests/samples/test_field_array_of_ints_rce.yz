@@ -14,7 +14,7 @@ controller CController {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CController* mycontroller = inject(CController).withOwnerArray(new int[5]).onHeap();
+    CController* mycontroller = inject(CController).withOwnerArray(new int[5]).onHeap();   // -> CController*
 
     mycontroller.getRce();
 
