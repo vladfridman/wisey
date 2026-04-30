@@ -8,6 +8,7 @@
 
 #include "AutoCast.hpp"
 #include "IRWriter.hpp"
+#include "LLVMPointerType.hpp"
 #include "PrimitiveTypes.hpp"
 #include "SubtractExpression.hpp"
 
@@ -129,5 +130,7 @@ Value* SubtractExpression::subtractIntFromPointer(IRGenerationContext& context,
                                                   rightValue,
                                                   "sub");
   index[0] = negated;
-  return IRWriter::createGetElementPtrInst(context, leftValue, index);
+  const LLVMPointerType* ptrType = static_cast<const LLVMPointerType*>(leftType);
+  Type* pointeeType = ptrType->getBaseType()->getLLVMType(context);
+  return IRWriter::createGetElementPtrInst(context, pointeeType, leftValue, index);
 }

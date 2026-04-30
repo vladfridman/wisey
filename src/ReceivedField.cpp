@@ -43,7 +43,7 @@ Value* ReceivedField::getValue(IRGenerationContext& context,
                                const IConcreteObjectType* object,
                                Value* fieldPointer,
                                int line) const {
-  return IRWriter::newLoadInst(context, fieldPointer, mName);
+  return IRWriter::newLoadInst(context, mType->getLLVMType(context), fieldPointer, mName);
 }
 
 string ReceivedField::getName() const {

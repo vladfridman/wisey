@@ -36,8 +36,10 @@ Value* DereferenceExpression::generateIR(IRGenerationContext& context,
   
   Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
   assert(expressionValue->getType()->isPointerTy() && "Pointer type expected");
-  
-  return IRWriter::newLoadInst(context, expressionValue, "");
+
+  const ILLVMType* baseType =
+    ((const LLVMPointerType*) mExpression->getType(context))->getBaseType();
+  return IRWriter::newLoadInst(context, baseType->getLLVMType(context), expressionValue, "");
 }
 
 const ILLVMType* DereferenceExpression::getType(IRGenerationContext& context) const {

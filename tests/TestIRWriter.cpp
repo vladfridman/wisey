@@ -197,20 +197,22 @@ TEST_F(IRWriterTest, createFreeTest) {
 }
 
 TEST_F(IRWriterTest, createGetElementPtrInstTest) {
-  Value* value = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  Type* int8Type = Type::getInt8Ty(mLLVMContext);
+  Value* value = ConstantPointerNull::get(int8Type->getPointerTo());
   vector<Value*> index;
-  GetElementPtrInst* getElementPtrInst = IRWriter::createGetElementPtrInst(mContext, value, index);
-  
+  GetElementPtrInst* getElementPtrInst =
+    IRWriter::createGetElementPtrInst(mContext, int8Type, value, index);
+
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *getElementPtrInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = getelementptr i8, i8* null");
-  
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = getelementptr i8, ptr null");
+
   IRWriter::createReturnInst(mContext, value);
-  
+
   EXPECT_EQ(mBasicBlock->size(), 2u);
-  
-  IRWriter::createGetElementPtrInst(mContext, value, index);
-  
+
+  IRWriter::createGetElementPtrInst(mContext, int8Type, value, index);
+
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
@@ -263,21 +265,22 @@ TEST_F(IRWriterTest, newAllocaInst) {
 }
 
 TEST_F(IRWriterTest, newLoadInst) {
-  llvm::PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
+  Type* int32Type = Type::getInt32Ty(mLLVMContext);
+  llvm::PointerType* int32PointerType = int32Type->getPointerTo();
   Value* pointer = ConstantPointerNull::get(int32PointerType);
-  LoadInst* loadInst = IRWriter::newLoadInst(mContext, pointer, "foo");
+  LoadInst* loadInst = IRWriter::newLoadInst(mContext, int32Type, pointer, "foo");
   ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
-  
+
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *loadInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = load i32, i32* null, align 4");
-  
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = load i32, ptr null, align 4");
+
   IRWriter::createReturnInst(mContext, value);
-  
+
   EXPECT_EQ(mBasicBlock->size(), 2u);
-  
-  IRWriter::newLoadInst(mContext, pointer, "foo");
-  
+
+  IRWriter::newLoadInst(mContext, int32Type, pointer, "foo");
+
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 

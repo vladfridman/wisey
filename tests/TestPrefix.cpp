@@ -177,10 +177,10 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.eh.typeid.for", module);
 
   functionType = FunctionType::get(voidTy, {int8PtrTy, int8PtrTy, int64Ty, int1Ty}, false);
-  Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memcpy.p0i8.p0i8.i64", module);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memcpy.p0.p0.i64", module);
 
   functionType = FunctionType::get(voidTy, {int8PtrTy, int8Ty, int64Ty, int1Ty}, false);
-  Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memset.p0i8.i64", module);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memset.p0.i64", module);
 
   functionType = FunctionType::get(int8PtrTy, {int8PtrTy, int64Ty}, false);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "mem_pool_alloc", module);

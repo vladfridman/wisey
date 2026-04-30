@@ -198,7 +198,7 @@ Value* InjectedField::getValue(IRGenerationContext& context,
                                Value* fieldPointer,
                                int line) const {
   return mIsImmediate
-  ? IRWriter::newLoadInst(context, fieldPointer, mName)
+  ? IRWriter::newLoadInst(context, mType->getLLVMType(context), fieldPointer, mName)
   : callInjectFunction(context, controller, fieldPointer, line);
 }
 
