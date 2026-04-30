@@ -9,7 +9,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CTextStreamReader* stream = CTextStreamReader.open(
-      NString.createFromString("tests/samples/inputs/textfile.txt"));
+      NString.createFromString("tests/samples/inputs/textfile.txt")); // -> CTextStreamReader*
     NString* line = stream.readLine();                                // -> NString*
     while (line != null) {
       printout(line + "\n");
