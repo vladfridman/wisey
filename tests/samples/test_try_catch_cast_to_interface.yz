@@ -24,13 +24,13 @@ model MException implements IException, IMyException, IObject {
   }
 
   public NString* report() override {
-    return callstack.reportException(this);
+    return callstack.reportException(this);                  // -> NString*
   }
 }
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException* exception = build(MException).withValue(511).onHeap();
+    MException* exception = build(MException).withValue(511).onHeap();   // -> MException*
     throw exception;
   }
 }
@@ -43,7 +43,7 @@ controller CCatcher {
       mThrower.doThrow();
     } catch (MException* exception) {
       IObject object = exception;
-      return object.getSomething();
+      return object.getSomething();                          // -> int
     }
     return 5;
   }
@@ -53,7 +53,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher.doTryCatch();
+    return mCatcher.doTryCatch();                            // -> int
   }
 }
 

@@ -31,9 +31,9 @@ controller CProgram implements IProgram {
     string toyotaMake = "Toyota";
     string bmwMake = "BMW";
     string mecedesMake = "Mercedes";
-    CCar* toyota = inject(CCar).withMake(toyotaMake).onHeap(); 
-    CCar* bmw = inject(CCar).withMake(bmwMake).onHeap(); 
-    CCar* mercedes = inject(CCar).withMake(mecedesMake).onHeap();
+    CCar* toyota = inject(CCar).withMake(toyotaMake).onHeap();        // -> CCar*
+    CCar* bmw = inject(CCar).withMake(bmwMake).onHeap();              // -> CCar*
+    CCar* mercedes = inject(CCar).withMake(mecedesMake).onHeap();     // -> CCar*
 
     mContextManager.setContext(context1, mContext1);
     mContextManager.setContext(context2, mContext2);
@@ -41,21 +41,21 @@ controller CProgram implements IProgram {
     mContextManager.setInstance(context1, bmwMake, bmw);
     mContextManager.setInstance(context2, mecedesMake, mercedes);
 
-    CCar car = mContextManager.getInstance(context1, toyotaMake);
-    printout("In context " + context1 + " looking for " + toyotaMake + " got " + 
+    CCar car = mContextManager.getInstance(context1, toyotaMake);     // -> CCar
+    printout("In context " + context1 + " looking for " + toyotaMake + " got " +
       car.getMake() + " back\n");
-    car = mContextManager.getInstance(context1, bmwMake);
-    printout("In context " + context1 + " looking for " + bmwMake + " got " + 
+    car = mContextManager.getInstance(context1, bmwMake);             // -> CCar
+    printout("In context " + context1 + " looking for " + bmwMake + " got " +
       car.getMake() + " back\n");
 
-    car = mContextManager.getInstance(context2, mecedesMake);
-    printout("In context " + context2 + " looking for " + mecedesMake + " got " + 
+    car = mContextManager.getInstance(context2, mecedesMake);         // -> CCar
+    printout("In context " + context2 + " looking for " + mecedesMake + " got " +
       car.getMake() + " back\n");
-    
-    CCar* replacement = inject(CCar).withMake("Audi").onHeap(); 
+
+    CCar* replacement = inject(CCar).withMake("Audi").onHeap();       // -> CCar*
     mContextManager.setInstance(context1, bmwMake, replacement);
-    car = mContextManager.getInstance(context1, bmwMake);
-    printout("In context " + context2 + " looking for " + bmwMake + " got " + 
+    car = mContextManager.getInstance(context1, bmwMake);             // -> CCar
+    printout("In context " + context2 + " looking for " + bmwMake + " got " +
       car.getMake() + " back\n");
 
     return 1;

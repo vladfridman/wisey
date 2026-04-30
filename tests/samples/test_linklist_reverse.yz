@@ -45,7 +45,7 @@ controller CLinkList {
 
   public void appendToHead(MData* data) {
     // TODO: implement .withNext(mHead) and set mHead to null
-    NNode* newHead = build(NNode).withData(data).onHeap(); 
+    NNode* newHead = build(NNode).withData(data).onHeap();   // -> NNode*
     newHead.setNext(mHead);
     mHead = newHead;
     if (mTail == null) {
@@ -54,24 +54,24 @@ controller CLinkList {
   }
 
   public void appendToTail(MData* data) {
-    NNode* newNode = build(NNode).withData(data).onHeap();
+    NNode* newNode = build(NNode).withData(data).onHeap();   // -> NNode*
     if (mHead == null) {
       mHead = newNode;
       mTail = mHead;
     } else {
       mTail.setNext(newNode);
-      mTail = mTail.getNext();
+      mTail = mTail.getNext();                               // -> NNode
     }
   }
 
   public void reverse() {
     mTail = mHead;
-    NNode* current = mHead.takeNext();
+    NNode* current = mHead.takeNext();                       // -> NNode*
     NNode* previous = mHead;
     previous.setNext(null);
 
     while (current != null) {
-      NNode* next = current.takeNext();
+      NNode* next = current.takeNext();                      // -> NNode*
       current.setNext(previous);
       previous = current;
       current = next;
@@ -94,8 +94,13 @@ controller CProgram implements IProgram {
     mLinkList.reverse();
     // link list looks like this: 4, 3, 2, 1
 
-    return mLinkList.getHead().getData().getValue() +
-      mLinkList.getHead().getNext().getData().getValue();
+    return mLinkList.getHead()                               // -> NNode
+                    .getData()                               // -> MData
+                    .getValue() +                            // -> int
+           mLinkList.getHead()                               // -> NNode
+                    .getNext()                               // -> NNode
+                    .getData()                               // -> MData
+                    .getValue();                             // -> int
   }
 }
 
