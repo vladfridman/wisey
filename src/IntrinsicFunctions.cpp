@@ -62,11 +62,11 @@ Function* IntrinsicFunctions::getTypeIdFunction(IRGenerationContext& context) {
 }
 
 Function* IntrinsicFunctions::getMemCopyFunction(IRGenerationContext& context) {
-  return context.getModule()->getFunction("llvm.memcpy.p0i8.p0i8.i64");
+  return context.getModule()->getFunction("llvm.memcpy.p0.p0.i64");
 }
 
 Function* IntrinsicFunctions::getMemSetFunction(IRGenerationContext& context) {
-  return context.getModule()->getFunction("llvm.memset.p0i8.i64");
+  return context.getModule()->getFunction("llvm.memset.p0.i64");
 }
 
 Instruction* IntrinsicFunctions::setMemoryToZero(IRGenerationContext& context,

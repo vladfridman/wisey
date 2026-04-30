@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/Support/Signals.h>
+#include <cassert>
 
 #include "Cleanup.hpp"
 #include "IRWriter.hpp"
@@ -233,13 +233,7 @@ GetElementPtrInst* IRWriter::createGetElementPtrInst(IRGenerationContext& contex
                                                      Value* value,
                                                      ArrayRef<Value *> index) {
   Type* elementType = recoverPointeeType(value);
-  if (!elementType) {
-    llvm::errs() << "GEP recover FAIL: ";
-    value->print(llvm::errs());
-    llvm::errs() << "\n";
-    llvm::sys::PrintStackTrace(llvm::errs());
-    abort();
-  }
+  assert(elementType && "GEP source pointer has unrecoverable pointee type — caller must use the explicit-type overload");
   return createGetElementPtrInst(context, elementType, value, index);
 }
 
@@ -294,13 +288,7 @@ LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
                                 Value* pointer,
                                 string variableName) {
   Type* loadType = recoverPointeeType(pointer);
-  if (!loadType) {
-    llvm::errs() << "LOAD recover FAIL: ";
-    pointer->print(llvm::errs());
-    llvm::errs() << "\n";
-    llvm::sys::PrintStackTrace(llvm::errs());
-    abort();
-  }
+  assert(loadType && "Load source pointer has unrecoverable pointee type — caller must use the explicit-type overload");
   return newLoadInst(context, loadType, pointer, variableName);
 }
 

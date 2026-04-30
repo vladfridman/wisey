@@ -80,12 +80,12 @@ namespace wisey {
     static llvm::Function* getTypeIdFunction(IRGenerationContext& context);
 
     /**
-     * Returns llvm.memcpy.p0i8.p0i8.i64 function that is used to copy memory
+     * Returns llvm.memcpy.p0.p0.i64 function that is used to copy memory
      */
     static llvm::Function* getMemCopyFunction(IRGenerationContext& context);
     
     /**
-     * Returns llvm.memset.p0i8.i64 function that is used to initialize memory
+     * Returns llvm.memset.p0.i64 function that is used to initialize memory
      */
     static llvm::Function* getMemSetFunction(IRGenerationContext& context);
     

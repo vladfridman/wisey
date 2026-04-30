@@ -98,18 +98,18 @@
 /**
  * Function for copying memory
  */
-::llvm::function ::llvm::void llvm.memcpy.p0i8.p0i8.i64(::llvm::i8::pointer, 
-                                                        ::llvm::i8::pointer, 
-                                                        ::llvm::i64, 
-                                                        ::llvm::i1);
+::llvm::function ::llvm::void llvm.memcpy.p0.p0.i64(::llvm::i8::pointer,
+                                                    ::llvm::i8::pointer,
+                                                    ::llvm::i64,
+                                                    ::llvm::i1);
 
 /**
  * Function for setting memory
  */
-::llvm::function ::llvm::void llvm.memset.p0i8.i64(::llvm::i8::pointer, 
-                                                   ::llvm::i8, 
-                                                   ::llvm::i64, 
-                                                   ::llvm::i1);
+::llvm::function ::llvm::void llvm.memset.p0.i64(::llvm::i8::pointer,
+                                                 ::llvm::i8,
+                                                 ::llvm::i64,
+                                                 ::llvm::i1);
 
 /**
  * Memory pool related functions
