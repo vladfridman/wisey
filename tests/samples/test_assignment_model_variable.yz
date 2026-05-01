@@ -13,7 +13,7 @@ controller CProgram implements IProgram {
     MRectangle* r1 = build(MRectangle)
       .withWidth(1)
       .withHeight(3)
-      .onHeap();                                                      // -> MRectangle*
+      .onHeap() -> MRectangle*;
 
     MRectangle* r2 = r1;
 

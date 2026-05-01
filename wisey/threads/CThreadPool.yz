@@ -85,7 +85,7 @@ controller CThreadPool {
    * This is called by individual pool threads and should not be called directly
    */
   public IWorker* getWorker() {
-    return (IWorker*) mWorkers.pop();                                 // -> IWorker*
+    return (IWorker*) mWorkers.pop() -> IWorker*;
   }
 
   /**

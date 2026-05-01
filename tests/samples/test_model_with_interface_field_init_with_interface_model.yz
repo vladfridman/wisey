@@ -16,16 +16,16 @@ model MCar {
   IWheel* mWheel;
 
   public int getWheelWidth() {
-    return mWheel.getWidth();                                         // -> int
+    return mWheel.getWidth() -> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IWheel* wheel = build(MWheel).onHeap();                           // -> MWheel*
-    MCar* car = build(MCar).withWheel(wheel).onHeap();                // -> MCar*
-    return car.getWheelWidth();                                       // -> int
+    IWheel* wheel = build(MWheel).onHeap() -> MWheel*;
+    MCar* car = build(MCar).withWheel(wheel).onHeap() -> MCar*;
+    return car.getWheelWidth() -> int;
   }
 }
 

@@ -21,15 +21,15 @@ interface IProcessesHasValue {
 
 model MModel implements IProcessesHasValue {
   public int processHasValue(MHasValue hasValue) override {
-    return hasValue.getValue();                                       // -> int
+    return hasValue.getValue() -> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IProcessesHasValue* processor = build(MModel).onHeap();           // -> MModel*
-    return processor.processHasValue(build(MHasValue).onHeap());      // -> int
+    IProcessesHasValue* processor = build(MModel).onHeap() -> MModel*;
+    return processor.processHasValue(build(MHasValue).onHeap()) -> int;
   }
 }
 

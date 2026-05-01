@@ -16,16 +16,16 @@ node NElement {
   state IHasValue* mHasValue;
 
   public int getValue() {
-    return mHasValue.getValue();                                      // -> int
+    return mHasValue.getValue() -> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IHasValue* subNode = build(NSubNode).onHeap();                    // -> NSubNode*
-    NElement* element = build(NElement).withHasValue(subNode).onHeap();   // -> NElement*
-    return element.getValue();                                        // -> int
+    IHasValue* subNode = build(NSubNode).onHeap() -> NSubNode*;
+    NElement* element = build(NElement).withHasValue(subNode).onHeap() -> NElement*;
+    return element.getValue() -> int;
   }
 }
 

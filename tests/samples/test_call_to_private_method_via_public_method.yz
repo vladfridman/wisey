@@ -6,7 +6,7 @@ controller CService {
   receive int mNumber;
 
   public int getNumber() {
-    return getDouble();                                               // -> int
+    return getDouble() -> int;
   }
 
   private int getDouble() {
@@ -18,7 +18,7 @@ controller CProgram implements IProgram {
   inject CService* mService.withNumber(10);
 
   public int run(immutable string[] arguments) override {
-    return mService.getNumber();                                      // -> int
+    return mService.getNumber() -> int;
   }
 }
 

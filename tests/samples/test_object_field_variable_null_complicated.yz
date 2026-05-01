@@ -15,7 +15,7 @@ controller CService {
   state MModel* mAnotherModel;
 
   public void setModel() {
-    mModel = build(MModel).withValue(7).onHeap();                     // -> MModel*
+    mModel = build(MModel).withValue(7).onHeap() -> MModel*;
   }
 
   public void setAnotherModel() {
@@ -23,7 +23,7 @@ controller CService {
   }
 
   public int getValue() {
-    return mModel.getValue();                                         // -> int
+    return mModel.getValue() -> int;
   }
 }
 
@@ -33,7 +33,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     mService.setModel();
     mService.setAnotherModel();
-    return mService.getValue();                                       // -> int
+    return mService.getValue() -> int;
   }
 } 
 

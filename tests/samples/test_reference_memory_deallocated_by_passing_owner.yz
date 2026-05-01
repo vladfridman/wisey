@@ -20,12 +20,12 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData* data = build(MData).withValue(5).onHeap();                 // -> MData*
+    MData* data = build(MData).withValue(5).onHeap() -> MData*;
     MData dataRef = data;
     MData anotherRef = dataRef;
     mService.capture(data);
     
-    return anotherRef.getValue();                                     // -> int
+    return anotherRef.getValue() -> int;
   }
 } 
 

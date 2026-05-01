@@ -9,14 +9,14 @@ model MCircle {
   }
 
   public static int getDiameter() {
-    return 2 * MCircle.getRadius();                                   // -> int
+    return 2 * MCircle.getRadius() -> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return MCircle.getDiameter();                                     // -> int
+    return MCircle.getDiameter() -> int;
   }
 }
 

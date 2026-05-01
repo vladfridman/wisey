@@ -42,18 +42,18 @@ controller CMandelbrot implements IProgram {
         .withCib(mCib)
         .withWidth(width)
         .withY(i)
-        .onHeap();                                                    // -> MWorker*
+        .onHeap() -> MWorker*;
       mThreadPool.submit(worker);
     }
     mThreadPool.start();
     MResult*[]* results = new MResult*[n];
     for (int resultCount = 0; resultCount < n; resultCount++) {
-      MResult* result = mThreadPool.getResult();                      // -> MResult*
+      MResult* result = mThreadPool.getResult() -> MResult*;
       results[result.getY()] = result;
     }
     mThreadPool.waitAndStop();
 
-    CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut();   // -> CBinaryStreamWriter*
+    CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut() -> CBinaryStreamWriter*;
     printout("P4\n" + n + " " + n + "\n");
     for (int i = 0; i < n; i++) {
       stream.writeImmutable(results[i].getArray());
@@ -75,7 +75,7 @@ controller CMandelbrot implements IProgram {
     public void work() override {
       byte[]* line = new byte[mWidth]; 
       for (int xb = 0; xb < mWidth; xb++) {
-        int result = getByte(xb * 8, mY);                             // -> int
+        int result = getByte(xb * 8, mY) -> int;
         line[xb] = (byte) result;
       }
       thread.send(build(MResult).withArray(line).withY(mY).onHeap());

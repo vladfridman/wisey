@@ -9,7 +9,7 @@ import wisey.lang.NString;
 model MStreamCouldNotCloseException implements IException {
 
   public NString* report() override {
-    NString* message = callstack.reportException(this);               // -> NString*
+    NString* message = callstack.reportException(this) -> NString*;
     message.appendString("Details: Could not close stream\n");
 
     return message;

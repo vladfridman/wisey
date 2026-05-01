@@ -10,7 +10,7 @@ thread TDataThread sends MList<MData*>* {
   public void run() {
     while(true) {
       for (int i = 0; i < 10; i++) {
-        MResult* result = build(MResult).onHeap();           // -> MResult*
+        MResult* result = build(MResult).onHeap() -> MResult*;
         mList.append(result);
       }
       thread.send(mList.getModel());
@@ -34,7 +34,7 @@ thread TUIThread sends boolean {
         return;
       }
 
-      MList<MData*>* dataArray = mDataThread.getMessage();   // -> MList<MData*>*
+      MList<MData*>* dataArray = mDataThread.getMessage() -> MList<MData*>*;
 
       // draw everything into GPU buffer
       render(dataArray);
@@ -60,6 +60,6 @@ controller COrchestrator implements IOrchestrator {
       return 0;
     }
 
-    return mUIThread.getMessage();                           // -> boolean
+    return mUIThread.getMessage() -> boolean;
   }
 }

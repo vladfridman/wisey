@@ -12,9 +12,9 @@ model MColor {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MColor* color = build(MColor).onHeap();                           // -> MColor*
+    MColor* color = build(MColor).onHeap() -> MColor*;
 
-    return MColor.doubleValue(3);                                     // -> int
+    return MColor.doubleValue(3) -> int;
   }
 }
 

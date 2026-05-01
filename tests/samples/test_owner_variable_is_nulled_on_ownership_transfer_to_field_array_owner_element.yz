@@ -13,18 +13,18 @@ controller CController {
 
 
   public int getCarYear() {
-    MCar* car = build(MCar).onHeap();                                 // -> MCar*
+    MCar* car = build(MCar).onHeap() -> MCar*;
     mArray[4] = car;
-    return car.getYear();                                             // -> int
+    return car.getYear() -> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CController* mycontroller = inject(CController).withArray(new MCar*[5]).onHeap();   // -> CController*
+    CController* mycontroller = inject(CController).withArray(new MCar*[5]).onHeap() -> CController*;
 
-    return mycontroller.getCarYear();                                 // -> int
+    return mycontroller.getCarYear() -> int;
   }
 }
 

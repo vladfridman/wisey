@@ -10,8 +10,8 @@ model MCar {
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    MCar* car = build(MCar).onHeap();                                 // -> MCar*
-    return car.getValue() <<= 1;                                      // -> int
+    MCar* car = build(MCar).onHeap() -> MCar*;
+    return car.getValue() <<= 1 -> int;
   }
 }
 

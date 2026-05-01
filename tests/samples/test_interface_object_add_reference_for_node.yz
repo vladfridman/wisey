@@ -15,9 +15,9 @@ node NMyNode implements IObject {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IObject* object = build(NMyNode).onHeap();                        // -> NMyNode*
+    IObject* object = build(NMyNode).onHeap() -> NMyNode*;
     IObject ref = object;
-    return object.getValue();                                         // -> int
+    return object.getValue() -> int;
   }
 }
 

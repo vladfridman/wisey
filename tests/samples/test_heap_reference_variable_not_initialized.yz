@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MColor color;
 
-    return color.getValue();                                          // -> int
+    return color.getValue() -> int;
   }
 } 
 

@@ -14,7 +14,7 @@ model MFileCouldNotOpenException implements IException {
   receive MString* mFileName;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this);               // -> NString*
+    NString* message = callstack.reportException(this) -> NString*;
     message.appendString("Details: Could not open file ");
     message.appendMString(mFileName);
     message.appendString("\n");

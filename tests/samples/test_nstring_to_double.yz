@@ -6,8 +6,8 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NString* nstring = NString.createFromString("3.14159");           // -> NString*
-    double converted = nstring.toDouble();                            // -> double
+    NString* nstring = NString.createFromString("3.14159") -> NString*;
+    double converted = nstring.toDouble() -> double;
     printout("Result: " + converted + "\n");
     return 1;
   }

@@ -15,9 +15,9 @@ model MOuterModel {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MMyModel* object = build(MMyModel).withValue(7).onHeap();         // -> MMyModel*
+    MMyModel* object = build(MMyModel).withValue(7).onHeap() -> MMyModel*;
 
-    return object.getValue();                                         // -> int
+    return object.getValue() -> int;
   }
 
 }

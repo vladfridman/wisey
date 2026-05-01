@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 
 interface IShape {
   public static int getValue(MValueContainer valueContainer) {
-    return valueContainer.getValue();                                 // -> int
+    return valueContainer.getValue() -> int;
   }
 }
 
@@ -19,8 +19,8 @@ model MValueContainer {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MValueContainer* valueContainer = build(MValueContainer).withValue(7).onHeap();   // -> MValueContainer*
-    return IShape.getValue(valueContainer);                           // -> int
+    MValueContainer* valueContainer = build(MValueContainer).withValue(7).onHeap() -> MValueContainer*;
+    return IShape.getValue(valueContainer) -> int;
   }
 } 
 

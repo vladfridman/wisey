@@ -14,10 +14,10 @@ controller CProgram implements IProgram {
   state MModel* mModel;
 
   public int run(immutable string[] arguments) override {
-    mModel = build(MModel).withValue(5).onHeap();                     // -> MModel*
+    mModel = build(MModel).withValue(5).onHeap() -> MModel*;
     MModel* variable = mModel;
     
-    return mModel.getValue();                                         // -> int
+    return mModel.getValue() -> int;
   }
 } 
 

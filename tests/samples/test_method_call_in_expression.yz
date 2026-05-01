@@ -13,7 +13,7 @@ model MShape {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return build(MShape).withSize(15).onHeap().getSize() * 2;         // -> int
+    return build(MShape).withSize(15).onHeap().getSize() * 2 -> int;
   }
 }
 

@@ -21,7 +21,7 @@ controller CProgram implements IProgram {
       .withHeight(5l)
       .withDepth(2.0)
       .withColor(build(MColor).withColor(6.7d).onHeap())
-      .onHeap();                                                      // -> MShape*
+      .onHeap() -> MShape*;
 
     return 0;
   }

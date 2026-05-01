@@ -19,13 +19,13 @@ controller CResult {
 model MException implements IException {
 
   public NString* report() override {
-    return callstack.reportException(this);                  // -> NString*
+    return callstack.reportException(this) -> NString*;
   }
 }
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException* exception = build(MException).onHeap();      // -> MException*
+    MException* exception = build(MException).onHeap() -> MException*;
     throw exception;
   }
 }
@@ -61,7 +61,7 @@ controller CProgram implements IProgram {
     } catch (MException* exception) {
       mResult.setValue(mResult.getValue() + 64);
     }
-    return mResult.getValue();                               // -> int
+    return mResult.getValue() -> int;
   }
 }
 

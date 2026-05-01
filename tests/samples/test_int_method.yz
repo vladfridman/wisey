@@ -11,8 +11,8 @@ model MModel {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MModel* m = build(MModel).onHeap();                               // -> MModel*
-    return m.foo(10);                                                 // -> int
+    MModel* m = build(MModel).onHeap() -> MModel*;
+    return m.foo(10) -> int;
   }
 } 
 

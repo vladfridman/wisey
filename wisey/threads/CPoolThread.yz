@@ -69,7 +69,7 @@ controller CPoolThread implements IThread {
     insideThreadGuard(this);
     mContextManager.setContext(IThread.getTypeName(), thread);
     while (true) {
-      IWorker* worker = mThreadPool.getWorker();                      // -> IWorker*
+      IWorker* worker = mThreadPool.getWorker() -> IWorker*;
       worker.work();
     }
   }

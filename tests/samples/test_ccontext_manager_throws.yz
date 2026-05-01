@@ -22,11 +22,11 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     string mycontext = "mycontext";
     string toyotaMake = "Toyota";
-    CCar* toyota = inject(CCar).withMake(toyotaMake).onHeap();        // -> CCar*
+    CCar* toyota = inject(CCar).withMake(toyotaMake).onHeap() -> CCar*;
 
     mContextManager.setContext(mycontext, mContext);
     mContextManager.setInstance(mycontext, toyotaMake, toyota);
-    CCar car = mContextManager.getInstance(mycontext, toyotaMake);    // -> CCar
+    CCar car = mContextManager.getInstance(mycontext, toyotaMake) -> CCar;
     printout("In context " + mycontext + " looking for " + toyotaMake + " got " + 
       car.getMake() + " back\n");
     car = null;

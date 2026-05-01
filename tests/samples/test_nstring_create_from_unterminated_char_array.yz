@@ -9,9 +9,9 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     char[]* array = new char[1];
     array[0] = 'a';
-    NString* nstring = NString.createFromCharArray(array);            // -> NString*
+    NString* nstring = NString.createFromCharArray(array) -> NString*;
     printout("nstring: " + nstring + " length: " + nstring.getLength() + " capacity: " + nstring.getCapacity() + "\n");
-    return (int) nstring.getLength();                                 // -> int
+    return (int) nstring.getLength() -> int;
   }
 }
 

@@ -36,11 +36,11 @@ model MFridge implements IDevice {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MFridge* fridge = build(MFridge).withSize(5).onHeap();            // -> MFridge*
+    MFridge* fridge = build(MFridge).withSize(5).onHeap() -> MFridge*;
     IObject* object = fridge;
     IDevice* device = (IDevice*) object;
   
-    return device.getSize();                                          // -> int
+    return device.getSize() -> int;
   }
 } 
 

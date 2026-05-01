@@ -14,7 +14,7 @@ model MMyModel {
   immutable MContainer[][]* mArray;
 
   public int getValue() {
-    return mArray[3][3].getContent();                                 // -> int
+    return mArray[3][3].getContent() -> int;
   }
 }
 
@@ -23,8 +23,8 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MContainer[][]* array = new MContainer[4][4];
     array[3][3] = build(MContainer).withContent(3).onHeap();
-    MMyModel* mymodel = build(MMyModel).withArray(array).onHeap();    // -> MMyModel*
-    return mymodel.getValue();                                        // -> int
+    MMyModel* mymodel = build(MMyModel).withArray(array).onHeap() -> MMyModel*;
+    return mymodel.getValue() -> int;
   }
 }
 

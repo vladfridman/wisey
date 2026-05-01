@@ -13,9 +13,9 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     try {
-      mCarRef = build(MCar).onHeap();                                 // -> MCar*
+      mCarRef = build(MCar).onHeap() -> MCar*;
       MCar* owner = null;
-      return owner.getYear();                                         // -> int
+      return owner.getYear() -> int;
     } catch (wisey.lang.MNullPointerException* exception) {
       printerr("Caught!!!\n");
       exception.report();

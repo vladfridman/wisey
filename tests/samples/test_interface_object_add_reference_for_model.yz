@@ -15,9 +15,9 @@ model MMyModel implements IObject {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IObject* object = build(MMyModel).onHeap();                       // -> MMyModel*
+    IObject* object = build(MMyModel).onHeap() -> MMyModel*;
     IObject ref = object;
-    return object.getValue();                                         // -> int
+    return object.getValue() -> int;
   }
 }
 

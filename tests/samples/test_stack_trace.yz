@@ -16,15 +16,15 @@ model MCar {
   receive MEngine* mEngine;
 
   public int getEngineVolume() {
-    return mEngine.getVolume();                                       // -> int
+    return mEngine.getVolume() -> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar car = build(MCar).withEngine(build(MEngine).withVolume(3).onHeap()).onHeap();   // -> MCar*
-    int result = car.getEngineVolume();                               // -> int
+    MCar car = build(MCar).withEngine(build(MEngine).withVolume(3).onHeap()).onHeap() -> MCar*;
+    int result = car.getEngineVolume() -> int;
     printout("Stack trace 2:\n");
     thread.getCallStack().dumpStack();
     return result;

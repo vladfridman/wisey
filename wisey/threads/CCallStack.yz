@@ -37,7 +37,7 @@ controller CCallStack {
    * Print a stack trace for an exception.
    */
   public NString* reportException(IException exception) {
-    NString* message = NString.create();                              // -> NString*
+    NString* message = NString.create() -> NString*;
     message.appendString("Unhandled exception ");
     message.appendString(MSystem.getOriginalObjectTypeName(exception));
     message.appendString("\n");

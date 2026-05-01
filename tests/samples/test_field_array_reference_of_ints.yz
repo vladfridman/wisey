@@ -18,9 +18,9 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     int[][]* array = new int[5][3];
-    CController* mycontroller = inject(CController).withArray(array).onHeap();   // -> CController*
+    CController* mycontroller = inject(CController).withArray(array).onHeap() -> CController*;
     mycontroller.setValue(5);
-    int result = mycontroller.getValue();                             // -> int
+    int result = mycontroller.getValue() -> int;
     mycontroller = null;
 
     return result;

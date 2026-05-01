@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
     int[][]* array = new int[3][3];
     array[2][2] = 5;
     immutable int[][]* immutableArray = array;
-    return test(immutableArray);                                      // -> int
+    return test(immutableArray) -> int;
   }
 }
 

@@ -15,7 +15,7 @@ model MCastException implements IException {
   receive string mToType;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this);               // -> NString*
+    NString* message = callstack.reportException(this) -> NString*;
     message.appendString("Details: Can not cast from ");
     message.appendString(mFromType);
     message.appendString(" to ");

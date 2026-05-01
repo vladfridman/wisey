@@ -9,7 +9,7 @@ controller CProgram implements IProgram {
   }
 
   public int run(immutable string[] arguments) override {
-    return getValue();                                                // -> int
+    return getValue() -> ::llvm::i32;
   }
 }
 

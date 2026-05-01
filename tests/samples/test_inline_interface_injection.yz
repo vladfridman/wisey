@@ -18,8 +18,8 @@ bind(IHasValue, CService);
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IHasValue* hasValue = inject(IHasValue).onHeap();                 // -> IHasValue*
-    return hasValue.getValue();                                       // -> int
+    IHasValue* hasValue = inject(IHasValue).onHeap() -> IHasValue*;
+    return hasValue.getValue() -> int;
   }
 }
 

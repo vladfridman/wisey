@@ -32,21 +32,21 @@ controller CBinaryStreamWriter {
     if (stream == null) {
       throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap();
     }
-    return inject(CBinaryStreamWriter).withStream(stream).onHeap();   // -> CBinaryStreamWriter*
+    return inject(CBinaryStreamWriter).withStream(stream).onHeap() -> CBinaryStreamWriter*;
   }
 
   /**
    * Create an instance of the CBinaryStreamWriter to write binary data to the standard output
    */
   public static CBinaryStreamWriter* openSystemOut() {
-    return inject(CBinaryStreamWriter).withStream(::llvm::global::wStdOut).onHeap();   // -> CBinaryStreamWriter*
+    return inject(CBinaryStreamWriter).withStream(::llvm::global::wStdOut).onHeap() -> CBinaryStreamWriter*;
   }
 
   /**
    * Create an instance of the CBinaryStreamWriter to write binary data to the error output
    */
   public static CBinaryStreamWriter* openSystemErr() {
-    return inject(CBinaryStreamWriter).withStream(::llvm::global::wStdErr).onHeap();   // -> CBinaryStreamWriter*
+    return inject(CBinaryStreamWriter).withStream(::llvm::global::wStdErr).onHeap() -> CBinaryStreamWriter*;
   }
 
   /**
@@ -80,7 +80,7 @@ controller CBinaryStreamWriter {
       throw build(MStreamClosedException).onHeap();
     }
 
-    int result = ::llvm::function::fclose(mStream);                   // -> int
+    int result = ::llvm::function::fclose(mStream) -> ::llvm::i32;
 
     if (result != 0) {
       throw build(MStreamCouldNotCloseException).onHeap();

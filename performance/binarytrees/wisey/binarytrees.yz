@@ -32,12 +32,12 @@ controller CBinaryTrees implements IProgram {
 
   // Execution starts here, maximum depth is passed from command line through arguments
   public int run(immutable string[] arguments) override {
-    int n = NString.createFromString(arguments[1]).toInt();           // -> int
+    int n = NString.createFromString(arguments[1]).toInt() -> int;
 
     int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
     int stretchDepth = maxDepth + 1;
 
-    NTreeNode* treeNode = bottomUpTree(stretchDepth, mLongLivedPool); // -> NTreeNode*
+    NTreeNode* treeNode = bottomUpTree(stretchDepth, mLongLivedPool) -> NTreeNode*;
     printout("stretch tree of depth " + stretchDepth + "\t check: " 
        + treeNode.itemCheck() + "\n");
 
@@ -47,18 +47,18 @@ controller CBinaryTrees implements IProgram {
       IWorker* worker = build(MWorker)
         .withMaxDepth(maxDepth)
         .withDepth(depth)
-        .onHeap();                                                    // -> MWorker*
+        .onHeap() -> MWorker*;
       mWorkers.pushBack(worker);
     }
     while (mWorkers.getSize()) {
-      IWorker* worker = mWorkers.popBack();                           // -> IWorker*
+      IWorker* worker = mWorkers.popBack() -> IWorker*;
       mThreadPool.submit(worker);
     }
     mThreadPool.start();
     MResult*[]* results = new MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
     int resultCount = 0;
     while (resultCount < results.getSize()) {
-      MResult* result = mThreadPool.getResult();                      // -> MResult*
+      MResult* result = mThreadPool.getResult() -> MResult*;
       results[(result.getDepth() - MIN_DEPTH) / 2] = result;
       resultCount++;
     }
@@ -82,7 +82,7 @@ controller CBinaryTrees implements IProgram {
         .withRight(bottomUpTree(depth - 1, pool))
         .onPool(pool);
     }
-    return build(NTreeNode).withLeft(null).withRight(null).onPool(pool);   // -> NTreeNode*
+    return build(NTreeNode).withLeft(null).withRight(null).onPool(pool) -> NTreeNode*;
   }
 
   /**
@@ -99,7 +99,7 @@ controller CBinaryTrees implements IProgram {
       if (null == mLeft) {
         return 1;
       }
-      return 1 + mLeft.itemCheck() + mRight.itemCheck();              // -> int
+      return 1 + mLeft.itemCheck() + mRight.itemCheck() -> int;
     }
   }
 
@@ -128,7 +128,7 @@ controller CBinaryTrees implements IProgram {
      * work() method is where execution starts for an IWorker
      */
     public void work() override {
-      CMemoryPool pool = inject(CThreadMemoryPool).onHeap().getMemoryPool();   // -> CMemoryPool
+      CMemoryPool pool = inject(CThreadMemoryPool).onHeap().getMemoryPool() -> CMemoryPool;
       int check = 0;
 
       int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);

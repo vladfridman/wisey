@@ -12,10 +12,10 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MCar*[] array = new MCar*[5];
-    MCar* car = build(MCar).onHeap();                                 // -> MCar*
+    MCar* car = build(MCar).onHeap() -> MCar*;
     array[4] = car;
 
-    return car.getYear();                                             // -> int
+    return car.getYear() -> int;
   }
 }
 

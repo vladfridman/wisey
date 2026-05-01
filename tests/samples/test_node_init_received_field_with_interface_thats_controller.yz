@@ -18,17 +18,17 @@ node NElement {
   receive IHasValue mHasValue;
 
   public int getValue() {
-    return mHasValue.getValue();                                      // -> int
+    return mHasValue.getValue() -> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IHasValue* car = build(MCar).onHeap();                            // -> MCar*
-    IHasValue* service = inject(CService).onHeap();                   // -> CService*
-    NElement* element = build(NElement).withHasValue(service).onHeap();   // -> NElement*
-    return element.getValue();                                        // -> int
+    IHasValue* car = build(MCar).onHeap() -> MCar*;
+    IHasValue* service = inject(CService).onHeap() -> CService*;
+    NElement* element = build(NElement).withHasValue(service).onHeap() -> NElement*;
+    return element.getValue() -> int;
   }
 }
 

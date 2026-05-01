@@ -6,12 +6,12 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NString* nstring = NString.createFromString("123");               // -> NString*
+    NString* nstring = NString.createFromString("123") -> NString*;
     printout("Before nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
-    NString* appnedix = NString.createFromString("4567");             // -> NString*
+    NString* appnedix = NString.createFromString("4567") -> NString*;
     nstring.appendNString(appnedix);
     printout("After nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
-    return (int) nstring.getLength();                                 // -> int
+    return (int) nstring.getLength() -> int;
   }
 }
 

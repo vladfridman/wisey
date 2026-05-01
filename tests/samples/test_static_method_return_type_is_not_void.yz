@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
   }
 
   public int run(immutable string[] arguments) override {
-    return foo();                                                     // -> int
+    return foo() -> int;
   }
 }
 

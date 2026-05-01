@@ -11,12 +11,12 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car1 = build(MCar).onHeap();                                // -> MCar*
-    MCar* car2 = build(MCar).onHeap();                                // -> MCar*
+    MCar* car1 = build(MCar).onHeap() -> MCar*;
+    MCar* car2 = build(MCar).onHeap() -> MCar*;
     
     MCar* car = true ? car1 : car2;
 
-    return car.getColor();                                            // -> int
+    return car.getColor() -> int;
   }
 } 
 

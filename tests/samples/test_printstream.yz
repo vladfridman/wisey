@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CTextStreamWriter* stream = CTextStreamWriter.open(
-      NString.createFromString("build/test.txt"));                    // -> CTextStreamWriter*
+      NString.createFromString("build/test.txt")) -> CTextStreamWriter*;
     print(stream, "This is a test\n");
     stream.close();
     return 1;

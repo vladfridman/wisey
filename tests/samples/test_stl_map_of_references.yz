@@ -19,15 +19,15 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     ::llvm::i8::pointer map = ::llvm::function::stl_map_create();
 
-    MCar* car1 = build(MCar).withYear(2018).onHeap();                 // -> MCar*
-    MCar* car2 = build(MCar).withYear(2017).onHeap();                 // -> MCar*
+    MCar* car1 = build(MCar).withYear(2018).onHeap() -> MCar*;
+    MCar* car2 = build(MCar).withYear(2017).onHeap() -> MCar*;
     MCar car1ref = car1;
     MCar car2ref = car2;
     ::llvm::function::stl_map_put_reference(map, car1ref, car1);
     ::llvm::function::stl_map_put_reference(map, car2ref, car2);
 
-    MCar value1 = ::llvm::function::stl_map_get(map, car1ref);        // -> MCar
-    MCar value2 = ::llvm::function::stl_map_get(map, car2ref);        // -> MCar
+    MCar value1 = ::llvm::function::stl_map_get(map, car1ref) -> MCar;
+    MCar value2 = ::llvm::function::stl_map_get(map, car2ref) -> MCar;
     printout("car year = " + value1.getYear() + "\n");
     printout("car year = " + value2.getYear() + "\n");
     ::llvm::function::stl_map_of_references_clear(map);

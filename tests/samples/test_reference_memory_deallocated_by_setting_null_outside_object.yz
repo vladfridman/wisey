@@ -18,7 +18,7 @@ controller CService {
   }
 
   public int getValue() {
-    return mData.getValue();                                          // -> int
+    return mData.getValue() -> int;
   }
 }
 
@@ -26,11 +26,11 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData* owner = build(MData).withValue(1).onHeap();                // -> MData*
+    MData* owner = build(MData).withValue(1).onHeap() -> MData*;
     mService.set(owner);
-    owner = build(MData).withValue(5).onHeap();                       // -> MData*
+    owner = build(MData).withValue(5).onHeap() -> MData*;
 
-    return mService.getValue();                                       // -> int
+    return mService.getValue() -> int;
   }
 } 
 

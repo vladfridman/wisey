@@ -20,9 +20,9 @@ controller CProgram implements IProgram, IObjectComparator {
     string toyotaMake = "Toyota";
     string bmwMake = "BMW";
     string mercedesMake = "Mercedes";
-    MCar* toyota = build(MCar).withMake(toyotaMake).onHeap();        // -> MCar*
-    MCar* bmw = build(MCar).withMake(bmwMake).onHeap();              // -> MCar*
-    MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap();    // -> MCar*
+    MCar* toyota = build(MCar).withMake(toyotaMake).onHeap() -> MCar*;
+    MCar* bmw = build(MCar).withMake(bmwMake).onHeap() -> MCar*;
+    MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap() -> MCar*;
 
     mList.pushBack(toyota);
     mList.pushBack(bmw);
@@ -35,24 +35,24 @@ controller CProgram implements IProgram, IObjectComparator {
     }
 
     printout("List size: " + mList.getSize() + "\n");
-    MCar last = mList.back();                                        // -> MCar
+    MCar last = mList.back();
     printout("Lookup last: " + last.getMake() + "\n");
-    MCar first = mList.front();                                      // -> MCar
+    MCar first = mList.front();
     printout("Lookup first: " + first.getMake() + "\n");
 
     mList.sort(this);
     printout("List size: " + mList.getSize() + "\n");
-    last = mList.back();                                             // -> MCar
+    last = mList.back();
     printout("Lookup last: " + last.getMake() + "\n");
-    first = mList.front();                                           // -> MCar
+    first = mList.front();
     printout("Lookup first: " + first.getMake() + "\n");
 
-    MCar* back = mList.popBack();                                    // -> MCar*
-    MCar* front = mList.popFront();                                  // -> MCar*
+    MCar* back = mList.popBack();
+    MCar* front = mList.popFront();
     printout("List size: " + mList.getSize() + "\n");
-    last = mList.back();                                             // -> MCar
+    last = mList.back();
     printout("Lookup last: " + last.getMake() + "\n");
-    first = mList.front();                                           // -> MCar
+    first = mList.front();
     printout("Lookup first: " + first.getMake() + "\n");
     last = null;
     first = null;
@@ -64,7 +64,7 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   public boolean compare(MCar left, MCar right) override {
-    return MString.compareStrings(left.getMake(), right.getMake()) < 0;   // -> int
+    return MString.compareStrings(left.getMake(), right.getMake()) < 0 -> int;
   }
 }
 

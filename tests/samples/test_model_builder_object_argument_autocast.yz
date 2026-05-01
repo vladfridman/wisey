@@ -22,16 +22,16 @@ model MCar {
   IHasValue* mYear;
 
   public int getYear() {
-    return mYear.getValue();                                          // -> int
+    return mYear.getValue() -> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = build(MCar).withYear(build(MYear).withValue(2017).onHeap()).onHeap();   // -> MCar*
+    MCar* car = build(MCar).withYear(build(MYear).withValue(2017).onHeap()).onHeap() -> MCar*;
     
-    return car.getYear();                                             // -> int
+    return car.getYear() -> int;
   }
 }
 

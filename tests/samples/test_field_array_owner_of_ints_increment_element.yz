@@ -21,7 +21,7 @@ controller CController {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CController* mycontroller = inject(CController).withArray(new int[5]).onHeap();   // -> CController*
+    CController* mycontroller = inject(CController).withArray(new int[5]).onHeap() -> CController*;
     mycontroller.init();
     mycontroller.increment();
     mycontroller.increment();
@@ -29,7 +29,7 @@ controller CProgram implements IProgram {
     mycontroller.increment();
     mycontroller.increment();
 
-    return mycontroller.getValue();                                   // -> int
+    return mycontroller.getValue() -> int;
   }
 }
 

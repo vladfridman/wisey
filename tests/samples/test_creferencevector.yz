@@ -31,13 +31,13 @@ controller CProgram implements IProgram, IObjectComparator {
       printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() + "\n");
     }
 
-    MCar car = mVector.popBack();                                     // -> MCar
+    MCar car = mVector.popBack();
 
     printout("Car year: " + car.getYear() + "\n");
 
     printout("Vector size: " + mVector.getSize() + "\n");
 
-    MCar carRef = mVector.getAt(0);                                   // -> MCar
+    MCar carRef = mVector.getAt(0);
 
     mVector.clear();
 
@@ -47,7 +47,7 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   public boolean compare(MCar left, MCar right) override {
-    return left.getYear() < right.getYear();                          // -> boolean
+    return left.getYear() < right.getYear();
   }
 }
 

@@ -12,7 +12,7 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return MCar.getYear();                                            // -> int
+    return MCar.getYear() -> int;
   }
 }
 

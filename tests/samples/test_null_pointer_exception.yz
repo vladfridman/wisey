@@ -14,7 +14,7 @@ controller CService {
   state MData* mData;
 
   public void set() {
-    mData = build(MData).withValue(1).onHeap();                       // -> MData*
+    mData = build(MData).withValue(1).onHeap() -> MData*;
   }
 
   public void clear() {
@@ -22,7 +22,7 @@ controller CService {
   }
 
   public int getValue() {
-    return mData.getValue();                                          // -> int
+    return mData.getValue() -> int;
   }
 }
 
@@ -33,7 +33,7 @@ controller CProgram implements IProgram {
     mService.set();
     mService.clear();
 
-    return mService.getValue();                                       // -> int
+    return mService.getValue() -> int;
   }
 } 
 

@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
   inject CService* mService.withValue(5);
 
   public int run(immutable string[] arguments) override {
-    return mService.getValue();                                       // -> int
+    return mService.getValue() -> int;
   }
 }
 

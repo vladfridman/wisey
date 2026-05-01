@@ -22,10 +22,10 @@ model MReferenceCountException implements IException {
 
   public NString* report() override {
     if (mNestedException instanceof MReferenceCountException) {
-      return mNestedException.report();                               // -> NString*
+      return mNestedException.report() -> NString*;
     }
 
-    NString* message = callstack.reportException(this);               // -> NString*
+    NString* message = callstack.reportException(this) -> NString*;
     string ending = mReferenceCount > 1 ? "s" : "";
     message.appendString("Details: Object referenced by expression of type ");
     message.appendString(mObjectType);

@@ -11,7 +11,7 @@ model MData {
 controller CService {
 
   public MData* newData() {
-    return build(MData).onHeap();                                     // -> MData*
+    return build(MData).onHeap() -> MData*;
   }
 }
 
@@ -19,8 +19,8 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData data = mService.newData();                                  // -> MData
-    return data.getResult();                                          // -> int
+    MData data = mService.newData();
+    return data.getResult() -> int;
   }
 }
 

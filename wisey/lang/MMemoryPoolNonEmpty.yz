@@ -16,10 +16,10 @@ model MMemoryPoolNonEmpty implements IException {
 
   public NString* report() override {
     if (mNestedException instanceof MReferenceCountException) {
-      return mNestedException.report();                               // -> NString*
+      return mNestedException.report() -> NString*;
     }
 
-    NString* message = callstack.reportException(this);               // -> NString*
+    NString* message = callstack.reportException(this) -> NString*;
     string ending = mObjectCount > 1 ? "s" : "";
     message.appendString("Details: Attempting to destroy a memory pool that still contains ");
     message.appendNString(NString.createFromLong(mObjectCount));

@@ -12,9 +12,9 @@ controller CProgram implements IProgram {
   state MCar mCarRef;
 
   public int run(immutable string[] arguments) override {
-    mCarRef = build(MCar).onHeap();                                   // -> MCar*
+    mCarRef = build(MCar).onHeap() -> MCar*;
     MCar* owner = null;
-    return owner.getYear();                                           // -> int
+    return owner.getYear() -> int;
   }
 }
 

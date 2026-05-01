@@ -30,9 +30,9 @@ controller CProgram implements IProgram {
       .withHeight(5l)
       .withDepth(2.0)
       .withColor(build(MColor).withColor(6.7d).withIntensity(7).onHeap())
-      .onHeap();                                                      // -> MShape*
+      .onHeap() -> MShape*;
 
-    return rectangle.getColor().getIntensity();                       // -> int
+    return rectangle.getColor().getIntensity() -> int;
   }
 }
 

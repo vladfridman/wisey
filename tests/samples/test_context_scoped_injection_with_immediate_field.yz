@@ -21,7 +21,7 @@ controller CProgram implements IProgram {
   inject CScopedService mScopedService;
 
   public int run(immutable string[] arguments) override {
-    return mScopedService.getService().getValue();                    // -> int
+    return mScopedService.getService().getValue() -> int;
   }
 }
 
