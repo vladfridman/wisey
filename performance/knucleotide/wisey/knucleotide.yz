@@ -287,7 +287,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   private static byte[]* toCodesFromString(string input) {
     NString* nstring = NString.createFromString(input) -> NString*;
     char[] nstringContent = nstring.getContent() -> char[];
-    byte[]* result = new byte[nstringContent.getSize() - 1] -> byte[]*;
+    byte[]* result = new byte[nstringContent.getSize() - 1];
     for (int i = 0; i < nstringContent.getSize() - 1; i++) {
       result[i] = CODES[(byte) nstringContent[i] & 0x7];
     }
@@ -310,7 +310,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     long position = 0;
     while ((line = stream.readLineIntoNString(line)) != null && line.charAt(0) != '>') {
       if (line.getLength() + position > bytes.getSize()) {
-        byte[]* newBytes = new byte[bytes.getSize() * 2] -> byte[]*;
+        byte[]* newBytes = new byte[bytes.getSize() * 2];
         MSystem.copyMemory(newBytes, bytes, position);
         bytes = newBytes;
       }
