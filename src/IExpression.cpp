@@ -15,6 +15,20 @@
 using namespace std;
 using namespace wisey;
 
+void IExpression::requireAnnotated(IRGenerationContext& context,
+                                   const IExpression* expression,
+                                   const char* consumerDescription) {
+  if (!expression->isCallExpression()) {
+    return;
+  }
+  context.reportError(expression->getLine(),
+                      string("Call expression in ") + consumerDescription +
+                      " must be annotated with `expr -> Type`. "
+                      "Add the result type at the call site so the type is visible "
+                      "without resolving the callee.");
+  throw 1;
+}
+
 void IExpression::checkForUndefined(IRGenerationContext& context,
                                     const IExpression* expression) {
   const IType* expressionType = expression->getType(context);

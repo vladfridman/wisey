@@ -48,7 +48,31 @@ namespace wisey {
      * Tells the line number where this expression is
      */
     virtual int getLine() const = 0;
-    
+
+    /**
+     * Tells whether this expression IS a call expression — method call, static
+     * method call, llvm function call, builder, injector, etc.
+     *
+     * Used by the "annotation required" rule: at every consumer site (return,
+     * assignment, argument, etc.) the operand must NOT be an unwrapped call.
+     * It must either be a non-call (literal, identifier, operator) or a
+     * `TypeAnnotatedExpression` wrapping the call. The wrapped form returns
+     * false here, so a consumer-side check that rejects `isCallExpression()`
+     * naturally accepts annotated calls.
+     *
+     * Default: false. Overridden by call-like classes to return true.
+     */
+    virtual bool isCallExpression() const { return false; }
+
+    /**
+     * Reports an error and throws if `expression` is a call expression that
+     * isn't wrapped in `expr -> Type`. Called from each consumer site that
+     * requires an annotated value.
+     */
+    static void requireAnnotated(IRGenerationContext& context,
+                                 const IExpression* expression,
+                                 const char* consumerDescription);
+
     /**
      * Checks that expression is not undefined
      */
