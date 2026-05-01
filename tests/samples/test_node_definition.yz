@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
       .withWidth(3)
       .withHeight(5l)
       .withDepth(2.0)
-      .withColor(build(NSubNode).withColor(6.7d).onHeap())
+      .withColor(build(NSubNode).withColor(6.7d).onHeap() -> NSubNode*)
       .onHeap() -> NNode*;
 
     return 0;

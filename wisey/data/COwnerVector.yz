@@ -9,7 +9,7 @@ import wisey.lang.MSystem;
  *   inject COwnerVector* mOwnerVector;
  * 
  *   public int run(immutable string[] arguments) override {
- *     MCar* tesla = build(MCar).withYear(2019).onHeap(); 
+ *     MCar* tesla = build(MCar).withYear(2019).onHeap() -> MCar*; 
  *     // tesla is null after this instruction because ownership has been passed to the list
  *     mOwnerVector.pushBack(tesla);
  *     // Get ownership back from the vector to the MCar object

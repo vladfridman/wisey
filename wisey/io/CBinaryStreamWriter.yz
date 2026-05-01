@@ -30,7 +30,7 @@ controller CBinaryStreamWriter {
   public static CBinaryStreamWriter* open(NString fileName) throws MFileCouldNotOpenException {
     ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent(), "wb");
     if (stream == null) {
-      throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap();
+      throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap() -> MFileCouldNotOpenException*;
     }
     return inject(CBinaryStreamWriter).withStream(stream).onHeap() -> CBinaryStreamWriter*;
   }
@@ -54,7 +54,7 @@ controller CBinaryStreamWriter {
    */
   public void write(byte[] array) throws MStreamClosedException {
     if (!mStream) {
-      throw build(MStreamClosedException).onHeap();
+      throw build(MStreamClosedException).onHeap() -> MStreamClosedException*;
     }
 
     ::llvm::function::fwrite(array, 1l, array.getSize(), mStream);
@@ -66,7 +66,7 @@ controller CBinaryStreamWriter {
    */
   public void writeImmutable(immutable byte[] array) throws MStreamClosedException {
     if (!mStream) {
-      throw build(MStreamClosedException).onHeap();
+      throw build(MStreamClosedException).onHeap() -> MStreamClosedException*;
     }
 
     ::llvm::function::fwrite(array, 1l, array.getSize(), mStream);
@@ -77,13 +77,13 @@ controller CBinaryStreamWriter {
    */
   public void close() throws MStreamClosedException, MStreamCouldNotCloseException {
     if (mStream == null) {
-      throw build(MStreamClosedException).onHeap();
+      throw build(MStreamClosedException).onHeap() -> MStreamClosedException*;
     }
 
     int result = ::llvm::function::fclose(mStream) -> ::llvm::i32;
 
     if (result != 0) {
-      throw build(MStreamCouldNotCloseException).onHeap();
+      throw build(MStreamCouldNotCloseException).onHeap() -> MStreamCouldNotCloseException*;
     }
   }
 }

@@ -135,7 +135,7 @@ controller CBinaryTrees implements IProgram {
       for (int i = 1; i <= iterations; i++) {
         check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
       }
-      thread.send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap());
+      thread.send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap() -> MResult*);
     }
   }
 

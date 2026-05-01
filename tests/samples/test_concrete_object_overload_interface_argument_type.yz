@@ -29,7 +29,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     IProcessesHasValue* processor = build(MModel).onHeap() -> MModel*;
-    return processor.processHasValue(build(MHasValue).onHeap()) -> int;
+    return processor.processHasValue(build(MHasValue).onHeap() -> MHasValue*) -> int;
   }
 }
 

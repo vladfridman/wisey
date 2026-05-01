@@ -85,10 +85,10 @@ controller CProgram implements IProgram {
   inject CLinkList* mLinkList;
 
   public int run(immutable string[] arguments) override {
-    mLinkList.appendToHead(build(MData).withValue(2).onHeap());
-    mLinkList.appendToHead(build(MData).withValue(1).onHeap());
-    mLinkList.appendToTail(build(MData).withValue(3).onHeap());
-    mLinkList.appendToTail(build(MData).withValue(4).onHeap());
+    mLinkList.appendToHead(build(MData).withValue(2).onHeap() -> MData*);
+    mLinkList.appendToHead(build(MData).withValue(1).onHeap() -> MData*);
+    mLinkList.appendToTail(build(MData).withValue(3).onHeap() -> MData*);
+    mLinkList.appendToTail(build(MData).withValue(4).onHeap() -> MData*);
     // link list looks like this: 1, 2, 3, 4
 
     mLinkList.reverse();

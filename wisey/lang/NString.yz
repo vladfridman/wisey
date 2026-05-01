@@ -157,7 +157,7 @@ node NString {
       return false;
     }
 
-    throw build(MCastException).withFromType("string").withToType("boolean").onHeap();
+    throw build(MCastException).withFromType("string").withToType("boolean").onHeap() -> MCastException*;
   }
 
   /**
@@ -170,7 +170,7 @@ node NString {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("char").onHeap();
+    throw build(MCastException).withFromType("string").withToType("char").onHeap() -> MCastException*;
   }
 
   /**
@@ -183,7 +183,7 @@ node NString {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("int").onHeap();
+    throw build(MCastException).withFromType("string").withToType("int").onHeap() -> MCastException*;
   }
 
   /**
@@ -196,7 +196,7 @@ node NString {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("long").onHeap();
+    throw build(MCastException).withFromType("string").withToType("long").onHeap() -> MCastException*;
   }
 
   /**
@@ -209,7 +209,7 @@ node NString {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("float").onHeap();
+    throw build(MCastException).withFromType("string").withToType("float").onHeap() -> MCastException*;
   }
 
   /**
@@ -222,7 +222,7 @@ node NString {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("double").onHeap();
+    throw build(MCastException).withFromType("string").withToType("double").onHeap() -> MCastException*;
   }
 
   /**

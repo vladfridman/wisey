@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   inject CWorkerThread* mWorkerThread;
 
   public int run(immutable string[] arguments) override {
-    mWorkerThread.start(build(MWorker).onHeap());
+    mWorkerThread.start(build(MWorker).onHeap() -> MWorker*);
     thread.sleep(1);
     mWorkerThread.exit();
 

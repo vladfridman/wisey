@@ -13,7 +13,7 @@ controller CBinaryTrees implements IProgram {
 
   public int run(immutable string[] arguments) override {
     for (long i = 0; i < ARRAY_SIZE; i++) {
-      mArray[i] = build(NElement).withKey(i).onPool(mPool);
+      mArray[i] = build(NElement).withKey(i).onPool(mPool) -> NElement*;
     }
     for (long j = 0; j < 1; j++) {
       for (long i = 0; i < ARRAY_SIZE; i++) {

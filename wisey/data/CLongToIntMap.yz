@@ -6,7 +6,7 @@ package wisey.data;
  * Example:
  * <pre>
  * // Can be injected in a field as well
- * CLongToIntMap* map = CLongToIntMap.create();
+ * CLongToIntMap* map = CLongToIntMap.create() -> CLongToIntMap*;
  *
  * // put a key, value pair into the map
  * map.put(2l, 3);
@@ -38,7 +38,7 @@ controller CLongToIntMap {
    */
   public int get(long key) throws MMapEntryDoesNotExistException {
     if (!::llvm::function::stl_long_to_int_map_has(mStdMap, key)) {
-      throw build(MMapEntryDoesNotExistException).onHeap();
+      throw build(MMapEntryDoesNotExistException).onHeap() -> MMapEntryDoesNotExistException*;
     }
     return ::llvm::function::stl_long_to_int_map_get(mStdMap, key) -> ::llvm::i32;
   }

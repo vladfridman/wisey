@@ -11,7 +11,7 @@ model MContainer {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ::wisey::object objectOwner = build(MContainer).onHeap();
+    ::wisey::object objectOwner = build(MContainer).onHeap() -> MContainer*;
     MContainer containerOwner = objectOwner;
 
     return containerOwner.getValue() -> int;

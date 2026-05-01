@@ -16,7 +16,7 @@ controller CContextManager {
   public ::wisey::object getInstance(string contextName, string objectName) {
     ::wisey::object context = mContextNameToContextMap.get(contextName);
     if (context == null) {
-      throw build(MContextNonExistantException).withContextName(contextName).onHeap();
+      throw build(MContextNonExistantException).withContextName(contextName).onHeap() -> MContextNonExistantException*;
     }
     CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context) -> CReferenceToOwnerMap;
     return objectNameToObjectMap.get(objectName);
@@ -29,7 +29,7 @@ controller CContextManager {
     mContextNameToContextMap.put(contextName, context);
     CReferenceToReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context) -> CReferenceToReferenceMap;
     if (objectNameToObjectMap == null) {
-      mContextToObjectMap.put(context, CReferenceToOwnerMap.create());
+      mContextToObjectMap.put(context, CReferenceToOwnerMap.create() -> CReferenceToOwnerMap*);
     }
   }
 
@@ -51,7 +51,7 @@ controller CContextManager {
   public void setInstance(string contextName, string objectName, ::wisey::object* instance) {
     ::wisey::object context = mContextNameToContextMap.get(contextName);
     if (context == null) {
-      throw build(MContextNonExistantException).withContextName(contextName).onHeap();
+      throw build(MContextNonExistantException).withContextName(contextName).onHeap() -> MContextNonExistantException*;
     }
     CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context) -> CReferenceToOwnerMap;
     objectNameToObjectMap.put(objectName, instance);

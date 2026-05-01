@@ -78,7 +78,7 @@ controller CMandelbrot implements IProgram {
         int result = getByte(xb * 8, mY) -> int;
         line[xb] = (byte) result;
       }
-      thread.send(build(MResult).withArray(line).withY(mY).onHeap());
+      thread.send(build(MResult).withArray(line).withY(mY).onHeap() -> MResult*);
     }
 
     /**

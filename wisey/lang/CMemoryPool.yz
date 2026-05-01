@@ -20,7 +20,7 @@ import wisey.threads.IThread;
  * 
  *   public int run(immutable string[] arguments) override {
  *
- *     NCar* car = build(NCar).withYear(2018).onPool(mPool);
+ *     NCar* car = build(NCar).withYear(2018).onPool(mPool) -> NCar*;
  *
  *     // an exception will be thrown if we set mPool to null because it is non-empty
  *     mPool = null;

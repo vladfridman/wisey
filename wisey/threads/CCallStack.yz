@@ -21,7 +21,7 @@ controller CCallStack {
    * Throws stack overflow exception
    */
   public static void throwStackOverflowException() {
-    throw build(MStackOverflowException).onHeap();
+    throw build(MStackOverflowException).onHeap() -> MStackOverflowException*;
   }
 
   /**

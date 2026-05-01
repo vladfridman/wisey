@@ -11,8 +11,8 @@ package wisey.threads;
  *
  *   public void yourMethod() {
  *     // submit your workers 
- *     mThreadPool.submit(build(MyWorker1).onHeap());
- *     mThreadPool.submit(build(MyWorker2).onHeap());
+ *     mThreadPool.submit(build(MyWorker1).onHeap() -> MyWorker1*);
+ *     mThreadPool.submit(build(MyWorker2).onHeap() -> MyWorker2*);
  *     ...
  *     // start threads on the thread pool, can also be called before workers are submitted
  *     mThreadPool.start();
@@ -51,7 +51,7 @@ controller CThreadPool {
    */
   public void start() {
     for (int i = 0; i < mPoolSize; i++) {
-      mThreads[i] = inject(CPoolThread).onHeap();
+      mThreads[i] = inject(CPoolThread).onHeap() -> CPoolThread*;
       mThreads[i].start(this);
     }
   }
@@ -61,7 +61,7 @@ controller CThreadPool {
    */
   public void waitAndStop() {
     for (int i = 0; i < mThreads.getSize(); i++) {
-      mWorkers.push(build(MEnder).onHeap());
+      mWorkers.push(build(MEnder).onHeap() -> MEnder*);
     }
     for (int i = 0; i < mPoolSize; i++) {
       if (mThreads[i]) {

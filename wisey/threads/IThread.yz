@@ -59,7 +59,7 @@ interface IThread {
    */
   public static void insideThreadGuard(IThread object) throws MThreadBoundaryException {
     if (object != thread) {
-      throw build(MThreadBoundaryException).withIsMethodInternal(true).onHeap();
+      throw build(MThreadBoundaryException).withIsMethodInternal(true).onHeap() -> MThreadBoundaryException*;
     }
   }
 
@@ -68,7 +68,7 @@ interface IThread {
    */
   public static void outsideThreadGuard(IThread object) throws MThreadBoundaryException {
     if (object == thread) {
-      throw build(MThreadBoundaryException).withIsMethodInternal(false).onHeap();
+      throw build(MThreadBoundaryException).withIsMethodInternal(false).onHeap() -> MThreadBoundaryException*;
     }
   }
 }

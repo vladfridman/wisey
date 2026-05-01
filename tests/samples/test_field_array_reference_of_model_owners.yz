@@ -12,7 +12,7 @@ controller CController {
   receive MCar*[] mArray;
 
   public void init() {
-    mArray[4] = build(MCar).onHeap();
+    mArray[4] = build(MCar).onHeap() -> MCar*;
   }
 
   public int getCarYear() {

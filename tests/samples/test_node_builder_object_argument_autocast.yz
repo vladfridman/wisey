@@ -29,7 +29,7 @@ node NCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NCar* car = build(NCar).withYear(build(NYear).withValue(2018).onHeap()).onHeap() -> NCar*;
+    NCar* car = build(NCar).withYear(build(NYear).withValue(2018).onHeap() -> NYear*).onHeap() -> NCar*;
     
     return car.getYear() -> int;
   }

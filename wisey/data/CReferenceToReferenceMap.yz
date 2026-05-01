@@ -8,7 +8,7 @@ package wisey.data;
  * 
  *   public int run(immutable string[] arguments) override {
  *     string make = "Tesla";
- *     MCar* tesla = build(MCar).withMake(make).onHeap(); 
+ *     MCar* tesla = build(MCar).withMake(make).onHeap() -> MCar*; 
  *     // Store entry in the map where key is "Tesla" and value is a reference to MCar
  *     // tesla is not null after this instruction, because the owner does not change
  *     mMap.put(tesla.getMake(), tesla);

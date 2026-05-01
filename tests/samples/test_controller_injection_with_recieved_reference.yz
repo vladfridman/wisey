@@ -21,7 +21,7 @@ controller CService {
 
 controller CProgram implements IProgram {
   inject CService* mService.withIntNumber(
-    build(MIntNumber).withNumber(7).onHeap());
+    build(MIntNumber).withNumber(7).onHeap() -> MIntNumber*);
 
   public int run(immutable string[] arguments) override {
     return mService.getIntNumber().getNumber() -> int;

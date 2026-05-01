@@ -36,7 +36,7 @@ controller CTextStreamReader {
   public static CTextStreamReader* open(NString fileName) throws MFileCouldNotOpenException {
     ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent(), "r");
     if (stream == null) {
-      throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap();
+      throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap() -> MFileCouldNotOpenException*;
     }
     return inject(CTextStreamReader).withStream(stream).onHeap() -> CTextStreamReader*;
   }
@@ -65,7 +65,7 @@ controller CTextStreamReader {
    */
   public NString* readLineIntoNString(NString* line) throws MStreamClosedException {
     if (mStream == null) {
-      throw build(MStreamClosedException).onHeap();
+      throw build(MStreamClosedException).onHeap() -> MStreamClosedException*;
     }
 
     line.clear();
@@ -99,13 +99,13 @@ controller CTextStreamReader {
    */
   public void close() throws MStreamClosedException, MStreamCouldNotCloseException {
     if (mStream == null) {
-      throw build(MStreamClosedException).onHeap();
+      throw build(MStreamClosedException).onHeap() -> MStreamClosedException*;
     }
 
     int result = ::llvm::function::fclose(mStream) -> ::llvm::i32;
 
     if (result != 0) {
-      throw build(MStreamCouldNotCloseException).onHeap();
+      throw build(MStreamCouldNotCloseException).onHeap() -> MStreamCouldNotCloseException*;
     }
   }
 }

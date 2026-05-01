@@ -13,7 +13,7 @@ package wisey.threads;
  *
  *   public void yourMethod() {
  *     // submit your worker on a new worker thread
- *     mWorkerThread.start(build(MWorker).onHeap());
+ *     mWorkerThread.start(build(MWorker).onHeap() -> MWorker*);
  *     // Do some work here in parallel with the new thread
  *     ....
  *     // Wait for the worker thread to finish and get its result
@@ -37,7 +37,7 @@ package wisey.threads;
  *     // Do some work here and compute some value
  *     ...
  *     // Store work results into a model and send it to the caller thread
- *     MResultModel* result = build(MResultModel).withSomeValue(value).onHeap();
+ *     MResultModel* result = build(MResultModel).withSomeValue(value).onHeap() -> MResultModel*;
  *     thread.send(result);
  *   }
  * }
