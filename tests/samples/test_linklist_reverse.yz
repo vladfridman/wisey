@@ -94,13 +94,11 @@ controller CProgram implements IProgram {
     mLinkList.reverse();
     // link list looks like this: 4, 3, 2, 1
 
-    return mLinkList.getHead()                               // -> NNode
-                    .getData()                               // -> MData
-                    .getValue() +                            // -> int
-           mLinkList.getHead()                               // -> NNode
-                    .getNext()                               // -> NNode
-                    .getData()                               // -> MData
-                    .getValue();                             // -> int
+    NNode head = mLinkList.getHead();                                 // -> NNode
+    NNode head1 = head.getNext();                                     // -> NNode
+    int value0 = head.getData().getValue();                           // -> int
+    int value1 = head1.getData().getValue();                          // -> int
+    return value0 + value1;
   }
 }
 

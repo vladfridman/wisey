@@ -28,12 +28,12 @@ controller CKNucleotide implements IProgram, IObjectComparator {
 
   // Execution starts here, input data is read from standard input
   public int run(immutable string[] arguments) override {
-    immutable byte[]* sequence = read();
+    immutable byte[]* sequence = read();                              // -> immutable byte[]*
 
     int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
     CFragment*[]* fragments = createFragments(sequence, fragmentLengths);
 
-    NString stringBuilder = NString.create();
+    NString stringBuilder = NString.create();                         // -> NString*
     stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]));
     stringBuilder.appendNString(
       writeFrequencies((float) sequence.getSize() - 1.0, 
@@ -63,7 +63,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
           .withOffset(offset)
           .withFragmentLength(fragmentLength)
           .withArrayIndex(arrayIndex)
-          .onHeap();
+          .onHeap();                                                  // -> MFragmentWorker*
         mThreadPool.submit(worker);
         arrayIndex++;
       }
@@ -71,7 +71,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     mThreadPool.start();
     CFragment*[]* fragments = new CFragment*[arrayIndex];
     for (int i = 0; i < fragments.getSize(); i++) {
-      MFragmentWorkerResult* result = mThreadPool.getResult();
+      MFragmentWorkerResult* result = mThreadPool.getResult();        // -> MFragmentWorkerResult*
       fragments[result.getArrayIndex()] = result.toController();
     }
     mThreadPool.waitAndStop();
@@ -91,8 +91,8 @@ controller CKNucleotide implements IProgram, IObjectComparator {
      * work() method is where execution starts for an IWorker
      */
     public void work() override {
-      CLongToIntMap map = inject(CFragmentWorkerContext).onHeap().getMap();
-      int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1;
+      CLongToIntMap map = inject(CFragmentWorkerContext).onHeap().getMap();   // -> CLongToIntMap
+      int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1;   // -> int
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
         long key = 0;
         for (int i = index; i < index + mFragmentLength; i++) {
@@ -106,7 +106,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
         .withValues(map.getValues())
         .withKeyLength(mFragmentLength)
         .withArrayIndex(mArrayIndex)
-        .onHeap();
+        .onHeap();                                                    // -> MFragmentWorkerResult*
       map.clear();
       thread.send(result);
     }
@@ -132,7 +132,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     public CFragment* toController() {
       CFragment* fragment = inject(CFragment)
         .withKeyLength(mKeyLength)
-        .onHeap();
+        .onHeap();                                                    // -> CFragment*
       for (int i = 0; i < mKeys.getSize(); i++) {
         fragment.getMap().put(mKeys[i], mValues[i]);
       }
@@ -202,8 +202,8 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Sums two maps of int to long from two fragments
    */
   private CFragment sumTwoMaps(CFragment fragment1, CFragment fragment2) {
-    long[]* keysArray = fragment2.getMap().getKeys();
-    int[]* valuesArray = fragment2.getMap().getValues();
+    long[]* keysArray = fragment2.getMap().getKeys();                 // -> long[]*
+    int[]* valuesArray = fragment2.getMap().getValues();              // -> int[]*
     for (int i = 0; i < keysArray.getSize(); i++) {
       long key = keysArray[i];
       fragment1.getMap().addTo(key, valuesArray[i]);
@@ -215,19 +215,19 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Writes test results into a string
    */
   private NString* writeFrequencies(float totalCount, CFragment frequencies) {
-    long[]* keysArray = frequencies.getMap().getKeys();
-    int[]* valuesArray = frequencies.getMap().getValues();
-    COwnerVector* vector = inject(COwnerVector).onHeap();
+    long[]* keysArray = frequencies.getMap().getKeys();               // -> long[]*
+    int[]* valuesArray = frequencies.getMap().getValues();            // -> int[]*
+    COwnerVector* vector = inject(COwnerVector).onHeap();             // -> COwnerVector*
     for (int i = 0; i < keysArray.getSize(); i++) {
       NKeyValuePair* pair = build(NKeyValuePair)
         .withKey(keysArray[i])
         .withValue(valuesArray[i])
-        .onHeap();
+        .onHeap();                                                    // -> NKeyValuePair*
       vector.pushBack(pair);
     }
     vector.sort(this);
-    NString* sb = NString.create();
-    int keyLength = frequencies.getKeyLength();
+    NString* sb = NString.create();                                   // -> NString*
+    int keyLength = frequencies.getKeyLength();                       // -> int
     for (int i = 0; i < keysArray.getSize(); i++) {
       sb.appendNString(keyToString(keysArray[i], keyLength));
       sb.appendString(" ");
@@ -242,7 +242,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Compare function used for sorting of the NKeyValuePair vector 
    */
   private boolean compare(NKeyValuePair left, NKeyValuePair right) override {
-    return left.getValue() < right.getValue();
+    return left.getValue() < right.getValue();                        // -> boolean
   }
 
   /**
@@ -255,15 +255,15 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       res[length - i - 1] = NUCLEOTIDES[(int) (key & 0x3)];
       key = key >> 2;
     }
-    return NString.createFromCharArray(res);
+    return NString.createFromCharArray(res);                          // -> NString*
   }
 
   /**
    * Writes other test results into a string
    */
   private NString* writeCount(CFragment*[] fragments, string nucleotideFragment) {
-    byte[]* key = toCodesFromString(nucleotideFragment);
-    long k = getKey(key, 0, (int) nucleotideFragment.getLength());
+    byte[]* key = toCodesFromString(nucleotideFragment);              // -> byte[]*
+    long k = getKey(key, 0, (int) nucleotideFragment.getLength());    // -> long
     int count = 0;
     for (int i = 0; i < fragments.getSize(); i++) {
       CFragment fragment = (CFragment) fragments[i];
@@ -274,7 +274,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       }
     }
 
-    NString* value = NString.createFromInt(count);
+    NString* value = NString.createFromInt(count);                    // -> NString*
     value.appendString("\t");
     value.appendString(nucleotideFragment);
     value.appendString("\n");
@@ -285,9 +285,9 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Take nucleotide fragment and convert it to byte array of codes
    */
   private static byte[]* toCodesFromString(string input) {
-    NString* nstring = NString.createFromString(input);
-    char[] nstringContent = nstring.getContent();
-    byte[]* result = new byte[nstringContent.getSize() - 1];
+    NString* nstring = NString.createFromString(input);               // -> NString*
+    char[] nstringContent = nstring.getContent();                     // -> char[]
+    byte[]* result = new byte[nstringContent.getSize() - 1];          // -> byte[]*
     for (int i = 0; i < nstringContent.getSize() - 1; i++) {
       result[i] = CODES[(byte) nstringContent[i] & 0x7];
     }
@@ -298,8 +298,8 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Reads input data from standard input
    */
   private byte[]* read() {
-    NString* line = NString.create();
-    CTextStreamReader* stream = CTextStreamReader.openSystemIn();
+    NString* line = NString.create();                                 // -> NString*
+    CTextStreamReader* stream = CTextStreamReader.openSystemIn();     // -> CTextStreamReader*
     while ((line = stream.readLineIntoNString(line)) != null) {
       if (line.startsWith(">THREE")) {
         break;
@@ -310,7 +310,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     long position = 0;
     while ((line = stream.readLineIntoNString(line)) != null && line.charAt(0) != '>') {
       if (line.getLength() + position > bytes.getSize()) {
-        byte[]* newBytes = new byte[bytes.getSize() * 2];
+        byte[]* newBytes = new byte[bytes.getSize() * 2];             // -> byte[]*
         MSystem.copyMemory(newBytes, bytes, position);
         bytes = newBytes;
       }
@@ -320,7 +320,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     }
     stream.close();
 
-    return toCodes(bytes, position);
+    return toCodes(bytes, position);                                  // -> byte[]*
   }
 
   /**

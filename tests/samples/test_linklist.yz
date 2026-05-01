@@ -73,18 +73,15 @@ controller CProgram implements IProgram {
     mLinkList.appendToTail(build(MData).withValue(3).onHeap());
     mLinkList.appendToTail(build(MData).withValue(4).onHeap());
 
-    return mLinkList.getHead()                               // -> NNode
-                    .getData()                               // -> MData
-                    .getValue() +                            // -> int
-           mLinkList.getHead()                               // -> NNode
-                    .getNext()                               // -> NNode
-                    .getNext()                               // -> NNode
-                    .getNext()                               // -> NNode
-                    .getData()                               // -> MData
-                    .getValue() +                            // -> int
-           mLinkList.getTail()                               // -> NNode
-                    .getData()                               // -> MData
-                    .getValue();                             // -> int
+    NNode head = mLinkList.getHead();                                 // -> NNode
+    NNode tail = mLinkList.getTail();                                 // -> NNode
+    NNode next1 = head.getNext();                                     // -> NNode
+    NNode next2 = next1.getNext();                                    // -> NNode
+    NNode next3 = next2.getNext();                                    // -> NNode
+    int value0 = head.getData().getValue();                           // -> int
+    int value3 = next3.getData().getValue();                          // -> int
+    int valueT = tail.getData().getValue();                           // -> int
+    return value0 + value3 + valueT;
   }
 }
 
