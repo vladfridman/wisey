@@ -25,7 +25,8 @@ controller CProgram implements IProgram {
 
     printout("Hashmap size: " + map.getSize() + "\n");
 
-    MCar car = map.get(toyota.getMake());
+    MCar car = map.get(toyota.getMake()) -> MCar;
+
     printout("Lookup " + toyota.getMake() + ": " + car.getMake() + "\n");
     car = map.get(bmw.getMake());
     printout("Lookup " + bmw.getMake() + ": " + car.getMake() + "\n");

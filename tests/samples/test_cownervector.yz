@@ -31,7 +31,8 @@ controller CProgram implements IProgram, IObjectComparator {
       printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() + "\n");
     }
 
-    MCar* car = mVector.popBack();
+    MCar* car = mVector.popBack() -> MCar*;
+
 
     printout("Car year: " + car.getYear() + "\n");
 
@@ -39,7 +40,8 @@ controller CProgram implements IProgram, IObjectComparator {
 
     printout("Vector size: " + mVector.getSize() + "\n");
 
-    MCar carRef = mVector.getAt(0);
+    MCar carRef = mVector.getAt(0) -> MCar;
+
 
     printout("Car year: " + carRef.getYear() + "\n");
     carRef = null;

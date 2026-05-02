@@ -34,7 +34,8 @@ controller CProgram implements IProgram {
       printout("bmw is not null\n");
     }
 
-    MCar car = mMap.get(toyotaMake);
+    MCar car = mMap.get(toyotaMake) -> MCar;
+
     printout("Lookup " + toyotaMake + ": " + car.getMake() + "\n");
     car = mMap.get(bmwMake);
     printout("Lookup " + bmwMake + ": " + car.getMake() + "\n");
@@ -49,7 +50,8 @@ controller CProgram implements IProgram {
       printout("BMW is still there\n");
     }
 
-    MCar* carOwner = mMap.take(toyotaMake);
+    MCar* carOwner = mMap.take(toyotaMake) -> MCar*;
+
     printout("Take result: " + carOwner.getMake() + "\n");
     carOwner = null;
     car = mMap.get(toyotaMake);

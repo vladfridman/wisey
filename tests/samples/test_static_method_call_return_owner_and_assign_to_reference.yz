@@ -17,7 +17,8 @@ controller CService {
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    MData data = CService.newData();
+    MData data = CService.newData() -> MData;
+
     return data.getResult() -> int;
   }
 }

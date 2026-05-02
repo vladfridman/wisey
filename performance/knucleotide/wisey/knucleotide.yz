@@ -31,7 +31,8 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     immutable byte[]* sequence = read() -> immutable byte[]*;
 
     int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
-    CFragment*[]* fragments = createFragments(sequence, fragmentLengths);
+    CFragment*[]* fragments = createFragments(sequence, fragmentLengths) -> CFragment*[]*;
+
 
     NString stringBuilder = NString.create() -> NString*;
     stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]));

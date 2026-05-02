@@ -27,7 +27,7 @@ controller CReferenceList {
    * Pops an object reference from the back of the list, returns null if the list is empty
    */
   public ::wisey::object popBack() {
-    ::wisey::object value = ::llvm::function::stl_reference_list_pop_back(mList);
+    ::wisey::object value = ::llvm::function::stl_reference_list_pop_back(mList) -> ::wisey::object;
     return value;
   }
 
@@ -49,7 +49,7 @@ controller CReferenceList {
    * Pops an object reference from the front of the list, returns null if the list is empty
    */
   public ::wisey::object popFront() {
-    ::wisey::object value = ::llvm::function::stl_reference_list_pop_front(mList);
+    ::wisey::object value = ::llvm::function::stl_reference_list_pop_front(mList) -> ::wisey::object;
     return value;
   }
 

@@ -11,6 +11,7 @@
 
 #include "Assignment.hpp"
 #include "Environment.hpp"
+#include "IExpression.hpp"
 #include "Identifier.hpp"
 #include "IntrinsicFunctions.hpp"
 #include "IRGenerationContext.hpp"
@@ -66,7 +67,9 @@ void VariableDeclaration::generateIR(IRGenerationContext& context) const {
   if (mAssignmentExpression == NULL) {
     return;
   }
-  
+
+  IExpression::requireAnnotated(context, mAssignmentExpression, "variable declaration");
+
   vector<const IExpression*> arrayIndices;
   IVariable* variable = mIdentifier->getVariable(context, arrayIndices);
   variable->generateAssignmentIR(context, mAssignmentExpression, arrayIndices, mLine);

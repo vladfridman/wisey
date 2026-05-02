@@ -17,7 +17,8 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ::llvm::i8::pointer map = ::llvm::function::stl_map_create();
+    ::llvm::i8::pointer map = ::llvm::function::stl_map_create() -> ::llvm::i8::pointer;
+
 
     MCar* car1 = build(MCar).withYear(2018).onHeap() -> MCar*;
     MCar* car2 = build(MCar).withYear(2017).onHeap() -> MCar*;
