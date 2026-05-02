@@ -4,6 +4,6 @@ model MAdder {
   public int add(int a, int b) {
     MDoer doer = build(MDoer).onHeap() -> MDoer*;
 
-    return doer.get(a) + doer.get(b); 
+    return doer.get(a) -> int + doer.get(b) -> int;
   }
 }

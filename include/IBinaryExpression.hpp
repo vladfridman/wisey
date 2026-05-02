@@ -38,6 +38,17 @@ namespace wisey {
                               std::iostream& stream,
                               const IBinaryExpression* expression);
 
+    /**
+     * Reports an error if either side of a binary expression is an
+     * unannotated call. The visible-types pilot requires both operands
+     * of `a + foo()`, `a < foo()`, `a && foo()` etc. to be wrapped in
+     * `expr -> Type` so the type at the use site is local.
+     */
+    static void requireAnnotatedOperands(IRGenerationContext& context,
+                                         const IExpression* left,
+                                         const IExpression* right,
+                                         const char* description);
+
   };
 
 } /* namespace wisey */

@@ -8,6 +8,7 @@
 
 #include "AutoCast.hpp"
 #include "IArithmeticExpression.hpp"
+#include "IBinaryExpression.hpp"
 #include "PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -21,6 +22,10 @@ void IArithmeticExpression::checkTypes(IRGenerationContext& context,
                                        int line) {
   IExpression::checkForUndefined(context, leftExpression);
   IExpression::checkForUndefined(context, rightExpression);
+  IBinaryExpression::requireAnnotatedOperands(context,
+                                              leftExpression,
+                                              rightExpression,
+                                              "arithmetic operand");
 
   const IType* leftType = leftExpression->getType(context);
   const IType* rightType = rightExpression->getType(context);

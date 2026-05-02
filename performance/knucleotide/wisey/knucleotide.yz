@@ -37,11 +37,11 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     NString stringBuilder = NString.create() -> NString*;
     stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]) -> NString*);
     stringBuilder.appendNString(
-      writeFrequencies((float) sequence.getSize() - 1.0,
+      writeFrequencies((float) sequence.getSize() -> long - 1.0,
       sumTwoMaps(fragments[1], fragments[2]) -> CFragment) -> NString*);
 
     string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
-    for (int i = 0; i < nucleotideFragments.getSize(); i++) {
+    for (int i = 0; i < nucleotideFragments.getSize() -> long; i++) {
       string nucleotideFragment = nucleotideFragments[i];
       stringBuilder.appendNString(writeCount(fragments, nucleotideFragment) -> NString*);
     }
@@ -55,7 +55,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    */
   private CFragment*[]* createFragments(immutable byte[] sequence, int[] fragmentLengths) {
     int arrayIndex = 0;
-    for (int i = 0; i < fragmentLengths.getSize(); i++) {
+    for (int i = 0; i < fragmentLengths.getSize() -> long; i++) {
       int fragmentLength = fragmentLengths[i];
       for (int index = 0; index < fragmentLength; index++) {
         int offset = index;
@@ -71,7 +71,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     }
     mThreadPool.start();
     CFragment*[]* fragments = new CFragment*[arrayIndex];
-    for (int i = 0; i < fragments.getSize(); i++) {
+    for (int i = 0; i < fragments.getSize() -> long; i++) {
       MFragmentWorkerResult* result = mThreadPool.getResult() -> MFragmentWorkerResult*;
       fragments[result.getArrayIndex()] = result.toController() -> CFragment*;
     }
@@ -93,7 +93,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
      */
     public void work() override {
       CLongToIntMap map = inject(CFragmentWorkerContext).onHeap().getMap() -> CLongToIntMap;
-      int lastIndex = (int) mSequence.getSize() - mFragmentLength + 1 -> int;
+      int lastIndex = (int) mSequence.getSize() -> long - mFragmentLength + 1 -> int;
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
         long key = 0;
         for (int i = index; i < index + mFragmentLength; i++) {
@@ -134,7 +134,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       CFragment* fragment = inject(CFragment)
         .withKeyLength(mKeyLength)
         .onHeap() -> CFragment*;
-      for (int i = 0; i < mKeys.getSize(); i++) {
+      for (int i = 0; i < mKeys.getSize() -> long; i++) {
         fragment.getMap().put(mKeys[i], mValues[i]);
       }
       return fragment;
@@ -205,7 +205,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   private CFragment sumTwoMaps(CFragment fragment1, CFragment fragment2) {
     long[]* keysArray = fragment2.getMap().getKeys() -> long[]*;
     int[]* valuesArray = fragment2.getMap().getValues() -> int[]*;
-    for (int i = 0; i < keysArray.getSize(); i++) {
+    for (int i = 0; i < keysArray.getSize() -> long; i++) {
       long key = keysArray[i];
       fragment1.getMap().addTo(key, valuesArray[i]);
     }
@@ -219,7 +219,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     long[]* keysArray = frequencies.getMap().getKeys() -> long[]*;
     int[]* valuesArray = frequencies.getMap().getValues() -> int[]*;
     COwnerVector* vector = inject(COwnerVector).onHeap() -> COwnerVector*;
-    for (int i = 0; i < keysArray.getSize(); i++) {
+    for (int i = 0; i < keysArray.getSize() -> long; i++) {
       NKeyValuePair* pair = build(NKeyValuePair)
         .withKey(keysArray[i])
         .withValue(valuesArray[i])
@@ -229,7 +229,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     vector.sort(this);
     NString* sb = NString.create() -> NString*;
     int keyLength = frequencies.getKeyLength() -> int;
-    for (int i = 0; i < keysArray.getSize(); i++) {
+    for (int i = 0; i < keysArray.getSize() -> long; i++) {
       sb.appendNString(keyToString(keysArray[i], keyLength) -> NString*);
       sb.appendString(" ");
       sb.appendNString(NString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount) -> NString*);
@@ -266,9 +266,9 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     byte[]* key = toCodesFromString(nucleotideFragment) -> byte[]*;
     long k = getKey(key, 0, (int) nucleotideFragment.getLength()) -> long;
     int count = 0;
-    for (int i = 0; i < fragments.getSize(); i++) {
+    for (int i = 0; i < fragments.getSize() -> long; i++) {
       CFragment fragment = (CFragment) fragments[i];
-      if (fragment.getKeyLength() == nucleotideFragment.getLength()) {
+      if (fragment.getKeyLength() -> int == nucleotideFragment.getLength() -> long) {
         if (fragment.getMap().has(k)) {
           count += fragment.getMap().get(k);
         }
@@ -288,8 +288,8 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   private static byte[]* toCodesFromString(string input) {
     NString* nstring = NString.createFromString(input) -> NString*;
     char[] nstringContent = nstring.getContent() -> char[];
-    byte[]* result = new byte[nstringContent.getSize() - 1];
-    for (int i = 0; i < nstringContent.getSize() - 1; i++) {
+    byte[]* result = new byte[nstringContent.getSize() -> long - 1];
+    for (int i = 0; i < nstringContent.getSize() -> long - 1; i++) {
       result[i] = CODES[(byte) nstringContent[i] & 0x7];
     }
     return result;
@@ -310,12 +310,12 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     byte[]* bytes = new byte[1048576];
     long position = 0;
     while ((line = stream.readLineIntoNString(line) -> NString*) != null && line.charAt(0) != '>') {
-      if (line.getLength() + position > bytes.getSize()) {
-        byte[]* newBytes = new byte[bytes.getSize() * 2];
+      if (line.getLength() -> long + position > bytes.getSize() -> long) {
+        byte[]* newBytes = new byte[bytes.getSize() -> long * 2];
         MSystem.copyMemory(newBytes, bytes, position);
         bytes = newBytes;
       }
-      for (int i = 0; i < line.getLength(); i++) {
+      for (int i = 0; i < line.getLength() -> long; i++) {
         bytes[position++] = (byte) line.charAt(i);
       }
     }

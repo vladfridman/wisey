@@ -7,10 +7,10 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("123") -> NString*;
-    printout("Before nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
+    printout("Before nstring: " + nstring + " capacity: " + nstring.getCapacity() -> long + "\n");
     NString* appnedix = NString.createFromString("4567") -> NString*;
     nstring.appendNString(appnedix);
-    printout("After nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
+    printout("After nstring: " + nstring + " capacity: " + nstring.getCapacity() -> long + "\n");
     return (int) nstring.getLength() -> int;
   }
 }

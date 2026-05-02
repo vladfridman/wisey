@@ -39,7 +39,7 @@ controller CBinaryTrees implements IProgram {
 
     NTreeNode* treeNode = bottomUpTree(stretchDepth, mLongLivedPool) -> NTreeNode*;
     printout("stretch tree of depth " + stretchDepth + "\t check: " 
-       + treeNode.itemCheck() + "\n");
+       + treeNode.itemCheck() -> int + "\n");
 
     treeNode = bottomUpTree(maxDepth, mLongLivedPool) -> NTreeNode*;
 
@@ -58,17 +58,17 @@ controller CBinaryTrees implements IProgram {
     mThreadPool.start();
     MResult*[]* results = new MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
     int resultCount = 0;
-    while (resultCount < results.getSize()) {
+    while (resultCount < results.getSize() -> long) {
       MResult* result = mThreadPool.getResult() -> MResult*;
-      results[(result.getDepth() - MIN_DEPTH) / 2] = result;
+      results[(result.getDepth() -> int - MIN_DEPTH) / 2] = result;
       resultCount++;
     }
     mThreadPool.waitAndStop();
 
-    for (int i = 0; i < results.getSize(); i++) {
+    for (int i = 0; i < results.getSize() -> long; i++) {
       results[i].printme();
     }
-    printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode.itemCheck() + "\n");
+    printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode.itemCheck() -> int + "\n");
 
     return 1;
   }
@@ -100,7 +100,7 @@ controller CBinaryTrees implements IProgram {
       if (null == mLeft) {
         return 1;
       }
-      return 1 + mLeft.itemCheck() + mRight.itemCheck() -> int;
+      return 1 + mLeft.itemCheck() -> int + mRight.itemCheck() -> int;
     }
   }
 
@@ -134,7 +134,7 @@ controller CBinaryTrees implements IProgram {
 
       int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
       for (int i = 1; i <= iterations; i++) {
-        check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck();
+        check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck() -> int;
       }
       thread.send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap() -> MResult*);
     }

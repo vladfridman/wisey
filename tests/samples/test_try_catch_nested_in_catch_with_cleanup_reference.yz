@@ -40,7 +40,7 @@ controller CCatcher {
         mThrower.doThrow(4);
         return 2;
       } catch(MException* exception) {
-        return exception.getValue() + 1 -> int;
+        return exception.getValue() -> int + 1;
       }
     }
   }

@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "IExpression.hpp"
 #include "InstanceOfFunction.hpp"
 #include "IRWriter.hpp"
 #include "Log.hpp"
@@ -34,6 +35,7 @@ int TypeComparisionExpression::getLine() const {
 
 Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
                                              const IType* assignToType) const {
+  IExpression::requireAnnotated(context, mExpression, "instanceof operand");
   const IType* expressionType = mExpression->getType(context);
   const IType* type = mTypeSpecifier->getType(context);
   LLVMContext& llvmContext = context.getLLVMContext();

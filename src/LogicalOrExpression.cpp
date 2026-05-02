@@ -10,6 +10,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "AutoCast.hpp"
+#include "IBinaryExpression.hpp"
 #include "IRGenerationContext.hpp"
 #include "IRWriter.hpp"
 #include "Log.hpp"
@@ -40,6 +41,8 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context,
                                        const IType* assignToType) const {
   IExpression::checkForUndefined(context, mLeftExpression);
   IExpression::checkForUndefined(context, mRightExpression);
+  IBinaryExpression::requireAnnotatedOperands(context, mLeftExpression, mRightExpression,
+                                              "logical-or operand");
 
   Value* leftValue = mLeftExpression->generateIR(context, assignToType);
   Value* leftValueCast = AutoCast::maybeCast(context,

@@ -12,6 +12,7 @@
 #include "AdjustByExpression.hpp"
 #include "AutoCast.hpp"
 #include "FakeExpression.hpp"
+#include "IBinaryExpression.hpp"
 #include "IRGenerationContext.hpp"
 #include "IRWriter.hpp"
 #include "Log.hpp"
@@ -69,6 +70,7 @@ Value* AdjustByExpression::generateIR(IRGenerationContext& context,
                                       const IType* assignToType) const {
   const IType* expressionType = mExpression->getType(context);
   IExpression::checkForUndefined(context, mExpression);
+  IExpression::requireAnnotated(context, mAdjustment, "compound-adjustment operand");
   if (!mExpression->isAssignable()) {
     context.reportError(mLine, "Increment/decrement operation may only be applied to variables");
     throw 1;

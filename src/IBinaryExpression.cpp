@@ -19,3 +19,11 @@ void IBinaryExpression::printToStream(IRGenerationContext& context,
   stream << " " << expression->getOperation() << " ";
   expression->getRight()->printToStream(context, stream);
 }
+
+void IBinaryExpression::requireAnnotatedOperands(IRGenerationContext& context,
+                                                 const IExpression* left,
+                                                 const IExpression* right,
+                                                 const char* description) {
+  IExpression::requireAnnotated(context, left, description);
+  IExpression::requireAnnotated(context, right, description);
+}

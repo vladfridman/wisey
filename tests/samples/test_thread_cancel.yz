@@ -26,18 +26,18 @@ controller CProgram implements IProgram {
   inject CWorkerThread* mWorkerThread;
 
   public int run(immutable string[] arguments) override {
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has result = " + mWorkerThread.isFinished() + 
-      ", was cancelled = " + mWorkerThread.isCancelled() + "\n");
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has result = " + mWorkerThread.isFinished() -> boolean + 
+      ", was cancelled = " + mWorkerThread.isCancelled() -> boolean + "\n");
     printout("Starting worker thread\n");
     mWorkerThread.start(build(MWorker).onHeap() -> MWorker*);
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has result = " + mWorkerThread.isFinished() + 
-      ", was cancelled = " + mWorkerThread.isCancelled() + "\n");
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has result = " + mWorkerThread.isFinished() -> boolean + 
+      ", was cancelled = " + mWorkerThread.isCancelled() -> boolean + "\n");
     mWorkerThread.cancel();
     printout("Worker thread cancelled\n");
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has result = " + mWorkerThread.isFinished() + 
-      ", was cancelled = " + mWorkerThread.isCancelled() + "\n");
-    if (mWorkerThread.awaitResult() == null) {
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has result = " + mWorkerThread.isFinished() -> boolean + 
+      ", was cancelled = " + mWorkerThread.isCancelled() -> boolean + "\n");
+    if (mWorkerThread.awaitResult() -> ::wisey::model* == null) {
       printout("Thread result is null\n");
     }
     return 0;

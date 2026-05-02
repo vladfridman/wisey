@@ -34,15 +34,15 @@ controller CCatcher {
   inject CThrower* mThrower;
 
   public void doTryCatch(CResult result) throws MException {
-    result.setValue(result.getValue() + 1);
+    result.setValue(result.getValue() -> int + 1);
     try {
       mThrower.doThrow();
-      result.setValue(result.getValue() + 2);
+      result.setValue(result.getValue() -> int + 2);
     } catch (MException* exception) {
-      result.setValue(result.getValue() + 4);
+      result.setValue(result.getValue() -> int + 4);
       mThrower.doThrow();
     }
-    result.setValue(result.getValue() + 16);
+    result.setValue(result.getValue() -> int + 16);
   }
 }
 
@@ -55,7 +55,7 @@ controller CProgram implements IProgram {
     try {
       mCatcher.doTryCatch(mResult);
     } catch (MException* exception) {
-      mResult.setValue(mResult.getValue() + 32);
+      mResult.setValue(mResult.getValue() -> int + 32);
     }
     return mResult.getValue() -> int;
   }

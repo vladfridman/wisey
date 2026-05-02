@@ -13,7 +13,7 @@ controller CProgram implements IProgram {
     array[2] = 'f';
     immutable char[]* immutableArray = array;
     NString* nstring = NString.createFromImmutableCharArray(immutableArray) -> NString*;
-    printout("nstring: " + nstring + " length: " + nstring.getLength() + " capacity: " + nstring.getCapacity() + "\n");
+    printout("nstring: " + nstring + " length: " + nstring.getLength() -> long + " capacity: " + nstring.getCapacity() -> long + "\n");
     return (int) nstring.getLength() -> int;
   }
 }

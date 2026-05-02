@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "IBinaryExpression.hpp"
 #include "IRGenerationContext.hpp"
 #include "IRWriter.hpp"
 #include "Log.hpp"
@@ -61,6 +62,7 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   IExpression::checkForUndefined(context, mLeft);
   IExpression::checkForUndefined(context, mRight);
+  IBinaryExpression::requireAnnotatedOperands(context, mLeft, mRight, "relational operand");
 
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);

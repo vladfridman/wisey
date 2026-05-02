@@ -16,19 +16,19 @@ model MString {
    * Creates an MString from a string literal
    */
   public static MString* createFromString(string input) {
-    return copyMemoryAndBuild(input, input.getLength() + 1) -> MString*;
+    return copyMemoryAndBuild(input, input.getLength() -> long + 1) -> MString*;
   }
 
   /**
    * Creates an MString from a null terminated char array
    */
   public static MString* createFromCharArray(char[] input) {
-    if (input.getSize() == 0) {
+    if (input.getSize() -> long == 0) {
       return copyMemoryAndBuild(input, 1) -> MString*;
     }
-    long length = input[input.getSize() - 1] == '\0' 
+    long length = input[input.getSize() -> long - 1] == '\0'
       ? (long) ::llvm::function::strlen(input) + 1
-      : input.getSize() + 1 -> int;
+      : input.getSize() -> long + 1;
     return copyMemoryAndBuild(input, length) -> MString*;
   }
 
@@ -36,12 +36,12 @@ model MString {
    * Creates an MString from a null terminated immutable char array
    */
   public static MString* createFromImmutableCharArray(immutable char[] input) {
-    if (input.getSize() == 0) {
+    if (input.getSize() -> long == 0) {
       return copyMemoryAndBuild(input, 1) -> MString*;
     }
-    long length = input[input.getSize() - 1] == '\0' 
+    long length = input[input.getSize() -> long - 1] == '\0'
       ? (long) ::llvm::function::strlen(input) + 1
-      : input.getSize() + 1 -> int;
+      : input.getSize() -> long + 1;
     return copyMemoryAndBuild(input, length) -> MString*;
   }
 

@@ -21,7 +21,7 @@ controller CMandelbrot implements IProgram {
   // Execution starts here, size of the mandelbrot map passed from command line through arguments
   public int run(immutable string[] arguments) override {
     int n = 6000;
-    if (arguments.getSize() >= 2) {
+    if (arguments.getSize() -> long >= 2) {
       n = NString.createFromString(arguments[1]).toInt() -> int;
 
     }

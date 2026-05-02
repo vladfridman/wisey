@@ -43,20 +43,20 @@ controller CProgram implements IProgram {
 
     CCar car = mContextManager.getInstance(context1, toyotaMake) -> ::wisey::object;
     printout("In context " + context1 + " looking for " + toyotaMake + " got " +
-      car.getMake() + " back\n");
+      car.getMake() -> string + " back\n");
     car = mContextManager.getInstance(context1, bmwMake) -> ::wisey::object;
     printout("In context " + context1 + " looking for " + bmwMake + " got " +
-      car.getMake() + " back\n");
+      car.getMake() -> string + " back\n");
 
     car = mContextManager.getInstance(context2, mecedesMake) -> ::wisey::object;
     printout("In context " + context2 + " looking for " + mecedesMake + " got " +
-      car.getMake() + " back\n");
+      car.getMake() -> string + " back\n");
 
     CCar* replacement = inject(CCar).withMake("Audi").onHeap() -> CCar*;
     mContextManager.setInstance(context1, bmwMake, replacement);
     car = mContextManager.getInstance(context1, bmwMake) -> ::wisey::object;
     printout("In context " + context2 + " looking for " + bmwMake + " got " +
-      car.getMake() + " back\n");
+      car.getMake() -> string + " back\n");
 
     return 1;
   }

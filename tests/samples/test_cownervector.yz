@@ -21,29 +21,29 @@ controller CProgram implements IProgram, IObjectComparator {
     mVector.pushBack(build(MCar).withYear(2016).onHeap() -> MCar*);
     mVector.pushBack(build(MCar).withYear(2015).onHeap() -> MCar*);
 
-    for (int i = 0; i < mVector.getSize(); i++) {
-      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() + "\n");
+    for (int i = 0; i < mVector.getSize() -> long; i++) {
+      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() -> int + "\n");
     }
     
     mVector.sort(this);
 
-    for (int i = 0; i < mVector.getSize(); i++) {
-      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() + "\n");
+    for (int i = 0; i < mVector.getSize() -> long; i++) {
+      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() -> int + "\n");
     }
 
     MCar* car = mVector.popBack() -> MCar*;
 
 
-    printout("Car year: " + car.getYear() + "\n");
+    printout("Car year: " + car.getYear() -> int + "\n");
 
     car = null;
 
-    printout("Vector size: " + mVector.getSize() + "\n");
+    printout("Vector size: " + mVector.getSize() -> long + "\n");
 
     MCar carRef = mVector.getAt(0) -> MCar;
 
 
-    printout("Car year: " + carRef.getYear() + "\n");
+    printout("Car year: " + carRef.getYear() -> int + "\n");
     carRef = null;
 
     mVector.clear();
@@ -52,7 +52,7 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   public boolean compare(MCar left, MCar right) override {
-    return left.getYear() < right.getYear();
+    return left.getYear() -> int < right.getYear() -> int;
   }
 }
 

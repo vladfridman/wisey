@@ -7,9 +7,9 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("123456") -> NString*;
-    printout("Before nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
+    printout("Before nstring: " + nstring + " capacity: " + nstring.getCapacity() -> long + "\n");
     nstring.appendString("7");
-    printout("After nstring: " + nstring + " capacity: " + nstring.getCapacity() + "\n");
+    printout("After nstring: " + nstring + " capacity: " + nstring.getCapacity() -> long + "\n");
     return (int) nstring.getLength() -> int;
   }
 }

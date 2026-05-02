@@ -12,10 +12,10 @@ controller CProgram implements IProgram {
     array[1] = 'e';
     array[2] = 's';
     array[3] = 't';
-    return mstring.compareToString("test") 
-      + mstring.compareToMString(mstring) 
-      + mstring.compareToImmutableCharArray(mstring.getContent() -> immutable char[])
-      + mstring.compareToCharArray(array);
+    return mstring.compareToString("test") -> int
+      + mstring.compareToMString(mstring) -> int
+      + mstring.compareToImmutableCharArray(mstring.getContent() -> immutable char[]) -> int
+      + mstring.compareToCharArray(array) -> int;
   }
 }
 

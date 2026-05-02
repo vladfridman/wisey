@@ -23,17 +23,17 @@ controller CProgram implements IProgram {
     map.put(bmw.getMake() -> string, bmw);
     map.put(mercedes.getMake() -> string, mercedes);
 
-    printout("Hashmap size: " + map.getSize() + "\n");
+    printout("Hashmap size: " + map.getSize() -> long + "\n");
 
     MCar car = map.get(toyota.getMake() -> string) -> MCar;
 
-    printout("Lookup " + toyota.getMake() + ": " + car.getMake() + "\n");
+    printout("Lookup " + toyota.getMake() -> string + ": " + car.getMake() -> string + "\n");
     car = map.get(bmw.getMake() -> string) -> MCar;
 
-    printout("Lookup " + bmw.getMake() + ": " + car.getMake() + "\n");
+    printout("Lookup " + bmw.getMake() -> string + ": " + car.getMake() -> string + "\n");
     car = map.get(mercedes.getMake() -> string) -> MCar;
 
-    printout("Lookup " + mercedes.getMake() + ": " + car.getMake() + "\n");
+    printout("Lookup " + mercedes.getMake() -> string + ": " + car.getMake() -> string + "\n");
 
     map.erase(bmw.getMake() -> string);
     car = map.get(bmw.getMake() -> string) -> MCar;

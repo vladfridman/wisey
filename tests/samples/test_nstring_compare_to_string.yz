@@ -14,11 +14,11 @@ controller CProgram implements IProgram {
     array[1] = 'e';
     array[2] = 's';
     array[3] = 't';
-    return nstring.compareToString("test") 
-      + nstring.compareToMString(mstring) 
-      + nstring.compareToNString(nstring) 
-      + nstring.compareToImmutableCharArray(mstring.getContent() -> immutable char[])
-      + nstring.compareToCharArray(array);
+    return nstring.compareToString("test") -> int
+      + nstring.compareToMString(mstring) -> int
+      + nstring.compareToNString(nstring) -> int
+      + nstring.compareToImmutableCharArray(mstring.getContent() -> immutable char[]) -> int
+      + nstring.compareToCharArray(array) -> int;
   }
 }
 

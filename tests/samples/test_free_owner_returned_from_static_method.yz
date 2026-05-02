@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
   }
 
   public int run(immutable string[] arguments) override {
-    printout(getOwner().getValue() + "\n");
+    printout(getOwner().getValue() -> int + "\n");
     return 1;
   }
 }

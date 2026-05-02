@@ -72,10 +72,10 @@ node NString {
    * Creates a NString from a null terminated char array
    */
   public static NString* createFromCharArray(char[] input) {
-    if (input.getSize() == 0) {
+    if (input.getSize() -> long == 0) {
       return copyMemoryAndBuild(input, 0) -> NString*;
     }
-    long length = input[input.getSize() - 1] == '\0' 
+    long length = input[input.getSize() -> long - 1] == '\0'
       ? (long) ::llvm::function::strlen(input)
       : input.getSize() -> long;
     return copyMemoryAndBuild(input, length) -> NString*;
@@ -85,10 +85,10 @@ node NString {
    * Creates a NString from a null terminated immutable char array
    */
   public static NString* createFromImmutableCharArray(immutable char[] input) {
-    if (input.getSize() == 0) {
+    if (input.getSize() -> long == 0) {
       return copyMemoryAndBuild(input, 0) -> NString*;
     }
-    long length = input[input.getSize() - 1] == '\0' 
+    long length = input[input.getSize() -> long - 1] == '\0'
       ? (long) ::llvm::function::strlen(input)
       : input.getSize() -> long;
     return copyMemoryAndBuild(input, length) -> NString*;
@@ -279,10 +279,10 @@ node NString {
    * Appends a character array to the string
    */
   public NString appendCharArray(char[] appendix) {
-    if (appendix.getSize() == 0) {
+    if (appendix.getSize() -> long == 0) {
       return this;
     }
-    long length = appendix[appendix.getSize() - 1] == '\0'
+    long length = appendix[appendix.getSize() -> long - 1] == '\0'
       ? ::llvm::function::strlen(appendix) -> long
       : appendix.getSize() -> long;
     return append(appendix, length) -> NString;
@@ -292,10 +292,10 @@ node NString {
    * Appends a immutable character array to the string
    */
   public NString appendImmutableCharArray(immutable char[] appendix) {
-    if (appendix.getSize() == 0) {
+    if (appendix.getSize() -> long == 0) {
       return this;
     }
-    long length = appendix[appendix.getSize() - 1] == '\0'
+    long length = appendix[appendix.getSize() -> long - 1] == '\0'
       ? ::llvm::function::strlen(appendix) -> long
       : appendix.getSize() -> long;
     return append(appendix, length) -> NString;
@@ -354,10 +354,11 @@ node NString {
    * Returns true is this string starts with the given string
    */
   public boolean startsWith(string start) {
-    if (start.getLength() > getLength()) {
+    if (start.getLength() -> long > getLength() -> long) {
       return false;
     }
-    return ::llvm::function::strncmp(mBuffer, start, start.getLength() -> long) == 0 -> boolean;
+    int compareResult = ::llvm::function::strncmp(mBuffer, start, start.getLength() -> long) -> int;
+    return compareResult == 0;
   }
 
   /**

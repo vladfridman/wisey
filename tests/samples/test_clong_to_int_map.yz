@@ -11,14 +11,14 @@ controller CProgram implements IProgram {
     mMap.put(2l, 4);
     mMap.put(3l, 6);
 
-    printout("Hashmap size: " + mMap.getSize() + "\n");
+    printout("Hashmap size: " + mMap.getSize() -> long + "\n");
 
     int[]* values = mMap.getValues() -> int[]*;
     long[]* keys = mMap.getKeys() -> long[]*;
 
-    printout("Lookup " + 1l + ": " + mMap.get(1l) + "\n");
-    printout("Lookup " + 2l + ": " + mMap.get(2l) + "\n");
-    printout("Lookup " + 3l + ": " + mMap.get(3l) + "\n");
+    printout("Lookup " + 1l + ": " + mMap.get(1l) -> int + "\n");
+    printout("Lookup " + 2l + ": " + mMap.get(2l) -> int + "\n");
+    printout("Lookup " + 3l + ": " + mMap.get(3l) -> int + "\n");
 
     mMap.erase(1l);
     if (!mMap.has(1l)) {
@@ -42,7 +42,7 @@ controller CProgram implements IProgram {
       printout("3 is still there\n");
     }
 
-    printout("Hashmap size: " + mMap.getSize() + "\n");
+    printout("Hashmap size: " + mMap.getSize() -> long + "\n");
 
     return 1;
   }

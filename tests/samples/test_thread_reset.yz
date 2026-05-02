@@ -26,25 +26,25 @@ controller CProgram implements IProgram {
   inject CWorkerThread* mWorkerThread;
 
   public int run(immutable string[] arguments) override {
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
     printout("Starting worker thread\n");
     mWorkerThread.start(build(MWorker).onHeap() -> MWorker*);
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
     int result = ((MWorker.MResult) mWorkerThread.awaitResult()).getResult() -> int;
     printout("Worker thread finished with result: " + result + "\n");
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
 
     mWorkerThread.reset();
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
     printout("Starting worker thread\n");
     mWorkerThread.start(build(MWorker).onHeap() -> MWorker*);
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
     result = ((MWorker.MResult) mWorkerThread.awaitResult()).getResult() -> int;
 
     printout("Worker thread finished with result: " + result + "\n");
-    printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
+    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
 
     return result;
   }

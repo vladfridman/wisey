@@ -9,8 +9,8 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MString* mstring = MString.createFromString("123") -> MString*;
     NString* nstring = NString.createFromModel(mstring) -> NString*;
-    printout("mstring: " + mstring + " length: " + mstring.getLength() + "\n");
-    printout("nstring: " + nstring + " length: " + nstring.getLength() + " capacity: " + nstring.getCapacity() + "\n");
+    printout("mstring: " + mstring + " length: " + mstring.getLength() -> long + "\n");
+    printout("nstring: " + nstring + " length: " + nstring.getLength() -> long + " capacity: " + nstring.getCapacity() -> long + "\n");
     return (int) mstring.getLength() -> int;
   }
 }

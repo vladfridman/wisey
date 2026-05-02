@@ -30,7 +30,7 @@ controller CProgram implements IProgram {
     int sum;
     NElement iterator = first;
     while (iterator != null) {
-      sum = sum + iterator.getValue();
+      sum = sum + iterator.getValue() -> int;
       iterator = iterator.getNext() -> NElement;
 
     }

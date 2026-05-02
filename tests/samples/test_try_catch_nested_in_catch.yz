@@ -34,7 +34,7 @@ controller CCatcher {
       try {
         return mThrower.doThrow(4) -> int;
       } catch(MException* exception) {
-        return exception.getValue() + 1 -> int;
+        return exception.getValue() -> int + 1;
       }
     }
   }

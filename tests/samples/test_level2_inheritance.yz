@@ -43,9 +43,9 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MSquare* square = build(MSquare).withWidth(5).onHeap() -> MSquare*;
 
-    return square.getPerimeter() + square.getArea() + square.getColor(55) + 
-      ((IShape) square).getPerimeter() + ((IShape) square).getArea() + 
-      ((IShape) square).getColor(55) + ((IObject) square).getColor(55);
+    return square.getPerimeter() -> int + square.getArea() -> int + square.getColor(55) -> int +
+      ((IShape) square).getPerimeter() -> int + ((IShape) square).getArea() -> int +
+      ((IShape) square).getColor(55) -> int + ((IObject) square).getColor(55) -> int;
   }
 }
 

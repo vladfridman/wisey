@@ -26,7 +26,7 @@ controller CProgram implements IProgram {
     mMap.put(bmw.getMake() -> string, bmw);
     mMap.put(mercedes.getMake() -> string, mercedes);
 
-    printout("Hashmap size: " + mMap.getSize() + "\n");
+    printout("Hashmap size: " + mMap.getSize() -> long + "\n");
 
     if (bmw == null) {
       printout("bmw is null\n");
@@ -36,13 +36,13 @@ controller CProgram implements IProgram {
 
     MCar car = mMap.get(toyotaMake) -> MCar;
 
-    printout("Lookup " + toyotaMake + ": " + car.getMake() + "\n");
+    printout("Lookup " + toyotaMake + ": " + car.getMake() -> string + "\n");
     car = mMap.get(bmwMake) -> MCar;
 
-    printout("Lookup " + bmwMake + ": " + car.getMake() + "\n");
+    printout("Lookup " + bmwMake + ": " + car.getMake() -> string + "\n");
     car = mMap.get(mercedesMake) -> MCar;
 
-    printout("Lookup " + mercedesMake + ": " + car.getMake() + "\n");
+    printout("Lookup " + mercedesMake + ": " + car.getMake() -> string + "\n");
 
     mMap.erase(bmwMake);
     car = mMap.get(bmwMake) -> MCar;
@@ -55,7 +55,7 @@ controller CProgram implements IProgram {
 
     MCar* carOwner = mMap.take(toyotaMake) -> MCar*;
 
-    printout("Take result: " + carOwner.getMake() + "\n");
+    printout("Take result: " + carOwner.getMake() -> string + "\n");
     carOwner = null;
     car = mMap.get(toyotaMake) -> MCar;
 

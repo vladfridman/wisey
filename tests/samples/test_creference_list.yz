@@ -34,45 +34,45 @@ controller CProgram implements IProgram, IObjectComparator {
       printout("bmw is not null\n");
     }
 
-    printout("List size: " + mList.getSize() + "\n");
+    printout("List size: " + mList.getSize() -> long + "\n");
     MCar last = mList.back() -> MCar;
 
-    printout("Lookup last: " + last.getMake() + "\n");
+    printout("Lookup last: " + last.getMake() -> string + "\n");
     MCar first = mList.front() -> MCar;
 
-    printout("Lookup first: " + first.getMake() + "\n");
+    printout("Lookup first: " + first.getMake() -> string + "\n");
 
     mList.sort(this);
-    printout("List size: " + mList.getSize() + "\n");
+    printout("List size: " + mList.getSize() -> long + "\n");
     last = mList.back() -> MCar;
 
-    printout("Lookup last: " + last.getMake() + "\n");
+    printout("Lookup last: " + last.getMake() -> string + "\n");
     first = mList.front() -> MCar;
 
-    printout("Lookup first: " + first.getMake() + "\n");
+    printout("Lookup first: " + first.getMake() -> string + "\n");
 
     MCar back = mList.popBack() -> MCar;
 
     MCar front = mList.popFront() -> MCar;
 
-    printout("List size: " + mList.getSize() + "\n");
+    printout("List size: " + mList.getSize() -> long + "\n");
     last = mList.back() -> MCar;
 
-    printout("Lookup last: " + last.getMake() + "\n");
+    printout("Lookup last: " + last.getMake() -> string + "\n");
     first = mList.front() -> MCar;
 
-    printout("Lookup first: " + first.getMake() + "\n");
+    printout("Lookup first: " + first.getMake() -> string + "\n");
     last = null;
     first = null;
 
     mList.clear();
-    printout("List size: " + mList.getSize() + "\n");
+    printout("List size: " + mList.getSize() -> long + "\n");
 
     return 1;
   }
 
   public boolean compare(MCar left, MCar right) override {
-    return MString.compareStrings(left.getMake() -> string, right.getMake() -> string) < 0 -> int;
+    return (MString.compareStrings(left.getMake() -> string, right.getMake() -> string) -> int) < 0;
   }
 }
 

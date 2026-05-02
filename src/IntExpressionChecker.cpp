@@ -8,6 +8,7 @@
 
 #include <sstream>
 
+#include "IBinaryExpression.hpp"
 #include "IExpression.hpp"
 #include "IRGenerationContext.hpp"
 #include "IntExpressionChecker.hpp"
@@ -24,6 +25,8 @@ void IntExpressionChecker::checkTypes(IRGenerationContext& context,
 
   IExpression::checkForUndefined(context, leftExpression);
   IExpression::checkForUndefined(context, rightExpression);
+  IBinaryExpression::requireAnnotatedOperands(context, leftExpression, rightExpression,
+                                              "integer-bitwise operand");
 
   Type* leftLLVMType = leftExpression->getType(context)->getLLVMType(context);
   Type* rightLLVMType = rightExpression->getType(context)->getLLVMType(context);

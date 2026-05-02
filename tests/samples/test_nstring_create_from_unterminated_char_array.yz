@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
     char[]* array = new char[1];
     array[0] = 'a';
     NString* nstring = NString.createFromCharArray(array) -> NString*;
-    printout("nstring: " + nstring + " length: " + nstring.getLength() + " capacity: " + nstring.getCapacity() + "\n");
+    printout("nstring: " + nstring + " length: " + nstring.getLength() -> long + " capacity: " + nstring.getCapacity() -> long + "\n");
     return (int) nstring.getLength() -> int;
   }
 }
