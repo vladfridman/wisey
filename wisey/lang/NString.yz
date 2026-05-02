@@ -98,7 +98,7 @@ node NString {
    * Get a string representation of a boolean
    */
   public static NString* createFromBoolean(boolean input) {
-    return input ? createFromString("true") : createFromString("false") -> NString*;
+    return input ? createFromString("true") -> NString* : createFromString("false") -> NString*;
   }
 
   /**
@@ -282,8 +282,8 @@ node NString {
     if (appendix.getSize() == 0) {
       return this;
     }
-    long length = appendix[appendix.getSize() - 1] == '\0' 
-      ? ::llvm::function::strlen(appendix)
+    long length = appendix[appendix.getSize() - 1] == '\0'
+      ? ::llvm::function::strlen(appendix) -> long
       : appendix.getSize() -> long;
     return append(appendix, length) -> NString;
   }
@@ -295,8 +295,8 @@ node NString {
     if (appendix.getSize() == 0) {
       return this;
     }
-    long length = appendix[appendix.getSize() - 1] == '\0' 
-      ? ::llvm::function::strlen(appendix)
+    long length = appendix[appendix.getSize() - 1] == '\0'
+      ? ::llvm::function::strlen(appendix) -> long
       : appendix.getSize() -> long;
     return append(appendix, length) -> NString;
   }

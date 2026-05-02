@@ -100,6 +100,10 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   IExpression::checkForUndefined(context, mIfTrueExpression);
   IExpression::checkForUndefined(context, mIfFalseExpression);
 
+  IExpression::requireAnnotated(context, mConditionExpression, "conditional condition");
+  IExpression::requireAnnotated(context, mIfTrueExpression, "conditional then-branch");
+  IExpression::requireAnnotated(context, mIfFalseExpression, "conditional else-branch");
+
   if (!mConditionExpression->getType(context)->canAutoCastTo(context, PrimitiveTypes::BOOLEAN)) {
     context.reportError(mLine, "Condition in a conditional expression is not of type BOOLEAN");
     throw 1;
