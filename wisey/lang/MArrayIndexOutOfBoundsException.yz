@@ -17,9 +17,9 @@ model MArrayIndexOutOfBoundsException implements IException {
   public NString* report() override {
     NString* message = callstack.reportException(this) -> NString*;
     message.appendString("Details: Index ");
-    message.appendNString(NString.createFromLong(mIndex));
+    message.appendNString(NString.createFromLong(mIndex) -> NString*);
     message.appendString(" is used on array of size ");
-    message.appendNString(NString.createFromLong(mArraySize));
+    message.appendNString(NString.createFromLong(mArraySize) -> NString*);
     message.appendString("\n");
 
     return message;

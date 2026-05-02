@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
     array[3] = 't';
     return mstring.compareToString("test") 
       + mstring.compareToMString(mstring) 
-      + mstring.compareToImmutableCharArray(mstring.getContent()) 
+      + mstring.compareToImmutableCharArray(mstring.getContent() -> immutable char[])
       + mstring.compareToCharArray(array);
   }
 }

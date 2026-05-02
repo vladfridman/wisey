@@ -16,6 +16,7 @@
 #include "Composer.hpp"
 #include "GetTypeNameMethod.hpp"
 #include "FakeExpression.hpp"
+#include "IExpression.hpp"
 #include "IRWriter.hpp"
 #include "LocalArrayOwnerVariable.hpp"
 #include "LocalOwnerVariable.hpp"
@@ -65,6 +66,9 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   const IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* object = methodDescriptor->getParentObject();
   checkArgumentType(object, methodDescriptor, context);
+  for (const IExpression* callArgument : mArguments) {
+    IExpression::requireAnnotated(context, callArgument, "method-call argument");
+  }
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions, mLine);
   

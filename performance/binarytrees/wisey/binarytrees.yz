@@ -79,9 +79,9 @@ controller CBinaryTrees implements IProgram {
   private static NTreeNode* bottomUpTree(int depth, CMemoryPool pool) {
     if (0 < depth) {
       return build(NTreeNode)
-        .withLeft(bottomUpTree(depth - 1, pool))
-        .withRight(bottomUpTree(depth - 1, pool))
-        .onPool(pool);
+        .withLeft(bottomUpTree(depth - 1, pool) -> NTreeNode*)
+        .withRight(bottomUpTree(depth - 1, pool) -> NTreeNode*)
+        .onPool(pool) -> NTreeNode*;
     }
     return build(NTreeNode).withLeft(null).withRight(null).onPool(pool) -> NTreeNode*;
   }

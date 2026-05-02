@@ -18,25 +18,25 @@ controller CProgram implements IProgram {
     MCar* mercedes = build(MCar).withMake("Mercedes").onHeap() -> MCar*;
     CReferenceToReferenceMap* map = CReferenceToReferenceMap.create() -> CReferenceToReferenceMap*;
 
-    map.put(toyota.getMake(), toyota);
-    map.put(bmw.getMake(), bmw);
-    map.put(bmw.getMake(), bmw);
-    map.put(mercedes.getMake(), mercedes);
+    map.put(toyota.getMake() -> string, toyota);
+    map.put(bmw.getMake() -> string, bmw);
+    map.put(bmw.getMake() -> string, bmw);
+    map.put(mercedes.getMake() -> string, mercedes);
 
     printout("Hashmap size: " + map.getSize() + "\n");
 
-    MCar car = map.get(toyota.getMake()) -> MCar;
+    MCar car = map.get(toyota.getMake() -> string) -> MCar;
 
     printout("Lookup " + toyota.getMake() + ": " + car.getMake() + "\n");
-    car = map.get(bmw.getMake()) -> MCar;
+    car = map.get(bmw.getMake() -> string) -> MCar;
 
     printout("Lookup " + bmw.getMake() + ": " + car.getMake() + "\n");
-    car = map.get(mercedes.getMake()) -> MCar;
+    car = map.get(mercedes.getMake() -> string) -> MCar;
 
     printout("Lookup " + mercedes.getMake() + ": " + car.getMake() + "\n");
 
-    map.erase(bmw.getMake());
-    car = map.get(bmw.getMake()) -> MCar;
+    map.erase(bmw.getMake() -> string);
+    car = map.get(bmw.getMake() -> string) -> MCar;
 
     if (car == null) {
       printout("BMW was erased\n");
@@ -44,18 +44,18 @@ controller CProgram implements IProgram {
       printout("BMW is still there\n");
     }
 
-    map.erase(toyota.getMake());
-    map.erase(bmw.getMake());
-    map.erase(mercedes.getMake());
+    map.erase(toyota.getMake() -> string);
+    map.erase(bmw.getMake() -> string);
+    map.erase(mercedes.getMake() -> string);
 
-    car = map.get(toyota.getMake()) -> MCar;
+    car = map.get(toyota.getMake() -> string) -> MCar;
 
     if (car == null) {
       printout("Toyota was erased\n");
     } else {
       printout("Toyota is still there\n");
     }
-    car = map.get(mercedes.getMake()) -> MCar;
+    car = map.get(mercedes.getMake() -> string) -> MCar;
 
     if (car == null) {
       printout("Mercedes was erased\n");

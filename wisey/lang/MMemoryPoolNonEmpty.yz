@@ -22,7 +22,7 @@ model MMemoryPoolNonEmpty implements IException {
     NString* message = callstack.reportException(this) -> NString*;
     string ending = mObjectCount > 1 ? "s" : "";
     message.appendString("Details: Attempting to destroy a memory pool that still contains ");
-    message.appendNString(NString.createFromLong(mObjectCount));
+    message.appendNString(NString.createFromLong(mObjectCount) -> NString*);
     message.appendString(" allocated object");
     message.appendString(ending);
     message.appendString("\n");
@@ -32,9 +32,9 @@ model MMemoryPoolNonEmpty implements IException {
     }
     
     message.appendString("Was thrown from memory clean up after ");
-    message.appendString(MSystem.getOriginalObjectTypeName(mNestedException));
+    message.appendString(MSystem.getOriginalObjectTypeName(mNestedException) -> string);
     message.appendString("\n");
-    message.appendNString(mNestedException.report());
+    message.appendNString(mNestedException.report() -> NString*);
 
     return message;
   }

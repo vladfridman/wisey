@@ -58,14 +58,14 @@ node NString {
    * Creates a modifiable NString from a string literal
    */
   public static NString* createFromString(string input) {
-    return copyMemoryAndBuild(input, input.getLength()) -> NString*;
+    return copyMemoryAndBuild(input, input.getLength() -> long) -> NString*;
   }
 
   /**
    * Creates a modifiable NString from an MString model
    */
   public static NString* createFromModel(MString input) {
-    return copyMemoryAndBuild(input.getContent(), input.getLength()) -> NString*;
+    return copyMemoryAndBuild(input.getContent() -> immutable char[], input.getLength() -> long) -> NString*;
   }
 
   /**
@@ -258,21 +258,21 @@ node NString {
    * Tries to fit the new string into existing buffer, creates a new buffer if needed
    */
   public NString appendString(string appendix) {
-    return append(appendix, appendix.getLength()) -> NString;
+    return append(appendix, appendix.getLength() -> long) -> NString;
   }
 
   /**
    * Appends another NString to this string
    */
   public NString appendNString(NString appendix) {
-    return append(appendix.getContent(), appendix.getLength()) -> NString;
+    return append(appendix.getContent() -> char[], appendix.getLength() -> long) -> NString;
   }
 
   /**
    * Appends another MString to this string
    */
   public NString appendMString(MString appendix) {
-    return append(appendix.getContent(), appendix.getLength()) -> NString;
+    return append(appendix.getContent() -> immutable char[], appendix.getLength() -> long) -> NString;
   }
 
   /**
@@ -326,14 +326,14 @@ node NString {
    * Compares the string to the given input MString and returns 0 if they are equal
    */
   public int compareToMString(MString input) {
-    return ::llvm::function::strcmp(mBuffer, input.getContent()) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input.getContent() -> immutable char[]) -> ::llvm::i32;
   }
 
   /**
    * Compares the string to the given input NString and returns 0 if they are equal
    */
   public int compareToNString(NString input) {
-    return ::llvm::function::strcmp(mBuffer, input.getContent()) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input.getContent() -> char[]) -> ::llvm::i32;
   }
 
   /**
@@ -357,7 +357,7 @@ node NString {
     if (start.getLength() > getLength()) {
       return false;
     }
-    return ::llvm::function::strncmp(mBuffer, start, start.getLength()) == 0 -> boolean;
+    return ::llvm::function::strncmp(mBuffer, start, start.getLength() -> long) == 0 -> boolean;
   }
 
   /**

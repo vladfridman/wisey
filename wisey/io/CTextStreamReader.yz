@@ -34,7 +34,7 @@ controller CTextStreamReader {
    * Create an instance of the CTextStreamReader to read the given file
    */
   public static CTextStreamReader* open(NString fileName) throws MFileCouldNotOpenException {
-    ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent(), "r") -> ::llvm::struct::__sFILE::pointer;
+    ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent() -> char[], "r") -> ::llvm::struct::__sFILE::pointer;
     if (stream == null) {
       throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap() -> MFileCouldNotOpenException*;
     }

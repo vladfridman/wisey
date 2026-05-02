@@ -35,15 +35,15 @@ controller CKNucleotide implements IProgram, IObjectComparator {
 
 
     NString stringBuilder = NString.create() -> NString*;
-    stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]));
+    stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]) -> NString*);
     stringBuilder.appendNString(
-      writeFrequencies((float) sequence.getSize() - 1.0, 
-      sumTwoMaps(fragments[1], fragments[2])));
+      writeFrequencies((float) sequence.getSize() - 1.0,
+      sumTwoMaps(fragments[1], fragments[2]) -> CFragment) -> NString*);
 
     string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
     for (int i = 0; i < nucleotideFragments.getSize(); i++) {
       string nucleotideFragment = nucleotideFragments[i];
-      stringBuilder.appendNString(writeCount(fragments, nucleotideFragment));
+      stringBuilder.appendNString(writeCount(fragments, nucleotideFragment) -> NString*);
     }
 
     printout(stringBuilder);
@@ -73,7 +73,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     CFragment*[]* fragments = new CFragment*[arrayIndex];
     for (int i = 0; i < fragments.getSize(); i++) {
       MFragmentWorkerResult* result = mThreadPool.getResult() -> MFragmentWorkerResult*;
-      fragments[result.getArrayIndex()] = result.toController();
+      fragments[result.getArrayIndex()] = result.toController() -> CFragment*;
     }
     mThreadPool.waitAndStop();
     return fragments;
@@ -230,9 +230,9 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     NString* sb = NString.create() -> NString*;
     int keyLength = frequencies.getKeyLength() -> int;
     for (int i = 0; i < keysArray.getSize(); i++) {
-      sb.appendNString(keyToString(keysArray[i], keyLength));
+      sb.appendNString(keyToString(keysArray[i], keyLength) -> NString*);
       sb.appendString(" ");
-      sb.appendNString(NString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount));
+      sb.appendNString(NString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount) -> NString*);
       sb.appendString("\n");
     }
     sb.appendString("\n");
@@ -301,7 +301,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   private byte[]* read() {
     NString* line = NString.create() -> NString*;
     CTextStreamReader* stream = CTextStreamReader.openSystemIn() -> CTextStreamReader*;
-    while ((line = stream.readLineIntoNString(line)) != null) {
+    while ((line = stream.readLineIntoNString(line) -> NString*) != null) {
       if (line.startsWith(">THREE")) {
         break;
       }
@@ -309,7 +309,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
 
     byte[]* bytes = new byte[1048576];
     long position = 0;
-    while ((line = stream.readLineIntoNString(line)) != null && line.charAt(0) != '>') {
+    while ((line = stream.readLineIntoNString(line) -> NString*) != null && line.charAt(0) != '>') {
       if (line.getLength() + position > bytes.getSize()) {
         byte[]* newBytes = new byte[bytes.getSize() * 2];
         MSystem.copyMemory(newBytes, bytes, position);

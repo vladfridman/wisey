@@ -137,9 +137,9 @@ controller CWorkerThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mContextManager.setContext(IThread.getTypeName(), thread);
+    mContextManager.setContext(IThread.getTypeName() -> string, thread);
     mWorker.work();
-    mContextManager.eraseContext(IThread.getTypeName());
+    mContextManager.eraseContext(IThread.getTypeName() -> string);
   }
 
   private controller CWorkerThreadRunner implements IThreadRunner {

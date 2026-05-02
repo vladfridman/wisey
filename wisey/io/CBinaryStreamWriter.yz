@@ -28,7 +28,7 @@ controller CBinaryStreamWriter {
    * Create an instance of the CBinaryStreamWriter to write binary data to the the given file
    */
   public static CBinaryStreamWriter* open(NString fileName) throws MFileCouldNotOpenException {
-    ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent(), "wb") -> ::llvm::struct::__sFILE::pointer;
+    ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent() -> char[], "wb") -> ::llvm::struct::__sFILE::pointer;
     if (stream == null) {
       throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap() -> MFileCouldNotOpenException*;
     }
@@ -57,7 +57,7 @@ controller CBinaryStreamWriter {
       throw build(MStreamClosedException).onHeap() -> MStreamClosedException*;
     }
 
-    ::llvm::function::fwrite(array, 1l, array.getSize(), mStream);
+    ::llvm::function::fwrite(array, 1l, array.getSize() -> long, mStream);
   }
 
  
@@ -69,7 +69,7 @@ controller CBinaryStreamWriter {
       throw build(MStreamClosedException).onHeap() -> MStreamClosedException*;
     }
 
-    ::llvm::function::fwrite(array, 1l, array.getSize(), mStream);
+    ::llvm::function::fwrite(array, 1l, array.getSize() -> long, mStream);
   }
  
   /**

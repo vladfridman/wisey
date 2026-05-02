@@ -57,7 +57,7 @@ controller CMandelbrot implements IProgram {
     CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut() -> CBinaryStreamWriter*;
     printout("P4\n" + n + " " + n + "\n");
     for (int i = 0; i < n; i++) {
-      stream.writeImmutable(results[i].getArray());
+      stream.writeImmutable(results[i].getArray() -> immutable byte[]);
     }
     stream.close();
 

@@ -72,7 +72,7 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   public boolean compare(MCar left, MCar right) override {
-    return MString.compareStrings(left.getMake(), right.getMake()) < 0 -> int;
+    return MString.compareStrings(left.getMake() -> string, right.getMake() -> string) < 0 -> int;
   }
 }
 

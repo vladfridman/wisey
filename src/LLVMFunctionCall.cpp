@@ -7,6 +7,7 @@
 //
 
 #include "AutoCast.hpp"
+#include "IExpression.hpp"
 #include "IRGenerationContext.hpp"
 #include "IRWriter.hpp"
 #include "Log.hpp"
@@ -37,6 +38,10 @@ Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* a
     throw 1;
   }
   
+  for (const IExpression* argumentExpression : mArguments) {
+    IExpression::requireAnnotated(context, argumentExpression, "llvm-function-call argument");
+  }
+
   vector<Value*> arguments;
   vector<const IType*> argumentTypes = functionType->getArgumentTypes();
   auto argumentTypesIterator = argumentTypes.begin();

@@ -39,13 +39,13 @@ controller CCallStack {
   public NString* reportException(IException exception) {
     NString* message = NString.create() -> NString*;
     message.appendString("Unhandled exception ");
-    message.appendString(MSystem.getOriginalObjectTypeName(exception));
+    message.appendString(MSystem.getOriginalObjectTypeName(exception) -> string);
     message.appendString("\n");
     for (int i = mIndex - 1; i >= 0; i--) {
       message.appendString("  at ");
       message.appendString(mCallInfo[i]);
       message.appendString(":");
-      message.appendNString(NString.createFromInt(mLineNumbers[i]));
+      message.appendNString(NString.createFromInt(mLineNumbers[i]) -> NString*);
       message.appendString(")\n");
     }
     return message;

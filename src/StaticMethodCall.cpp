@@ -13,6 +13,7 @@
 #include "Composer.hpp"
 #include "FakeExpression.hpp"
 #include "GetTypeNameMethod.hpp"
+#include "IExpression.hpp"
 #include "IRWriter.hpp"
 #include "LLVMFunction.hpp"
 #include "LocalArrayOwnerVariable.hpp"
@@ -74,6 +75,9 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* a
     throw 1;
   }
   checkArgumentType(methodDescriptor, context);
+  for (const IExpression* callArgument : mArguments) {
+    IExpression::requireAnnotated(context, callArgument, "static-method-call argument");
+  }
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions, mLine);
   
