@@ -32,14 +32,16 @@ bool BuilderArgument::checkArgument(IRGenerationContext& context,
                         "e.g. .withField(value).");
     return false;
   }
-  
+
   string fieldName = deriveFieldName();
   if (object->findField(fieldName) == NULL) {
     context.reportError(line, "Object builder could not find field " + fieldName + " in object " +
                         object->getTypeName());
     return false;
   }
-  
+
+  IExpression::requireAnnotated(context, mFieldExpression, "builder argument");
+
   return true;
 }
 

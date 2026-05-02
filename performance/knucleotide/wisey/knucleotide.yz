@@ -103,8 +103,8 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       }
 
       MFragmentWorkerResult* result = build(MFragmentWorkerResult)
-        .withKeys(map.getKeys())
-        .withValues(map.getValues())
+        .withKeys(map.getKeys() -> long[]*)
+        .withValues(map.getValues() -> int[]*)
         .withKeyLength(mFragmentLength)
         .withArrayIndex(mArrayIndex)
         .onHeap() -> MFragmentWorkerResult*;

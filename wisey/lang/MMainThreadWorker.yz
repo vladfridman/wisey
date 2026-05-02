@@ -41,7 +41,7 @@ model MMainThreadWorker implements IWorker {
   public void work() throws MThreadBoundaryException override {
     IProgram* program = inject(IProgram).onHeap() -> IProgram*;
     MProgramResult* programResult = build(MProgramResult)
-      .withResult(program.run(mArguments))
+      .withResult(program.run(mArguments) -> int)
       .onHeap() -> MProgramResult*;
     program = null;
     thread.send(programResult);

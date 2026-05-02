@@ -1,5 +1,6 @@
 package wisey.io;
 
+import wisey.lang.MString;
 import wisey.lang.NString;
 
 /**
@@ -34,7 +35,7 @@ controller CTextStreamWriter {
   public static CTextStreamWriter* open(NString fileName) throws MFileCouldNotOpenException {
     ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName.getContent() -> char[], "w") -> ::llvm::struct::__sFILE::pointer;
     if (stream == null) {
-      throw build(MFileCouldNotOpenException).withFileName(fileName.toModel()).onHeap() -> MFileCouldNotOpenException*;
+      throw build(MFileCouldNotOpenException).withFileName(fileName.toModel() -> MString*).onHeap() -> MFileCouldNotOpenException*;
     }
     return inject(CTextStreamWriter).withStream(stream).onHeap() -> CTextStreamWriter*;
   }
