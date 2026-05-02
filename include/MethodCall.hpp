@@ -54,8 +54,10 @@ namespace wisey {
 
     bool isCallExpression() const override { return true; }
 
+    const IExpression* getCallReceiver() const override { return mExpression; }
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-    
+
     /**
      * Translate interface method name into its LLVM implemenation function name
      */

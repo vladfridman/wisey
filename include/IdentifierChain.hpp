@@ -45,6 +45,8 @@ namespace wisey {
     
     bool isAssignable() const override;
 
+    const IExpression* peelDotReceiver() const override { return mObjectExpression; }
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   private:

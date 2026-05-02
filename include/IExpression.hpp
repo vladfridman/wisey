@@ -65,6 +65,22 @@ namespace wisey {
     virtual bool isCallExpression() const { return false; }
 
     /**
+     * Returns the expression on the LHS of a dot, when this expression is a
+     * dotted form like `a.b` (IdentifierChain). For non-dotted expressions
+     * the default returns nullptr. Used by the chain-depth guardrail to
+     * walk back through `obj.foo().bar()` chains.
+     */
+    virtual const IExpression* peelDotReceiver() const { return nullptr; }
+
+    /**
+     * Returns the receiver expression of a call (the part to the left of the
+     * `(`). For `a.b()` this is the `a.b` IdentifierChain; for `foo()` it is
+     * the `foo` Identifier. Default returns nullptr; overridden by call
+     * classes that want to participate in chain-depth checks.
+     */
+    virtual const IExpression* getCallReceiver() const { return nullptr; }
+
+    /**
      * Reports an error and throws if `expression` is a call expression that
      * isn't wrapped in `expr -> Type`. Called from each consumer site that
      * requires an annotated value.
@@ -72,6 +88,24 @@ namespace wisey {
     static void requireAnnotated(IRGenerationContext& context,
                                  const IExpression* expression,
                                  const char* consumerDescription);
+
+    /**
+     * Counts how many consecutive method calls form a postfix chain, starting
+     * at `methodCall`. `a.b()` is depth 1; `a.b().c()` is 2; `a.b().c().d()`
+     * is 3. Walks `getCallReceiver()` then `peelDotReceiver()` until the
+     * chain breaks. Builder chains parse as dedicated AST nodes
+     * (HeapBuilder/PoolBuilder/Injector) so they don't appear in this walk.
+     */
+    static int countMethodChainDepth(const IExpression* methodCall);
+
+    /**
+     * Reports an error and throws if `methodCall` is the head of a chain of
+     * 3 or more method calls. The `expr -> Type` annotation can't attach
+     * mid-chain (postfix-only), so deep chains hide the per-step types from
+     * a reader. Forces the user to break the chain into named locals.
+     */
+    static void requireShortMethodChain(IRGenerationContext& context,
+                                        const IExpression* methodCall);
 
     /**
      * Checks that expression is not undefined

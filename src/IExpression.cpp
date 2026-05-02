@@ -32,6 +32,39 @@ void IExpression::requireAnnotated(IRGenerationContext& context,
   throw 1;
 }
 
+int IExpression::countMethodChainDepth(const IExpression* methodCall) {
+  int depth = 0;
+  const IExpression* cur = methodCall;
+  while (cur && cur->isCallExpression()) {
+    depth++;
+    const IExpression* receiver = cur->getCallReceiver();
+    if (!receiver) {
+      break;
+    }
+    const IExpression* under = receiver->peelDotReceiver();
+    cur = under;
+  }
+  return depth;
+}
+
+void IExpression::requireShortMethodChain(IRGenerationContext& context,
+                                          const IExpression* methodCall) {
+  if (methodCall->getLine() <= 0) {
+    return;
+  }
+  int depth = countMethodChainDepth(methodCall);
+  if (depth < 3) {
+    return;
+  }
+  context.reportError(methodCall->getLine(),
+                      string("Method chain of depth ") + std::to_string(depth) +
+                      " is too deep. Break it into named locals so each "
+                      "intermediate type is visible. Builder chains "
+                      "(build/inject/create with .with* and .onHeap/onPool) "
+                      "are exempt.");
+  throw 1;
+}
+
 void IExpression::checkForUndefined(IRGenerationContext& context,
                                     const IExpression* expression) {
   const IType* expressionType = expression->getType(context);
