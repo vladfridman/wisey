@@ -22,7 +22,8 @@ controller CMandelbrot implements IProgram {
   public int run(immutable string[] arguments) override {
     int n = 6000;
     if (arguments.getSize() >= 2) {
-      n = NString.createFromString(arguments[1]).toInt();
+      n = NString.createFromString(arguments[1]).toInt() -> int;
+
     }
 
     double[]* crb = new double[n + 7]; 

@@ -10,6 +10,7 @@
 
 #include "Assignment.hpp"
 #include "Composer.hpp"
+#include "IExpression.hpp"
 #include "IRGenerationContext.hpp"
 #include "Log.hpp"
 
@@ -38,6 +39,8 @@ IVariable* Assignment::getVariable(IRGenerationContext& context,
 }
 
 Value* Assignment::generateIR(IRGenerationContext& context, const IType* assignToType) const {
+  IExpression::requireAnnotated(context, mExpression, "assignment");
+
   std::vector<const IExpression*> arrayIndices;
   IVariable* variable = getVariable(context, arrayIndices);
   if (variable == NULL) {

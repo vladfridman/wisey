@@ -31,7 +31,8 @@ controller CProgram implements IProgram {
     NElement iterator = first;
     while (iterator != null) {
       sum = sum + iterator.getValue();
-      iterator = iterator.getNext();
+      iterator = iterator.getNext() -> NElement;
+
     }
 
     return sum;

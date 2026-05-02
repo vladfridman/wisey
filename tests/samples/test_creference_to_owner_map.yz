@@ -37,13 +37,16 @@ controller CProgram implements IProgram {
     MCar car = mMap.get(toyotaMake) -> MCar;
 
     printout("Lookup " + toyotaMake + ": " + car.getMake() + "\n");
-    car = mMap.get(bmwMake);
+    car = mMap.get(bmwMake) -> MCar;
+
     printout("Lookup " + bmwMake + ": " + car.getMake() + "\n");
-    car = mMap.get(mercedesMake);
+    car = mMap.get(mercedesMake) -> MCar;
+
     printout("Lookup " + mercedesMake + ": " + car.getMake() + "\n");
 
     mMap.erase(bmwMake);
-    car = mMap.get(bmwMake);
+    car = mMap.get(bmwMake) -> MCar;
+
     if (car == null) {
       printout("BMW was erased\n");
     } else {
@@ -54,7 +57,8 @@ controller CProgram implements IProgram {
 
     printout("Take result: " + carOwner.getMake() + "\n");
     carOwner = null;
-    car = mMap.get(toyotaMake);
+    car = mMap.get(toyotaMake) -> MCar;
+
     if (car == null) {
       printout("Toyota was erased\n");
     } else {
@@ -65,7 +69,8 @@ controller CProgram implements IProgram {
     mMap.erase(bmwMake);
     mMap.erase(mercedesMake);
 
-    car = mMap.get(mercedesMake);
+    car = mMap.get(mercedesMake) -> MCar;
+
     if (car == null) {
       printout("Mercedes was erased\n");
     } else {

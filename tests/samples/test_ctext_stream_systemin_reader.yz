@@ -11,7 +11,8 @@ controller CProgram implements IProgram {
     NString* line = stream.readLine() -> NString*;
     while (line) {
       printout("line: " + line);
-      line = stream.readLine();
+      line = stream.readLine() -> NString*;
+
     }
 
     return 1;

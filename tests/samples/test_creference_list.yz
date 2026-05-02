@@ -44,9 +44,11 @@ controller CProgram implements IProgram, IObjectComparator {
 
     mList.sort(this);
     printout("List size: " + mList.getSize() + "\n");
-    last = mList.back();
+    last = mList.back() -> MCar;
+
     printout("Lookup last: " + last.getMake() + "\n");
-    first = mList.front();
+    first = mList.front() -> MCar;
+
     printout("Lookup first: " + first.getMake() + "\n");
 
     MCar back = mList.popBack() -> MCar;
@@ -54,9 +56,11 @@ controller CProgram implements IProgram, IObjectComparator {
     MCar front = mList.popFront() -> MCar;
 
     printout("List size: " + mList.getSize() + "\n");
-    last = mList.back();
+    last = mList.back() -> MCar;
+
     printout("Lookup last: " + last.getMake() + "\n");
-    first = mList.front();
+    first = mList.front() -> MCar;
+
     printout("Lookup first: " + first.getMake() + "\n");
     last = null;
     first = null;

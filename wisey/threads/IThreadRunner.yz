@@ -25,7 +25,7 @@ interface IThreadRunner {
     CCallStack callstack = null;
 
     try {
-      callstack = thread.getCallStack();
+      callstack = thread.getCallStack() -> CCallStack;
       thread.run();
       thread.exit();
     } catch (MNullPointerException* exception) {

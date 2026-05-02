@@ -75,12 +75,12 @@ controller CTextStreamReader {
     mBuffer[bufferSize - 1] = '\0';
 
     do {
-      result = ::llvm::function::fgets(mBuffer, BUFFER_SIZE, mStream);
+      result = ::llvm::function::fgets(mBuffer, BUFFER_SIZE, mStream) -> ::llvm::i8::pointer;
       if (result == null) {
         break;
       }
       
-      length = ::llvm::function::strlen(mBuffer);
+      length = ::llvm::function::strlen(mBuffer) -> long;
       if (mBuffer[length - 1] == '\n') {
         mBuffer[length - 1] = '\0';
       }

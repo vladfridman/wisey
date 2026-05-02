@@ -41,7 +41,8 @@ controller CBinaryTrees implements IProgram {
     printout("stretch tree of depth " + stretchDepth + "\t check: " 
        + treeNode.itemCheck() + "\n");
 
-    treeNode = bottomUpTree(maxDepth, mLongLivedPool);
+    treeNode = bottomUpTree(maxDepth, mLongLivedPool) -> NTreeNode*;
+
 
     for (int depth = MIN_DEPTH; depth <= maxDepth; depth = depth + 2) {
       IWorker* worker = build(MWorker)
