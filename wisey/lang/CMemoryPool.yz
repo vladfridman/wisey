@@ -35,7 +35,7 @@ controller CMemoryPool {
   inject immediate ::llvm::i8::pointer* mPool.withConstructor(create).withDestructor(destroy);
 
   private ::llvm::function ::llvm::i8::pointer create() {
-    return ::llvm::function::mem_pool_create();
+    return ::llvm::function::mem_pool_create() -> ::llvm::i8::pointer;
   }
 
   private ::llvm::function ::llvm::void destroy(::llvm::i8::pointer pool) {

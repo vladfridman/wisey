@@ -32,7 +32,7 @@ node NString {
       .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
       .withCapacity(DEFAULT_INITIAL_CAPACITY)
       .withLength(0)
-      .onHeap();
+      .onHeap() -> NString*;
   }
 
   /**
@@ -43,7 +43,7 @@ node NString {
       .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
       .withCapacity(DEFAULT_INITIAL_CAPACITY)
       .withLength(0)
-      .onPool(pool);
+      .onPool(pool) -> NString*;
   }
 
   /**
@@ -251,7 +251,7 @@ node NString {
       .withBuffer(buffer)
       .withCapacity(mCapacity)
       .withLength(mLength)
-      .onHeap();
+      .onHeap() -> NString*;
   }
 
   /**
@@ -379,7 +379,7 @@ node NString {
       .withBuffer(buffer)
       .withCapacity(capacity)
       .withLength(length)
-      .onHeap();
+      .onHeap() -> NString*;
   }
 
   private NString append(::llvm::i8::pointer source, long sourceLength) {

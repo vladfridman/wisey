@@ -93,7 +93,7 @@ controller CWorkerThread implements IThread {
     outsideThreadGuard(this);
     mWorkerThreadRunner.joinThread();
 
-    return mWorkerThreadRunner.getResult();
+    return mWorkerThreadRunner.getResult() -> ::wisey::model*;
   }
 
   /**

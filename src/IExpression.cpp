@@ -21,6 +21,9 @@ void IExpression::requireAnnotated(IRGenerationContext& context,
   if (!expression->isCallExpression()) {
     return;
   }
+  if (expression->getLine() <= 0) {
+    return;
+  }
   context.reportError(expression->getLine(),
                       string("Call expression in ") + consumerDescription +
                       " must be annotated with `expr -> Type`. "

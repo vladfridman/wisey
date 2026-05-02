@@ -93,7 +93,7 @@ controller CLongToIntMap {
   }
 
   private ::llvm::function ::llvm::i8::pointer mapCreate() {
-    return ::llvm::function::stl_long_to_int_map_create();
+    return ::llvm::function::stl_long_to_int_map_create() -> ::llvm::i8::pointer;
   }
 
   private ::llvm::function ::llvm::void mapDestroy(::llvm::i8::pointer map) {

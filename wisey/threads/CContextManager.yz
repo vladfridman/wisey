@@ -19,7 +19,7 @@ controller CContextManager {
       throw build(MContextNonExistantException).withContextName(contextName).onHeap() -> MContextNonExistantException*;
     }
     CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context) -> CReferenceToOwnerMap;
-    return objectNameToObjectMap.get(objectName);
+    return objectNameToObjectMap.get(objectName) -> ::wisey::object;
   }
 
   /**

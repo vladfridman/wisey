@@ -42,7 +42,7 @@ controller CReferenceList {
    * Returns the object reference at the back of the list, returns null if the list is empty
    */
   public ::wisey::object back() {
-    return ::llvm::function::stl_object_list_back(mList);
+    return ::llvm::function::stl_object_list_back(mList) -> ::wisey::object;
   }
 
   /**
@@ -64,7 +64,7 @@ controller CReferenceList {
    * Returns the object reference at the front of the list, returns null if the list is empty
    */
   public ::wisey::object front() {
-    return ::llvm::function::stl_object_list_front(mList);
+    return ::llvm::function::stl_object_list_front(mList) -> ::wisey::object;
   }
 
   /**
@@ -89,7 +89,7 @@ controller CReferenceList {
   }
 
   private ::llvm::function ::llvm::i8::pointer listCreate() {
-    return ::llvm::function::stl_object_list_create();
+    return ::llvm::function::stl_object_list_create() -> ::llvm::i8::pointer;
   }
 
   private ::llvm::function ::llvm::void listDestroy(::llvm::i8::pointer map) {

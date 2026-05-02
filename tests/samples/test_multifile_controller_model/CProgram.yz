@@ -7,7 +7,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     mAdder = build(MAdder).onHeap() -> MAdder*;
-    return mAdder.add(3, 4);
+    return mAdder.add(3, 4) -> int;
   }
 }
 

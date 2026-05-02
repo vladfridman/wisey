@@ -40,6 +40,7 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
     context.reportError(mLine, "Can't return value of type void");
     throw 1;
   }
+  IExpression::requireAnnotated(context, mExpression, "return statement");
 
   if (context.getScopes().hasOwnerVariables()) {
     Composer::setLineNumber(context, mLine);
