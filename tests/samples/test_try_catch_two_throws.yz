@@ -19,7 +19,7 @@ controller CResult {
 model MException implements IException {
 
   public NString* report() override {
-    return callstack.reportException(this) -> NString*;
+    return callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
   }
 }
 
@@ -34,19 +34,19 @@ controller CCatcher {
   inject CThrower* mThrower;
 
   public void doTryCatch(CResult result) throws MException {
-    result.setValue(result.getValue() -> int + 1);
+    result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 1);
     try {
       if (false) {
-        result.setValue(result.getValue() -> int + 2);
-        mThrower.doThrow();
+        result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 2);
+        mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow();
       } else {
-        result.setValue(result.getValue() -> int + 4);
-        mThrower.doThrow();
+        result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 4);
+        mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow();
       }
     } catch (MException* exception) {
-      result.setValue(result.getValue() -> int + 8);
+      result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 8);
     }
-    result.setValue(result.getValue() -> int + 32);
+    result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 32);
   }
 }
 
@@ -55,13 +55,13 @@ controller CProgram implements IProgram {
   inject CResult* mResult;
 
   public int run(immutable string[] arguments) override {
-    mResult.setValue(0);
+    mResult:systems.vos.wisey.compiler.tests.CResult*.setValue(0);
     try {
-      mCatcher.doTryCatch(mResult);
+      mCatcher:systems.vos.wisey.compiler.tests.CCatcher*.doTryCatch(mResult);
     } catch (MException* exception) {
-      mResult.setValue(mResult.getValue() -> int + 64);
+      mResult:systems.vos.wisey.compiler.tests.CResult*.setValue(mResult:systems.vos.wisey.compiler.tests.CResult*.getValue() -> int + 64);
     }
-    return mResult.getValue() -> int;
+    return mResult:systems.vos.wisey.compiler.tests.CResult*.getValue() -> int;
   }
 }
 

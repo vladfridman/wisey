@@ -17,6 +17,6 @@ model MRunner {
   public static void run() {
     CGarage* garage = inject(CGarage).onHeap() -> CGarage*;
 
-    MCar* owner = garage.getCar() -> MCar*;
+    MCar* owner = garage:systems.vos.wisey.compiler.tests.CGarage*.getCar() -> MCar*;
   }
 }

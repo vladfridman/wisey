@@ -23,7 +23,7 @@ controller CCatcher {
   inject CThrower* mThrower;
 
   public int doSomething() {
-    return mThrower.doThrow() -> int;
+    return mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow() -> int;
   }
 }
 

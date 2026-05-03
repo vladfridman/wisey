@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("lorem ipsum") -> NString*;
 
-    return nstring.charAt(5) -> char == ' ';
+    return nstring:wisey.lang.NString*.charAt(5) -> char == ' ';
   }
 }
 

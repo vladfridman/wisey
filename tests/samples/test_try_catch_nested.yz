@@ -12,7 +12,7 @@ model MException implements IException {
   }
 
   public NString* report() override {
-    return callstack.reportException(this) -> NString*;
+    return callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
   }
 }
 

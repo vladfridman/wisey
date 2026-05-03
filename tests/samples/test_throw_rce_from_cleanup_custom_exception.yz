@@ -13,7 +13,7 @@ model MData {
 
 model MMyException implements wisey.lang.IException {
   public NString* report() override {
-    return callstack.reportException(this) -> NString*;
+    return callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
   }
 }
 
@@ -32,7 +32,7 @@ controller CProgram implements IProgram {
       MData* data = build(MData).withValue(1).onHeap() -> MData*;
       MData dataRef = data;
       MData dataRef2 = data;
-      mService.throwException(data);
+      mService:systems.vos.wisey.compiler.tests.CService*.throwException(data);
     } catch (MMyException* exception) {
       printout("cought exception\n");
     }

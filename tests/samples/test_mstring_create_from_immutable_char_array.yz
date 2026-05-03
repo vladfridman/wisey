@@ -13,8 +13,8 @@ controller CProgram implements IProgram {
     array[2] = 'f';
     immutable char[]* immutableArray = array;
     MString* mstring = MString.createFromImmutableCharArray(immutableArray) -> MString*;
-    printout("mstring: " + mstring + " length: " + mstring.getLength() -> long + "\n");
-    return (int) mstring.getLength() -> int;
+    printout("mstring: " + mstring + " length: " + mstring:wisey.lang.MString*.getLength() -> long + "\n");
+    return (int) mstring:wisey.lang.MString*.getLength() -> int;
   }
 }
 

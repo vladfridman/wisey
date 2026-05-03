@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
     ::llvm::i32::pointer pointer = mymodel;
     MModel reference = pointer;
 
-    return reference.getValue() -> int;
+    return reference:systems.vos.wisey.compiler.tests.MModel.getValue() -> int;
   }
 }
 

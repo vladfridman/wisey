@@ -46,7 +46,7 @@ controller CProgram implements IProgram {
     IObject object = fridge;
     MFoo foo = (MFoo) object;
     
-    return foo.getSize() -> int;
+    return foo:systems.vos.wisey.compiler.tests.MFoo.getSize() -> int;
   }
 } 
 

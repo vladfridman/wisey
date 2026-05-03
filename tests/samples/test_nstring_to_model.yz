@@ -8,10 +8,10 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("123") -> NString*;
-    MString* mstring = nstring.toModel() -> MString*;
-    printout("before: " + nstring + " length: " + nstring.getLength() -> long + " capacity: " + nstring.getCapacity() -> long + "\n");
-    printout("after: " + mstring + " length: " + mstring.getLength() -> long + "\n");
-    return (int) mstring.getLength() -> int;
+    MString* mstring = nstring:wisey.lang.NString*.toModel() -> MString*;
+    printout("before: " + nstring + " length: " + nstring:wisey.lang.NString*.getLength() -> long + " capacity: " + nstring:wisey.lang.NString*.getCapacity() -> long + "\n");
+    printout("after: " + mstring + " length: " + mstring:wisey.lang.MString*.getLength() -> long + "\n");
+    return (int) mstring:wisey.lang.MString*.getLength() -> int;
   }
 }
 

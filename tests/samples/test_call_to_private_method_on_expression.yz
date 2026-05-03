@@ -10,7 +10,7 @@ model MCar {
   }
 
   public static int getValue(MCar car) {
-    return car.getYear() -> int;
+    return car:systems.vos.wisey.compiler.tests.MCar.getYear() -> int;
   }
 }
 

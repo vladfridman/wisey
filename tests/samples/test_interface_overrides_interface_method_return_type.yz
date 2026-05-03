@@ -35,7 +35,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     IReturnsHasValue* returner = build(MModel).withHasValue(build(MHasValue).onHeap() -> MHasValue*).onHeap() -> MModel*;
-    return returner.getHasValue().getValue() -> int;
+    return returner:systems.vos.wisey.compiler.tests.IReturnsHasValue*.getHasValue():systems.vos.wisey.compiler.tests.MHasValue.getValue() -> int;
   }
 }
 

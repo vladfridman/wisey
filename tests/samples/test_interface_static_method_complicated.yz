@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 
 interface IShape {
   public static int getValue(MValueContainer valueContainer) {
-    return valueContainer.getValue() -> int;
+    return valueContainer:systems.vos.wisey.compiler.tests.MValueContainer.getValue() -> int;
   }
 }
 

@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     mArray[4] = build(MCar).onHeap() -> MCar*;
-    return mArray[4].getYear() -> int;
+    return mArray[4]:systems.vos.wisey.compiler.tests.MCar*.getYear() -> int;
   }
 }
 

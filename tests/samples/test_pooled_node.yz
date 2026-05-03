@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
     NCar* car3 = build(NCar).withYear(2016).onPool(mPool) -> NCar*;
     car1 = null;
     NCar* car4 = build(NCar).withYear(2015).onPool(mPool) -> NCar*;
-    return car2.getYear() -> int;
+    return car2:systems.vos.wisey.compiler.tests.NCar*.getYear() -> int;
   }
 }
 

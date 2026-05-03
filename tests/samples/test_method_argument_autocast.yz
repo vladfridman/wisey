@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MColor* color = build(MColor).withValue(true).onHeap() -> MColor*;
 
-    return color.getValue() -> int;
+    return color:systems.vos.wisey.compiler.tests.MColor*.getValue() -> int;
   }
 }
 

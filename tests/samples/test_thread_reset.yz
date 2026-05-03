@@ -7,10 +7,10 @@ import wisey.threads.IWorker;
 model MWorker implements IWorker {
 
   public void work() override {
-    thread.sleep(1);
+    thread:wisey.threads.IThread.sleep(1);
     printout("This is worker thread!\n");
     MResult* result = build(MResult).withResult(5).onHeap() -> MResult*;
-    thread.send(result);
+    thread:wisey.threads.IThread.send(result);
   }
 
   public model MResult {
@@ -26,25 +26,25 @@ controller CProgram implements IProgram {
   inject CWorkerThread* mWorkerThread;
 
   public int run(immutable string[] arguments) override {
-    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has finished = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + "\n");
     printout("Starting worker thread\n");
-    mWorkerThread.start(build(MWorker).onHeap() -> MWorker*);
+    mWorkerThread:wisey.threads.CWorkerThread*.start(build(MWorker).onHeap() -> MWorker*);
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
-    int result = ((MWorker.MResult) mWorkerThread.awaitResult()).getResult() -> int;
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has finished = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + "\n");
+    int result = ((MWorker.MResult) mWorkerThread:wisey.threads.CWorkerThread*.awaitResult()).getResult() -> int;
     printout("Worker thread finished with result: " + result + "\n");
-    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has finished = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + "\n");
 
-    mWorkerThread.reset();
-    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
+    mWorkerThread:wisey.threads.CWorkerThread*.reset();
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has finished = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + "\n");
     printout("Starting worker thread\n");
-    mWorkerThread.start(build(MWorker).onHeap() -> MWorker*);
+    mWorkerThread:wisey.threads.CWorkerThread*.start(build(MWorker).onHeap() -> MWorker*);
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
-    result = ((MWorker.MResult) mWorkerThread.awaitResult()).getResult() -> int;
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has finished = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + "\n");
+    result = ((MWorker.MResult) mWorkerThread:wisey.threads.CWorkerThread*.awaitResult()).getResult() -> int;
 
     printout("Worker thread finished with result: " + result + "\n");
-    printout("Thread started = " + mWorkerThread.isStarted() -> boolean + ", has finished = " + mWorkerThread.isFinished() -> boolean + "\n");
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has finished = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + "\n");
 
     return result;
   }

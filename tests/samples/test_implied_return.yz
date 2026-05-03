@@ -12,7 +12,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MModel m = build(MModel).onHeap() -> MModel*;
-    m.foo();
+    m:systems.vos.wisey.compiler.tests.MModel.foo();
 
     return 5;
   }

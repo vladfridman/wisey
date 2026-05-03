@@ -17,7 +17,7 @@ controller CController {
   }
 
   public int getCarYear() {
-    return mArray[4].getYear() -> int;
+    return mArray[4]:systems.vos.wisey.compiler.tests.MCar*.getYear() -> int;
   }
 }
 
@@ -25,9 +25,9 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CController* mycontroller = inject(CController).withArray(new MCar*[5]).onHeap() -> CController*;
-    mycontroller.init();
+    mycontroller:systems.vos.wisey.compiler.tests.CController*.init();
 
-    return mycontroller.getCarYear() -> int;
+    return mycontroller:systems.vos.wisey.compiler.tests.CController*.getCarYear() -> int;
   }
 }
 

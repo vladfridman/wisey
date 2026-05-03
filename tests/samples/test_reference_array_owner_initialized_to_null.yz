@@ -13,7 +13,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MCar[]* array = new MCar[5];
 
-    return array[0].getYear() -> int;
+    return array[0]:systems.vos.wisey.compiler.tests.MCar.getYear() -> int;
   }
 }
 

@@ -11,7 +11,7 @@ model MData {
 controller CService {
 
   public static int getResultFromData(MData* data) {
-    return data.getResult() -> int;
+    return data:systems.vos.wisey.compiler.tests.MData*.getResult() -> int;
   }
 }
 

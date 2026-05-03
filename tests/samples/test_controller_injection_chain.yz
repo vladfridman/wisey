@@ -6,7 +6,7 @@ controller CTopController {
   inject CMiddleController* mMiddleController;
 
   public int get1() {
-    return mMiddleController.get2() -> int;
+    return mMiddleController:systems.vos.wisey.compiler.tests.CMiddleController*.get2() -> int;
   }
 }
 
@@ -14,7 +14,7 @@ controller CMiddleController {
   inject CBottomController* mBottomController;
 
   public int get2() {
-    return mBottomController.get3() -> int;
+    return mBottomController:systems.vos.wisey.compiler.tests.CBottomController*.get3() -> int;
   }
 }
 
@@ -29,7 +29,7 @@ controller CProgram implements IProgram {
   inject CTopController* mTopController;
 
   public int run(immutable string[] arguments) override {
-    return mTopController.get1() -> int;
+    return mTopController:systems.vos.wisey.compiler.tests.CTopController*.get1() -> int;
   }
 }
 

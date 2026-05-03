@@ -24,7 +24,7 @@ controller CProgram implements IProgram {
     build(MIntNumber).withNumber(7).onHeap() -> MIntNumber*);
 
   public int run(immutable string[] arguments) override {
-    return mService.getIntNumber().getNumber() -> int;
+    return mService:systems.vos.wisey.compiler.tests.CService*.getIntNumber():systems.vos.wisey.compiler.tests.MIntNumber.getNumber() -> int;
   }
 }
 

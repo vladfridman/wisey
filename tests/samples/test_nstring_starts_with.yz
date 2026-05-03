@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("lorem ipsum") -> NString*;
 
-    return nstring.startsWith("lorem") -> boolean + nstring.startsWith("ipsum") -> boolean;
+    return nstring:wisey.lang.NString*.startsWith("lorem") -> boolean + nstring:wisey.lang.NString*.startsWith("ipsum") -> boolean;
   }
 }
 

@@ -22,9 +22,9 @@ controller CCatcher {
 
   public int doTryCatch() {
     try {
-      return mThrower.doThrow() -> int;
+      return mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow() -> int;
     } catch (MException* exception) {
-      return exception.getValue() -> int;
+      return exception:systems.vos.wisey.compiler.tests.MException*.getValue() -> int;
     }
   }
 }
@@ -33,7 +33,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher.doTryCatch() -> int;
+    return mCatcher:systems.vos.wisey.compiler.tests.CCatcher*.doTryCatch() -> int;
   }
 }
 

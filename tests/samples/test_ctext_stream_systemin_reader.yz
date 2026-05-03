@@ -8,10 +8,10 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CTextStreamReader* stream = CTextStreamReader.openSystemIn() -> CTextStreamReader*;
-    NString* line = stream.readLine() -> NString*;
+    NString* line = stream:wisey.io.CTextStreamReader*.readLine() -> NString*;
     while (line) {
       printout("line: " + line);
-      line = stream.readLine() -> NString*;
+      line = stream:wisey.io.CTextStreamReader*.readLine() -> NString*;
 
     }
 

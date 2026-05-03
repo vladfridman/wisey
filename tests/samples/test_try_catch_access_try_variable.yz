@@ -12,7 +12,7 @@ model MException implements IException {
   }
 
   public NString* report() override {
-    return callstack.reportException(this) -> NString*;
+    return callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
   }
 }
 
@@ -29,7 +29,7 @@ controller CCatcher {
   public int doTryCatch() {
     try {
       int a = 1;
-      mThrower.doThrow();
+      mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow();
     } catch (MException* exception) {
       a = 2;
       return exception.getValue() -> int;

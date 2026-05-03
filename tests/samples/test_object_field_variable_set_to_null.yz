@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
     mModel = build(MModel).withValue(5).onHeap() -> MModel*;
     MModel* variable = mModel;
     
-    return mModel.getValue() -> int;
+    return mModel:systems.vos.wisey.compiler.tests.MModel*.getValue() -> int;
   }
 } 
 

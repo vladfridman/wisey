@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 
 model MCaller {
   public int makeCall(CProgram object) {
-    return object.getValue() -> int;
+    return object:systems.vos.wisey.compiler.tests.CProgram.getValue() -> int;
   }
 }
 
@@ -13,7 +13,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MCaller* caller = build(MCaller).onHeap() -> MCaller*;
 
-    return caller.makeCall(this) -> int;
+    return caller:systems.vos.wisey.compiler.tests.MCaller*.makeCall(this) -> int;
   }
 
   public int getValue() {

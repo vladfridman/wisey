@@ -46,7 +46,7 @@ controller CLinkList {
   public void appendToHead(MData* data) {
     // TODO: implement .withNext(mHead) and set mHead to null
     NNode* newHead = build(NNode).withData(data).onHeap() -> NNode*;
-    newHead.setNext(mHead);
+    newHead:systems.vos.wisey.compiler.tests.NNode*.setNext(mHead);
     mHead = newHead;
     if (mTail == null) {
       mTail = mHead;
@@ -59,20 +59,20 @@ controller CLinkList {
       mHead = newNode;
       mTail = mHead;
     } else {
-      mTail.setNext(newNode);
-      mTail = mTail.getNext() -> NNode;
+      mTail:systems.vos.wisey.compiler.tests.NNode.setNext(newNode);
+      mTail = mTail:systems.vos.wisey.compiler.tests.NNode.getNext() -> NNode;
     }
   }
 
   public void reverse() {
     mTail = mHead;
-    NNode* current = mHead.takeNext() -> NNode*;
+    NNode* current = mHead:systems.vos.wisey.compiler.tests.NNode*.takeNext() -> NNode*;
     NNode* previous = mHead;
-    previous.setNext(null);
+    previous:systems.vos.wisey.compiler.tests.NNode*.setNext(null);
 
     while (current != null) {
-      NNode* next = current.takeNext() -> NNode*;
-      current.setNext(previous);
+      NNode* next = current:systems.vos.wisey.compiler.tests.NNode*.takeNext() -> NNode*;
+      current:systems.vos.wisey.compiler.tests.NNode*.setNext(previous);
       previous = current;
       current = next;
     }
@@ -85,19 +85,19 @@ controller CProgram implements IProgram {
   inject CLinkList* mLinkList;
 
   public int run(immutable string[] arguments) override {
-    mLinkList.appendToHead(build(MData).withValue(2).onHeap() -> MData*);
-    mLinkList.appendToHead(build(MData).withValue(1).onHeap() -> MData*);
-    mLinkList.appendToTail(build(MData).withValue(3).onHeap() -> MData*);
-    mLinkList.appendToTail(build(MData).withValue(4).onHeap() -> MData*);
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.appendToHead(build(MData).withValue(2).onHeap() -> MData*);
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.appendToHead(build(MData).withValue(1).onHeap() -> MData*);
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.appendToTail(build(MData).withValue(3).onHeap() -> MData*);
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.appendToTail(build(MData).withValue(4).onHeap() -> MData*);
     // link list looks like this: 1, 2, 3, 4
 
-    mLinkList.reverse();
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.reverse();
     // link list looks like this: 4, 3, 2, 1
 
-    NNode head = mLinkList.getHead() -> NNode;
-    NNode head1 = head.getNext() -> NNode;
-    int value0 = head.getData().getValue() -> int;
-    int value1 = head1.getData().getValue() -> int;
+    NNode head = mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.getHead() -> NNode;
+    NNode head1 = head:systems.vos.wisey.compiler.tests.NNode.getNext() -> NNode;
+    int value0 = head:systems.vos.wisey.compiler.tests.NNode.getData():systems.vos.wisey.compiler.tests.MData.getValue() -> int;
+    int value1 = head1:systems.vos.wisey.compiler.tests.NNode.getData():systems.vos.wisey.compiler.tests.MData.getValue() -> int;
     return value0 + value1;
   }
 }

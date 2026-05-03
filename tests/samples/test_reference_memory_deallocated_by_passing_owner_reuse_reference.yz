@@ -29,7 +29,7 @@ controller CProgram implements IProgram {
     MData dataRef = data;
     MData anotherRef = dataRef;
     
-    return anotherRef.getValue() -> int;
+    return anotherRef:systems.vos.wisey.compiler.tests.MData.getValue() -> int;
   }
 } 
 

@@ -16,40 +16,40 @@ controller CProgram implements IProgram, IObjectComparator {
   inject CReferenceVector* mVector;
 
   public int run(immutable string[] arguments) override {
-    mVector.pushBack(build(MCar).withYear(2018).onHeap() -> MCar*);
-    mVector.pushBack(build(MCar).withYear(2017).onHeap() -> MCar*);
-    mVector.pushBack(build(MCar).withYear(2016).onHeap() -> MCar*);
-    mVector.pushBack(build(MCar).withYear(2015).onHeap() -> MCar*);
+    mVector:wisey.data.CReferenceVector*.pushBack(build(MCar).withYear(2018).onHeap() -> MCar*);
+    mVector:wisey.data.CReferenceVector*.pushBack(build(MCar).withYear(2017).onHeap() -> MCar*);
+    mVector:wisey.data.CReferenceVector*.pushBack(build(MCar).withYear(2016).onHeap() -> MCar*);
+    mVector:wisey.data.CReferenceVector*.pushBack(build(MCar).withYear(2015).onHeap() -> MCar*);
 
-    for (int i = 0; i < mVector.getSize() -> long; i++) {
-      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() -> int + "\n");
+    for (int i = 0; i < mVector:wisey.data.CReferenceVector*.getSize() -> long; i++) {
+      printout("Car year: " + ((MCar) mVector:wisey.data.CReferenceVector*.getAt(i)):MCar.getYear() -> int + "\n");
     }
     
-    mVector.sort(this);
+    mVector:wisey.data.CReferenceVector*.sort(this);
 
-    for (int i = 0; i < mVector.getSize() -> long; i++) {
-      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() -> int + "\n");
+    for (int i = 0; i < mVector:wisey.data.CReferenceVector*.getSize() -> long; i++) {
+      printout("Car year: " + ((MCar) mVector:wisey.data.CReferenceVector*.getAt(i)):MCar.getYear() -> int + "\n");
     }
 
-    MCar car = mVector.popBack() -> MCar;
+    MCar car = mVector:wisey.data.CReferenceVector*.popBack() -> MCar;
 
 
-    printout("Car year: " + car.getYear() -> int + "\n");
+    printout("Car year: " + car:systems.vos.wisey.compiler.tests.MCar.getYear() -> int + "\n");
 
-    printout("Vector size: " + mVector.getSize() -> long + "\n");
+    printout("Vector size: " + mVector:wisey.data.CReferenceVector*.getSize() -> long + "\n");
 
-    MCar carRef = mVector.getAt(0) -> MCar;
+    MCar carRef = mVector:wisey.data.CReferenceVector*.getAt(0) -> MCar;
 
 
-    mVector.clear();
+    mVector:wisey.data.CReferenceVector*.clear();
 
-    printout("Car year: " + carRef.getYear() -> int + "\n");
+    printout("Car year: " + carRef:systems.vos.wisey.compiler.tests.MCar.getYear() -> int + "\n");
 
     return 1;
   }
 
   public boolean compare(MCar left, MCar right) override {
-    return left.getYear() -> int < right.getYear() -> int;
+    return left:systems.vos.wisey.compiler.tests.MCar.getYear() -> int < right:systems.vos.wisey.compiler.tests.MCar.getYear() -> int;
   }
 }
 

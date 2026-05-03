@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
   }
 
   public int run(immutable string[] arguments) override {
-    printout(getOwner().getValue() -> int + "\n");
+    printout(getOwner():systems.vos.wisey.compiler.tests.MCar*.getValue() -> int + "\n");
     return 1;
   }
 }

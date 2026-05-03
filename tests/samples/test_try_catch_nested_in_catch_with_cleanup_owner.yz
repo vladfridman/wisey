@@ -15,7 +15,7 @@ model MException implements IException {
   }
 
   public NString* report() override {
-    return callstack.reportException(this) -> NString*;
+    return callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
   }
 }
 
@@ -31,15 +31,15 @@ controller CCatcher {
 
   public int doTryCatch() {
     try {
-      mThrower.doThrow(2);
+      mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow(2);
       return 1;
     } catch (MException* exception) {
       try {
         MData* data = build(MData).onHeap() -> MData*;
-        mThrower.doThrow(4);
+        mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow(4);
         return 2;
       } catch(MException* exception) {
-        return exception.getValue() -> int + 1;
+        return exception:systems.vos.wisey.compiler.tests.MException*.getValue() -> int + 1;
       }
     }
   }
@@ -49,7 +49,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher.doTryCatch() -> int;
+    return mCatcher:systems.vos.wisey.compiler.tests.CCatcher*.doTryCatch() -> int;
   }
 }
 

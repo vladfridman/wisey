@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
     CTextStreamWriter* stream = CTextStreamWriter.open(
       NString.createFromString("build/test.txt") -> NString*) -> CTextStreamWriter*;
     print(stream, "This is a test\n");
-    stream.close();
+    stream:wisey.io.CTextStreamWriter*.close();
     return 1;
   }
 }

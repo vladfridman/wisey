@@ -34,15 +34,15 @@ controller CCatcher {
   inject CThrower* mThrower;
 
   public void doTryCatch(CResult result) throws MException {
-    result.setValue(result.getValue() -> int + 1);
+    result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 1);
     try {
-      mThrower.doThrow();
-      result.setValue(result.getValue() -> int + 2);
+      mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow();
+      result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 2);
     } catch (MException* exception) {
-      result.setValue(result.getValue() -> int + 4);
-      mThrower.doThrow();
+      result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 4);
+      mThrower:systems.vos.wisey.compiler.tests.CThrower*.doThrow();
     }
-    result.setValue(result.getValue() -> int + 16);
+    result:systems.vos.wisey.compiler.tests.CResult.setValue(result:systems.vos.wisey.compiler.tests.CResult.getValue() -> int + 16);
   }
 }
 
@@ -51,13 +51,13 @@ controller CProgram implements IProgram {
   inject CResult* mResult;
 
   public int run(immutable string[] arguments) override {
-    mResult.setValue(0);
+    mResult:systems.vos.wisey.compiler.tests.CResult*.setValue(0);
     try {
-      mCatcher.doTryCatch(mResult);
+      mCatcher:systems.vos.wisey.compiler.tests.CCatcher*.doTryCatch(mResult);
     } catch (MException* exception) {
-      mResult.setValue(mResult.getValue() -> int + 32);
+      mResult:systems.vos.wisey.compiler.tests.CResult*.setValue(mResult:systems.vos.wisey.compiler.tests.CResult*.getValue() -> int + 32);
     }
-    return mResult.getValue() -> int;
+    return mResult:systems.vos.wisey.compiler.tests.CResult*.getValue() -> int;
   }
 }
 

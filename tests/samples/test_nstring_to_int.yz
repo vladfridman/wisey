@@ -7,7 +7,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("15") -> NString*;
-    return nstring.toInt() -> int;
+    return nstring:wisey.lang.NString*.toInt() -> int;
   }
 }
 

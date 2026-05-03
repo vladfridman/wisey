@@ -25,13 +25,13 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     NElement* first = build(NElement).withValue(1).onHeap() -> NElement*;
     NElement* second = build(NElement).withPrevious(first).withValue(2).onHeap() -> NElement*;
-    first.setNext(second);
+    first:systems.vos.wisey.compiler.tests.NElement*.setNext(second);
 
     int sum;
     NElement iterator = first;
     while (iterator != null) {
-      sum = sum + iterator.getValue() -> int;
-      iterator = iterator.getNext() -> NElement;
+      sum = sum + iterator:systems.vos.wisey.compiler.tests.NElement.getValue() -> int;
+      iterator = iterator:systems.vos.wisey.compiler.tests.NElement.getNext() -> NElement;
 
     }
 
