@@ -43,7 +43,7 @@ controller CThreadPool {
    */
   public void submit(::wisey::model* worker) {
     IWorker* workerModel = worker;
-    mWorkers.push(workerModel);
+    mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:push(workerModel);
   }
 
   /**
@@ -52,7 +52,7 @@ controller CThreadPool {
   public void start() {
     for (int i = 0; i < mPoolSize; i++) {
       mThreads[i] = inject(CPoolThread).onHeap() -> CPoolThread*;
-      mThreads[i]:wisey.threads.CPoolThread*.start(this);
+      mThreads[i]:wisey.threads.CPoolThread*:start(this);
     }
   }
 
@@ -61,11 +61,11 @@ controller CThreadPool {
    */
   public void waitAndStop() {
     for (int i = 0; i < mThreads.getSize() -> long; i++) {
-      mWorkers.push(build(MEnder).onHeap() -> MEnder*);
+      mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:push(build(MEnder).onHeap() -> MEnder*);
     }
     for (int i = 0; i < mPoolSize; i++) {
       if (mThreads[i]) {
-        mThreads[i]:wisey.threads.CPoolThread*.join();
+        mThreads[i]:wisey.threads.CPoolThread*:join();
       }
     }
   }
@@ -76,7 +76,7 @@ controller CThreadPool {
    * This blocks until result becomes available
    */
   public ::wisey::model* getResult() {
-     return mResults.pop() -> ::wisey::model*;
+     return mResults:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:pop() -> ::wisey::model*;
   }
 
   /**
@@ -85,7 +85,7 @@ controller CThreadPool {
    * This is called by individual pool threads and should not be called directly
    */
   public IWorker* getWorker() {
-    return (IWorker*) mWorkers.pop() -> IWorker*;
+    return (IWorker*) mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:pop() -> IWorker*;
   }
 
   /**
@@ -94,7 +94,7 @@ controller CThreadPool {
    * This is called by individual pool threads and should not be called directly
    */
   public void addResult(::wisey::model* result) {
-    mResults.push(result);
+    mResults:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:push(result);
   }
 
   /**
@@ -102,7 +102,7 @@ controller CThreadPool {
    */
   private model MEnder implements IWorker {
     public void work() override {
-      thread:wisey.threads.IThread.exit();
+      thread:wisey.threads.IThread:exit();
     }
   }
 

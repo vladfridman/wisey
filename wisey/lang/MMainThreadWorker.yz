@@ -26,10 +26,10 @@ model MMainThreadWorker implements IWorker {
     MMainThreadWorker* mainThreadWorker = build(MMainThreadWorker)
       .withArguments(arguments)
       .onHeap() -> MMainThreadWorker*;
-    workerThread:wisey.threads.CWorkerThread*.start(mainThreadWorker);
-    MProgramResult* result = workerThread:wisey.threads.CWorkerThread*.awaitResult() -> MProgramResult*;
+    workerThread:wisey.threads.CWorkerThread*:start(mainThreadWorker);
+    MProgramResult* result = workerThread:wisey.threads.CWorkerThread*:awaitResult() -> MProgramResult*;
     if (result != null) {
-      return result.getResult() -> int;
+      return result:wisey.lang.MMainThreadWorker.MProgramResult*:getResult() -> int;
     }
     
     printerr("Main thread ended without a result\n");
@@ -41,10 +41,10 @@ model MMainThreadWorker implements IWorker {
   public void work() throws MThreadBoundaryException override {
     IProgram* program = inject(IProgram).onHeap() -> IProgram*;
     MProgramResult* programResult = build(MProgramResult)
-      .withResult(program:wisey.lang.IProgram*.run(mArguments) -> int)
+      .withResult(program:wisey.lang.IProgram*:run(mArguments) -> int)
       .onHeap() -> MProgramResult*;
     program = null;
-    thread:wisey.threads.IThread.send(programResult);
+    thread:wisey.threads.IThread:send(programResult);
   }
 
   /**

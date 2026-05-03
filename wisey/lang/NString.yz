@@ -65,7 +65,7 @@ node NString {
    * Creates a modifiable NString from an MString model
    */
   public static NString* createFromModel(MString input) {
-    return copyMemoryAndBuild(input:wisey.lang.MString.getContent() -> immutable char[], input:wisey.lang.MString.getLength() -> long) -> NString*;
+    return copyMemoryAndBuild(input:wisey.lang.MString:getContent() -> immutable char[], input:wisey.lang.MString:getLength() -> long) -> NString*;
   }
 
   /**
@@ -265,14 +265,14 @@ node NString {
    * Appends another NString to this string
    */
   public NString appendNString(NString appendix) {
-    return append(appendix:wisey.lang.NString.getContent() -> char[], appendix:wisey.lang.NString.getLength() -> long) -> NString;
+    return append(appendix:wisey.lang.NString:getContent() -> char[], appendix:wisey.lang.NString:getLength() -> long) -> NString;
   }
 
   /**
    * Appends another MString to this string
    */
   public NString appendMString(MString appendix) {
-    return append(appendix:wisey.lang.MString.getContent() -> immutable char[], appendix:wisey.lang.MString.getLength() -> long) -> NString;
+    return append(appendix:wisey.lang.MString:getContent() -> immutable char[], appendix:wisey.lang.MString:getLength() -> long) -> NString;
   }
 
   /**
@@ -326,14 +326,14 @@ node NString {
    * Compares the string to the given input MString and returns 0 if they are equal
    */
   public int compareToMString(MString input) {
-    return ::llvm::function::strcmp(mBuffer, input:wisey.lang.MString.getContent() -> immutable char[]) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input:wisey.lang.MString:getContent() -> immutable char[]) -> ::llvm::i32;
   }
 
   /**
    * Compares the string to the given input NString and returns 0 if they are equal
    */
   public int compareToNString(NString input) {
-    return ::llvm::function::strcmp(mBuffer, input:wisey.lang.NString.getContent() -> char[]) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input:wisey.lang.NString:getContent() -> char[]) -> ::llvm::i32;
   }
 
   /**

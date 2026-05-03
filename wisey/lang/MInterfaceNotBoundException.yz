@@ -10,10 +10,10 @@ model MInterfaceNotBoundException implements IException {
   receive string mInterfaceName;
 
   public NString* report() override {
-    NString* message = callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
-    message:wisey.lang.NString*.appendString("Details: Interface ");
-    message:wisey.lang.NString*.appendString(mInterfaceName);
-    message:wisey.lang.NString*.appendString(" is not bound to a controller\n");
+    NString* message = callstack:wisey.threads.CCallStack:reportException(this) -> NString*;
+    message:wisey.lang.NString*:appendString("Details: Interface ");
+    message:wisey.lang.NString*:appendString(mInterfaceName);
+    message:wisey.lang.NString*:appendString(" is not bound to a controller\n");
 
     return message;
   }

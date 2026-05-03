@@ -88,7 +88,7 @@ model MString {
    * Compares the string to the given input MString and returns 0 if they are equal
    */
   public int compareToMString(MString input) {
-    return ::llvm::function::strcmp(mContent, input:wisey.lang.MString.getContent() -> immutable char[]) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mContent, input:wisey.lang.MString:getContent() -> immutable char[]) -> ::llvm::i32;
   }
 
   /**

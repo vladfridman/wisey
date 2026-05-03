@@ -25,37 +25,37 @@ interface IThreadRunner {
     CCallStack callstack = null;
 
     try {
-      callstack = thread:wisey.threads.IThread.getCallStack() -> CCallStack;
-      thread:wisey.threads.IThread.run();
-      thread:wisey.threads.IThread.exit();
+      callstack = thread:wisey.threads.IThread:getCallStack() -> CCallStack;
+      thread:wisey.threads.IThread:run();
+      thread:wisey.threads.IThread:exit();
     } catch (MNullPointerException* exception) {
-      printerr(exception:wisey.lang.MNullPointerException*.report());
+      printerr(exception:wisey.lang.MNullPointerException*:report());
     } catch (MReferenceCountException* exception) {
-      printerr(exception:wisey.lang.MReferenceCountException*.report());
+      printerr(exception:wisey.lang.MReferenceCountException*:report());
     } catch (MCastException* exception) {
-      printerr(exception:wisey.lang.MCastException*.report());
+      printerr(exception:wisey.lang.MCastException*:report());
     } catch (MArrayIndexOutOfBoundsException* exception) {
-      printerr(exception:wisey.lang.MArrayIndexOutOfBoundsException*.report());
+      printerr(exception:wisey.lang.MArrayIndexOutOfBoundsException*:report());
     } catch (MStackOverflowException* exception) {
-      printerr(exception:wisey.threads.MStackOverflowException*.report());
+      printerr(exception:wisey.threads.MStackOverflowException*:report());
     } catch (MThreadBoundaryException* exception) {
-      printerr(exception:wisey.threads.MThreadBoundaryException*.report());
+      printerr(exception:wisey.threads.MThreadBoundaryException*:report());
     } catch (MFileCouldNotOpenException* exception) {
-      printerr(exception:wisey.io.MFileCouldNotOpenException*.report());
+      printerr(exception:wisey.io.MFileCouldNotOpenException*:report());
     } catch (MStreamClosedException* exception) {
-      printerr(exception:wisey.io.MStreamClosedException*.report());
+      printerr(exception:wisey.io.MStreamClosedException*:report());
     } catch (MStreamCouldNotCloseException* exception) {
-      printerr(exception:wisey.io.MStreamCouldNotCloseException*.report());
+      printerr(exception:wisey.io.MStreamCouldNotCloseException*:report());
     } catch (MContextNonExistantException* exception) {
-      printerr(exception:wisey.threads.MContextNonExistantException*.report());
+      printerr(exception:wisey.threads.MContextNonExistantException*:report());
     } catch (MInterfaceNotBoundException* exception) {
-      printerr(exception:wisey.lang.MInterfaceNotBoundException*.report());
+      printerr(exception:wisey.lang.MInterfaceNotBoundException*:report());
     } catch (MMemoryPoolNonEmpty* exception) {
-      printerr(exception:wisey.lang.MMemoryPoolNonEmpty*.report());
+      printerr(exception:wisey.lang.MMemoryPoolNonEmpty*:report());
     } catch (MMapEntryDoesNotExistException* exception) {
-      printerr(exception:wisey.data.MMapEntryDoesNotExistException*.report());
+      printerr(exception:wisey.data.MMapEntryDoesNotExistException*:report());
     }
-    thread:wisey.threads.IThread.exit();
+    thread:wisey.threads.IThread:exit();
 
     return argument;
   }

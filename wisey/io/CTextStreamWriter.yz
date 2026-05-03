@@ -33,9 +33,9 @@ controller CTextStreamWriter {
    * Create an instance of the CTextStreamWriter to write to the the given file
    */
   public static CTextStreamWriter* open(NString fileName) throws MFileCouldNotOpenException {
-    ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName:wisey.lang.NString.getContent() -> char[], "w") -> ::llvm::struct::__sFILE::pointer;
+    ::llvm::struct::__sFILE::pointer stream = ::llvm::function::fopen(fileName:wisey.lang.NString:getContent() -> char[], "w") -> ::llvm::struct::__sFILE::pointer;
     if (stream == null) {
-      throw build(MFileCouldNotOpenException).withFileName(fileName:wisey.lang.NString.toModel() -> MString*).onHeap() -> MFileCouldNotOpenException*;
+      throw build(MFileCouldNotOpenException).withFileName(fileName:wisey.lang.NString:toModel() -> MString*).onHeap() -> MFileCouldNotOpenException*;
     }
     return inject(CTextStreamWriter).withStream(stream).onHeap() -> CTextStreamWriter*;
   }
