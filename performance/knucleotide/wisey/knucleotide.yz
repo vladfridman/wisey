@@ -35,15 +35,15 @@ controller CKNucleotide implements IProgram, IObjectComparator {
 
 
     NString stringBuilder = NString.create() -> NString*;
-    stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]) -> NString*);
-    stringBuilder.appendNString(
+    stringBuilder:wisey.lang.NString.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]) -> NString*);
+    stringBuilder:wisey.lang.NString.appendNString(
       writeFrequencies((float) (sequence.getSize() -> long) - 1.0,
       sumTwoMaps(fragments[1], fragments[2]) -> CFragment) -> NString*);
 
     string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
     for (int i = 0; i < nucleotideFragments.getSize() -> long; i++) {
       string nucleotideFragment = nucleotideFragments[i];
-      stringBuilder.appendNString(writeCount(fragments, nucleotideFragment) -> NString*);
+      stringBuilder:wisey.lang.NString.appendNString(writeCount(fragments, nucleotideFragment) -> NString*);
     }
 
     printout(stringBuilder);
@@ -65,17 +65,17 @@ controller CKNucleotide implements IProgram, IObjectComparator {
           .withFragmentLength(fragmentLength)
           .withArrayIndex(arrayIndex)
           .onHeap() -> MFragmentWorker*;
-        mThreadPool.submit(worker);
+        mThreadPool:wisey.threads.CThreadPool*.submit(worker);
         arrayIndex++;
       }
     }
-    mThreadPool.start();
+    mThreadPool:wisey.threads.CThreadPool*.start();
     CFragment*[]* fragments = new CFragment*[arrayIndex];
     for (int i = 0; i < fragments.getSize() -> long; i++) {
-      MFragmentWorkerResult* result = mThreadPool.getResult() -> MFragmentWorkerResult*;
+      MFragmentWorkerResult* result = mThreadPool:wisey.threads.CThreadPool*.getResult() -> MFragmentWorkerResult*;
       fragments[result.getArrayIndex()] = result.toController() -> CFragment*;
     }
-    mThreadPool.waitAndStop();
+    mThreadPool:wisey.threads.CThreadPool*.waitAndStop();
     return fragments;
   }
 
@@ -99,17 +99,17 @@ controller CKNucleotide implements IProgram, IObjectComparator {
         for (int i = index; i < index + mFragmentLength; i++) {
           key = key * 4 + mSequence[i];
         }
-        map.addTo(key, 1);
+        map:wisey.data.CLongToIntMap.addTo(key, 1);
       }
 
       MFragmentWorkerResult* result = build(MFragmentWorkerResult)
-        .withKeys(map.getKeys() -> long[]*)
-        .withValues(map.getValues() -> int[]*)
+        .withKeys(map:wisey.data.CLongToIntMap.getKeys() -> long[]*)
+        .withValues(map:wisey.data.CLongToIntMap.getValues() -> int[]*)
         .withKeyLength(mFragmentLength)
         .withArrayIndex(mArrayIndex)
         .onHeap() -> MFragmentWorkerResult*;
-      map.clear();
-      thread.send(result);
+      map:wisey.data.CLongToIntMap.clear();
+      thread:wisey.threads.IThread.send(result);
     }
   }
 
@@ -135,7 +135,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
         .withKeyLength(mKeyLength)
         .onHeap() -> CFragment*;
       for (int i = 0; i < mKeys.getSize() -> long; i++) {
-        fragment.getMap().put(mKeys[i], mValues[i]);
+        fragment.getMap():wisey.data.CLongToIntMap.put(mKeys[i], mValues[i]);
       }
       return fragment;
     }
@@ -203,11 +203,11 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Sums two maps of int to long from two fragments
    */
   private CFragment sumTwoMaps(CFragment fragment1, CFragment fragment2) {
-    long[]* keysArray = fragment2.getMap().getKeys() -> long[]*;
-    int[]* valuesArray = fragment2.getMap().getValues() -> int[]*;
+    long[]* keysArray = fragment2.getMap():wisey.data.CLongToIntMap.getKeys() -> long[]*;
+    int[]* valuesArray = fragment2.getMap():wisey.data.CLongToIntMap.getValues() -> int[]*;
     for (int i = 0; i < keysArray.getSize() -> long; i++) {
       long key = keysArray[i];
-      fragment1.getMap().addTo(key, valuesArray[i]);
+      fragment1.getMap():wisey.data.CLongToIntMap.addTo(key, valuesArray[i]);
     }
     return fragment1;
   }
@@ -216,28 +216,28 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Writes test results into a string
    */
   private NString* writeFrequencies(float totalCount, CFragment frequencies) {
-    long[]* keysArray = frequencies.getMap().getKeys() -> long[]*;
-    int[]* valuesArray = frequencies.getMap().getValues() -> int[]*;
+    long[]* keysArray = frequencies.getMap():wisey.data.CLongToIntMap.getKeys() -> long[]*;
+    int[]* valuesArray = frequencies.getMap():wisey.data.CLongToIntMap.getValues() -> int[]*;
     COwnerVector* vector = inject(COwnerVector).onHeap() -> COwnerVector*;
     for (int i = 0; i < keysArray.getSize() -> long; i++) {
       NKeyValuePair* pair = build(NKeyValuePair)
         .withKey(keysArray[i])
         .withValue(valuesArray[i])
         .onHeap() -> NKeyValuePair*;
-      vector.pushBack(pair);
+      vector:wisey.data.COwnerVector*.pushBack(pair);
     }
-    vector.sort(this);
+    vector:wisey.data.COwnerVector*.sort(this);
     NString* sb = NString.create() -> NString*;
     int keyLength = frequencies.getKeyLength() -> int;
-    long entryCount = vector.getSize() -> long;
+    long entryCount = vector:wisey.data.COwnerVector*.getSize() -> long;
     for (long i = 0l; i < entryCount; i++) {
-      NKeyValuePair pair = (NKeyValuePair) (vector.getAt(i) -> ::wisey::object);
-      sb.appendNString(keyToString(pair.getKey() -> long, keyLength) -> NString*);
-      sb.appendString(" ");
-      sb.appendNString(formatFloat3(((float) (pair.getValue() -> int)) * 100.0 / totalCount) -> NString*);
-      sb.appendString("\n");
+      NKeyValuePair pair = (NKeyValuePair) (vector:wisey.data.COwnerVector*.getAt(i) -> ::wisey::object);
+      sb:wisey.lang.NString*.appendNString(keyToString(pair.getKey() -> long, keyLength) -> NString*);
+      sb:wisey.lang.NString*.appendString(" ");
+      sb:wisey.lang.NString*.appendNString(formatFloat3(((float) (pair.getValue() -> int)) * 100.0 / totalCount) -> NString*);
+      sb:wisey.lang.NString*.appendString("\n");
     }
-    sb.appendString("\n");
+    sb:wisey.lang.NString*.appendString("\n");
     return sb;
   }
 
@@ -252,11 +252,11 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     long whole = scaled / 1000;
     long frac = scaled - whole * 1000;
     NString* sb = NString.create() -> NString*;
-    sb.appendNString(NString.createFromLong(whole) -> NString*);
-    sb.appendString(".");
-    if (frac < 100) { sb.appendString("0"); }
-    if (frac < 10) { sb.appendString("0"); }
-    sb.appendNString(NString.createFromLong(frac) -> NString*);
+    sb:wisey.lang.NString*.appendNString(NString.createFromLong(whole) -> NString*);
+    sb:wisey.lang.NString*.appendString(".");
+    if (frac < 100) { sb:wisey.lang.NString*.appendString("0"); }
+    if (frac < 10) { sb:wisey.lang.NString*.appendString("0"); }
+    sb:wisey.lang.NString*.appendNString(NString.createFromLong(frac) -> NString*);
     return sb;
   }
 
@@ -293,16 +293,16 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     for (int i = 0; i < fragments.getSize() -> long; i++) {
       CFragment fragment = (CFragment) fragments[i];
       if (fragment.getKeyLength() -> int == nucleotideFragment.getLength() -> long) {
-        if (fragment.getMap().has(k)) {
-          count += fragment.getMap().get(k) -> int;
+        if (fragment.getMap():wisey.data.CLongToIntMap.has(k)) {
+          count += fragment.getMap():wisey.data.CLongToIntMap.get(k) -> int;
         }
       }
     }
 
     NString* value = NString.createFromInt(count) -> NString*;
-    value.appendString("\t");
-    value.appendString(nucleotideFragment);
-    value.appendString("\n");
+    value:wisey.lang.NString*.appendString("\t");
+    value:wisey.lang.NString*.appendString(nucleotideFragment);
+    value:wisey.lang.NString*.appendString("\n");
     return value;
   }
 
@@ -311,7 +311,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    */
   private static byte[]* toCodesFromString(string input) {
     NString* nstring = NString.createFromString(input) -> NString*;
-    char[] nstringContent = nstring.getContent() -> char[];
+    char[] nstringContent = nstring:wisey.lang.NString*.getContent() -> char[];
     byte[]* result = new byte[nstringContent.getSize() -> long - 1];
     for (int i = 0; i < nstringContent.getSize() -> long - 1; i++) {
       result[i] = CODES[(byte) nstringContent[i] & 0x7];
@@ -325,25 +325,25 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   private byte[]* read() {
     NString* line = NString.create() -> NString*;
     CTextStreamReader* stream = CTextStreamReader.openSystemIn() -> CTextStreamReader*;
-    while ((line = stream.readLineIntoNString(line) -> NString*) != null) {
-      if (line.startsWith(">THREE")) {
+    while ((line = stream:wisey.io.CTextStreamReader*.readLineIntoNString(line) -> NString*) != null) {
+      if (line:wisey.lang.NString*.startsWith(">THREE")) {
         break;
       }
     }
 
     byte[]* bytes = new byte[1048576];
     long position = 0;
-    while ((line = stream.readLineIntoNString(line) -> NString*) != null && line.charAt(0) -> char != '>') {
-      if (line.getLength() -> long + position > bytes.getSize() -> long) {
+    while ((line = stream:wisey.io.CTextStreamReader*.readLineIntoNString(line) -> NString*) != null && line:wisey.lang.NString*.charAt(0) -> char != '>') {
+      if (line:wisey.lang.NString*.getLength() -> long + position > bytes.getSize() -> long) {
         byte[]* newBytes = new byte[bytes.getSize() -> long * 2];
         MSystem.copyMemory(newBytes, bytes, position);
         bytes = newBytes;
       }
-      for (int i = 0; i < line.getLength() -> long; i++) {
-        bytes[position++] = (byte) line.charAt(i);
+      for (int i = 0; i < line:wisey.lang.NString*.getLength() -> long; i++) {
+        bytes[position++] = (byte) line:wisey.lang.NString*.charAt(i);
       }
     }
-    stream.close();
+    stream:wisey.io.CTextStreamReader*.close();
 
     return toCodes(bytes, position) -> byte[]*;
   }

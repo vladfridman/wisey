@@ -30,14 +30,14 @@ controller CHashmap implements IProgram {
       keys[i] = NString.createFromInt(i) -> NString*;
     }
     for (int i = 0; i < ARRAY_SIZE; i++) {
-      mMap.put(keys[i].getContent() -> char[], array[i]);
+      mMap:wisey.data.CReferenceToReferenceMap*.put(keys[i]:wisey.lang.NString*.getContent() -> char[], array[i]);
     }
     long sum = 0l;
     for (int i = 0; i < ARRAY_SIZE; i++) {
-      MElement element = (MElement) (mMap.get(keys[i].getContent() -> char[]) -> ::wisey::object);
-      sum += element.getKey() -> int;
+      MElement element = (MElement) (mMap:wisey.data.CReferenceToReferenceMap*.get(keys[i]:wisey.lang.NString*.getContent() -> char[]) -> ::wisey::object);
+      sum += element:wisey.performance.testing.MElement.getKey() -> int;
     }
-    mMap.clear();
+    mMap:wisey.data.CReferenceToReferenceMap*.clear();
     printout("Sum: " + sum + "\n");
     return 1;
   }

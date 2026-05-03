@@ -22,7 +22,7 @@ controller CMandelbrot implements IProgram {
   public int run(immutable string[] arguments) override {
     int n = 6000;
     if (arguments.getSize() -> long >= 2) {
-      n = NString.createFromString(arguments[1]).toInt() -> int;
+      n = (NString.createFromString(arguments[1]) -> NString*):NString*.toInt() -> int;
 
     }
 
@@ -44,22 +44,22 @@ controller CMandelbrot implements IProgram {
         .withWidth(width)
         .withY(i)
         .onHeap() -> MWorker*;
-      mThreadPool.submit(worker);
+      mThreadPool:wisey.threads.CThreadPool*.submit(worker);
     }
-    mThreadPool.start();
+    mThreadPool:wisey.threads.CThreadPool*.start();
     MResult*[]* results = new MResult*[n];
     for (int resultCount = 0; resultCount < n; resultCount++) {
-      MResult* result = mThreadPool.getResult() -> MResult*;
+      MResult* result = mThreadPool:wisey.threads.CThreadPool*.getResult() -> MResult*;
       results[result.getY()] = result;
     }
-    mThreadPool.waitAndStop();
+    mThreadPool:wisey.threads.CThreadPool*.waitAndStop();
 
     CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut() -> CBinaryStreamWriter*;
     printout("P4\n" + n + " " + n + "\n");
     for (int i = 0; i < n; i++) {
-      stream.writeImmutable(results[i].getArray() -> immutable byte[]);
+      stream:wisey.io.CBinaryStreamWriter*.writeImmutable(results[i].getArray() -> immutable byte[]);
     }
-    stream.close();
+    stream:wisey.io.CBinaryStreamWriter*.close();
 
     return 1;
   }
@@ -79,7 +79,7 @@ controller CMandelbrot implements IProgram {
         int result = getByte(xb * 8, mY) -> int;
         line[xb] = (byte) result;
       }
-      thread.send(build(MResult).withArray(line).withY(mY).onHeap() -> MResult*);
+      thread:wisey.threads.IThread.send(build(MResult).withArray(line).withY(mY).onHeap() -> MResult*);
     }
 
     /**
