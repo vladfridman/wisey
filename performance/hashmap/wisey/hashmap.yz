@@ -1,42 +1,54 @@
 package wisey.performance.testing;
 
-import wisey.data.CReferenceMap;
-import wisey.lang.CMemoryPool;
+import wisey.data.CReferenceToReferenceMap;
 import wisey.lang.IProgram;
+import wisey.lang.NString;
 
-controller CBinaryTrees implements IProgram {
-  private constant long ARRAY_SIZE = 1024000l;
+/**
+ * Wisey port of performance/hashmap/java/hashmap.java.
+ *
+ * Java uses HashMap<Element, Element> with default Object identity hashing.
+ * Current Wisey stdlib has CReferenceToReferenceMap, which keys on raw
+ * pointers (`::llvm::i8::pointer`) and stores `::wisey::object` references.
+ * Since Wisey does not (yet) expose object pointers as keys, we key on
+ * NString-derived string keys built from the element index.
+ *
+ * The AOT-compiled binary doesn't need JIT warmup, so the original 10-x
+ * put loop is collapsed to 1 iteration (as in the previous Wisey port).
+ */
+controller CHashmap implements IProgram {
+  private constant int ARRAY_SIZE = 1024000;
 
-  inject NElement*[ARRAY_SIZE]* mArray;
-  inject immediate CMemoryPool* mPool;
-  inject CReferenceMap* mMap;
+  inject CReferenceToReferenceMap* mMap;
 
   public int run(immutable string[] arguments) override {
-    for (long i = 0; i < ARRAY_SIZE; i++) {
-      mArray[i] = build(NElement).withKey(i).onPool(mPool) -> NElement*;
-    }
-    for (long j = 0; j < 1; j++) {
-      for (long i = 0; i < ARRAY_SIZE; i++) {
-        mMap.put(mArray[i], mArray[i]);
-      }
-    }
-    long sum = 0;
-    for (int i = 0; i < ARRAY_SIZE; i++) {
-      sum += ((NElement) mMap.get(mArray[i])).getKey();
-    }
-    printout("Sum: " + sum + "\n");
+    MElement*[]* array = new MElement*[ARRAY_SIZE];
+    NString*[]* keys = new NString*[ARRAY_SIZE];
 
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+      array[i] = build(MElement).withKey(i).onHeap() -> MElement*;
+      keys[i] = NString.createFromInt(i) -> NString*;
+    }
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+      mMap.put(keys[i].getContent() -> char[], array[i]);
+    }
+    long sum = 0l;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+      MElement element = (MElement) (mMap.get(keys[i].getContent() -> char[]) -> ::wisey::object);
+      sum += element.getKey() -> int;
+    }
     mMap.clear();
+    printout("Sum: " + sum + "\n");
     return 1;
   }
 }
 
-node NElement onPool {
-  receive long mKey;
+model MElement {
+  int mKey;
 
-  public long getKey() {
+  public int getKey() {
     return mKey;
   }
 }
 
-bind(IProgram).to(CBinaryTrees);
+bind(IProgram, CHashmap);
