@@ -13,7 +13,7 @@ controller CController {
 
 
   public int getCarYear() {
-    return mArray[4]:systems.vos.wisey.compiler.tests.MCar*.getYear() -> int;
+    return mArray[4]:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
   }
 }
 
@@ -23,7 +23,7 @@ controller CProgram implements IProgram {
     MCar*[]* array = new MCar*[5];
     CController* mycontroller = inject(CController).withArray(array).onHeap() -> CController*;
 
-    return mycontroller:systems.vos.wisey.compiler.tests.CController*.getCarYear() -> int;
+    return mycontroller:systems.vos.wisey.compiler.tests.CController*:getCarYear() -> int;
   }
 }
 

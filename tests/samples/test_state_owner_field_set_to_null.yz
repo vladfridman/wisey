@@ -30,10 +30,10 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    mService:systems.vos.wisey.compiler.tests.CService*.set();
-    mService:systems.vos.wisey.compiler.tests.CService*.get();
+    mService:systems.vos.wisey.compiler.tests.CService*:set();
+    mService:systems.vos.wisey.compiler.tests.CService*:get();
 
-    return mService:systems.vos.wisey.compiler.tests.CService*.check() -> boolean;
+    return mService:systems.vos.wisey.compiler.tests.CService*:check() -> boolean;
   }
 } 
 

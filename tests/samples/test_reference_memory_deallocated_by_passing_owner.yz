@@ -23,9 +23,9 @@ controller CProgram implements IProgram {
     MData* data = build(MData).withValue(5).onHeap() -> MData*;
     MData dataRef = data;
     MData anotherRef = dataRef;
-    mService:systems.vos.wisey.compiler.tests.CService*.capture(data);
+    mService:systems.vos.wisey.compiler.tests.CService*:capture(data);
     
-    return anotherRef:systems.vos.wisey.compiler.tests.MData.getValue() -> int;
+    return anotherRef:systems.vos.wisey.compiler.tests.MData:getValue() -> int;
   }
 } 
 

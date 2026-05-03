@@ -40,7 +40,7 @@ controller CProgram implements IProgram {
     IObject object = fridge;
     MFridge fridge2 = (MFridge) object;
     
-    return fridge2:systems.vos.wisey.compiler.tests.MFridge.getSize() -> int;
+    return fridge2:systems.vos.wisey.compiler.tests.MFridge:getSize() -> int;
   }
 } 
 

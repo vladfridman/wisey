@@ -18,7 +18,7 @@ node NElement {
   state IHasValue* mHasValue;
 
   public int getValue() {
-    return mHasValue:systems.vos.wisey.compiler.tests.IHasValue*.getValue() -> int;
+    return mHasValue:systems.vos.wisey.compiler.tests.IHasValue*:getValue() -> int;
   }
 }
 
@@ -28,7 +28,7 @@ controller CProgram implements IProgram {
     IHasValue* car = build(MCar).onHeap() -> MCar*;
     IHasValue* service = inject(CService).onHeap() -> CService*;
     NElement* element = build(NElement).withHasValue(service).onHeap() -> NElement*;
-    return element:systems.vos.wisey.compiler.tests.NElement*.getValue() -> int;
+    return element:systems.vos.wisey.compiler.tests.NElement*:getValue() -> int;
   }
 }
 

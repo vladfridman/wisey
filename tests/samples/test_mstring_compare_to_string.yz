@@ -12,10 +12,10 @@ controller CProgram implements IProgram {
     array[1] = 'e';
     array[2] = 's';
     array[3] = 't';
-    return mstring:wisey.lang.MString*.compareToString("test") -> int
-      + mstring:wisey.lang.MString*.compareToMString(mstring) -> int
-      + mstring:wisey.lang.MString*.compareToImmutableCharArray(mstring:wisey.lang.MString*.getContent() -> immutable char[]) -> int
-      + mstring:wisey.lang.MString*.compareToCharArray(array) -> int;
+    return mstring:wisey.lang.MString*:compareToString("test") -> int
+      + mstring:wisey.lang.MString*:compareToMString(mstring) -> int
+      + mstring:wisey.lang.MString*:compareToImmutableCharArray(mstring:wisey.lang.MString*:getContent() -> immutable char[]) -> int
+      + mstring:wisey.lang.MString*:compareToCharArray(array) -> int;
   }
 }
 

@@ -35,28 +35,28 @@ controller CProgram implements IProgram {
     CCar* bmw = inject(CCar).withMake(bmwMake).onHeap() -> CCar*;
     CCar* mercedes = inject(CCar).withMake(mecedesMake).onHeap() -> CCar*;
 
-    mContextManager:wisey.threads.CContextManager*.setContext(context1, mContext1);
-    mContextManager:wisey.threads.CContextManager*.setContext(context2, mContext2);
-    mContextManager:wisey.threads.CContextManager*.setInstance(context1, toyotaMake, toyota);
-    mContextManager:wisey.threads.CContextManager*.setInstance(context1, bmwMake, bmw);
-    mContextManager:wisey.threads.CContextManager*.setInstance(context2, mecedesMake, mercedes);
+    mContextManager:wisey.threads.CContextManager*:setContext(context1, mContext1);
+    mContextManager:wisey.threads.CContextManager*:setContext(context2, mContext2);
+    mContextManager:wisey.threads.CContextManager*:setInstance(context1, toyotaMake, toyota);
+    mContextManager:wisey.threads.CContextManager*:setInstance(context1, bmwMake, bmw);
+    mContextManager:wisey.threads.CContextManager*:setInstance(context2, mecedesMake, mercedes);
 
-    CCar car = mContextManager:wisey.threads.CContextManager*.getInstance(context1, toyotaMake) -> ::wisey::object;
+    CCar car = mContextManager:wisey.threads.CContextManager*:getInstance(context1, toyotaMake) -> ::wisey::object;
     printout("In context " + context1 + " looking for " + toyotaMake + " got " +
-      car:systems.vos.wisey.compiler.tests.CCar.getMake() -> string + " back\n");
-    car = mContextManager:wisey.threads.CContextManager*.getInstance(context1, bmwMake) -> ::wisey::object;
+      car:systems.vos.wisey.compiler.tests.CCar:getMake() -> string + " back\n");
+    car = mContextManager:wisey.threads.CContextManager*:getInstance(context1, bmwMake) -> ::wisey::object;
     printout("In context " + context1 + " looking for " + bmwMake + " got " +
-      car:systems.vos.wisey.compiler.tests.CCar.getMake() -> string + " back\n");
+      car:systems.vos.wisey.compiler.tests.CCar:getMake() -> string + " back\n");
 
-    car = mContextManager:wisey.threads.CContextManager*.getInstance(context2, mecedesMake) -> ::wisey::object;
+    car = mContextManager:wisey.threads.CContextManager*:getInstance(context2, mecedesMake) -> ::wisey::object;
     printout("In context " + context2 + " looking for " + mecedesMake + " got " +
-      car:systems.vos.wisey.compiler.tests.CCar.getMake() -> string + " back\n");
+      car:systems.vos.wisey.compiler.tests.CCar:getMake() -> string + " back\n");
 
     CCar* replacement = inject(CCar).withMake("Audi").onHeap() -> CCar*;
-    mContextManager:wisey.threads.CContextManager*.setInstance(context1, bmwMake, replacement);
-    car = mContextManager:wisey.threads.CContextManager*.getInstance(context1, bmwMake) -> ::wisey::object;
+    mContextManager:wisey.threads.CContextManager*:setInstance(context1, bmwMake, replacement);
+    car = mContextManager:wisey.threads.CContextManager*:getInstance(context1, bmwMake) -> ::wisey::object;
     printout("In context " + context2 + " looking for " + bmwMake + " got " +
-      car:systems.vos.wisey.compiler.tests.CCar.getMake() -> string + " back\n");
+      car:systems.vos.wisey.compiler.tests.CCar:getMake() -> string + " back\n");
 
     return 1;
   }

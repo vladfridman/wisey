@@ -24,14 +24,14 @@ controller CProgram implements IProgram {
     if (true) {
       MData dataRef = data;
       MData anotherRef = dataRef;
-      mService:systems.vos.wisey.compiler.tests.CService*.capture(data);
+      mService:systems.vos.wisey.compiler.tests.CService*:capture(data);
     } else {
       MData dataRef = data;
       MData anotherRef = dataRef;
-      mService:systems.vos.wisey.compiler.tests.CService*.capture(data);
+      mService:systems.vos.wisey.compiler.tests.CService*:capture(data);
     }
     
-    return data:systems.vos.wisey.compiler.tests.MData*.getValue() -> int;
+    return data:systems.vos.wisey.compiler.tests.MData*:getValue() -> int;
   }
 } 
 

@@ -10,13 +10,13 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     CTextStreamReader* stream = CTextStreamReader.open(
       NString.createFromString("tests/samples/inputs/textfile.txt") -> NString*) -> CTextStreamReader*;
-    NString* line = stream:wisey.io.CTextStreamReader*.readLine() -> NString*;
+    NString* line = stream:wisey.io.CTextStreamReader*:readLine() -> NString*;
     while (line != null) {
       printout(line + "\n");
-      line = stream:wisey.io.CTextStreamReader*.readLine() -> NString*;
+      line = stream:wisey.io.CTextStreamReader*:readLine() -> NString*;
 
     }
-    stream:wisey.io.CTextStreamReader*.close();
+    stream:wisey.io.CTextStreamReader*:close();
     return 1;
   }
 }

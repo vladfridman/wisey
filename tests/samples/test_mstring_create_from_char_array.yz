@@ -12,8 +12,8 @@ controller CProgram implements IProgram {
     array[1] = 'b';
     array[2] = 'c';
     MString* mstring = MString.createFromCharArray(array) -> MString*;
-    printout("mstring: " + mstring + " length: " + mstring:wisey.lang.MString*.getLength() -> long + "\n");
-    return (int) mstring:wisey.lang.MString*.getLength() -> int;
+    printout("mstring: " + mstring + " length: " + mstring:wisey.lang.MString*:getLength() -> long + "\n");
+    return (int) mstring:wisey.lang.MString*:getLength() -> int;
   }
 }
 

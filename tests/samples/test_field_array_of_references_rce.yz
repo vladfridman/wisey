@@ -22,7 +22,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     CController* mycontroller = inject(CController).withOwnerArray(new MCar[5]).onHeap() -> CController*;
 
-    mycontroller:systems.vos.wisey.compiler.tests.CController*.getRce();
+    mycontroller:systems.vos.wisey.compiler.tests.CController*:getRce();
 
     return 1;
   }

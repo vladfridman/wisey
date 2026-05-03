@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
     array[4] = car;
     car = array[4];
 
-    return array[4]:systems.vos.wisey.compiler.tests.MCar*.getYear() -> int;
+    return array[4]:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
   }
 }
 

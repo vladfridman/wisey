@@ -21,7 +21,7 @@ controller CService {
   }
 
   public int getData() {
-    return mData:systems.vos.wisey.compiler.tests.MData*.getResult() -> int;
+    return mData:systems.vos.wisey.compiler.tests.MData*:getResult() -> int;
   }
 }
 
@@ -29,9 +29,9 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData* data = mService:systems.vos.wisey.compiler.tests.CService*.newData() -> MData*;
-    mService:systems.vos.wisey.compiler.tests.CService*.setData(data);
-    return mService:systems.vos.wisey.compiler.tests.CService*.getData() -> int;
+    MData* data = mService:systems.vos.wisey.compiler.tests.CService*:newData() -> MData*;
+    mService:systems.vos.wisey.compiler.tests.CService*:setData(data);
+    return mService:systems.vos.wisey.compiler.tests.CService*:getData() -> int;
   }
 }
 

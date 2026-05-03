@@ -4,6 +4,6 @@ model MAdder {
   public int add(int a, int b) {
     MDoer doer = build(MDoer).onHeap() -> MDoer*;
 
-    return doer:systems.vos.wisey.compiler.tests.multifile.MDoer.get(a) -> int + doer:systems.vos.wisey.compiler.tests.multifile.MDoer.get(b) -> int;
+    return doer:systems.vos.wisey.compiler.tests.multifile.MDoer:get(a) -> int + doer:systems.vos.wisey.compiler.tests.multifile.MDoer:get(b) -> int;
   }
 }

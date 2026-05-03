@@ -16,7 +16,7 @@ controller CController {
   }
 
   public int getCarYear() {
-    return mArray[4]:systems.vos.wisey.compiler.tests.MCar.getYear() -> int;
+    return mArray[4]:systems.vos.wisey.compiler.tests.MCar:getYear() -> int;
   }
 }
 
@@ -26,8 +26,8 @@ controller CProgram implements IProgram {
     MCar* car = build(MCar).onHeap() -> MCar*;
     MCar[]* array = new MCar[5];
     CController* mycontroller = inject(CController).withArray(array).onHeap() -> CController*;
-    mycontroller:systems.vos.wisey.compiler.tests.CController*.set(car);
-    mycontroller:systems.vos.wisey.compiler.tests.CController*.set(null);
+    mycontroller:systems.vos.wisey.compiler.tests.CController*:set(car);
+    mycontroller:systems.vos.wisey.compiler.tests.CController*:set(null);
     car = null;
 
     return 5;

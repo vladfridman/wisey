@@ -14,11 +14,11 @@ controller CProgram implements IProgram {
     array[1] = 'e';
     array[2] = 's';
     array[3] = 't';
-    return nstring:wisey.lang.NString*.compareToString("test") -> int
-      + nstring:wisey.lang.NString*.compareToMString(mstring) -> int
-      + nstring:wisey.lang.NString*.compareToNString(nstring) -> int
-      + nstring:wisey.lang.NString*.compareToImmutableCharArray(mstring:wisey.lang.MString*.getContent() -> immutable char[]) -> int
-      + nstring:wisey.lang.NString*.compareToCharArray(array) -> int;
+    return nstring:wisey.lang.NString*:compareToString("test") -> int
+      + nstring:wisey.lang.NString*:compareToMString(mstring) -> int
+      + nstring:wisey.lang.NString*:compareToNString(nstring) -> int
+      + nstring:wisey.lang.NString*:compareToImmutableCharArray(mstring:wisey.lang.MString*:getContent() -> immutable char[]) -> int
+      + nstring:wisey.lang.NString*:compareToCharArray(array) -> int;
   }
 }
 

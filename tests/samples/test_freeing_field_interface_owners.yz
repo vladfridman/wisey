@@ -31,7 +31,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     IHasSubModule* myObject = build(MModel).withSubModel((IHasValue*) build(MSubModel).withValue(3).onHeap()).onHeap() -> MModel*;
     
-    return myObject:systems.vos.wisey.compiler.tests.IHasSubModule*.getSubModel():systems.vos.wisey.compiler.tests.IHasValue.getValue() -> int;
+    return myObject:systems.vos.wisey.compiler.tests.IHasSubModule*:getSubModel():systems.vos.wisey.compiler.tests.IHasValue:getValue() -> int;
   }
 } 
 

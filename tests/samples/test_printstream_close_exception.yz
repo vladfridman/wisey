@@ -7,7 +7,7 @@ controller CProgram implements IProgram {
   inject CTextStreamWriter* mStream.withStream(null);
 
   public int run(immutable string[] arguments) override {
-    mStream:wisey.io.CTextStreamWriter*.close();
+    mStream:wisey.io.CTextStreamWriter*:close();
     return 1;
   }
 }

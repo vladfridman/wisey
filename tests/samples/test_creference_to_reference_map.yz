@@ -18,25 +18,25 @@ controller CProgram implements IProgram {
     MCar* mercedes = build(MCar).withMake("Mercedes").onHeap() -> MCar*;
     CReferenceToReferenceMap* map = CReferenceToReferenceMap.create() -> CReferenceToReferenceMap*;
 
-    map:wisey.data.CReferenceToReferenceMap*.put(toyota:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string, toyota);
-    map:wisey.data.CReferenceToReferenceMap*.put(bmw:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string, bmw);
-    map:wisey.data.CReferenceToReferenceMap*.put(bmw:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string, bmw);
-    map:wisey.data.CReferenceToReferenceMap*.put(mercedes:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string, mercedes);
+    map:wisey.data.CReferenceToReferenceMap*:put(toyota:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string, toyota);
+    map:wisey.data.CReferenceToReferenceMap*:put(bmw:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string, bmw);
+    map:wisey.data.CReferenceToReferenceMap*:put(bmw:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string, bmw);
+    map:wisey.data.CReferenceToReferenceMap*:put(mercedes:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string, mercedes);
 
-    printout("Hashmap size: " + map:wisey.data.CReferenceToReferenceMap*.getSize() -> long + "\n");
+    printout("Hashmap size: " + map:wisey.data.CReferenceToReferenceMap*:getSize() -> long + "\n");
 
-    MCar car = map:wisey.data.CReferenceToReferenceMap*.get(toyota:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string) -> MCar;
+    MCar car = map:wisey.data.CReferenceToReferenceMap*:get(toyota:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string) -> MCar;
 
-    printout("Lookup " + toyota:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string + ": " + car:systems.vos.wisey.compiler.tests.MCar.getMake() -> string + "\n");
-    car = map:wisey.data.CReferenceToReferenceMap*.get(bmw:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string) -> MCar;
+    printout("Lookup " + toyota:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string + ": " + car:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
+    car = map:wisey.data.CReferenceToReferenceMap*:get(bmw:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string) -> MCar;
 
-    printout("Lookup " + bmw:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string + ": " + car:systems.vos.wisey.compiler.tests.MCar.getMake() -> string + "\n");
-    car = map:wisey.data.CReferenceToReferenceMap*.get(mercedes:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string) -> MCar;
+    printout("Lookup " + bmw:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string + ": " + car:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
+    car = map:wisey.data.CReferenceToReferenceMap*:get(mercedes:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string) -> MCar;
 
-    printout("Lookup " + mercedes:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string + ": " + car:systems.vos.wisey.compiler.tests.MCar.getMake() -> string + "\n");
+    printout("Lookup " + mercedes:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string + ": " + car:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
 
-    map:wisey.data.CReferenceToReferenceMap*.erase(bmw:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string);
-    car = map:wisey.data.CReferenceToReferenceMap*.get(bmw:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string) -> MCar;
+    map:wisey.data.CReferenceToReferenceMap*:erase(bmw:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string);
+    car = map:wisey.data.CReferenceToReferenceMap*:get(bmw:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string) -> MCar;
 
     if (car == null) {
       printout("BMW was erased\n");
@@ -44,18 +44,18 @@ controller CProgram implements IProgram {
       printout("BMW is still there\n");
     }
 
-    map:wisey.data.CReferenceToReferenceMap*.erase(toyota:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string);
-    map:wisey.data.CReferenceToReferenceMap*.erase(bmw:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string);
-    map:wisey.data.CReferenceToReferenceMap*.erase(mercedes:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string);
+    map:wisey.data.CReferenceToReferenceMap*:erase(toyota:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string);
+    map:wisey.data.CReferenceToReferenceMap*:erase(bmw:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string);
+    map:wisey.data.CReferenceToReferenceMap*:erase(mercedes:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string);
 
-    car = map:wisey.data.CReferenceToReferenceMap*.get(toyota:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string) -> MCar;
+    car = map:wisey.data.CReferenceToReferenceMap*:get(toyota:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string) -> MCar;
 
     if (car == null) {
       printout("Toyota was erased\n");
     } else {
       printout("Toyota is still there\n");
     }
-    car = map:wisey.data.CReferenceToReferenceMap*.get(mercedes:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string) -> MCar;
+    car = map:wisey.data.CReferenceToReferenceMap*:get(mercedes:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string) -> MCar;
 
     if (car == null) {
       printout("Mercedes was erased\n");

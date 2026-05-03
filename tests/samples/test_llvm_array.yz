@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
     array[3] = build(MElement).withContent(3).onHeap() -> MElement*;
     array[4] = build(MElement).withContent(4).onHeap() -> MElement*;
 
-    return ((MElement*) array[4]):MElement*.getContent() -> int;
+    return ((MElement*) array[4]):MElement*:getContent() -> int;
   }
 }
 

@@ -7,7 +7,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("true") -> NString*;
-    return nstring:wisey.lang.NString*.toBoolean() -> boolean;
+    return nstring:wisey.lang.NString*:toBoolean() -> boolean;
   }
 }
 

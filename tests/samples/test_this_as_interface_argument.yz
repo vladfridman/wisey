@@ -8,7 +8,7 @@ interface IHasValue {
 
 model MCaller {
   public int makeCall(IHasValue object) {
-    return object:systems.vos.wisey.compiler.tests.IHasValue.getValue() -> int;
+    return object:systems.vos.wisey.compiler.tests.IHasValue:getValue() -> int;
   }
 }
 
@@ -17,7 +17,7 @@ controller CProgram implements IProgram, IHasValue {
   public int run(immutable string[] arguments) override {
     MCaller* caller = build(MCaller).onHeap() -> MCaller*;
 
-    return caller:systems.vos.wisey.compiler.tests.MCaller*.makeCall(this) -> int;
+    return caller:systems.vos.wisey.compiler.tests.MCaller*:makeCall(this) -> int;
   }
 
   public int getValue() override {

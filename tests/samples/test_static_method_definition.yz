@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MCar car = build(MCar).onHeap() -> MCar*;
 
-    return car:systems.vos.wisey.compiler.tests.MCar.getYear() -> int;
+    return car:systems.vos.wisey.compiler.tests.MCar:getYear() -> int;
   }
 }
 

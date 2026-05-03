@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
     int[][]* array = new int[5][3];
     array[4][2] = 5;
     CController* mycontroller = inject(CController).onHeap() -> CController*;
-    mycontroller:systems.vos.wisey.compiler.tests.CController*.init(array);
+    mycontroller:systems.vos.wisey.compiler.tests.CController*:init(array);
     array = null;
 
     return 5;

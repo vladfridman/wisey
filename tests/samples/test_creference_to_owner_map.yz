@@ -22,11 +22,11 @@ controller CProgram implements IProgram {
     MCar* bmw = build(MCar).withMake(bmwMake).onHeap() -> MCar*;
     MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap() -> MCar*;
 
-    mMap:wisey.data.CReferenceToOwnerMap*.put(toyota:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string, toyota);
-    mMap:wisey.data.CReferenceToOwnerMap*.put(bmw:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string, bmw);
-    mMap:wisey.data.CReferenceToOwnerMap*.put(mercedes:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string, mercedes);
+    mMap:wisey.data.CReferenceToOwnerMap*:put(toyota:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string, toyota);
+    mMap:wisey.data.CReferenceToOwnerMap*:put(bmw:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string, bmw);
+    mMap:wisey.data.CReferenceToOwnerMap*:put(mercedes:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string, mercedes);
 
-    printout("Hashmap size: " + mMap:wisey.data.CReferenceToOwnerMap*.getSize() -> long + "\n");
+    printout("Hashmap size: " + mMap:wisey.data.CReferenceToOwnerMap*:getSize() -> long + "\n");
 
     if (bmw == null) {
       printout("bmw is null\n");
@@ -34,18 +34,18 @@ controller CProgram implements IProgram {
       printout("bmw is not null\n");
     }
 
-    MCar car = mMap:wisey.data.CReferenceToOwnerMap*.get(toyotaMake) -> MCar;
+    MCar car = mMap:wisey.data.CReferenceToOwnerMap*:get(toyotaMake) -> MCar;
 
-    printout("Lookup " + toyotaMake + ": " + car:systems.vos.wisey.compiler.tests.MCar.getMake() -> string + "\n");
-    car = mMap:wisey.data.CReferenceToOwnerMap*.get(bmwMake) -> MCar;
+    printout("Lookup " + toyotaMake + ": " + car:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
+    car = mMap:wisey.data.CReferenceToOwnerMap*:get(bmwMake) -> MCar;
 
-    printout("Lookup " + bmwMake + ": " + car:systems.vos.wisey.compiler.tests.MCar.getMake() -> string + "\n");
-    car = mMap:wisey.data.CReferenceToOwnerMap*.get(mercedesMake) -> MCar;
+    printout("Lookup " + bmwMake + ": " + car:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
+    car = mMap:wisey.data.CReferenceToOwnerMap*:get(mercedesMake) -> MCar;
 
-    printout("Lookup " + mercedesMake + ": " + car:systems.vos.wisey.compiler.tests.MCar.getMake() -> string + "\n");
+    printout("Lookup " + mercedesMake + ": " + car:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
 
-    mMap:wisey.data.CReferenceToOwnerMap*.erase(bmwMake);
-    car = mMap:wisey.data.CReferenceToOwnerMap*.get(bmwMake) -> MCar;
+    mMap:wisey.data.CReferenceToOwnerMap*:erase(bmwMake);
+    car = mMap:wisey.data.CReferenceToOwnerMap*:get(bmwMake) -> MCar;
 
     if (car == null) {
       printout("BMW was erased\n");
@@ -53,11 +53,11 @@ controller CProgram implements IProgram {
       printout("BMW is still there\n");
     }
 
-    MCar* carOwner = mMap:wisey.data.CReferenceToOwnerMap*.take(toyotaMake) -> MCar*;
+    MCar* carOwner = mMap:wisey.data.CReferenceToOwnerMap*:take(toyotaMake) -> MCar*;
 
-    printout("Take result: " + carOwner:systems.vos.wisey.compiler.tests.MCar*.getMake() -> string + "\n");
+    printout("Take result: " + carOwner:systems.vos.wisey.compiler.tests.MCar*:getMake() -> string + "\n");
     carOwner = null;
-    car = mMap:wisey.data.CReferenceToOwnerMap*.get(toyotaMake) -> MCar;
+    car = mMap:wisey.data.CReferenceToOwnerMap*:get(toyotaMake) -> MCar;
 
     if (car == null) {
       printout("Toyota was erased\n");
@@ -65,11 +65,11 @@ controller CProgram implements IProgram {
       printout("Toyota is still there\n");
     }
 
-    mMap:wisey.data.CReferenceToOwnerMap*.erase(toyotaMake);
-    mMap:wisey.data.CReferenceToOwnerMap*.erase(bmwMake);
-    mMap:wisey.data.CReferenceToOwnerMap*.erase(mercedesMake);
+    mMap:wisey.data.CReferenceToOwnerMap*:erase(toyotaMake);
+    mMap:wisey.data.CReferenceToOwnerMap*:erase(bmwMake);
+    mMap:wisey.data.CReferenceToOwnerMap*:erase(mercedesMake);
 
-    car = mMap:wisey.data.CReferenceToOwnerMap*.get(mercedesMake) -> MCar;
+    car = mMap:wisey.data.CReferenceToOwnerMap*:get(mercedesMake) -> MCar;
 
     if (car == null) {
       printout("Mercedes was erased\n");

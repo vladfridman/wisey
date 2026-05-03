@@ -11,7 +11,7 @@ model MData {
 controller CService {
 
   public int getResultFromData(MData* data) {
-    return data:systems.vos.wisey.compiler.tests.MData*.getResult() -> int;
+    return data:systems.vos.wisey.compiler.tests.MData*:getResult() -> int;
   }
 }
 
@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MData* data = build(MData).onHeap() -> MData*;
-    return mService:systems.vos.wisey.compiler.tests.CService*.getResultFromData(data) -> int;
+    return mService:systems.vos.wisey.compiler.tests.CService*:getResultFromData(data) -> int;
   }
 }
 

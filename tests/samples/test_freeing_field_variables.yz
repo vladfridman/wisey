@@ -23,7 +23,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MModel* myModel = build(MModel).withSubModel(build(MSubModel).withValue(3).onHeap() -> MSubModel*).onHeap() -> MModel*;
     
-    return myModel:systems.vos.wisey.compiler.tests.MModel*.getSubModel():systems.vos.wisey.compiler.tests.MSubModel.getValue() -> int;
+    return myModel:systems.vos.wisey.compiler.tests.MModel*:getSubModel():systems.vos.wisey.compiler.tests.MSubModel:getValue() -> int;
   }
 } 
 

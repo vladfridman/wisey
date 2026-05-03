@@ -41,7 +41,7 @@ controller CProgram implements IProgram {
     IHasFreezer* freezer = device;
     IObject* object = freezer;
 
-    return object:systems.vos.wisey.compiler.tests.IObject*.getSize() -> int;
+    return object:systems.vos.wisey.compiler.tests.IObject*:getSize() -> int;
   }
 } 
 

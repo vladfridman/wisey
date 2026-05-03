@@ -7,10 +7,10 @@ import wisey.threads.IWorker;
 model MWorker implements IWorker {
 
   public void work() override {
-    thread:wisey.threads.IThread.sleep(1);
+    thread:wisey.threads.IThread:sleep(1);
     printout("This is worker thread!\n");
     MResult* result = build(MResult).withResult(5).onHeap() -> MResult*;
-    thread:wisey.threads.IThread.send(result);
+    thread:wisey.threads.IThread:send(result);
   }
 
   public model MResult {
@@ -26,18 +26,18 @@ controller CProgram implements IProgram {
   inject CWorkerThread* mWorkerThread;
 
   public int run(immutable string[] arguments) override {
-    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has result = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + 
-      ", was cancelled = " + mWorkerThread:wisey.threads.CWorkerThread*.isCancelled() -> boolean + "\n");
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*:isStarted() -> boolean + ", has result = " + mWorkerThread:wisey.threads.CWorkerThread*:isFinished() -> boolean + 
+      ", was cancelled = " + mWorkerThread:wisey.threads.CWorkerThread*:isCancelled() -> boolean + "\n");
     printout("Starting worker thread\n");
-    mWorkerThread:wisey.threads.CWorkerThread*.start(build(MWorker).onHeap() -> MWorker*);
+    mWorkerThread:wisey.threads.CWorkerThread*:start(build(MWorker).onHeap() -> MWorker*);
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has result = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + 
-      ", was cancelled = " + mWorkerThread:wisey.threads.CWorkerThread*.isCancelled() -> boolean + "\n");
-    mWorkerThread:wisey.threads.CWorkerThread*.cancel();
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*:isStarted() -> boolean + ", has result = " + mWorkerThread:wisey.threads.CWorkerThread*:isFinished() -> boolean + 
+      ", was cancelled = " + mWorkerThread:wisey.threads.CWorkerThread*:isCancelled() -> boolean + "\n");
+    mWorkerThread:wisey.threads.CWorkerThread*:cancel();
     printout("Worker thread cancelled\n");
-    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*.isStarted() -> boolean + ", has result = " + mWorkerThread:wisey.threads.CWorkerThread*.isFinished() -> boolean + 
-      ", was cancelled = " + mWorkerThread:wisey.threads.CWorkerThread*.isCancelled() -> boolean + "\n");
-    if (mWorkerThread:wisey.threads.CWorkerThread*.awaitResult() -> ::wisey::model* == null) {
+    printout("Thread started = " + mWorkerThread:wisey.threads.CWorkerThread*:isStarted() -> boolean + ", has result = " + mWorkerThread:wisey.threads.CWorkerThread*:isFinished() -> boolean + 
+      ", was cancelled = " + mWorkerThread:wisey.threads.CWorkerThread*:isCancelled() -> boolean + "\n");
+    if (mWorkerThread:wisey.threads.CWorkerThread*:awaitResult() -> ::wisey::model* == null) {
       printout("Thread result is null\n");
     }
     return 0;

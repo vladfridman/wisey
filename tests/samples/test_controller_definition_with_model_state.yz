@@ -52,9 +52,9 @@ controller CProgram implements IProgram {
   inject CFibonacciCalculator* mFibonacciCalculator.withIndex(8);
 
   public int run(immutable string[] arguments) override {
-    MIntNumber intNumber = mFibonacciCalculator:systems.vos.wisey.compiler.tests.CFibonacciCalculator*.calculate() -> MIntNumber;
-    intNumber:systems.vos.wisey.compiler.tests.MIntNumber.getNumber();
-    return intNumber:systems.vos.wisey.compiler.tests.MIntNumber.getNumber() -> int;
+    MIntNumber intNumber = mFibonacciCalculator:systems.vos.wisey.compiler.tests.CFibonacciCalculator*:calculate() -> MIntNumber;
+    intNumber:systems.vos.wisey.compiler.tests.MIntNumber:getNumber();
+    return intNumber:systems.vos.wisey.compiler.tests.MIntNumber:getNumber() -> int;
   }
 }
 

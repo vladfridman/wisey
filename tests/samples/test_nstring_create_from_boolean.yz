@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromBoolean(true) -> NString*;
     printout("Result: " + nstring + "\n");
-    return (int) nstring:wisey.lang.NString*.getLength() -> int;
+    return (int) nstring:wisey.lang.NString*:getLength() -> int;
   }
 }
 

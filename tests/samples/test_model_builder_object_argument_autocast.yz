@@ -22,7 +22,7 @@ model MCar {
   IHasValue* mYear;
 
   public int getYear() {
-    return mYear:systems.vos.wisey.compiler.tests.IHasValue*.getValue() -> int;
+    return mYear:systems.vos.wisey.compiler.tests.IHasValue*:getValue() -> int;
   }
 }
 
@@ -31,7 +31,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MCar* car = build(MCar).withYear(build(MYear).withValue(2017).onHeap() -> MYear*).onHeap() -> MCar*;
     
-    return car:systems.vos.wisey.compiler.tests.MCar*.getYear() -> int;
+    return car:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
   }
 }
 

@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
 
   private int method() {
     MModel reference = mPointer;
-    return reference:systems.vos.wisey.compiler.tests.MModel.getValue() -> int;
+    return reference:systems.vos.wisey.compiler.tests.MModel:getValue() -> int;
   }
 
   public int run(immutable string[] arguments) override {

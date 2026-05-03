@@ -20,8 +20,8 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData data = mService:systems.vos.wisey.compiler.tests.CService*.newData() -> MData;
-    return data:systems.vos.wisey.compiler.tests.MData.getResult() -> int;
+    MData data = mService:systems.vos.wisey.compiler.tests.CService*:newData() -> MData;
+    return data:systems.vos.wisey.compiler.tests.MData:getResult() -> int;
   }
 }
 

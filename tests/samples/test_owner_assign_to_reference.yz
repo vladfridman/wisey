@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MData data = build(MData).withValue(3).onHeap() -> MData*;
 
-    return data:systems.vos.wisey.compiler.tests.MData.getValue() -> int;
+    return data:systems.vos.wisey.compiler.tests.MData:getValue() -> int;
   }
 } 
 

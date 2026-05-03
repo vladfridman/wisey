@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
     MComparator* comparator1 = build(MComparator).onHeap() -> MComparator*;
     MComparator* comparator2 = build(MComparator).onHeap() -> MComparator*;
 
-    return comparator1:systems.vos.wisey.compiler.tests.MComparator*.isTheSame(comparator2) -> boolean;
+    return comparator1:systems.vos.wisey.compiler.tests.MComparator*:isTheSame(comparator2) -> boolean;
   }
 }
 

@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
     int[][]* array = new int[4][4];
     array[3][3] = 5;
     MMyModel* mymodel = build(MMyModel).withArray(array).onHeap() -> MMyModel*;
-    return mymodel:systems.vos.wisey.compiler.tests.MMyModel*.getValue() -> int;
+    return mymodel:systems.vos.wisey.compiler.tests.MMyModel*:getValue() -> int;
   }
 }
 

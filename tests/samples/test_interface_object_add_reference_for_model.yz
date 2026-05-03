@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     IObject* object = build(MMyModel).onHeap() -> MMyModel*;
     IObject ref = object;
-    return object:systems.vos.wisey.compiler.tests.IObject*.getValue() -> int;
+    return object:systems.vos.wisey.compiler.tests.IObject*:getValue() -> int;
   }
 }
 

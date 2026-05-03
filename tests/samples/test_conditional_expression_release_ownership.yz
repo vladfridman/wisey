@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
     
     MCar* car = true ? car1 : car2;
 
-    return car:systems.vos.wisey.compiler.tests.MCar*.getColor() -> int;
+    return car:systems.vos.wisey.compiler.tests.MCar*:getColor() -> int;
   }
 } 
 

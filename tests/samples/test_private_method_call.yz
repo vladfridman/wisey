@@ -18,7 +18,7 @@ controller CProgram implements IProgram {
   inject CService* mService.withNumber(5);
 
   public int run(immutable string[] arguments) override {
-    return mService:systems.vos.wisey.compiler.tests.CService*.getDouble() -> int;
+    return mService:systems.vos.wisey.compiler.tests.CService*:getDouble() -> int;
   }
 }
 

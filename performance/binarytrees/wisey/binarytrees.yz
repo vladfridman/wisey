@@ -32,14 +32,14 @@ controller CBinaryTrees implements IProgram {
 
   // Execution starts here, maximum depth is passed from command line through arguments
   public int run(immutable string[] arguments) override {
-    int n = (NString.createFromString(arguments[1]) -> NString*):NString*.toInt() -> int;
+    int n = (NString.createFromString(arguments[1]) -> NString*):NString*:toInt() -> int;
 
     int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
     int stretchDepth = maxDepth + 1;
 
     NTreeNode* treeNode = bottomUpTree(stretchDepth, mLongLivedPool) -> NTreeNode*;
     printout("stretch tree of depth " + stretchDepth + "\t check: " 
-       + treeNode.itemCheck() -> int + "\n");
+       + treeNode:wisey.data.CBinaryTrees.NTreeNode*:itemCheck() -> int + "\n");
 
     treeNode = bottomUpTree(maxDepth, mLongLivedPool) -> NTreeNode*;
 
@@ -49,26 +49,26 @@ controller CBinaryTrees implements IProgram {
         .withMaxDepth(maxDepth)
         .withDepth(depth)
         .onHeap() -> MWorker*;
-      mWorkers:wisey.data.COwnerVector*.pushBack(worker);
+      mWorkers:wisey.data.COwnerVector*:pushBack(worker);
     }
-    while (mWorkers:wisey.data.COwnerVector*.getSize()) {
-      IWorker* worker = mWorkers:wisey.data.COwnerVector*.popBack() -> IWorker*;
-      mThreadPool:wisey.threads.CThreadPool*.submit(worker);
+    while (mWorkers:wisey.data.COwnerVector*:getSize()) {
+      IWorker* worker = mWorkers:wisey.data.COwnerVector*:popBack() -> IWorker*;
+      mThreadPool:wisey.threads.CThreadPool*:submit(worker);
     }
-    mThreadPool:wisey.threads.CThreadPool*.start();
+    mThreadPool:wisey.threads.CThreadPool*:start();
     MResult*[]* results = new MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
     int resultCount = 0;
     while (resultCount < results.getSize() -> long) {
-      MResult* result = mThreadPool:wisey.threads.CThreadPool*.getResult() -> MResult*;
-      results[(result.getDepth() -> int - MIN_DEPTH) / 2] = result;
+      MResult* result = mThreadPool:wisey.threads.CThreadPool*:getResult() -> MResult*;
+      results[(result:wisey.data.CBinaryTrees.MResult*:getDepth() -> int - MIN_DEPTH) / 2] = result;
       resultCount++;
     }
-    mThreadPool:wisey.threads.CThreadPool*.waitAndStop();
+    mThreadPool:wisey.threads.CThreadPool*:waitAndStop();
 
     for (int i = 0; i < results.getSize() -> long; i++) {
-      results[i].printme();
+      results[i]:wisey.data.CBinaryTrees.MResult*:printme();
     }
-    printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode.itemCheck() -> int + "\n");
+    printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode:wisey.data.CBinaryTrees.NTreeNode*:itemCheck() -> int + "\n");
 
     return 1;
   }
@@ -100,7 +100,7 @@ controller CBinaryTrees implements IProgram {
       if (null == mLeft) {
         return 1;
       }
-      return 1 + mLeft.itemCheck() -> int + mRight.itemCheck() -> int;
+      return 1 + mLeft:wisey.data.CBinaryTrees.NTreeNode*:itemCheck() -> int + mRight:wisey.data.CBinaryTrees.NTreeNode*:itemCheck() -> int;
     }
   }
 
@@ -129,14 +129,14 @@ controller CBinaryTrees implements IProgram {
      * work() method is where execution starts for an IWorker
      */
     public void work() override {
-      CMemoryPool pool = inject(CThreadMemoryPool).onHeap().getMemoryPool() -> CMemoryPool;
+      CMemoryPool pool = inject(CThreadMemoryPool).onHeap():CBinaryTrees.CThreadMemoryPool:getMemoryPool() -> CMemoryPool;
       int check = 0;
 
       int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
       for (int i = 1; i <= iterations; i++) {
-        check += CBinaryTrees.bottomUpTree(mDepth, pool).itemCheck() -> int;
+        check += (CBinaryTrees.bottomUpTree(mDepth, pool) -> NTreeNode*):CBinaryTrees.NTreeNode*:itemCheck() -> int;
       }
-      thread:wisey.threads.IThread.send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap() -> MResult*);
+      thread:wisey.threads.IThread:send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap() -> MResult*);
     }
   }
 

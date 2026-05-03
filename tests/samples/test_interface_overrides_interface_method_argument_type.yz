@@ -25,7 +25,7 @@ interface IProcessesHasValue extends ISubInterface {
 
 model MModel implements IProcessesHasValue {
   public int processHasValue(MHasValue hasValue) override {
-    return hasValue:systems.vos.wisey.compiler.tests.MHasValue.getValue() -> int;
+    return hasValue:systems.vos.wisey.compiler.tests.MHasValue:getValue() -> int;
   }
 }
 
@@ -33,7 +33,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     IProcessesHasValue* processor = build(MModel).onHeap() -> MModel*;
-    return processor:systems.vos.wisey.compiler.tests.IProcessesHasValue*.processHasValue(build(MHasValue).onHeap() -> MHasValue*) -> int;
+    return processor:systems.vos.wisey.compiler.tests.IProcessesHasValue*:processHasValue(build(MHasValue).onHeap() -> MHasValue*) -> int;
   }
 }
 

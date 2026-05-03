@@ -22,7 +22,7 @@ controller CService {
   }
 
   public int getValue() {
-    return mData:systems.vos.wisey.compiler.tests.MData*.getValue() -> int;
+    return mData:systems.vos.wisey.compiler.tests.MData*:getValue() -> int;
   }
 }
 
@@ -30,10 +30,10 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    mService:systems.vos.wisey.compiler.tests.CService*.set();
-    mService:systems.vos.wisey.compiler.tests.CService*.clear();
+    mService:systems.vos.wisey.compiler.tests.CService*:set();
+    mService:systems.vos.wisey.compiler.tests.CService*:clear();
 
-    return mService:systems.vos.wisey.compiler.tests.CService*.getValue() -> int;
+    return mService:systems.vos.wisey.compiler.tests.CService*:getValue() -> int;
   }
 } 
 

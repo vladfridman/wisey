@@ -32,7 +32,7 @@ controller CProgram implements IProgram {
       .withColor(build(MColor).withColor(6.7d).withIntensity(7).onHeap() -> MColor*)
       .onHeap() -> MShape*;
 
-    return rectangle:systems.vos.wisey.compiler.tests.MShape.getColor():systems.vos.wisey.compiler.tests.MColor.getIntensity() -> int;
+    return rectangle:systems.vos.wisey.compiler.tests.MShape:getColor():systems.vos.wisey.compiler.tests.MColor:getIntensity() -> int;
   }
 }
 

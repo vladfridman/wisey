@@ -16,7 +16,7 @@ model MCar {
   IWheel* mWheel;
 
   public int getWheelWidth() {
-    return mWheel:systems.vos.wisey.compiler.tests.IWheel*.getWidth() -> int;
+    return mWheel:systems.vos.wisey.compiler.tests.IWheel*:getWidth() -> int;
   }
 }
 

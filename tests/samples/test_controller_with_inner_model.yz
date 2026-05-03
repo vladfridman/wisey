@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
     systems.vos.wisey.compiler.tests.CProgram.MMyModel* object = 
       build(systems.vos.wisey.compiler.tests.CProgram.MMyModel).withValue(3).onHeap() -> systems.vos.wisey.compiler.tests.CProgram.MMyModel*;
 
-    return object.getValue() -> int;
+    return object:systems.vos.wisey.compiler.tests.CProgram.MMyModel*:getValue() -> int;
   }
 
   public model MMyModel {

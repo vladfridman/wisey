@@ -12,8 +12,8 @@ controller CProgram implements IProgram {
     array[1] = 'b';
     array[2] = 'c';
     NString* nstring = NString.createFromCharArray(array) -> NString*;
-    printout("nstring: " + nstring + " length: " + nstring:wisey.lang.NString*.getLength() -> long + " capacity: " + nstring:wisey.lang.NString*.getCapacity() -> long + "\n");
-    return (int) nstring:wisey.lang.NString*.getLength() -> int;
+    printout("nstring: " + nstring + " length: " + nstring:wisey.lang.NString*:getLength() -> long + " capacity: " + nstring:wisey.lang.NString*:getCapacity() -> long + "\n");
+    return (int) nstring:wisey.lang.NString*:getLength() -> int;
   }
 }
 

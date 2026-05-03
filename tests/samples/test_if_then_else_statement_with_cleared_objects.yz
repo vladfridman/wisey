@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MData* data = build(MData).withValue(2).onHeap() -> MData*;
 
-    if (data:systems.vos.wisey.compiler.tests.MData*.getValue() -> int < 5) {
+    if (data:systems.vos.wisey.compiler.tests.MData*:getValue() -> int < 5) {
       MData* data2 = data;
     } else {
       MData* data3 = data;

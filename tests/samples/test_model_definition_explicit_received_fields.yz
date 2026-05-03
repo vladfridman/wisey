@@ -27,7 +27,7 @@ controller CProgram implements IProgram {
       .withColor(build(MColor).withColor(6.7d).onHeap() -> MColor*)
       .onHeap() -> MShape*;
 
-    return rectangle:systems.vos.wisey.compiler.tests.MShape.getWidth() -> int;
+    return rectangle:systems.vos.wisey.compiler.tests.MShape:getWidth() -> int;
   }
 }
 

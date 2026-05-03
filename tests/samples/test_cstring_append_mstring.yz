@@ -8,11 +8,11 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("123") -> NString*;
-    printout("Before nstring: " + nstring + " capacity: " + nstring:wisey.lang.NString*.getCapacity() -> long + "\n");
+    printout("Before nstring: " + nstring + " capacity: " + nstring:wisey.lang.NString*:getCapacity() -> long + "\n");
     MString* appnedix = MString.createFromString("4567") -> MString*;
-    nstring:wisey.lang.NString*.appendMString(appnedix);
-    printout("After nstring: " + nstring + " capacity: " + nstring:wisey.lang.NString*.getCapacity() -> long + "\n");
-    return (int) nstring:wisey.lang.NString*.getLength() -> int;
+    nstring:wisey.lang.NString*:appendMString(appnedix);
+    printout("After nstring: " + nstring + " capacity: " + nstring:wisey.lang.NString*:getCapacity() -> long + "\n");
+    return (int) nstring:wisey.lang.NString*:getLength() -> int;
   }
 }
 

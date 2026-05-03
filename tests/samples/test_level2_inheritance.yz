@@ -43,9 +43,9 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MSquare* square = build(MSquare).withWidth(5).onHeap() -> MSquare*;
 
-    return square:systems.vos.wisey.compiler.tests.MSquare*.getPerimeter() -> int + square:systems.vos.wisey.compiler.tests.MSquare*.getArea() -> int + square:systems.vos.wisey.compiler.tests.MSquare*.getColor(55) -> int +
-      ((IShape) square):IShape.getPerimeter() -> int + ((IShape) square):IShape.getArea() -> int +
-      ((IShape) square):IShape.getColor(55) -> int + ((IObject) square):IObject.getColor(55) -> int;
+    return square:systems.vos.wisey.compiler.tests.MSquare*:getPerimeter() -> int + square:systems.vos.wisey.compiler.tests.MSquare*:getArea() -> int + square:systems.vos.wisey.compiler.tests.MSquare*:getColor(55) -> int +
+      ((IShape) square):IShape:getPerimeter() -> int + ((IShape) square):IShape:getArea() -> int +
+      ((IShape) square):IShape:getColor(55) -> int + ((IObject) square):IObject:getColor(55) -> int;
   }
 }
 

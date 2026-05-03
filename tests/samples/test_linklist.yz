@@ -45,7 +45,7 @@ controller CLinkList {
 
   public void appendToHead(MData* data) {
     NNode* newHead = build(NNode).withData(data).onHeap() -> NNode*;
-    newHead:systems.vos.wisey.compiler.tests.NNode*.setNext(mHead);
+    newHead:systems.vos.wisey.compiler.tests.NNode*:setNext(mHead);
     mHead = newHead;
     if (mTail == null) {
       mTail = mHead;
@@ -58,8 +58,8 @@ controller CLinkList {
       mHead = newNode;
       mTail = mHead;
     } else {
-      mTail:systems.vos.wisey.compiler.tests.NNode.setNext(newNode);
-      mTail = mTail:systems.vos.wisey.compiler.tests.NNode.getNext() -> NNode;
+      mTail:systems.vos.wisey.compiler.tests.NNode:setNext(newNode);
+      mTail = mTail:systems.vos.wisey.compiler.tests.NNode:getNext() -> NNode;
     }
   }
 }
@@ -68,19 +68,19 @@ controller CProgram implements IProgram {
   inject CLinkList* mLinkList;
 
   public int run(immutable string[] arguments) override {
-    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.appendToHead(build(MData).withValue(2).onHeap() -> MData*);
-    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.appendToHead(build(MData).withValue(1).onHeap() -> MData*);
-    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.appendToTail(build(MData).withValue(3).onHeap() -> MData*);
-    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.appendToTail(build(MData).withValue(4).onHeap() -> MData*);
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*:appendToHead(build(MData).withValue(2).onHeap() -> MData*);
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*:appendToHead(build(MData).withValue(1).onHeap() -> MData*);
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*:appendToTail(build(MData).withValue(3).onHeap() -> MData*);
+    mLinkList:systems.vos.wisey.compiler.tests.CLinkList*:appendToTail(build(MData).withValue(4).onHeap() -> MData*);
 
-    NNode head = mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.getHead() -> NNode;
-    NNode tail = mLinkList:systems.vos.wisey.compiler.tests.CLinkList*.getTail() -> NNode;
-    NNode next1 = head:systems.vos.wisey.compiler.tests.NNode.getNext() -> NNode;
-    NNode next2 = next1:systems.vos.wisey.compiler.tests.NNode.getNext() -> NNode;
-    NNode next3 = next2:systems.vos.wisey.compiler.tests.NNode.getNext() -> NNode;
-    int value0 = head:systems.vos.wisey.compiler.tests.NNode.getData():systems.vos.wisey.compiler.tests.MData.getValue() -> int;
-    int value3 = next3:systems.vos.wisey.compiler.tests.NNode.getData():systems.vos.wisey.compiler.tests.MData.getValue() -> int;
-    int valueT = tail:systems.vos.wisey.compiler.tests.NNode.getData():systems.vos.wisey.compiler.tests.MData.getValue() -> int;
+    NNode head = mLinkList:systems.vos.wisey.compiler.tests.CLinkList*:getHead() -> NNode;
+    NNode tail = mLinkList:systems.vos.wisey.compiler.tests.CLinkList*:getTail() -> NNode;
+    NNode next1 = head:systems.vos.wisey.compiler.tests.NNode:getNext() -> NNode;
+    NNode next2 = next1:systems.vos.wisey.compiler.tests.NNode:getNext() -> NNode;
+    NNode next3 = next2:systems.vos.wisey.compiler.tests.NNode:getNext() -> NNode;
+    int value0 = head:systems.vos.wisey.compiler.tests.NNode:getData():systems.vos.wisey.compiler.tests.MData:getValue() -> int;
+    int value3 = next3:systems.vos.wisey.compiler.tests.NNode:getData():systems.vos.wisey.compiler.tests.MData:getValue() -> int;
+    int valueT = tail:systems.vos.wisey.compiler.tests.NNode:getData():systems.vos.wisey.compiler.tests.MData:getValue() -> int;
     return value0 + value3 + valueT;
   }
 }

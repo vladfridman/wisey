@@ -22,7 +22,7 @@ node NCar {
   state IHasValue* mYear;
 
   public int getYear() {
-    return mYear:systems.vos.wisey.compiler.tests.IHasValue*.getValue() -> int;
+    return mYear:systems.vos.wisey.compiler.tests.IHasValue*:getValue() -> int;
   }
 }
 
@@ -31,7 +31,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     NCar* car = build(NCar).withYear(build(NYear).withValue(2018).onHeap() -> NYear*).onHeap() -> NCar*;
     
-    return car:systems.vos.wisey.compiler.tests.NCar*.getYear() -> int;
+    return car:systems.vos.wisey.compiler.tests.NCar*:getYear() -> int;
   }
 }
 

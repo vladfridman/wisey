@@ -7,7 +7,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     NString* nstring = NString.createFromString("3.14159") -> NString*;
-    double converted = nstring:wisey.lang.NString*.toDouble() -> double;
+    double converted = nstring:wisey.lang.NString*:toDouble() -> double;
     printout("Result: " + converted + "\n");
     return 1;
   }

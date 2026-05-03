@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
   inject immediate CService* mService.withSize(10);
 
   public int run(immutable string[] arguments) override {
-    return mService:systems.vos.wisey.compiler.tests.CService*.setAndGetValue() -> int;
+    return mService:systems.vos.wisey.compiler.tests.CService*:setAndGetValue() -> int;
   }
 }
 

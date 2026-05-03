@@ -7,8 +7,8 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MString* mstring = MString.createFromString("1234567") -> MString*;
-    MString* copy = mstring:wisey.lang.MString*.copy() -> MString*;
-    return (int) copy:wisey.lang.MString*.getLength() -> int;
+    MString* copy = mstring:wisey.lang.MString*:copy() -> MString*;
+    return (int) copy:wisey.lang.MString*:getLength() -> int;
   }
 }
 

@@ -24,15 +24,15 @@ controller CProgram implements IProgram {
     string toyotaMake = "Toyota";
     CCar* toyota = inject(CCar).withMake(toyotaMake).onHeap() -> CCar*;
 
-    mContextManager:wisey.threads.CContextManager*.setContext(mycontext, mContext);
-    mContextManager:wisey.threads.CContextManager*.setInstance(mycontext, toyotaMake, toyota);
-    CCar car = mContextManager:wisey.threads.CContextManager*.getInstance(mycontext, toyotaMake) -> CCar;
+    mContextManager:wisey.threads.CContextManager*:setContext(mycontext, mContext);
+    mContextManager:wisey.threads.CContextManager*:setInstance(mycontext, toyotaMake, toyota);
+    CCar car = mContextManager:wisey.threads.CContextManager*:getInstance(mycontext, toyotaMake) -> CCar;
     printout("In context " + mycontext + " looking for " + toyotaMake + " got " + 
-      car:systems.vos.wisey.compiler.tests.CCar.getMake() -> string + " back\n");
+      car:systems.vos.wisey.compiler.tests.CCar:getMake() -> string + " back\n");
     car = null;
 
-    mContextManager:wisey.threads.CContextManager*.eraseContext(mycontext);
-    mContextManager:wisey.threads.CContextManager*.getInstance(mycontext, toyotaMake);
+    mContextManager:wisey.threads.CContextManager*:eraseContext(mycontext);
+    mContextManager:wisey.threads.CContextManager*:getInstance(mycontext, toyotaMake);
 
     return 1;
   }
