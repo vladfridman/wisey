@@ -169,6 +169,7 @@ WS  [ \t\v\n\f]
 "/"                           return TOKEN('/');
 "%="                          return TOKEN(TREMINDERBY);
 "%"                           return TOKEN('%');
+":"/[A-Za-z_]                 return TOKEN(TRECVCOLON);
 ":"                           return TOKEN(':');
 "?"                           return TOKEN('?');
 ";"                           return TOKEN(';');
