@@ -229,10 +229,12 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     vector.sort(this);
     NString* sb = NString.create() -> NString*;
     int keyLength = frequencies.getKeyLength() -> int;
-    for (int i = 0; i < keysArray.getSize() -> long; i++) {
-      sb.appendNString(keyToString(keysArray[i], keyLength) -> NString*);
+    long entryCount = vector.getSize() -> long;
+    for (long i = 0l; i < entryCount; i++) {
+      NKeyValuePair pair = (NKeyValuePair) (vector.getAt(i) -> ::wisey::object);
+      sb.appendNString(keyToString(pair.getKey() -> long, keyLength) -> NString*);
       sb.appendString(" ");
-      sb.appendNString(NString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount) -> NString*);
+      sb.appendNString(formatFloat3(((float) (pair.getValue() -> int)) * 100.0 / totalCount) -> NString*);
       sb.appendString("\n");
     }
     sb.appendString("\n");
@@ -240,10 +242,32 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   }
 
   /**
-   * Compare function used for sorting of the NKeyValuePair vector 
+   * Format a float with 3 decimal places (matches Java's "%.3f" output).
+   * NString.createFromFloat uses 6-decimal default; Java's printf rounds
+   * to half-up at the last digit, which `(long)(v * 1000 + 0.5)` matches
+   * for the positive values we produce here.
+   */
+  private static NString* formatFloat3(float value) {
+    long scaled = (long) (value * 1000.0 + 0.5);
+    long whole = scaled / 1000;
+    long frac = scaled - whole * 1000;
+    NString* sb = NString.create() -> NString*;
+    sb.appendNString(NString.createFromLong(whole) -> NString*);
+    sb.appendString(".");
+    if (frac < 100) { sb.appendString("0"); }
+    if (frac < 10) { sb.appendString("0"); }
+    sb.appendNString(NString.createFromLong(frac) -> NString*);
+    return sb;
+  }
+
+  /**
+   * Compare function used for sorting of the NKeyValuePair vector.
+   * Returns true when `left` should come before `right` — i.e., when
+   * left's count is GREATER (descending order, matching Java's
+   * Comparator.reverseOrder() on getValue).
    */
   private boolean compare(NKeyValuePair left, NKeyValuePair right) override {
-    return left.getValue() -> int < right.getValue() -> int;
+    return left.getValue() -> int > right.getValue() -> int;
   }
 
   /**
