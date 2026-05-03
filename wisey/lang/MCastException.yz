@@ -15,12 +15,12 @@ model MCastException implements IException {
   receive string mToType;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this) -> NString*;
-    message.appendString("Details: Can not cast from ");
-    message.appendString(mFromType);
-    message.appendString(" to ");
-    message.appendString(mToType);
-    message.appendString("\n");
+    NString* message = callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
+    message:wisey.lang.NString*.appendString("Details: Can not cast from ");
+    message:wisey.lang.NString*.appendString(mFromType);
+    message:wisey.lang.NString*.appendString(" to ");
+    message:wisey.lang.NString*.appendString(mToType);
+    message:wisey.lang.NString*.appendString("\n");
 
     return message;
   }

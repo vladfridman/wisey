@@ -52,7 +52,7 @@ controller CThreadPool {
   public void start() {
     for (int i = 0; i < mPoolSize; i++) {
       mThreads[i] = inject(CPoolThread).onHeap() -> CPoolThread*;
-      mThreads[i].start(this);
+      mThreads[i]:wisey.threads.CPoolThread*.start(this);
     }
   }
 
@@ -65,7 +65,7 @@ controller CThreadPool {
     }
     for (int i = 0; i < mPoolSize; i++) {
       if (mThreads[i]) {
-        mThreads[i].join();
+        mThreads[i]:wisey.threads.CPoolThread*.join();
       }
     }
   }
@@ -102,7 +102,7 @@ controller CThreadPool {
    */
   private model MEnder implements IWorker {
     public void work() override {
-      thread.exit();
+      thread:wisey.threads.IThread.exit();
     }
   }
 

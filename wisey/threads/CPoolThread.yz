@@ -51,7 +51,7 @@ controller CPoolThread implements IThread {
 
   public ::wisey::model* send(::wisey::model* message) throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mThreadPool.addResult(message);
+    mThreadPool:wisey.threads.CThreadPool.addResult(message);
     return null;
   }
 
@@ -67,10 +67,10 @@ controller CPoolThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mContextManager.setContext(IThread.getTypeName() -> string, thread);
+    mContextManager:wisey.threads.CContextManager*.setContext(IThread.getTypeName() -> string, thread);
     while (true) {
-      IWorker* worker = mThreadPool.getWorker() -> IWorker*;
-      worker.work();
+      IWorker* worker = mThreadPool:wisey.threads.CThreadPool.getWorker() -> IWorker*;
+      worker:wisey.threads.IWorker*.work();
     }
   }
 

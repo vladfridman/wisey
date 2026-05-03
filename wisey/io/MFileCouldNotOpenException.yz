@@ -14,10 +14,10 @@ model MFileCouldNotOpenException implements IException {
   receive MString* mFileName;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this) -> NString*;
-    message.appendString("Details: Could not open file ");
-    message.appendMString(mFileName);
-    message.appendString("\n");
+    NString* message = callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
+    message:wisey.lang.NString*.appendString("Details: Could not open file ");
+    message:wisey.lang.NString*.appendMString(mFileName);
+    message:wisey.lang.NString*.appendString("\n");
 
     return message;
   }

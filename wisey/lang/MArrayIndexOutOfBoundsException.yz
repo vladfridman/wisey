@@ -15,12 +15,12 @@ model MArrayIndexOutOfBoundsException implements IException {
   receive long mIndex;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this) -> NString*;
-    message.appendString("Details: Index ");
-    message.appendNString(NString.createFromLong(mIndex) -> NString*);
-    message.appendString(" is used on array of size ");
-    message.appendNString(NString.createFromLong(mArraySize) -> NString*);
-    message.appendString("\n");
+    NString* message = callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
+    message:wisey.lang.NString*.appendString("Details: Index ");
+    message:wisey.lang.NString*.appendNString(NString.createFromLong(mIndex) -> NString*);
+    message:wisey.lang.NString*.appendString(" is used on array of size ");
+    message:wisey.lang.NString*.appendNString(NString.createFromLong(mArraySize) -> NString*);
+    message:wisey.lang.NString*.appendString("\n");
 
     return message;
   }

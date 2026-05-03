@@ -14,10 +14,10 @@ model MContextNonExistantException implements IException {
   receive string mContextName;
 
   public NString* report() override {
-    NString* message = callstack.reportException(this) -> NString*;
-    message.appendString("Details: Context ");
-    message.appendString(mContextName);
-    message.appendString(" does not exist\n");
+    NString* message = callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
+    message:wisey.lang.NString*.appendString("Details: Context ");
+    message:wisey.lang.NString*.appendString(mContextName);
+    message:wisey.lang.NString*.appendString(" does not exist\n");
 
     return message;
   }

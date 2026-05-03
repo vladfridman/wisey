@@ -14,22 +14,22 @@ controller CContextManager {
    * Find the existing instance of the object with the given name in the given context
    */
   public ::wisey::object getInstance(string contextName, string objectName) {
-    ::wisey::object context = mContextNameToContextMap.get(contextName) -> ::wisey::object;
+    ::wisey::object context = mContextNameToContextMap:wisey.data.CReferenceToReferenceMap*.get(contextName) -> ::wisey::object;
     if (context == null) {
       throw build(MContextNonExistantException).withContextName(contextName).onHeap() -> MContextNonExistantException*;
     }
-    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context) -> CReferenceToOwnerMap;
-    return objectNameToObjectMap.get(objectName) -> ::wisey::object;
+    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap:wisey.data.CReferenceToOwnerMap*.get(context) -> CReferenceToOwnerMap;
+    return objectNameToObjectMap:wisey.data.CReferenceToOwnerMap.get(objectName) -> ::wisey::object;
   }
 
   /**
    * Set current context to the given object value
    */
   public void setContext(string contextName, ::wisey::object context) {
-    mContextNameToContextMap.put(contextName, context);
-    CReferenceToReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context) -> CReferenceToReferenceMap;
+    mContextNameToContextMap:wisey.data.CReferenceToReferenceMap*.put(contextName, context);
+    CReferenceToReferenceMap objectNameToObjectMap = mContextToObjectMap:wisey.data.CReferenceToOwnerMap*.get(context) -> CReferenceToReferenceMap;
     if (objectNameToObjectMap == null) {
-      mContextToObjectMap.put(context, CReferenceToOwnerMap.create() -> CReferenceToOwnerMap*);
+      mContextToObjectMap:wisey.data.CReferenceToOwnerMap*.put(context, CReferenceToOwnerMap.create() -> CReferenceToOwnerMap*);
     }
   }
 
@@ -37,23 +37,23 @@ controller CContextManager {
    * Removes all objects stored in the given context
    */
   public void eraseContext(string contextName) {
-    ::wisey::object context = mContextNameToContextMap.get(contextName) -> ::wisey::object;
+    ::wisey::object context = mContextNameToContextMap:wisey.data.CReferenceToReferenceMap*.get(contextName) -> ::wisey::object;
     if (context == null) {
       return;
     }
-    mContextToObjectMap.erase(context);
-    mContextNameToContextMap.erase(contextName);
+    mContextToObjectMap:wisey.data.CReferenceToOwnerMap*.erase(context);
+    mContextNameToContextMap:wisey.data.CReferenceToReferenceMap*.erase(contextName);
   }
 
   /**
    * Set injected object instance in the given context
    */
   public void setInstance(string contextName, string objectName, ::wisey::object* instance) {
-    ::wisey::object context = mContextNameToContextMap.get(contextName) -> ::wisey::object;
+    ::wisey::object context = mContextNameToContextMap:wisey.data.CReferenceToReferenceMap*.get(contextName) -> ::wisey::object;
     if (context == null) {
       throw build(MContextNonExistantException).withContextName(contextName).onHeap() -> MContextNonExistantException*;
     }
-    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context) -> CReferenceToOwnerMap;
-    objectNameToObjectMap.put(objectName, instance);
+    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap:wisey.data.CReferenceToOwnerMap*.get(context) -> CReferenceToOwnerMap;
+    objectNameToObjectMap:wisey.data.CReferenceToOwnerMap.put(objectName, instance);
   }
 }

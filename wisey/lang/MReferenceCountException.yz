@@ -22,26 +22,26 @@ model MReferenceCountException implements IException {
 
   public NString* report() override {
     if (mNestedException instanceof MReferenceCountException) {
-      return mNestedException.report() -> NString*;
+      return mNestedException:wisey.lang.IException.report() -> NString*;
     }
 
-    NString* message = callstack.reportException(this) -> NString*;
+    NString* message = callstack:wisey.threads.CCallStack.reportException(this) -> NString*;
     string ending = mReferenceCount > 1 ? "s" : "";
-    message.appendString("Details: Object referenced by expression of type ");
-    message.appendString(mObjectType);
-    message.appendString(" still has ");
-    message.appendNString(NString.createFromLong(mReferenceCount) -> NString*);
-    message.appendString(" active reference");
-    message.appendString(ending);
-    message.appendString("\n");
+    message:wisey.lang.NString*.appendString("Details: Object referenced by expression of type ");
+    message:wisey.lang.NString*.appendString(mObjectType);
+    message:wisey.lang.NString*.appendString(" still has ");
+    message:wisey.lang.NString*.appendNString(NString.createFromLong(mReferenceCount) -> NString*);
+    message:wisey.lang.NString*.appendString(" active reference");
+    message:wisey.lang.NString*.appendString(ending);
+    message:wisey.lang.NString*.appendString("\n");
 
     if (mNestedException == null) {
       return message;
     }
-    message.appendString("Was thrown from memory clean up after ");
-    message.appendString(MSystem.getOriginalObjectTypeName(mNestedException) -> string);
-    message.appendString("\n");
-    message.appendNString(mNestedException.report() -> NString*);
+    message:wisey.lang.NString*.appendString("Was thrown from memory clean up after ");
+    message:wisey.lang.NString*.appendString(MSystem.getOriginalObjectTypeName(mNestedException) -> string);
+    message:wisey.lang.NString*.appendString("\n");
+    message:wisey.lang.NString*.appendNString(mNestedException:wisey.lang.IException.report() -> NString*);
 
     return message;
   }
