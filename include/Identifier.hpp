@@ -52,6 +52,8 @@ namespace wisey {
     
     bool isAssignable() const override;
 
+    bool isThisIdentifier() const override { return mName == "this"; }
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   private:

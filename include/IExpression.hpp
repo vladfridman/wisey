@@ -77,6 +77,26 @@ namespace wisey {
     virtual bool isReceiverAnnotation() const { return false; }
 
     /**
+     * Tells whether this expression is the literal identifier `this`. Used by
+     * the receiver-annotation enforcement rule to exempt `this.method(...)` —
+     * the enclosing type is already visible at the file scope so re-annotating
+     * it on every method call is pure boilerplate.
+     *
+     * Default: false. Overridden by `Identifier` when its name is "this".
+     */
+    virtual bool isThisIdentifier() const { return false; }
+
+    /**
+     * Reports an error and throws if `methodCall` is a `MethodCall` (not a
+     * static call, not a direct `foo()` call) whose receiver expression is
+     * not annotated with `:Type`. Exempts `this`-receivers, array receivers
+     * (only `getSize` is callable), and string receivers (only `getLength`).
+     */
+    static void requireReceiverAnnotated(IRGenerationContext& context,
+                                         const IExpression* methodCall,
+                                         const IExpression* dottedReceiver);
+
+    /**
      * Returns the expression on the LHS of a dot, when this expression is a
      * dotted form like `a.b` (IdentifierChain). For non-dotted expressions
      * the default returns nullptr. Used by the chain-depth guardrail to

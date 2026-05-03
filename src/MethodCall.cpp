@@ -69,6 +69,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   for (const IExpression* callArgument : mArguments) {
     IExpression::requireAnnotated(context, callArgument, "method-call argument");
   }
+  IExpression::requireReceiverAnnotated(context, this, mExpression->peelDotReceiver());
   IExpression::requireShortMethodChain(context, this);
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions, mLine);
