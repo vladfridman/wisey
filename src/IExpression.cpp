@@ -106,40 +106,18 @@ void IExpression::requireReceiverAnnotated(IRGenerationContext& context,
   }
 
   std::string fullTypeName = receiverType->getTypeName();
-  // Inner types (`Outer.Inner`) can't be expressed in receiver-annotation
-  // grammar — see comment in Parser.ypp recv_annotation_object_type. Detect by
-  // counting capital-led segments in the dotted type name; ≥ 2 means inner.
-  // Skip enforcement on those receivers; the type system still validates them.
-  std::string typeForCheck = fullTypeName;
-  if (!typeForCheck.empty() && typeForCheck.back() == '*') {
-    typeForCheck = typeForCheck.substr(0, typeForCheck.size() - 1);
-  }
-  int upperSegments = 0;
-  size_t segStart = 0;
-  for (size_t i = 0; i <= typeForCheck.size(); i++) {
-    if (i == typeForCheck.size() || typeForCheck[i] == '.') {
-      if (segStart < i &&
-          typeForCheck[segStart] >= 'A' && typeForCheck[segStart] <= 'Z') {
-        upperSegments++;
-      }
-      segStart = i + 1;
-    }
-  }
-  if (upperSegments >= 2) {
-    return;
-  }
-
   std::stringstream printer;
   dottedReceiver->printToStream(context, printer);
-  // Suggest the full-path form (e.g. `wisey.threads.CCallStack` or
-  // `wisey.threads.CCallStack*`). The grammar accepts both the short form and
-  // the package-prefixed full form; we suggest full so the migration is
-  // unambiguous regardless of which package the file lives in.
+  // Suggest the full-path form (e.g. `wisey.threads.CCallStack`). The grammar
+  // accepts short, package-qualified, and inner-type forms; we suggest full
+  // so the migration is unambiguous regardless of which package the file
+  // lives in. Form is `recv:Type:method(...)` — colons frame the type so the
+  // `.` between `Outer.Inner` doesn't collide with the method-name `.`.
   context.reportError(methodCall->getLine(),
                       "Method-call receiver '" + printer.str() +
                       "' missing type annotation. " +
                       "Suggested: '" + printer.str() + ":" +
-                      fullTypeName + ".method(...)'. " +
+                      fullTypeName + ":method(...)'. " +
                       "The annotation surfaces the receiver type at the call site so a "
                       "reader can verify the method exists without resolving the receiver.");
   throw 1;

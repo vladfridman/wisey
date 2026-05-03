@@ -66,7 +66,11 @@ bool IdentifierChain::isAssignable() const {
 
 void IdentifierChain::printToStream(IRGenerationContext& context, iostream& stream) const {
   mObjectExpression->printToStream(context, stream);
-  stream << "." << mName;
+  // When the receiver is annotated, the syntactic separator before the
+  // method name is `:`, not `.`. The receiver-type annotation prints itself
+  // as `recv:Type`; we add the second `:method` to match the user-facing
+  // form `recv:Type:method`.
+  stream << (mObjectExpression->isReceiverAnnotation() ? ":" : ".") << mName;
 }
 
 const IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& context) const {

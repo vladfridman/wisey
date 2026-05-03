@@ -1473,7 +1473,7 @@ signed_constant_expression
 postfix_expression
   : primary_expression
   | postfix_expression '.' TIDENTIFIER { $$ = new IdentifierChain($1, *$3, yylineno); delete $3; }
-  | postfix_expression TRECVCOLON recv_annotation_type '.' TIDENTIFIER
+  | postfix_expression TRECVCOLON recv_annotation_type TRECVCOLON TIDENTIFIER
     { $$ = new IdentifierChain(new ReceiverTypeAnnotation($1, $3, yylineno),
                                *$5, yylineno); delete $5; }
   | postfix_expression '[' expression ']' { $$ = new ArrayElementExpression($1, $3, yylineno); }
@@ -1847,12 +1847,25 @@ recv_annotation_object_type
     { $$ = new ControllerTypeSpecifierFull($1, *$3, yylineno); delete $3; }
   | recv_annotation_package_prefix '.' TNODEIDENTIFIER
     { $$ = new NodeTypeSpecifierFull($1, *$3, yylineno); delete $3; }
-  /* Inner types (`Outer.Inner`) intentionally NOT supported in receiver
-   * annotations. The `.` separator after `recv_annotation_object_type` would
-   * be shift/reduce-ambiguous with the outer rule's `.method(...)` and
-   * LALR(1) can't peek past the `.` to disambiguate uppercase-vs-lowercase.
-   * For inner-typed receivers, restructure to a local of the inner type or
-   * use `(Outer.Inner) recv` casting inside the call. */
+  /* Inner types: `Outer.Inner`. The outer receiver-annotation rule uses
+   * TRECVCOLON before the method name, not `.`, so the `.` here is
+   * unambiguously inner-type continuation — no LALR(1) conflict. */
+  | recv_annotation_object_type '.' TMODELIDENTIFIER
+    { $$ = new ModelTypeSpecifier($1->takePackage(),
+                                  $1->getShortName() + "." + *$3, yylineno);
+      delete $1; delete $3; }
+  | recv_annotation_object_type '.' TINTERFACEIDENTIFIER
+    { $$ = new InterfaceTypeSpecifier($1->takePackage(),
+                                      $1->getShortName() + "." + *$3, yylineno);
+      delete $1; delete $3; }
+  | recv_annotation_object_type '.' TCONTROLLERIDENTIFIER
+    { $$ = new ControllerTypeSpecifier($1->takePackage(),
+                                       $1->getShortName() + "." + *$3, yylineno);
+      delete $1; delete $3; }
+  | recv_annotation_object_type '.' TNODEIDENTIFIER
+    { $$ = new NodeTypeSpecifier($1->takePackage(),
+                                 $1->getShortName() + "." + *$3, yylineno);
+      delete $1; delete $3; }
   ;
 
 recv_annotation_type
