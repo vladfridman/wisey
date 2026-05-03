@@ -65,6 +65,18 @@ namespace wisey {
     virtual bool isCallExpression() const { return false; }
 
     /**
+     * Tells whether this expression is a `ReceiverTypeAnnotation` — i.e., a
+     * `receiver:Type` wrapper that appears immediately before `.method(...)`.
+     *
+     * Used by the receiver-annotation enforcement rule: every `obj.method(...)`
+     * must have its receiver annotated, except `this`-less direct calls (which
+     * never have a `.` and so don't reach this check).
+     *
+     * Default: false. Overridden by `ReceiverTypeAnnotation` to return true.
+     */
+    virtual bool isReceiverAnnotation() const { return false; }
+
+    /**
      * Returns the expression on the LHS of a dot, when this expression is a
      * dotted form like `a.b` (IdentifierChain). For non-dotted expressions
      * the default returns nullptr. Used by the chain-depth guardrail to
