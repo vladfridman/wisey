@@ -37,7 +37,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     NString stringBuilder = NString.create() -> NString*;
     stringBuilder.appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]) -> NString*);
     stringBuilder.appendNString(
-      writeFrequencies((float) sequence.getSize() -> long - 1.0,
+      writeFrequencies((float) (sequence.getSize() -> long) - 1.0,
       sumTwoMaps(fragments[1], fragments[2]) -> CFragment) -> NString*);
 
     string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
@@ -93,7 +93,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
      */
     public void work() override {
       CLongToIntMap map = inject(CFragmentWorkerContext).onHeap().getMap() -> CLongToIntMap;
-      int lastIndex = (int) mSequence.getSize() -> long - mFragmentLength + 1 -> int;
+      int lastIndex = (int) (mSequence.getSize() -> long) - mFragmentLength + 1;
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
         long key = 0;
         for (int i = index; i < index + mFragmentLength; i++) {
@@ -243,7 +243,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Compare function used for sorting of the NKeyValuePair vector 
    */
   private boolean compare(NKeyValuePair left, NKeyValuePair right) override {
-    return left.getValue() < right.getValue() -> boolean;
+    return left.getValue() -> int < right.getValue() -> int;
   }
 
   /**
@@ -270,7 +270,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       CFragment fragment = (CFragment) fragments[i];
       if (fragment.getKeyLength() -> int == nucleotideFragment.getLength() -> long) {
         if (fragment.getMap().has(k)) {
-          count += fragment.getMap().get(k);
+          count += fragment.getMap().get(k) -> int;
         }
       }
     }
@@ -309,7 +309,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
 
     byte[]* bytes = new byte[1048576];
     long position = 0;
-    while ((line = stream.readLineIntoNString(line) -> NString*) != null && line.charAt(0) != '>') {
+    while ((line = stream.readLineIntoNString(line) -> NString*) != null && line.charAt(0) -> char != '>') {
       if (line.getLength() -> long + position > bytes.getSize() -> long) {
         byte[]* newBytes = new byte[bytes.getSize() -> long * 2];
         MSystem.copyMemory(newBytes, bytes, position);
