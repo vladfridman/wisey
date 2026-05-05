@@ -6,8 +6,8 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CTextStreamWriter* out = CTextStreamWriter.openSystemOut() -> CTextStreamWriter*;
-    CTextStreamWriter* err = CTextStreamWriter.openSystemErr() -> CTextStreamWriter*;
+    CTextStreamWriter* out = CTextStreamWriter.openSystemOut() ~> CTextStreamWriter*;
+    CTextStreamWriter* err = CTextStreamWriter.openSystemErr() ~> CTextStreamWriter*;
     print(out, "stdout\n");
     print(err, "stderr\n");
     return 1;

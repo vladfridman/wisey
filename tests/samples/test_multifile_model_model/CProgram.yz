@@ -4,8 +4,8 @@ import wisey.lang.IProgram;
 
 model MDoer {
   public int doSomething() {
-    MAdder* adder = build(MAdder).onHeap() -> MAdder*;
-    return adder:systems.vos.wisey.compiler.tests.multifile.MAdder*:add(1, 2) -> int;
+    MAdder* adder = build(MAdder).onHeap() ~> MAdder*;
+    return adder:systems.vos.wisey.compiler.tests.multifile.MAdder*->add(1, 2) ~> int;
   }
 
   public int get(int a) {
@@ -17,8 +17,8 @@ controller CProgram implements IProgram {
   state MDoer* mDoer;
 
   public int run(immutable string[] arguments) override {
-    mDoer = build(MDoer).onHeap() -> MDoer*;
-    return mDoer:systems.vos.wisey.compiler.tests.multifile.MDoer*:doSomething() -> int;
+    mDoer = build(MDoer).onHeap() ~> MDoer*;
+    return mDoer:systems.vos.wisey.compiler.tests.multifile.MDoer*->doSomething() ~> int;
   }
 }
 

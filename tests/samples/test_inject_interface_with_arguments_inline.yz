@@ -17,8 +17,8 @@ interface IMyInterface {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IMyInterface* injected = inject(IMyInterface).withValue(7).onHeap() -> IMyInterface*;
-    return injected:systems.vos.wisey.compiler.tests.IMyInterface*:getValue() -> int;
+    IMyInterface* injected = inject(IMyInterface).withValue(7).onHeap() ~> IMyInterface*;
+    return injected:systems.vos.wisey.compiler.tests.IMyInterface*->getValue() ~> int;
   }
 }
 

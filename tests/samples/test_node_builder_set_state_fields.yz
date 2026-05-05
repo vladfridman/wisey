@@ -18,10 +18,10 @@ node NCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NCar* car2018 = build(NCar).withYear(2018).withNextCar(null).onHeap() -> NCar*;
-    NCar* car2017 = build(NCar).withYear(2017).withNextCar(car2018).onHeap() -> NCar*;
+    NCar* car2018 = build(NCar).withYear(2018).withNextCar(null).onHeap() ~> NCar*;
+    NCar* car2017 = build(NCar).withYear(2017).withNextCar(car2018).onHeap() ~> NCar*;
     
-    return car2017:systems.vos.wisey.compiler.tests.NCar*:getNextCar():systems.vos.wisey.compiler.tests.NCar:getYear() -> int;
+    return car2017:systems.vos.wisey.compiler.tests.NCar*->getNextCar():systems.vos.wisey.compiler.tests.NCar->getYear() ~> int;
   }
 }
 

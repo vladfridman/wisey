@@ -9,7 +9,7 @@ import wisey.lang.CMemoryPool;
  *   inject CReferenceList* mReferenceList;
  * 
  *   public int run(immutable string[] arguments) override {
- *     MCar* tesla = build(MCar).withYear(2019).onHeap() -> MCar*; 
+ *     MCar* tesla = build(MCar).withYear(2019).onHeap() ~> MCar*; 
  *     // tesla is not null after this because list only keeps a reference to the object
  *     mReferenceList.pushBack(tesla);
  *     // This throws an exception: tesla owner reference can not be destroyed
@@ -27,7 +27,7 @@ controller CReferenceList {
    * Pops an object reference from the back of the list, returns null if the list is empty
    */
   public ::wisey::object popBack() {
-    ::wisey::object value = ::llvm::function::stl_reference_list_pop_back(mList) -> ::wisey::object;
+    ::wisey::object value = ::llvm::function::stl_reference_list_pop_back(mList) ~> ::wisey::object;
     return value;
   }
 
@@ -42,14 +42,14 @@ controller CReferenceList {
    * Returns the object reference at the back of the list, returns null if the list is empty
    */
   public ::wisey::object back() {
-    return ::llvm::function::stl_object_list_back(mList) -> ::wisey::object;
+    return ::llvm::function::stl_object_list_back(mList) ~> ::wisey::object;
   }
 
   /**
    * Pops an object reference from the front of the list, returns null if the list is empty
    */
   public ::wisey::object popFront() {
-    ::wisey::object value = ::llvm::function::stl_reference_list_pop_front(mList) -> ::wisey::object;
+    ::wisey::object value = ::llvm::function::stl_reference_list_pop_front(mList) ~> ::wisey::object;
     return value;
   }
 
@@ -64,7 +64,7 @@ controller CReferenceList {
    * Returns the object reference at the front of the list, returns null if the list is empty
    */
   public ::wisey::object front() {
-    return ::llvm::function::stl_object_list_front(mList) -> ::wisey::object;
+    return ::llvm::function::stl_object_list_front(mList) ~> ::wisey::object;
   }
 
   /**
@@ -78,7 +78,7 @@ controller CReferenceList {
    * Returns the list size
    */
   public long getSize() {
-    return ::llvm::function::stl_object_list_size(mList) -> ::llvm::i64;
+    return ::llvm::function::stl_object_list_size(mList) ~> ::llvm::i64;
   }
 
   /**
@@ -89,7 +89,7 @@ controller CReferenceList {
   }
 
   private ::llvm::function ::llvm::i8::pointer listCreate() {
-    return ::llvm::function::stl_object_list_create() -> ::llvm::i8::pointer;
+    return ::llvm::function::stl_object_list_create() ~> ::llvm::i8::pointer;
   }
 
   private ::llvm::function ::llvm::void listDestroy(::llvm::i8::pointer map) {

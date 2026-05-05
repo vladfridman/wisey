@@ -16,16 +16,16 @@ node NElement {
   state IHasValue* mHasValue;
 
   public int getValue() {
-    return mHasValue:systems.vos.wisey.compiler.tests.IHasValue*:getValue() -> int;
+    return mHasValue:systems.vos.wisey.compiler.tests.IHasValue*->getValue() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IHasValue* subNode = build(NSubNode).onHeap() -> NSubNode*;
-    NElement* element = build(NElement).withHasValue(subNode).onHeap() -> NElement*;
-    return element:systems.vos.wisey.compiler.tests.NElement*:getValue() -> int;
+    IHasValue* subNode = build(NSubNode).onHeap() ~> NSubNode*;
+    NElement* element = build(NElement).withHasValue(subNode).onHeap() ~> NElement*;
+    return element:systems.vos.wisey.compiler.tests.NElement*->getValue() ~> int;
   }
 }
 

@@ -8,7 +8,7 @@ controller CService {
   }
 
   public CService.MCar* getCar() {
-    return build(CService.MCar).onHeap() -> CService.MCar*;
+    return build(CService.MCar).onHeap() ~> CService.MCar*;
   }
 }
 
@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    return mService.getCar().getYear() -> int;
+    return mService.getCar().getYear() ~> int;
   }
 } 
 

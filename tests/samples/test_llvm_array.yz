@@ -14,13 +14,13 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     ::wisey::object*[]* array = new ::wisey::object*[5];
-    array[0] = build(MElement).withContent(0).onHeap() -> MElement*;
-    array[1] = build(MElement).withContent(1).onHeap() -> MElement*;
-    array[2] = build(MElement).withContent(2).onHeap() -> MElement*;
-    array[3] = build(MElement).withContent(3).onHeap() -> MElement*;
-    array[4] = build(MElement).withContent(4).onHeap() -> MElement*;
+    array[0] = build(MElement).withContent(0).onHeap() ~> MElement*;
+    array[1] = build(MElement).withContent(1).onHeap() ~> MElement*;
+    array[2] = build(MElement).withContent(2).onHeap() ~> MElement*;
+    array[3] = build(MElement).withContent(3).onHeap() ~> MElement*;
+    array[4] = build(MElement).withContent(4).onHeap() ~> MElement*;
 
-    return ((MElement*) array[4]):MElement*:getContent() -> int;
+    return ((MElement*) array[4]):MElement*->getContent() ~> int;
   }
 }
 

@@ -11,7 +11,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     int[][]* array = new int[3][3];
     array[2][2] = 1;
-    return test(array) -> int;
+    return test(array) ~> int;
   }
 }
 

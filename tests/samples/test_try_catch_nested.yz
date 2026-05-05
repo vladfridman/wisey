@@ -12,7 +12,7 @@ model MException implements IException {
   }
 
   public NString* report() override {
-    return callstack:wisey.threads.CCallStack:reportException(this) -> NString*;
+    return callstack:wisey.threads.CCallStack->reportException(this) ~> NString*;
   }
 }
 
@@ -26,7 +26,7 @@ model MAnotherException {
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException* exception = build(MException).withValue(63).onHeap() -> MException*;
+    MException* exception = build(MException).withValue(63).onHeap() ~> MException*;
     throw exception;
   }
 }
@@ -37,12 +37,12 @@ controller CCatcher {
   public int doTryCatch() {
     try {
       try {
-        return mThrower.doThrow() -> int;
+        return mThrower.doThrow() ~> int;
       } catch(MAnotherException* exception) {
-        return exception.getValue() + 1;                     // -> int (LHS of +)
+        return exception.getValue() + 1;                     // ~> int (LHS of +)
       }
     } catch (MException* exception) {
-      return exception.getValue() -> int;
+      return exception.getValue() ~> int;
     }
   }
 }
@@ -51,7 +51,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher.doTryCatch() -> int;
+    return mCatcher.doTryCatch() ~> int;
   }
 }
 

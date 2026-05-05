@@ -7,7 +7,7 @@ import wisey.threads.IWorker;
 model MWorker implements IWorker {
 
   public void work() override {
-    thread:wisey.threads.IThread:sleep(2);
+    thread:wisey.threads.IThread->sleep(2);
   }
 }
 
@@ -15,9 +15,9 @@ controller CProgram implements IProgram {
   inject CWorkerThread* mWorkerThread;
 
   public int run(immutable string[] arguments) override {
-    mWorkerThread:wisey.threads.CWorkerThread*:start(build(MWorker).onHeap() -> MWorker*);
-    thread:wisey.threads.IThread:sleep(1);
-    mWorkerThread:wisey.threads.CWorkerThread*:exit();
+    mWorkerThread:wisey.threads.CWorkerThread*->start(build(MWorker).onHeap() ~> MWorker*);
+    thread:wisey.threads.IThread->sleep(1);
+    mWorkerThread:wisey.threads.CWorkerThread*->exit();
 
     return 0;
   }

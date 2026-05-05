@@ -18,7 +18,7 @@ controller CService {
   }
 
   public int getValue() {
-    return mData:systems.vos.wisey.compiler.tests.MData:getValue() -> int;
+    return mData:systems.vos.wisey.compiler.tests.MData->getValue() ~> int;
   }
 }
 
@@ -26,11 +26,11 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData* owner = build(MData).withValue(1).onHeap() -> MData*;
-    mService:systems.vos.wisey.compiler.tests.CService*:set(owner);
-    owner = build(MData).withValue(5).onHeap() -> MData*;
+    MData* owner = build(MData).withValue(1).onHeap() ~> MData*;
+    mService:systems.vos.wisey.compiler.tests.CService*->set(owner);
+    owner = build(MData).withValue(5).onHeap() ~> MData*;
 
-    return mService:systems.vos.wisey.compiler.tests.CService*:getValue() -> int;
+    return mService:systems.vos.wisey.compiler.tests.CService*->getValue() ~> int;
   }
 } 
 

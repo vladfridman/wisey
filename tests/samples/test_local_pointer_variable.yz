@@ -13,11 +13,11 @@ model MModel {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MModel* mymodel = build(MModel).withValue(5).onHeap() -> MModel*;
+    MModel* mymodel = build(MModel).withValue(5).onHeap() ~> MModel*;
     ::llvm::i32::pointer pointer = mymodel;
     MModel reference = pointer;
 
-    return reference:systems.vos.wisey.compiler.tests.MModel:getValue() -> int;
+    return reference:systems.vos.wisey.compiler.tests.MModel->getValue() ~> int;
   }
 }
 

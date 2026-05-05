@@ -11,11 +11,11 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = build(MCar).onHeap() -> MCar*;
+    MCar* car = build(MCar).onHeap() ~> MCar*;
     MCar[][]* array = new MCar[5][10];
     array[4][9] = car;
 
-    return array[4][9]:systems.vos.wisey.compiler.tests.MCar:getYear() -> int;
+    return array[4][9]:systems.vos.wisey.compiler.tests.MCar->getYear() ~> int;
   }
 }
 

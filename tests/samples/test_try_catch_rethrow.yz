@@ -12,13 +12,13 @@ model MException implements IException {
   }
 
   public NString* report() override {
-    return callstack:wisey.threads.CCallStack:reportException(this) -> NString*;
+    return callstack:wisey.threads.CCallStack->reportException(this) ~> NString*;
   }
 }
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException* exception = build(MException).withValue(127).onHeap() -> MException*;
+    MException* exception = build(MException).withValue(127).onHeap() ~> MException*;
     throw exception;
   }
 }
@@ -28,7 +28,7 @@ controller CMiddleMan {
 
   public int call() throws MException {
     try {
-      return mThrower:systems.vos.wisey.compiler.tests.CThrower*:doThrow() -> int;
+      return mThrower:systems.vos.wisey.compiler.tests.CThrower*->doThrow() ~> int;
     } catch (MException* exception) {
       throw exception;
     }
@@ -40,9 +40,9 @@ controller CCatcher {
 
   public int doTryCatch() {
     try {
-      mMiddleMan:systems.vos.wisey.compiler.tests.CMiddleMan*:call();
+      mMiddleMan:systems.vos.wisey.compiler.tests.CMiddleMan*->call();
     } catch (MException* exception) {
-      return exception:systems.vos.wisey.compiler.tests.MException*:getValue() -> int;
+      return exception:systems.vos.wisey.compiler.tests.MException*->getValue() ~> int;
     }
     return 5;
   }
@@ -52,7 +52,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher:systems.vos.wisey.compiler.tests.CCatcher*:doTryCatch() -> int;
+    return mCatcher:systems.vos.wisey.compiler.tests.CCatcher*->doTryCatch() ~> int;
   }
 }
 

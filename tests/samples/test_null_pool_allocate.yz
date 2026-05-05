@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CMemoryPool pool = null;
-    build(NCar).onPool(pool) -> NCar*;
+    build(NCar).onPool(pool) ~> NCar*;
     return 1;
   }
 }

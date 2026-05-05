@@ -17,17 +17,17 @@ controller CController {
   }
 
   public int getCarYear() {
-    return mArray[4]:systems.vos.wisey.compiler.tests.MCar:getYear() -> int;
+    return mArray[4]:systems.vos.wisey.compiler.tests.MCar->getYear() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = build(MCar).onHeap() -> MCar*;
-    CController* mycontroller = inject(CController).withArray(new MCar[5]).onHeap() -> CController*;
-    mycontroller:systems.vos.wisey.compiler.tests.CController*:set(car);
-    mycontroller:systems.vos.wisey.compiler.tests.CController*:set(null);
+    MCar* car = build(MCar).onHeap() ~> MCar*;
+    CController* mycontroller = inject(CController).withArray(new MCar[5]).onHeap() ~> CController*;
+    mycontroller:systems.vos.wisey.compiler.tests.CController*->set(car);
+    mycontroller:systems.vos.wisey.compiler.tests.CController*->set(null);
     car = null;
 
     return 5;

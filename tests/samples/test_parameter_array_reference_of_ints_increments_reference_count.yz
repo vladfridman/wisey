@@ -15,8 +15,8 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     int[][]* array = new int[5][3];
     array[4][2] = 5;
-    CController* mycontroller = inject(CController).onHeap() -> CController*;
-    mycontroller:systems.vos.wisey.compiler.tests.CController*:init(array);
+    CController* mycontroller = inject(CController).onHeap() ~> CController*;
+    mycontroller:systems.vos.wisey.compiler.tests.CController*->init(array);
     array = null;
 
     return 5;

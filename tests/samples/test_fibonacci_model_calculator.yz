@@ -24,8 +24,8 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MFibonacciCalculator* calculator =
-      build(MFibonacciCalculator).withIndex(8).onHeap() -> MFibonacciCalculator*;
-    return calculator:systems.vos.wisey.compiler.tests.MFibonacciCalculator*:calculate() -> int;
+      build(MFibonacciCalculator).withIndex(8).onHeap() ~> MFibonacciCalculator*;
+    return calculator:systems.vos.wisey.compiler.tests.MFibonacciCalculator*->calculate() ~> int;
   }
 } 
 

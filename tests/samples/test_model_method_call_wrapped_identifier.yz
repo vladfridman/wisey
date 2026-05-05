@@ -13,9 +13,9 @@ model MShape {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MShape* shape = build(MShape).withValue(5).onHeap() -> MShape*;
+    MShape* shape = build(MShape).withValue(5).onHeap() ~> MShape*;
 
-    return (shape):MShape*:getValue() -> int;
+    return (shape):MShape*->getValue() ~> int;
   }
 }
 

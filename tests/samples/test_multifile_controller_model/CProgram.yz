@@ -6,8 +6,8 @@ controller CProgram implements IProgram {
   state MAdder* mAdder;
 
   public int run(immutable string[] arguments) override {
-    mAdder = build(MAdder).onHeap() -> MAdder*;
-    return mAdder:systems.vos.wisey.compiler.tests.multifile.MAdder*:add(3, 4) -> int;
+    mAdder = build(MAdder).onHeap() ~> MAdder*;
+    return mAdder:systems.vos.wisey.compiler.tests.multifile.MAdder*->add(3, 4) ~> int;
   }
 }
 

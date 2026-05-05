@@ -15,13 +15,13 @@ model MException implements IException {
   }
 
   public NString* report() override {
-    return callstack:wisey.threads.CCallStack:reportException(this) -> NString*;
+    return callstack:wisey.threads.CCallStack->reportException(this) ~> NString*;
   }
 }
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException* exception = build(MException).withValue(255).onHeap() -> MException*;
+    MException* exception = build(MException).withValue(255).onHeap() ~> MException*;
     throw exception;
   }
 }
@@ -30,12 +30,12 @@ controller CCatcher {
   inject CThrower* mThrower;
 
   public int doTryCatch() {
-    MData* data = build(MData).onHeap() -> MData*;
+    MData* data = build(MData).onHeap() ~> MData*;
     try {
       MData dataRef = data;
-      mThrower:systems.vos.wisey.compiler.tests.CThrower*:doThrow();
+      mThrower:systems.vos.wisey.compiler.tests.CThrower*->doThrow();
     } catch (MException* exception) {
-      return exception:systems.vos.wisey.compiler.tests.MException*:getValue() -> int;
+      return exception:systems.vos.wisey.compiler.tests.MException*->getValue() ~> int;
     }
     return 5;
   }
@@ -45,7 +45,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher:systems.vos.wisey.compiler.tests.CCatcher*:doTryCatch() -> int;
+    return mCatcher:systems.vos.wisey.compiler.tests.CCatcher*->doTryCatch() ~> int;
   }
 }
 

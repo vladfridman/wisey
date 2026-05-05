@@ -13,8 +13,8 @@ controller CProgram implements IProgram {
   inject MCar*[5]* mArray;
 
   public int run(immutable string[] arguments) override {
-    mArray[4] = build(MCar).onHeap() -> MCar*;
-    return mArray[4]:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
+    mArray[4] = build(MCar).onHeap() ~> MCar*;
+    return mArray[4]:systems.vos.wisey.compiler.tests.MCar*->getYear() ~> int;
   }
 }
 

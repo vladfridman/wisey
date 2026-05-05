@@ -9,7 +9,7 @@ import wisey.lang.CMemoryPool;
  *   inject COwnerList* mOwnerList;
  * 
  *   public int run(immutable string[] arguments) override {
- *     MCar* tesla = build(MCar).withYear(2019).onHeap() -> MCar*; 
+ *     MCar* tesla = build(MCar).withYear(2019).onHeap() ~> MCar*; 
  *     // tesla is null after this instruction because ownership has been passed to the list
  *     mOwnerList.pushBack(tesla);
  *     // returns 2019
@@ -26,7 +26,7 @@ controller COwnerList {
    * Pops an owner reference from the back of the list, returns null if the list is empty
    */
   public ::wisey::object* popBack() {
-    ::wisey::object* value = ::llvm::function::stl_owner_list_pop_back(mList) -> ::wisey::object*;
+    ::wisey::object* value = ::llvm::function::stl_owner_list_pop_back(mList) ~> ::wisey::object*;
     return value;
   }
 
@@ -41,14 +41,14 @@ controller COwnerList {
    * Returns the object reference at the back of the list, returns null if the list is empty
    */
   public ::wisey::object back() {
-    return ::llvm::function::stl_object_list_back(mList) -> ::wisey::object;
+    return ::llvm::function::stl_object_list_back(mList) ~> ::wisey::object;
   }
 
   /**
    * Pops an owner reference from the front of the list, returns null if the list is empty
    */
   public ::wisey::object* popFront() {
-    ::wisey::object* value = ::llvm::function::stl_owner_list_pop_front(mList) -> ::wisey::object*;
+    ::wisey::object* value = ::llvm::function::stl_owner_list_pop_front(mList) ~> ::wisey::object*;
     return value;
   }
 
@@ -63,7 +63,7 @@ controller COwnerList {
    * Returns the object reference at the front of the list, returns null if the list is empty
    */
   public ::wisey::object front() {
-    return ::llvm::function::stl_object_list_front(mList) -> ::wisey::object;
+    return ::llvm::function::stl_object_list_front(mList) ~> ::wisey::object;
   }
 
   /**
@@ -77,7 +77,7 @@ controller COwnerList {
    * Returns the list size
    */
   public long getSize() {
-    return ::llvm::function::stl_object_list_size(mList) -> ::llvm::i64;
+    return ::llvm::function::stl_object_list_size(mList) ~> ::llvm::i64;
   }
 
   /**
@@ -88,7 +88,7 @@ controller COwnerList {
   }
 
   private ::llvm::function ::llvm::i8::pointer listCreate() {
-    return ::llvm::function::stl_object_list_create() -> ::llvm::i8::pointer;
+    return ::llvm::function::stl_object_list_create() ~> ::llvm::i8::pointer;
   }
 
   private ::llvm::function ::llvm::void listDestroy(::llvm::i8::pointer map) {

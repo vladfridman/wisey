@@ -11,10 +11,10 @@ model MContainer {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ::wisey::object objectOwner = build(MContainer).onHeap() -> MContainer*;
+    ::wisey::object objectOwner = build(MContainer).onHeap() ~> MContainer*;
     MContainer containerOwner = objectOwner;
 
-    return containerOwner:systems.vos.wisey.compiler.tests.MContainer:getValue() -> int;
+    return containerOwner:systems.vos.wisey.compiler.tests.MContainer->getValue() ~> int;
   }
 }
 

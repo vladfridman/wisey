@@ -12,9 +12,9 @@ controller CProgram implements IProgram {
     array[1] = 'e';
     array[2] = 'f';
     immutable char[]* immutableArray = array;
-    NString* nstring = NString.createFromImmutableCharArray(immutableArray) -> NString*;
-    printout("nstring: " + nstring + " length: " + nstring:wisey.lang.NString*:getLength() -> long + " capacity: " + nstring:wisey.lang.NString*:getCapacity() -> long + "\n");
-    return (int) nstring:wisey.lang.NString*:getLength() -> int;
+    NString* nstring = NString.createFromImmutableCharArray(immutableArray) ~> NString*;
+    printout("nstring: " + nstring + " length: " + nstring:wisey.lang.NString*->getLength() ~> long + " capacity: " + nstring:wisey.lang.NString*->getCapacity() ~> long + "\n");
+    return (int) nstring:wisey.lang.NString*->getLength() ~> int;
   }
 }
 

@@ -8,14 +8,14 @@ interface IShape {
   }
 
   public static int bridgeToGetValue() {
-    return getValue() -> int;
+    return getValue() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return IShape.bridgeToGetValue() -> int;
+    return IShape.bridgeToGetValue() ~> int;
   }
 } 
 

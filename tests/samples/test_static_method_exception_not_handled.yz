@@ -8,26 +8,26 @@ model MException implements IException {
   int mValue;
 
   public NString* report() override {
-    return NString.create() -> NString*;
+    return NString.create() ~> NString*;
   }
 }
 
 controller CThrower {
   public static int doThrow() throws MException {
-    MException* exception = build(MException).withValue(3).onHeap() -> MException*;
+    MException* exception = build(MException).withValue(3).onHeap() ~> MException*;
     throw exception;
   }
 }
 
 controller CCatcher {
   public static int doSomething() {
-    return CThrower.doThrow() -> int;
+    return CThrower.doThrow() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    return CCatcher.doSomething() -> int;
+    return CCatcher.doSomething() ~> int;
   }
 }
 

@@ -7,7 +7,7 @@ model MEngine {
 
   public int getVolume() {
     printout("Stack trace 1:\n");
-    thread:wisey.threads.IThread:getCallStack():wisey.threads.CCallStack:dumpStack();
+    thread:wisey.threads.IThread->getCallStack():wisey.threads.CCallStack->dumpStack();
     return mVolume;
   }
 }
@@ -16,17 +16,17 @@ model MCar {
   receive MEngine* mEngine;
 
   public int getEngineVolume() {
-    return mEngine:systems.vos.wisey.compiler.tests.MEngine*:getVolume() -> int;
+    return mEngine:systems.vos.wisey.compiler.tests.MEngine*->getVolume() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar car = build(MCar).withEngine(build(MEngine).withVolume(3).onHeap() -> MEngine*).onHeap() -> MCar*;
-    int result = car:systems.vos.wisey.compiler.tests.MCar:getEngineVolume() -> int;
+    MCar car = build(MCar).withEngine(build(MEngine).withVolume(3).onHeap() ~> MEngine*).onHeap() ~> MCar*;
+    int result = car:systems.vos.wisey.compiler.tests.MCar->getEngineVolume() ~> int;
     printout("Stack trace 2:\n");
-    thread:wisey.threads.IThread:getCallStack():wisey.threads.CCallStack:dumpStack();
+    thread:wisey.threads.IThread->getCallStack():wisey.threads.CCallStack->dumpStack();
     return result;
   }
 }

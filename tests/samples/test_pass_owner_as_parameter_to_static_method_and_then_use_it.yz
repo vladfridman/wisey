@@ -11,15 +11,15 @@ model MData {
 controller CService {
 
   public static int getResultFromData(MData* data) {
-    return data:systems.vos.wisey.compiler.tests.MData*:getResult() -> int;
+    return data:systems.vos.wisey.compiler.tests.MData*->getResult() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    MData* data = build(MData).onHeap() -> MData*;
-    int result = CService.getResultFromData(data) -> int;
-    data:systems.vos.wisey.compiler.tests.MData*:getResult();
+    MData* data = build(MData).onHeap() ~> MData*;
+    int result = CService.getResultFromData(data) ~> int;
+    data:systems.vos.wisey.compiler.tests.MData*->getResult();
     return result;
   }
 }

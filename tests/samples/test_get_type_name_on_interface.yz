@@ -5,7 +5,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    printout(IProgram.getTypeName() -> string + "\n");
+    printout(IProgram.getTypeName() ~> string + "\n");
     return 1;
   }
 }

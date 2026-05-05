@@ -13,7 +13,7 @@ controller CController {
 
 
   public void init() {
-    mArray[4] = build(MCar).onHeap() -> MCar*;
+    mArray[4] = build(MCar).onHeap() ~> MCar*;
   }
 
   public MCar* getOwner() {
@@ -21,18 +21,18 @@ controller CController {
   }
 
   public int getCarYear() {
-    return mArray[4]:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
+    return mArray[4]:systems.vos.wisey.compiler.tests.MCar*->getYear() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CController* mycontroller = inject(CController).withArray(new MCar*[5]).onHeap() -> CController*;
-    mycontroller:systems.vos.wisey.compiler.tests.CController*:init();
-    mycontroller:systems.vos.wisey.compiler.tests.CController*:getOwner();
+    CController* mycontroller = inject(CController).withArray(new MCar*[5]).onHeap() ~> CController*;
+    mycontroller:systems.vos.wisey.compiler.tests.CController*->init();
+    mycontroller:systems.vos.wisey.compiler.tests.CController*->getOwner();
 
-    return mycontroller:systems.vos.wisey.compiler.tests.CController*:getCarYear() -> int;
+    return mycontroller:systems.vos.wisey.compiler.tests.CController*->getCarYear() ~> int;
   }
 }
 

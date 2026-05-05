@@ -7,11 +7,11 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CTextStreamReader* stream = CTextStreamReader.openSystemIn() -> CTextStreamReader*;
-    NString* line = stream:wisey.io.CTextStreamReader*:readLine() -> NString*;
+    CTextStreamReader* stream = CTextStreamReader.openSystemIn() ~> CTextStreamReader*;
+    NString* line = stream:wisey.io.CTextStreamReader*->readLine() ~> NString*;
     while (line) {
       printout("line: " + line);
-      line = stream:wisey.io.CTextStreamReader*:readLine() -> NString*;
+      line = stream:wisey.io.CTextStreamReader*->readLine() ~> NString*;
 
     }
 

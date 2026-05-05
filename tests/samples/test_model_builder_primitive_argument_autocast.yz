@@ -13,9 +13,9 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = build(MCar).withYear(true).onHeap() -> MCar*;
+    MCar* car = build(MCar).withYear(true).onHeap() ~> MCar*;
     
-    return car:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
+    return car:systems.vos.wisey.compiler.tests.MCar*->getYear() ~> int;
   }
 }
 

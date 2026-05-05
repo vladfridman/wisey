@@ -25,7 +25,7 @@ controller CPoolThread implements IThread {
   public void start(CThreadPool threadPool) throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mThreadPool = threadPool;
-    mPoolThreadRunner:wisey.threads.CPoolThread.CPoolThreadRunner*:createThread(this);
+    mPoolThreadRunner:wisey.threads.CPoolThread.CPoolThreadRunner*->createThread(this);
   }
 
   /**
@@ -33,7 +33,7 @@ controller CPoolThread implements IThread {
    */
   public void cancel() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    mPoolThreadRunner:wisey.threads.CPoolThread.CPoolThreadRunner*:cancelThread();
+    mPoolThreadRunner:wisey.threads.CPoolThread.CPoolThreadRunner*->cancelThread();
   }
 
   /**
@@ -41,17 +41,17 @@ controller CPoolThread implements IThread {
    */
   public void join() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    mPoolThreadRunner:wisey.threads.CPoolThread.CPoolThreadRunner*:joinThread();    
+    mPoolThreadRunner:wisey.threads.CPoolThread.CPoolThreadRunner*->joinThread();    
   }
 
   public void exit() throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mPoolThreadRunner:wisey.threads.CPoolThread.CPoolThreadRunner*:exitThread();
+    mPoolThreadRunner:wisey.threads.CPoolThread.CPoolThreadRunner*->exitThread();
   }
 
   public ::wisey::model* send(::wisey::model* message) throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mThreadPool:wisey.threads.CThreadPool:addResult(message);
+    mThreadPool:wisey.threads.CThreadPool->addResult(message);
     return null;
   }
 
@@ -67,10 +67,10 @@ controller CPoolThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mContextManager:wisey.threads.CContextManager*:setContext(IThread.getTypeName() -> string, thread);
+    mContextManager:wisey.threads.CContextManager*->setContext(IThread.getTypeName() ~> string, thread);
     while (true) {
-      IWorker* worker = mThreadPool:wisey.threads.CThreadPool:getWorker() -> IWorker*;
-      worker:wisey.threads.IWorker*:work();
+      IWorker* worker = mThreadPool:wisey.threads.CThreadPool->getWorker() ~> IWorker*;
+      worker:wisey.threads.IWorker*->work();
     }
   }
 

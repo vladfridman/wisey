@@ -10,15 +10,15 @@ model MCircle {
   }
 
   public int getDiameter() {
-    return 2 * getRadius() -> int;
+    return 2 * getRadius() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCircle circle = build(MCircle).withRadius(5).onHeap() -> MCircle*;
-    return circle:systems.vos.wisey.compiler.tests.MCircle:getDiameter() -> int;
+    MCircle circle = build(MCircle).withRadius(5).onHeap() ~> MCircle*;
+    return circle:systems.vos.wisey.compiler.tests.MCircle->getDiameter() ~> int;
   }
 }
 

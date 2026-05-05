@@ -19,9 +19,9 @@ model MObject implements IHasValue {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ::wisey::model* object = build(MObject).onHeap() -> MObject*;
+    ::wisey::model* object = build(MObject).onHeap() ~> MObject*;
     IHasSomething* hasSomething = object;
-    return hasSomething:systems.vos.wisey.compiler.tests.IHasSomething*:getSomething() -> int;
+    return hasSomething:systems.vos.wisey.compiler.tests.IHasSomething*->getSomething() ~> int;
   }
 }
 

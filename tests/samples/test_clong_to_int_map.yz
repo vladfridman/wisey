@@ -7,42 +7,42 @@ controller CProgram implements IProgram {
   inject CLongToIntMap* mMap;
 
   public int run(immutable string[] arguments) override {
-    mMap:wisey.data.CLongToIntMap*:put(1l, 2);
-    mMap:wisey.data.CLongToIntMap*:put(2l, 4);
-    mMap:wisey.data.CLongToIntMap*:put(3l, 6);
+    mMap:wisey.data.CLongToIntMap*->put(1l, 2);
+    mMap:wisey.data.CLongToIntMap*->put(2l, 4);
+    mMap:wisey.data.CLongToIntMap*->put(3l, 6);
 
-    printout("Hashmap size: " + mMap:wisey.data.CLongToIntMap*:getSize() -> long + "\n");
+    printout("Hashmap size: " + mMap:wisey.data.CLongToIntMap*->getSize() ~> long + "\n");
 
-    int[]* values = mMap:wisey.data.CLongToIntMap*:getValues() -> int[]*;
-    long[]* keys = mMap:wisey.data.CLongToIntMap*:getKeys() -> long[]*;
+    int[]* values = mMap:wisey.data.CLongToIntMap*->getValues() ~> int[]*;
+    long[]* keys = mMap:wisey.data.CLongToIntMap*->getKeys() ~> long[]*;
 
-    printout("Lookup " + 1l + ": " + mMap:wisey.data.CLongToIntMap*:get(1l) -> int + "\n");
-    printout("Lookup " + 2l + ": " + mMap:wisey.data.CLongToIntMap*:get(2l) -> int + "\n");
-    printout("Lookup " + 3l + ": " + mMap:wisey.data.CLongToIntMap*:get(3l) -> int + "\n");
+    printout("Lookup " + 1l + ": " + mMap:wisey.data.CLongToIntMap*->get(1l) ~> int + "\n");
+    printout("Lookup " + 2l + ": " + mMap:wisey.data.CLongToIntMap*->get(2l) ~> int + "\n");
+    printout("Lookup " + 3l + ": " + mMap:wisey.data.CLongToIntMap*->get(3l) ~> int + "\n");
 
-    mMap:wisey.data.CLongToIntMap*:erase(1l);
-    if (!mMap:wisey.data.CLongToIntMap*:has(1l)) {
+    mMap:wisey.data.CLongToIntMap*->erase(1l);
+    if (!mMap:wisey.data.CLongToIntMap*->has(1l)) {
       printout("1 was erased\n");
     } else {
       printout("1 is still there\n");
     }
 
-    mMap:wisey.data.CLongToIntMap*:erase(1l);
-    mMap:wisey.data.CLongToIntMap*:erase(2l);
-    mMap:wisey.data.CLongToIntMap*:erase(3l);
+    mMap:wisey.data.CLongToIntMap*->erase(1l);
+    mMap:wisey.data.CLongToIntMap*->erase(2l);
+    mMap:wisey.data.CLongToIntMap*->erase(3l);
 
-    if (!mMap:wisey.data.CLongToIntMap*:has(2l)) {
+    if (!mMap:wisey.data.CLongToIntMap*->has(2l)) {
       printout("2 was erased\n");
     } else {
       printout("2 is still there\n");
     }
-    if (!mMap:wisey.data.CLongToIntMap*:has(3l)) {
+    if (!mMap:wisey.data.CLongToIntMap*->has(3l)) {
       printout("3 was erased\n");
     } else {
       printout("3 is still there\n");
     }
 
-    printout("Hashmap size: " + mMap:wisey.data.CLongToIntMap*:getSize() -> long + "\n");
+    printout("Hashmap size: " + mMap:wisey.data.CLongToIntMap*->getSize() ~> long + "\n");
 
     return 1;
   }

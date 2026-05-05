@@ -9,7 +9,7 @@ model MShape {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MShape* shape = build(MShape).withValue(3).onHeap() -> MShape*;
+    MShape* shape = build(MShape).withValue(3).onHeap() ~> MShape*;
 
     return shape.mValue;
   }

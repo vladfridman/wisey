@@ -9,7 +9,7 @@ import wisey.lang.MSystem;
  *   inject CReferenceVector* mReferenceVector;
  * 
  *   public int run(immutable string[] arguments) override {
- *     MCar* tesla = build(MCar).withYear(2019).onHeap() -> MCar*; 
+ *     MCar* tesla = build(MCar).withYear(2019).onHeap() ~> MCar*; 
  *     // tesla is not null after this because list only keeps a reference to the object
  *     mReferenceVector.pushBack(tesla);
  *     // Returns 2019
@@ -33,21 +33,21 @@ controller CReferenceVector {
    * Deletes the last element from the vector
    */
   public ::wisey::object popBack() {
-    return ::llvm::function::stl_reference_vector_pop_back(mStdVector) -> ::wisey::object;
+    return ::llvm::function::stl_reference_vector_pop_back(mStdVector) ~> ::wisey::object;
   }
 
   /**
    * Returns the element with the given index
    */
   public ::wisey::object getAt(long index) {
-    return ::llvm::function::stl_object_vector_at(mStdVector, index) -> ::wisey::object;
+    return ::llvm::function::stl_object_vector_at(mStdVector, index) ~> ::wisey::object;
   }
 
   /**
    * Returns vector size
    */
   public long getSize() {
-    return ::llvm::function::stl_object_vector_size(mStdVector) -> ::llvm::i64;
+    return ::llvm::function::stl_object_vector_size(mStdVector) ~> ::llvm::i64;
   }
 
   /**
@@ -65,7 +65,7 @@ controller CReferenceVector {
   }
 
   private ::llvm::function ::llvm::i8::pointer vectorCreate() {
-    return ::llvm::function::stl_object_vector_create() -> ::llvm::i8::pointer;
+    return ::llvm::function::stl_object_vector_create() ~> ::llvm::i8::pointer;
   }
 
   private ::llvm::function ::llvm::void vectorDestroy(::llvm::i8::pointer map) {

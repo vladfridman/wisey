@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
 
-    int[]* array = createIntArray(5) -> int[]*;
+    int[]* array = createIntArray(5) ~> int[]*;
     array[4] = 1;
 
     return array[4];

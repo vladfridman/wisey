@@ -10,16 +10,16 @@ model MCar {
   }
 
   public static int getValue(MCar car) {
-    return car:systems.vos.wisey.compiler.tests.MCar:getYear() -> int;
+    return car:systems.vos.wisey.compiler.tests.MCar->getYear() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = build(MCar).withYear(2017).onHeap() -> MCar*;
+    MCar* car = build(MCar).withYear(2017).onHeap() ~> MCar*;
 
-    return MCar.getValue(car) -> int;
+    return MCar.getValue(car) ~> int;
   }
 }
 

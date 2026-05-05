@@ -8,7 +8,7 @@ model MCar {
 
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
-    mCar = build(MCar).onHeap() -> MCar*;
+    mCar = build(MCar).onHeap() ~> MCar*;
     return 3;
   }
 

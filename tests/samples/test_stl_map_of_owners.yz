@@ -17,20 +17,20 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ::llvm::i8::pointer map = ::llvm::function::stl_map_create() -> ::llvm::i8::pointer;
+    ::llvm::i8::pointer map = ::llvm::function::stl_map_create() ~> ::llvm::i8::pointer;
 
 
-    MCar* car1 = build(MCar).withYear(2018).onHeap() -> MCar*;
-    MCar* car2 = build(MCar).withYear(2017).onHeap() -> MCar*;
+    MCar* car1 = build(MCar).withYear(2018).onHeap() ~> MCar*;
+    MCar* car2 = build(MCar).withYear(2017).onHeap() ~> MCar*;
     MCar car1ref = car1;
     MCar car2ref = car2;
     ::llvm::function::stl_map_put_owner(map, car1ref, car1);
     ::llvm::function::stl_map_put_owner(map, car2ref, car2);
 
-    MCar value1 = ::llvm::function::stl_map_get(map, car1ref) -> MCar;
-    MCar value2 = ::llvm::function::stl_map_get(map, car2ref) -> MCar;
-    printout("car year = " + value1.getYear() -> int + "\n");
-    printout("car year = " + value2.getYear() -> int + "\n");
+    MCar value1 = ::llvm::function::stl_map_get(map, car1ref) ~> MCar;
+    MCar value2 = ::llvm::function::stl_map_get(map, car2ref) ~> MCar;
+    printout("car year = " + value1.getYear() ~> int + "\n");
+    printout("car year = " + value2.getYear() ~> int + "\n");
     value1 = null;
     value2 = null;
     car1ref = null;

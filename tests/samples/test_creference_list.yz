@@ -20,13 +20,13 @@ controller CProgram implements IProgram, IObjectComparator {
     string toyotaMake = "Toyota";
     string bmwMake = "BMW";
     string mercedesMake = "Mercedes";
-    MCar* toyota = build(MCar).withMake(toyotaMake).onHeap() -> MCar*;
-    MCar* bmw = build(MCar).withMake(bmwMake).onHeap() -> MCar*;
-    MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap() -> MCar*;
+    MCar* toyota = build(MCar).withMake(toyotaMake).onHeap() ~> MCar*;
+    MCar* bmw = build(MCar).withMake(bmwMake).onHeap() ~> MCar*;
+    MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap() ~> MCar*;
 
-    mList:wisey.data.CReferenceList*:pushBack(toyota);
-    mList:wisey.data.CReferenceList*:pushBack(bmw);
-    mList:wisey.data.CReferenceList*:pushFront(mercedes);
+    mList:wisey.data.CReferenceList*->pushBack(toyota);
+    mList:wisey.data.CReferenceList*->pushBack(bmw);
+    mList:wisey.data.CReferenceList*->pushFront(mercedes);
 
     if (bmw == null) {
       printout("bmw is null\n");
@@ -34,45 +34,45 @@ controller CProgram implements IProgram, IObjectComparator {
       printout("bmw is not null\n");
     }
 
-    printout("List size: " + mList:wisey.data.CReferenceList*:getSize() -> long + "\n");
-    MCar last = mList:wisey.data.CReferenceList*:back() -> MCar;
+    printout("List size: " + mList:wisey.data.CReferenceList*->getSize() ~> long + "\n");
+    MCar last = mList:wisey.data.CReferenceList*->back() ~> MCar;
 
-    printout("Lookup last: " + last:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
-    MCar first = mList:wisey.data.CReferenceList*:front() -> MCar;
+    printout("Lookup last: " + last:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string + "\n");
+    MCar first = mList:wisey.data.CReferenceList*->front() ~> MCar;
 
-    printout("Lookup first: " + first:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
+    printout("Lookup first: " + first:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string + "\n");
 
-    mList:wisey.data.CReferenceList*:sort(this);
-    printout("List size: " + mList:wisey.data.CReferenceList*:getSize() -> long + "\n");
-    last = mList:wisey.data.CReferenceList*:back() -> MCar;
+    mList:wisey.data.CReferenceList*->sort(this);
+    printout("List size: " + mList:wisey.data.CReferenceList*->getSize() ~> long + "\n");
+    last = mList:wisey.data.CReferenceList*->back() ~> MCar;
 
-    printout("Lookup last: " + last:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
-    first = mList:wisey.data.CReferenceList*:front() -> MCar;
+    printout("Lookup last: " + last:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string + "\n");
+    first = mList:wisey.data.CReferenceList*->front() ~> MCar;
 
-    printout("Lookup first: " + first:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
+    printout("Lookup first: " + first:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string + "\n");
 
-    MCar back = mList:wisey.data.CReferenceList*:popBack() -> MCar;
+    MCar back = mList:wisey.data.CReferenceList*->popBack() ~> MCar;
 
-    MCar front = mList:wisey.data.CReferenceList*:popFront() -> MCar;
+    MCar front = mList:wisey.data.CReferenceList*->popFront() ~> MCar;
 
-    printout("List size: " + mList:wisey.data.CReferenceList*:getSize() -> long + "\n");
-    last = mList:wisey.data.CReferenceList*:back() -> MCar;
+    printout("List size: " + mList:wisey.data.CReferenceList*->getSize() ~> long + "\n");
+    last = mList:wisey.data.CReferenceList*->back() ~> MCar;
 
-    printout("Lookup last: " + last:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
-    first = mList:wisey.data.CReferenceList*:front() -> MCar;
+    printout("Lookup last: " + last:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string + "\n");
+    first = mList:wisey.data.CReferenceList*->front() ~> MCar;
 
-    printout("Lookup first: " + first:systems.vos.wisey.compiler.tests.MCar:getMake() -> string + "\n");
+    printout("Lookup first: " + first:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string + "\n");
     last = null;
     first = null;
 
-    mList:wisey.data.CReferenceList*:clear();
-    printout("List size: " + mList:wisey.data.CReferenceList*:getSize() -> long + "\n");
+    mList:wisey.data.CReferenceList*->clear();
+    printout("List size: " + mList:wisey.data.CReferenceList*->getSize() ~> long + "\n");
 
     return 1;
   }
 
   public boolean compare(MCar left, MCar right) override {
-    return (MString.compareStrings(left:systems.vos.wisey.compiler.tests.MCar:getMake() -> string, right:systems.vos.wisey.compiler.tests.MCar:getMake() -> string) -> int) < 0;
+    return (MString.compareStrings(left:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string, right:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string) ~> int) < 0;
   }
 }
 

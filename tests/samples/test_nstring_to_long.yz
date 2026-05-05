@@ -6,8 +6,8 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NString* nstring = NString.createFromString("1234567") -> NString*;
-    return (int) nstring:wisey.lang.NString*:toLong() -> int;
+    NString* nstring = NString.createFromString("1234567") ~> NString*;
+    return (int) nstring:wisey.lang.NString*->toLong() ~> int;
   }
 }
 

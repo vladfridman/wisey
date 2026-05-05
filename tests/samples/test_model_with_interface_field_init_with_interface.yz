@@ -16,16 +16,16 @@ model MCar {
   IWheel* mWheel;
 
   public int getWheelWidth() {
-    return mWheel:systems.vos.wisey.compiler.tests.IWheel*:getWidth() -> int;
+    return mWheel:systems.vos.wisey.compiler.tests.IWheel*->getWidth() ~> int;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IWheel* wheelController = inject(IWheel).onHeap() -> IWheel*;
-    MCar* car = build(MCar).withWheel(wheelController).onHeap() -> MCar*;
-    return car:systems.vos.wisey.compiler.tests.MCar*:getWheelWidth() -> int;
+    IWheel* wheelController = inject(IWheel).onHeap() ~> IWheel*;
+    MCar* car = build(MCar).withWheel(wheelController).onHeap() ~> MCar*;
+    return car:systems.vos.wisey.compiler.tests.MCar*->getWheelWidth() ~> int;
   }
 }
 

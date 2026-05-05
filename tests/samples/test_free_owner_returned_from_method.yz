@@ -12,11 +12,11 @@ model MCar {
 controller CProgram implements IProgram {
 
   private MCar* getOwner() {
-    return build(MCar).onHeap() -> MCar*;
+    return build(MCar).onHeap() ~> MCar*;
   }
 
   public int run(immutable string[] arguments) override {
-    printout(getOwner():systems.vos.wisey.compiler.tests.MCar*:getValue() -> int + "\n");
+    printout(getOwner():systems.vos.wisey.compiler.tests.MCar*->getValue() ~> int + "\n");
     return 1;
   }
 }

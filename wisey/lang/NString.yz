@@ -32,7 +32,7 @@ node NString {
       .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
       .withCapacity(DEFAULT_INITIAL_CAPACITY)
       .withLength(0)
-      .onHeap() -> NString*;
+      .onHeap() ~> NString*;
   }
 
   /**
@@ -43,7 +43,7 @@ node NString {
       .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
       .withCapacity(DEFAULT_INITIAL_CAPACITY)
       .withLength(0)
-      .onPool(pool) -> NString*;
+      .onPool(pool) ~> NString*;
   }
 
   /**
@@ -58,47 +58,47 @@ node NString {
    * Creates a modifiable NString from a string literal
    */
   public static NString* createFromString(string input) {
-    return copyMemoryAndBuild(input, input.getLength() -> long) -> NString*;
+    return copyMemoryAndBuild(input, input.getLength() ~> long) ~> NString*;
   }
 
   /**
    * Creates a modifiable NString from an MString model
    */
   public static NString* createFromModel(MString input) {
-    return copyMemoryAndBuild(input:wisey.lang.MString:getContent() -> immutable char[], input:wisey.lang.MString:getLength() -> long) -> NString*;
+    return copyMemoryAndBuild(input:wisey.lang.MString->getContent() ~> immutable char[], input:wisey.lang.MString->getLength() ~> long) ~> NString*;
   }
 
   /**
    * Creates a NString from a null terminated char array
    */
   public static NString* createFromCharArray(char[] input) {
-    if (input.getSize() -> long == 0) {
-      return copyMemoryAndBuild(input, 0) -> NString*;
+    if (input.getSize() ~> long == 0) {
+      return copyMemoryAndBuild(input, 0) ~> NString*;
     }
-    long length = input[input.getSize() -> long - 1] == '\0'
+    long length = input[input.getSize() ~> long - 1] == '\0'
       ? (long) ::llvm::function::strlen(input)
-      : input.getSize() -> long;
-    return copyMemoryAndBuild(input, length) -> NString*;
+      : input.getSize() ~> long;
+    return copyMemoryAndBuild(input, length) ~> NString*;
   }
 
   /**
    * Creates a NString from a null terminated immutable char array
    */
   public static NString* createFromImmutableCharArray(immutable char[] input) {
-    if (input.getSize() -> long == 0) {
-      return copyMemoryAndBuild(input, 0) -> NString*;
+    if (input.getSize() ~> long == 0) {
+      return copyMemoryAndBuild(input, 0) ~> NString*;
     }
-    long length = input[input.getSize() -> long - 1] == '\0'
+    long length = input[input.getSize() ~> long - 1] == '\0'
       ? (long) ::llvm::function::strlen(input)
-      : input.getSize() -> long;
-    return copyMemoryAndBuild(input, length) -> NString*;
+      : input.getSize() ~> long;
+    return copyMemoryAndBuild(input, length) ~> NString*;
   }
 
   /**
    * Get a string representation of a boolean
    */
   public static NString* createFromBoolean(boolean input) {
-    return input ? createFromString("true") -> NString* : createFromString("false") -> NString*;
+    return input ? createFromString("true") ~> NString* : createFromString("false") ~> NString*;
   }
 
   /**
@@ -107,7 +107,7 @@ node NString {
   public static NString* createFromInt(int input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%d", input);
-    return createFromCharArray(buffer) -> NString*;
+    return createFromCharArray(buffer) ~> NString*;
   }
 
   /**
@@ -116,7 +116,7 @@ node NString {
   public static NString* createFromLong(long input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%d", input);
-    return createFromCharArray(buffer) -> NString*;
+    return createFromCharArray(buffer) ~> NString*;
   }
 
   /**
@@ -125,7 +125,7 @@ node NString {
   public static NString* createFromChar(char input) {
     char[]* buffer = new char[2];
     ::llvm::function::sprintf(buffer, "%c", input);
-    return createFromCharArray(buffer) -> NString*;
+    return createFromCharArray(buffer) ~> NString*;
   }
 
   /**
@@ -134,7 +134,7 @@ node NString {
   public static NString* createFromFloat(float input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%f", (double) input);
-    return createFromCharArray(buffer) -> NString*;
+    return createFromCharArray(buffer) ~> NString*;
   }
 
   /**
@@ -143,7 +143,7 @@ node NString {
   public static NString* createFromDouble(double input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%e", input);
-    return createFromCharArray(buffer) -> NString*;
+    return createFromCharArray(buffer) ~> NString*;
   }
 
   /**
@@ -157,7 +157,7 @@ node NString {
       return false;
     }
 
-    throw build(MCastException).withFromType("string").withToType("boolean").onHeap() -> MCastException*;
+    throw build(MCastException).withFromType("string").withToType("boolean").onHeap() ~> MCastException*;
   }
 
   /**
@@ -165,12 +165,12 @@ node NString {
    */
   public char toChar() {
     char value;
-    int success = ::llvm::function::sscanf(mBuffer, "%c", ::llvm::reference(value)) -> ::llvm::i32;
+    int success = ::llvm::function::sscanf(mBuffer, "%c", ::llvm::reference(value)) ~> ::llvm::i32;
     if (success) {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("char").onHeap() -> MCastException*;
+    throw build(MCastException).withFromType("string").withToType("char").onHeap() ~> MCastException*;
   }
 
   /**
@@ -178,12 +178,12 @@ node NString {
    */
   public int toInt() {
     int value;
-    int success = ::llvm::function::sscanf(mBuffer, "%d", ::llvm::reference(value)) -> ::llvm::i32;
+    int success = ::llvm::function::sscanf(mBuffer, "%d", ::llvm::reference(value)) ~> ::llvm::i32;
     if (success) {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("int").onHeap() -> MCastException*;
+    throw build(MCastException).withFromType("string").withToType("int").onHeap() ~> MCastException*;
   }
 
   /**
@@ -191,12 +191,12 @@ node NString {
    */
   public long toLong() {
     long value;
-    int success = ::llvm::function::sscanf(mBuffer, "%d", ::llvm::reference(value)) -> ::llvm::i32;
+    int success = ::llvm::function::sscanf(mBuffer, "%d", ::llvm::reference(value)) ~> ::llvm::i32;
     if (success) {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("long").onHeap() -> MCastException*;
+    throw build(MCastException).withFromType("string").withToType("long").onHeap() ~> MCastException*;
   }
 
   /**
@@ -204,12 +204,12 @@ node NString {
    */
   public float toFloat() {
     float value;
-    int success = ::llvm::function::sscanf(mBuffer, "%f", ::llvm::reference(value)) -> ::llvm::i32;
+    int success = ::llvm::function::sscanf(mBuffer, "%f", ::llvm::reference(value)) ~> ::llvm::i32;
     if (success) {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("float").onHeap() -> MCastException*;
+    throw build(MCastException).withFromType("string").withToType("float").onHeap() ~> MCastException*;
   }
 
   /**
@@ -217,12 +217,12 @@ node NString {
    */
   public double toDouble() {
     float value;
-    int success = ::llvm::function::sscanf(mBuffer, "%f", ::llvm::reference(value)) -> ::llvm::i32;
+    int success = ::llvm::function::sscanf(mBuffer, "%f", ::llvm::reference(value)) ~> ::llvm::i32;
     if (success) {
       return value;
     }
 
-    throw build(MCastException).withFromType("string").withToType("double").onHeap() -> MCastException*;
+    throw build(MCastException).withFromType("string").withToType("double").onHeap() ~> MCastException*;
   }
 
   /**
@@ -231,7 +231,7 @@ node NString {
   public MString* toModel() {
     char[]* buffer = new char[mLength + 1];
     MSystem.copyMemory(buffer, mBuffer, mLength);
-    return build(MString).withContent(buffer).onHeap() -> MString*;
+    return build(MString).withContent(buffer).onHeap() ~> MString*;
   }
 
   /**
@@ -251,54 +251,54 @@ node NString {
       .withBuffer(buffer)
       .withCapacity(mCapacity)
       .withLength(mLength)
-      .onHeap() -> NString*;
+      .onHeap() ~> NString*;
   }
 
   /**
    * Tries to fit the new string into existing buffer, creates a new buffer if needed
    */
   public NString appendString(string appendix) {
-    return append(appendix, appendix.getLength() -> long) -> NString;
+    return append(appendix, appendix.getLength() ~> long) ~> NString;
   }
 
   /**
    * Appends another NString to this string
    */
   public NString appendNString(NString appendix) {
-    return append(appendix:wisey.lang.NString:getContent() -> char[], appendix:wisey.lang.NString:getLength() -> long) -> NString;
+    return append(appendix:wisey.lang.NString->getContent() ~> char[], appendix:wisey.lang.NString->getLength() ~> long) ~> NString;
   }
 
   /**
    * Appends another MString to this string
    */
   public NString appendMString(MString appendix) {
-    return append(appendix:wisey.lang.MString:getContent() -> immutable char[], appendix:wisey.lang.MString:getLength() -> long) -> NString;
+    return append(appendix:wisey.lang.MString->getContent() ~> immutable char[], appendix:wisey.lang.MString->getLength() ~> long) ~> NString;
   }
 
   /**
    * Appends a character array to the string
    */
   public NString appendCharArray(char[] appendix) {
-    if (appendix.getSize() -> long == 0) {
+    if (appendix.getSize() ~> long == 0) {
       return this;
     }
-    long length = appendix[appendix.getSize() -> long - 1] == '\0'
-      ? ::llvm::function::strlen(appendix) -> long
-      : appendix.getSize() -> long;
-    return append(appendix, length) -> NString;
+    long length = appendix[appendix.getSize() ~> long - 1] == '\0'
+      ? ::llvm::function::strlen(appendix) ~> long
+      : appendix.getSize() ~> long;
+    return append(appendix, length) ~> NString;
   }
 
   /**
    * Appends a immutable character array to the string
    */
   public NString appendImmutableCharArray(immutable char[] appendix) {
-    if (appendix.getSize() -> long == 0) {
+    if (appendix.getSize() ~> long == 0) {
       return this;
     }
-    long length = appendix[appendix.getSize() -> long - 1] == '\0'
-      ? ::llvm::function::strlen(appendix) -> long
-      : appendix.getSize() -> long;
-    return append(appendix, length) -> NString;
+    long length = appendix[appendix.getSize() ~> long - 1] == '\0'
+      ? ::llvm::function::strlen(appendix) ~> long
+      : appendix.getSize() ~> long;
+    return append(appendix, length) ~> NString;
   }
 
   /**
@@ -319,45 +319,45 @@ node NString {
    * Compares the string to the given input string and returns 0 if they are equal
    */
   public int compareToString(string input) {
-    return ::llvm::function::strcmp(mBuffer, input) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input) ~> ::llvm::i32;
   }
 
   /**
    * Compares the string to the given input MString and returns 0 if they are equal
    */
   public int compareToMString(MString input) {
-    return ::llvm::function::strcmp(mBuffer, input:wisey.lang.MString:getContent() -> immutable char[]) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input:wisey.lang.MString->getContent() ~> immutable char[]) ~> ::llvm::i32;
   }
 
   /**
    * Compares the string to the given input NString and returns 0 if they are equal
    */
   public int compareToNString(NString input) {
-    return ::llvm::function::strcmp(mBuffer, input:wisey.lang.NString:getContent() -> char[]) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input:wisey.lang.NString->getContent() ~> char[]) ~> ::llvm::i32;
   }
 
   /**
    * Compares the string to the given input immutable char array and returns 0 if they are equal
    */
   public int compareToImmutableCharArray(immutable char[] input) {
-    return ::llvm::function::strcmp(mBuffer, input) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input) ~> ::llvm::i32;
   }
 
   /**
    * Compares the string to the given input char array and returns 0 if they are equal
    */
   public int compareToCharArray(char[] input) {
-    return ::llvm::function::strcmp(mBuffer, input) -> ::llvm::i32;
+    return ::llvm::function::strcmp(mBuffer, input) ~> ::llvm::i32;
   }
 
   /**
    * Returns true is this string starts with the given string
    */
   public boolean startsWith(string start) {
-    if (start.getLength() -> long > getLength() -> long) {
+    if (start.getLength() ~> long > getLength() ~> long) {
       return false;
     }
-    int compareResult = ::llvm::function::strncmp(mBuffer, start, start.getLength() -> long) -> int;
+    int compareResult = ::llvm::function::strncmp(mBuffer, start, start.getLength() ~> long) ~> int;
     return compareResult == 0;
   }
 
@@ -373,14 +373,14 @@ node NString {
   }
 
   private static NString* copyMemoryAndBuild(::llvm::i8::pointer source, long length) {
-    long capacity = estimateCapacity(length) -> long;
+    long capacity = estimateCapacity(length) ~> long;
     char[]* buffer = new char[capacity];
     MSystem.copyMemory(buffer, source, length);
     return build(NString)
       .withBuffer(buffer)
       .withCapacity(capacity)
       .withLength(length)
-      .onHeap() -> NString*;
+      .onHeap() ~> NString*;
   }
 
   private NString append(::llvm::i8::pointer source, long sourceLength) {
@@ -390,7 +390,7 @@ node NString {
        destination = destination + mLength;     
        MSystem.copyMemory(destination, source, sourceLength);
     } else {
-      long newCapacity = estimateCapacity(length) -> long;
+      long newCapacity = estimateCapacity(length) ~> long;
       char[]* buffer = new char[newCapacity];
       ::llvm::i8::pointer destination = buffer;
       MSystem.copyMemory(destination, mBuffer, mLength);

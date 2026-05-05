@@ -11,8 +11,8 @@ package wisey.threads;
  *
  *   public void yourMethod() {
  *     // submit your workers 
- *     mThreadPool.submit(build(MyWorker1).onHeap() -> MyWorker1*);
- *     mThreadPool.submit(build(MyWorker2).onHeap() -> MyWorker2*);
+ *     mThreadPool.submit(build(MyWorker1).onHeap() ~> MyWorker1*);
+ *     mThreadPool.submit(build(MyWorker2).onHeap() ~> MyWorker2*);
  *     ...
  *     // start threads on the thread pool, can also be called before workers are submitted
  *     mThreadPool.start();
@@ -43,7 +43,7 @@ controller CThreadPool {
    */
   public void submit(::wisey::model* worker) {
     IWorker* workerModel = worker;
-    mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:push(workerModel);
+    mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*->push(workerModel);
   }
 
   /**
@@ -51,8 +51,8 @@ controller CThreadPool {
    */
   public void start() {
     for (int i = 0; i < mPoolSize; i++) {
-      mThreads[i] = inject(CPoolThread).onHeap() -> CPoolThread*;
-      mThreads[i]:wisey.threads.CPoolThread*:start(this);
+      mThreads[i] = inject(CPoolThread).onHeap() ~> CPoolThread*;
+      mThreads[i]:wisey.threads.CPoolThread*->start(this);
     }
   }
 
@@ -60,12 +60,12 @@ controller CThreadPool {
    * Wait for all pool threads to finish and stop the pool
    */
   public void waitAndStop() {
-    for (int i = 0; i < mThreads.getSize() -> long; i++) {
-      mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:push(build(MEnder).onHeap() -> MEnder*);
+    for (int i = 0; i < mThreads.getSize() ~> long; i++) {
+      mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*->push(build(MEnder).onHeap() ~> MEnder*);
     }
     for (int i = 0; i < mPoolSize; i++) {
       if (mThreads[i]) {
-        mThreads[i]:wisey.threads.CPoolThread*:join();
+        mThreads[i]:wisey.threads.CPoolThread*->join();
       }
     }
   }
@@ -76,7 +76,7 @@ controller CThreadPool {
    * This blocks until result becomes available
    */
   public ::wisey::model* getResult() {
-     return mResults:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:pop() -> ::wisey::model*;
+     return mResults:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*->pop() ~> ::wisey::model*;
   }
 
   /**
@@ -85,7 +85,7 @@ controller CThreadPool {
    * This is called by individual pool threads and should not be called directly
    */
   public IWorker* getWorker() {
-    return (IWorker*) mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:pop() -> IWorker*;
+    return (IWorker*) mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*->pop() ~> IWorker*;
   }
 
   /**
@@ -94,7 +94,7 @@ controller CThreadPool {
    * This is called by individual pool threads and should not be called directly
    */
   public void addResult(::wisey::model* result) {
-    mResults:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*:push(result);
+    mResults:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*->push(result);
   }
 
   /**
@@ -102,7 +102,7 @@ controller CThreadPool {
    */
   private model MEnder implements IWorker {
     public void work() override {
-      thread:wisey.threads.IThread:exit();
+      thread:wisey.threads.IThread->exit();
     }
   }
 
@@ -126,11 +126,11 @@ controller CThreadPool {
      * Pop a model owner from a queue, this blocks the thread if the queue is empty until it is not
      */
     public ::wisey::model* pop() {
-      return ::llvm::function::concurrent_model_owner_queue_pop(mQueue) -> ::wisey::model*;
+      return ::llvm::function::concurrent_model_owner_queue_pop(mQueue) ~> ::wisey::model*;
     }
 
     private ::llvm::function ::llvm::i8::pointer create() {
-      return ::llvm::function::concurrent_model_owner_queue_create() -> ::llvm::i8::pointer;
+      return ::llvm::function::concurrent_model_owner_queue_create() ~> ::llvm::i8::pointer;
     }
 
     private ::llvm::function ::llvm::void destroy(::llvm::i8::pointer queue) {

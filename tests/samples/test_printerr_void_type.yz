@@ -16,10 +16,10 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = build(MCar).withYear(2018).onHeap() -> MCar*;
+    MCar* car = build(MCar).withYear(2018).onHeap() ~> MCar*;
 
     printerr(car.getNothing());
-    return car.getYear() -> int;
+    return car.getYear() ~> int;
   }
 }
 

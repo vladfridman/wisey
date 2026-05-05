@@ -13,12 +13,12 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     try {
-      mCarRef = build(MCar).onHeap() -> MCar*;
+      mCarRef = build(MCar).onHeap() ~> MCar*;
       MCar* owner = null;
-      return owner:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
+      return owner:systems.vos.wisey.compiler.tests.MCar*->getYear() ~> int;
     } catch (wisey.lang.MNullPointerException* exception) {
       printerr("Caught!!!\n");
-      exception:wisey.lang.MNullPointerException*:report();
+      exception:wisey.lang.MNullPointerException*->report();
     }
     return 0;
   }

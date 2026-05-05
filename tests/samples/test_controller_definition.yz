@@ -25,7 +25,7 @@ controller CProgram implements IProgram {
   inject CFibonacciCalculator* mFibonacciCalculator.withIndex(6);
 
   public int run(immutable string[] arguments) override {
-    return mFibonacciCalculator:systems.vos.wisey.compiler.tests.CFibonacciCalculator*:calculate() -> int;
+    return mFibonacciCalculator:systems.vos.wisey.compiler.tests.CFibonacciCalculator*->calculate() ~> int;
   }
 }
 

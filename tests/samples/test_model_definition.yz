@@ -20,8 +20,8 @@ controller CProgram implements IProgram {
       .withWidth(3)
       .withHeight(5l)
       .withDepth(2.0)
-      .withColor(build(MColor).withColor(6.7d).onHeap() -> MColor*)
-      .onHeap() -> MShape*;
+      .withColor(build(MColor).withColor(6.7d).onHeap() ~> MColor*)
+      .onHeap() ~> MShape*;
 
     return 0;
   }

@@ -8,13 +8,13 @@ model MException  implements IException {
   int mValue;
 
   public NString* report() override {
-    return NString.create() -> NString*;
+    return NString.create() ~> NString*;
   }
 }
 
 controller CThrower {
   public int doThrow() {
-    MException* exception = build(MException).withValue(3).onHeap() -> MException*;
+    MException* exception = build(MException).withValue(3).onHeap() ~> MException*;
     throw exception;
   }
 }
@@ -23,7 +23,7 @@ controller CCatcher {
   inject CThrower* mThrower;
 
   public int doSomething() {
-    return mThrower.doThrow() -> int;
+    return mThrower.doThrow() ~> int;
   }
 }
 
@@ -31,7 +31,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
   
   public int run(immutable string[] arguments) override {
-    return mCatcher.doSomething() -> int;
+    return mCatcher.doSomething() ~> int;
   }
 }
 

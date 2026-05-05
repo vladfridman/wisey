@@ -14,7 +14,7 @@ controller CService {
   state MData* mData;
 
   public MData set() {
-    mData = build(MData).withValue(1).onHeap() -> MData*;
+    mData = build(MData).withValue(1).onHeap() ~> MData*;
     return mData;
   }
 
@@ -27,10 +27,10 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData dataRef = mService:systems.vos.wisey.compiler.tests.CService*:set() -> MData;
-    mService:systems.vos.wisey.compiler.tests.CService*:clear();
+    MData dataRef = mService:systems.vos.wisey.compiler.tests.CService*->set() ~> MData;
+    mService:systems.vos.wisey.compiler.tests.CService*->clear();
 
-    return dataRef:systems.vos.wisey.compiler.tests.MData:getValue() -> int;
+    return dataRef:systems.vos.wisey.compiler.tests.MData->getValue() ~> int;
   }
 } 
 

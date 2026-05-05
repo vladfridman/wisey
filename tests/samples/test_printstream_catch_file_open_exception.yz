@@ -9,7 +9,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     try {
-      CTextStreamWriter.open(NString.createFromString("nonexisting/test.txt") -> NString*);
+      CTextStreamWriter.open(NString.createFromString("nonexisting/test.txt") ~> NString*);
     } catch (MFileCouldNotOpenException* exception) {
       return 5;
     }

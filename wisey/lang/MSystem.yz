@@ -10,7 +10,7 @@ model MSystem {
    * If the object is an interface returns the concrete object that implements that interface
    */
   public static string getOriginalObjectTypeName(::wisey::object object) {
-    return (string) ::llvm::function::__getOriginalObjectName(object) -> string;
+    return (string) ::llvm::function::__getOriginalObjectName(object) ~> string;
   }
 
   /**
@@ -24,7 +24,7 @@ model MSystem {
    * Returns a pseudo-random number in the given range
    */
   public static int getRandomNumber(int from, int to) {
-    return ::llvm::function::get_random_number(from, to) -> int;
+    return ::llvm::function::get_random_number(from, to) ~> int;
   }
 
   /**

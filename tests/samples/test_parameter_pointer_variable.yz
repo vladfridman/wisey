@@ -14,12 +14,12 @@ controller CProgram implements IProgram {
 
   private int method(::llvm::i32::pointer pointer) {
     MModel reference = pointer;
-    return reference:systems.vos.wisey.compiler.tests.MModel:getValue() -> int;
+    return reference:systems.vos.wisey.compiler.tests.MModel->getValue() ~> int;
   }
 
   public int run(immutable string[] arguments) override {
-    MModel* mymodel = build(MModel).withValue(3).onHeap() -> MModel*;
-    return method(mymodel) -> int;
+    MModel* mymodel = build(MModel).withValue(3).onHeap() ~> MModel*;
+    return method(mymodel) ~> int;
   }
 }
 

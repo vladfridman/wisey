@@ -15,7 +15,7 @@ controller CService {
   state MModel* mAnotherModel;
 
   public void setModel() {
-    mModel = build(MModel).withValue(7).onHeap() -> MModel*;
+    mModel = build(MModel).withValue(7).onHeap() ~> MModel*;
   }
 
   public void setAnotherModel() {
@@ -23,7 +23,7 @@ controller CService {
   }
 
   public int getValue() {
-    return mModel:systems.vos.wisey.compiler.tests.MModel*:getValue() -> int;
+    return mModel:systems.vos.wisey.compiler.tests.MModel*->getValue() ~> int;
   }
 }
 
@@ -31,9 +31,9 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    mService:systems.vos.wisey.compiler.tests.CService*:setModel();
-    mService:systems.vos.wisey.compiler.tests.CService*:setAnotherModel();
-    return mService:systems.vos.wisey.compiler.tests.CService*:getValue() -> int;
+    mService:systems.vos.wisey.compiler.tests.CService*->setModel();
+    mService:systems.vos.wisey.compiler.tests.CService*->setAnotherModel();
+    return mService:systems.vos.wisey.compiler.tests.CService*->getValue() ~> int;
   }
 } 
 

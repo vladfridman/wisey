@@ -16,8 +16,8 @@ controller CProgram implements IProgram {
     int[]* array = new int[3];
     array[2] = 5;
     immutable int[]* immutableArray = array;
-    MCar* car = build(MCar).withArray(immutableArray).onHeap() -> MCar*;
-    return car:systems.vos.wisey.compiler.tests.MCar*:getValue() -> int;
+    MCar* car = build(MCar).withArray(immutableArray).onHeap() ~> MCar*;
+    return car:systems.vos.wisey.compiler.tests.MCar*->getValue() ~> int;
   }
 }
 

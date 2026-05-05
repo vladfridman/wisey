@@ -14,7 +14,7 @@ model MMyModel {
   immutable MContainer[][]* mArray;
 
   public int getValue() {
-    return mArray[3][3]:systems.vos.wisey.compiler.tests.MContainer:getContent() -> int;
+    return mArray[3][3]:systems.vos.wisey.compiler.tests.MContainer->getContent() ~> int;
   }
 }
 
@@ -22,10 +22,10 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MContainer[][]* array = new MContainer[4][4];
-    array[3][3] = build(MContainer).withContent(5).onHeap() -> MContainer*;
+    array[3][3] = build(MContainer).withContent(5).onHeap() ~> MContainer*;
     MContainer[] reference = array[2];
-    MMyModel* mymodel = build(MMyModel).withArray(array).onHeap() -> MMyModel*;
-    return mymodel:systems.vos.wisey.compiler.tests.MMyModel*:getValue() -> int;
+    MMyModel* mymodel = build(MMyModel).withArray(array).onHeap() ~> MMyModel*;
+    return mymodel:systems.vos.wisey.compiler.tests.MMyModel*->getValue() ~> int;
   }
 }
 

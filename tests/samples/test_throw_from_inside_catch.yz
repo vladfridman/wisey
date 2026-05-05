@@ -19,13 +19,13 @@ controller CResult {
 model MException implements IException {
 
   public NString* report() override {
-    return NString.create() -> NString*;
+    return NString.create() ~> NString*;
   }
 }
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException* exception = build(MException).onHeap() -> MException*;
+    MException* exception = build(MException).onHeap() ~> MException*;
     throw exception;
   }
 }
@@ -34,15 +34,15 @@ controller CCatcher {
   inject CThrower* mThrower;
 
   public void doTryCatch(CResult result) throws MException {
-    result:systems.vos.wisey.compiler.tests.CResult:setValue(result:systems.vos.wisey.compiler.tests.CResult:getValue() -> int + 1);
+    result:systems.vos.wisey.compiler.tests.CResult->setValue(result:systems.vos.wisey.compiler.tests.CResult->getValue() ~> int + 1);
     try {
-      mThrower:systems.vos.wisey.compiler.tests.CThrower*:doThrow();
-      result:systems.vos.wisey.compiler.tests.CResult:setValue(result:systems.vos.wisey.compiler.tests.CResult:getValue() -> int + 2);
+      mThrower:systems.vos.wisey.compiler.tests.CThrower*->doThrow();
+      result:systems.vos.wisey.compiler.tests.CResult->setValue(result:systems.vos.wisey.compiler.tests.CResult->getValue() ~> int + 2);
     } catch (MException* exception) {
-      result:systems.vos.wisey.compiler.tests.CResult:setValue(result:systems.vos.wisey.compiler.tests.CResult:getValue() -> int + 4);
-      mThrower:systems.vos.wisey.compiler.tests.CThrower*:doThrow();
+      result:systems.vos.wisey.compiler.tests.CResult->setValue(result:systems.vos.wisey.compiler.tests.CResult->getValue() ~> int + 4);
+      mThrower:systems.vos.wisey.compiler.tests.CThrower*->doThrow();
     }
-    result:systems.vos.wisey.compiler.tests.CResult:setValue(result:systems.vos.wisey.compiler.tests.CResult:getValue() -> int + 16);
+    result:systems.vos.wisey.compiler.tests.CResult->setValue(result:systems.vos.wisey.compiler.tests.CResult->getValue() ~> int + 16);
   }
 }
 
@@ -51,13 +51,13 @@ controller CProgram implements IProgram {
   inject CResult* mResult;
 
   public int run(immutable string[] arguments) override {
-    mResult:systems.vos.wisey.compiler.tests.CResult*:setValue(0);
+    mResult:systems.vos.wisey.compiler.tests.CResult*->setValue(0);
     try {
-      mCatcher:systems.vos.wisey.compiler.tests.CCatcher*:doTryCatch(mResult);
+      mCatcher:systems.vos.wisey.compiler.tests.CCatcher*->doTryCatch(mResult);
     } catch (MException* exception) {
-      mResult:systems.vos.wisey.compiler.tests.CResult*:setValue(mResult:systems.vos.wisey.compiler.tests.CResult*:getValue() -> int + 32);
+      mResult:systems.vos.wisey.compiler.tests.CResult*->setValue(mResult:systems.vos.wisey.compiler.tests.CResult*->getValue() ~> int + 32);
     }
-    return mResult:systems.vos.wisey.compiler.tests.CResult*:getValue() -> int;
+    return mResult:systems.vos.wisey.compiler.tests.CResult*->getValue() ~> int;
   }
 }
 

@@ -31,7 +31,7 @@ controller CProgram implements IProgram {
   inject ICalculator* mCalculator.withIndex(6);
 
   public int run(immutable string[] arguments) override {
-    return mCalculator:systems.vos.wisey.compiler.tests.ICalculator*:calculate() -> int;
+    return mCalculator:systems.vos.wisey.compiler.tests.ICalculator*->calculate() ~> int;
   }
 }
 

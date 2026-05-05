@@ -5,7 +5,7 @@ import wisey.lang.IProgram;
 controller CService {
   private model MCar {
     public CService.MCar* getCar() {
-      return build(CService.MCar).onHeap() -> CService.MCar*;
+      return build(CService.MCar).onHeap() ~> CService.MCar*;
     }
   }
 }

@@ -6,9 +6,9 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     systems.vos.wisey.compiler.tests.CProgram.MMyModel* object = 
-      build(systems.vos.wisey.compiler.tests.CProgram.MMyModel).withValue(3).onHeap() -> systems.vos.wisey.compiler.tests.CProgram.MMyModel*;
+      build(systems.vos.wisey.compiler.tests.CProgram.MMyModel).withValue(3).onHeap() ~> systems.vos.wisey.compiler.tests.CProgram.MMyModel*;
 
-    return object:systems.vos.wisey.compiler.tests.CProgram.MMyModel*:getValue() -> int;
+    return object:systems.vos.wisey.compiler.tests.CProgram.MMyModel*->getValue() ~> int;
   }
 
   public model MMyModel {

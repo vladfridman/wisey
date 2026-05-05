@@ -7,7 +7,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CTextStreamWriter.open(NString.createFromString("nonexisting/test.txt") -> NString*);
+    CTextStreamWriter.open(NString.createFromString("nonexisting/test.txt") ~> NString*);
     return 1;
   }
 }

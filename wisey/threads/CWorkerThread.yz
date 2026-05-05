@@ -13,7 +13,7 @@ package wisey.threads;
  *
  *   public void yourMethod() {
  *     // submit your worker on a new worker thread
- *     mWorkerThread.start(build(MWorker).onHeap() -> MWorker*);
+ *     mWorkerThread.start(build(MWorker).onHeap() ~> MWorker*);
  *     // Do some work here in parallel with the new thread
  *     ....
  *     // Wait for the worker thread to finish and get its result
@@ -37,7 +37,7 @@ package wisey.threads;
  *     // Do some work here and compute some value
  *     ...
  *     // Store work results into a model and send it to the caller thread
- *     MResultModel* result = build(MResultModel).withSomeValue(value).onHeap() -> MResultModel*;
+ *     MResultModel* result = build(MResultModel).withSomeValue(value).onHeap() ~> MResultModel*;
  *     thread.send(result);
  *   }
  * }
@@ -58,7 +58,7 @@ controller CWorkerThread implements IThread {
   public void start(::wisey::model* worker) throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mWorker = worker;
-    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:createThread(this);
+    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->createThread(this);
   }
 
   /**
@@ -66,7 +66,7 @@ controller CWorkerThread implements IThread {
    */
   public boolean isStarted() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    return mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:isStarted() -> boolean;
+    return mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->isStarted() ~> boolean;
   }
 
   /**
@@ -74,7 +74,7 @@ controller CWorkerThread implements IThread {
    */
   public boolean isFinished() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    return mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:isFinished() -> boolean;
+    return mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->isFinished() ~> boolean;
   }
 
   /**
@@ -82,7 +82,7 @@ controller CWorkerThread implements IThread {
    */
   public boolean isCancelled() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    return mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:isCancelled() -> boolean;
+    return mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->isCancelled() ~> boolean;
   }
 
   /**
@@ -91,9 +91,9 @@ controller CWorkerThread implements IThread {
    */
   public ::wisey::model* awaitResult() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:joinThread();
+    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->joinThread();
 
-    return mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:getResult() -> ::wisey::model*;
+    return mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->getResult() ~> ::wisey::model*;
   }
 
   /**
@@ -102,7 +102,7 @@ controller CWorkerThread implements IThread {
    */
   public void cancel() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:cancelThread();
+    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->cancelThread();
   }
 
   /**
@@ -111,17 +111,17 @@ controller CWorkerThread implements IThread {
    */
   public void reset() throws MThreadBoundaryException {
     outsideThreadGuard(this);
-    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:resetThread();
+    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->resetThread();
   }
 
   public void exit() throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:exitThread();
+    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->exitThread();
   }
 
   public ::wisey::model* send(::wisey::model* message) throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*:setResult(message);
+    mWorkerThreadRunner:wisey.threads.CWorkerThread.CWorkerThreadRunner*->setResult(message);
     return null;
   }
 
@@ -137,9 +137,9 @@ controller CWorkerThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mContextManager:wisey.threads.CContextManager*:setContext(IThread.getTypeName() -> string, thread);
-    mWorker:wisey.threads.IWorker*:work();
-    mContextManager:wisey.threads.CContextManager*:eraseContext(IThread.getTypeName() -> string);
+    mContextManager:wisey.threads.CContextManager*->setContext(IThread.getTypeName() ~> string, thread);
+    mWorker:wisey.threads.IWorker*->work();
+    mContextManager:wisey.threads.CContextManager*->eraseContext(IThread.getTypeName() ~> string);
   }
 
   private controller CWorkerThreadRunner implements IThreadRunner {

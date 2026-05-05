@@ -16,25 +16,25 @@ model MMemoryPoolNonEmpty implements IException {
 
   public NString* report() override {
     if (mNestedException instanceof MReferenceCountException) {
-      return mNestedException:wisey.lang.IException:report() -> NString*;
+      return mNestedException:wisey.lang.IException->report() ~> NString*;
     }
 
-    NString* message = callstack:wisey.threads.CCallStack:reportException(this) -> NString*;
+    NString* message = callstack:wisey.threads.CCallStack->reportException(this) ~> NString*;
     string ending = mObjectCount > 1 ? "s" : "";
-    message:wisey.lang.NString*:appendString("Details: Attempting to destroy a memory pool that still contains ");
-    message:wisey.lang.NString*:appendNString(NString.createFromLong(mObjectCount) -> NString*);
-    message:wisey.lang.NString*:appendString(" allocated object");
-    message:wisey.lang.NString*:appendString(ending);
-    message:wisey.lang.NString*:appendString("\n");
+    message:wisey.lang.NString*->appendString("Details: Attempting to destroy a memory pool that still contains ");
+    message:wisey.lang.NString*->appendNString(NString.createFromLong(mObjectCount) ~> NString*);
+    message:wisey.lang.NString*->appendString(" allocated object");
+    message:wisey.lang.NString*->appendString(ending);
+    message:wisey.lang.NString*->appendString("\n");
 
     if (mNestedException == null) {
       return message;
     }
     
-    message:wisey.lang.NString*:appendString("Was thrown from memory clean up after ");
-    message:wisey.lang.NString*:appendString(MSystem.getOriginalObjectTypeName(mNestedException) -> string);
-    message:wisey.lang.NString*:appendString("\n");
-    message:wisey.lang.NString*:appendNString(mNestedException:wisey.lang.IException:report() -> NString*);
+    message:wisey.lang.NString*->appendString("Was thrown from memory clean up after ");
+    message:wisey.lang.NString*->appendString(MSystem.getOriginalObjectTypeName(mNestedException) ~> string);
+    message:wisey.lang.NString*->appendString("\n");
+    message:wisey.lang.NString*->appendNString(mNestedException:wisey.lang.IException->report() ~> NString*);
 
     return message;
   }

@@ -6,16 +6,16 @@ import wisey.lang.MString;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MString* mstring = MString.createFromString("test") -> MString*;
+    MString* mstring = MString.createFromString("test") ~> MString*;
     char[]* array = new char[5];
     array[0] = 't';
     array[1] = 'e';
     array[2] = 's';
     array[3] = 't';
-    return mstring:wisey.lang.MString*:compareToString("test") -> int
-      + mstring:wisey.lang.MString*:compareToMString(mstring) -> int
-      + mstring:wisey.lang.MString*:compareToImmutableCharArray(mstring:wisey.lang.MString*:getContent() -> immutable char[]) -> int
-      + mstring:wisey.lang.MString*:compareToCharArray(array) -> int;
+    return mstring:wisey.lang.MString*->compareToString("test") ~> int
+      + mstring:wisey.lang.MString*->compareToMString(mstring) ~> int
+      + mstring:wisey.lang.MString*->compareToImmutableCharArray(mstring:wisey.lang.MString*->getContent() ~> immutable char[]) ~> int
+      + mstring:wisey.lang.MString*->compareToCharArray(array) ~> int;
   }
 }
 

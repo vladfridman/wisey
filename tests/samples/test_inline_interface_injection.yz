@@ -18,8 +18,8 @@ bind(IHasValue, CService);
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IHasValue* hasValue = inject(IHasValue).onHeap() -> IHasValue*;
-    return hasValue:systems.vos.wisey.compiler.tests.IHasValue*:getValue() -> int;
+    IHasValue* hasValue = inject(IHasValue).onHeap() ~> IHasValue*;
+    return hasValue:systems.vos.wisey.compiler.tests.IHasValue*->getValue() ~> int;
   }
 }
 

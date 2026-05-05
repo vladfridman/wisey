@@ -12,9 +12,9 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MCar*[]* array = new MCar*[5];
-    array[4] = build(MCar).onHeap() -> MCar*;
+    array[4] = build(MCar).onHeap() ~> MCar*;
 
-    return array[4]:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
+    return array[4]:systems.vos.wisey.compiler.tests.MCar*->getYear() ~> int;
   }
 }
 

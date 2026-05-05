@@ -6,7 +6,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     string[]* array = null;
-    return (int) array.getSize() -> int;
+    return (int) array.getSize() ~> int;
   }
 }
 

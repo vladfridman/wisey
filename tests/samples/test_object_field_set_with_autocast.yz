@@ -18,9 +18,9 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    mService:systems.vos.wisey.compiler.tests.CService*:setValue(true);
+    mService:systems.vos.wisey.compiler.tests.CService*->setValue(true);
 
-    return mService:systems.vos.wisey.compiler.tests.CService*:getValue() -> int;
+    return mService:systems.vos.wisey.compiler.tests.CService*->getValue() ~> int;
   }
 }
 

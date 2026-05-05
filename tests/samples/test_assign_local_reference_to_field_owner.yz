@@ -15,9 +15,9 @@ controller CGarage {
 model MRunner {
 
   public static void run() {
-    CGarage* garage = inject(CGarage).onHeap() -> CGarage*;
+    CGarage* garage = inject(CGarage).onHeap() ~> CGarage*;
 
-    MCar reference = garage:systems.vos.wisey.compiler.tests.CGarage*:getCar() -> MCar;
+    MCar reference = garage:systems.vos.wisey.compiler.tests.CGarage*->getCar() ~> MCar;
 
   }
 }

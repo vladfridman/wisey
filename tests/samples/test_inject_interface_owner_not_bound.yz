@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
   inject IMyInterface* mInjected;
 
   public int run(immutable string[] arguments) override {
-    return mInjected:systems.vos.wisey.compiler.tests.IMyInterface*:getValue() -> int;
+    return mInjected:systems.vos.wisey.compiler.tests.IMyInterface*->getValue() ~> int;
   }
 }
 

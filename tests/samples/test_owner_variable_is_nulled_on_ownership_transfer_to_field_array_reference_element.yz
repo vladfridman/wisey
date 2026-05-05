@@ -13,9 +13,9 @@ controller CController {
 
 
   public int getCarYear() {
-    MCar* car = build(MCar).onHeap() -> MCar*;
+    MCar* car = build(MCar).onHeap() ~> MCar*;
     mArray[4] = car;
-    return car:systems.vos.wisey.compiler.tests.MCar*:getYear() -> int;
+    return car:systems.vos.wisey.compiler.tests.MCar*->getYear() ~> int;
   }
 }
 
@@ -23,9 +23,9 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MCar*[]* array = new MCar*[5];
-    CController* mycontroller = inject(CController).withArray(array).onHeap() -> CController*;
+    CController* mycontroller = inject(CController).withArray(array).onHeap() ~> CController*;
 
-    return mycontroller:systems.vos.wisey.compiler.tests.CController*:getCarYear() -> int;
+    return mycontroller:systems.vos.wisey.compiler.tests.CController*->getCarYear() ~> int;
   }
 }
 

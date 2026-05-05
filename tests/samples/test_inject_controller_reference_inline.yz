@@ -12,8 +12,8 @@ controller CService inScope wisey.threads.IThread {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CService service = inject(CService).onHeap() -> CService;
-    return service:systems.vos.wisey.compiler.tests.CService:getValue() -> int;
+    CService service = inject(CService).onHeap() ~> CService;
+    return service:systems.vos.wisey.compiler.tests.CService->getValue() ~> int;
   }
 }
 
