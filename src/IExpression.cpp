@@ -117,7 +117,7 @@ void IExpression::requireReceiverAnnotated(IRGenerationContext& context,
                       "Method-call receiver '" + printer.str() +
                       "' missing type annotation. " +
                       "Suggested: '" + printer.str() + ":" +
-                      fullTypeName + ":method(...)'. " +
+                      fullTypeName + "->method(...)'. " +
                       "The annotation surfaces the receiver type at the call site so a "
                       "reader can verify the method exists without resolving the receiver.");
   throw 1;

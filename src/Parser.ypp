@@ -251,7 +251,7 @@
 %token <string> TMODELIDENTIFIER TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER 
 %token <string> TNODEIDENTIFIER TCONSTANTIDENTIFIER THEXADECIMAL
 
-%token <token> TANDOP TARROW TBIND TBITWISEANDBY TBITWISEORBY TBITWISEXORBY TBREAK TBUILD TCASE TCATCH TRECVCOLON
+%token <token> TANDOP TARROW TWAVEARROW TBIND TBITWISEANDBY TBITWISEORBY TBITWISEXORBY TBREAK TBUILD TCASE TCATCH TRECVCOLON
 %token <token> TCEQ TCGE TCLE TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDECBYOP TDIVIDEBY TDO 
 %token <token> TDOUBLECOLON TELIPSIS TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF
 %token <token> TIMMEDIATE TIMMUTABLE TIMPLEMENTS TIMPORT TINCOP TINCBYOP TINJECT TINSTANCEOF TINTERFACE  
@@ -1473,7 +1473,7 @@ signed_constant_expression
 postfix_expression
   : primary_expression
   | postfix_expression '.' TIDENTIFIER { $$ = new IdentifierChain($1, *$3, yylineno); delete $3; }
-  | postfix_expression TRECVCOLON recv_annotation_type TRECVCOLON TIDENTIFIER
+  | postfix_expression TRECVCOLON recv_annotation_type TARROW TIDENTIFIER
     { $$ = new IdentifierChain(new ReceiverTypeAnnotation($1, $3, yylineno),
                                *$5, yylineno); delete $5; }
   | postfix_expression '[' expression ']' { $$ = new ArrayElementExpression($1, $3, yylineno); }
@@ -1498,7 +1498,7 @@ cast_expression
 
 type_annotation_expression
   : cast_expression
-  | type_annotation_expression TARROW type_specifier
+  | type_annotation_expression TWAVEARROW type_specifier
     { $$ = new TypeAnnotatedExpression($1, $3, yylineno); }
   ;
 

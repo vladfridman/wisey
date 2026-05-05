@@ -74,6 +74,6 @@ bool TypeAnnotatedExpression::isAssignable() const {
 void TypeAnnotatedExpression::printToStream(IRGenerationContext& context,
                                             std::iostream& stream) const {
   mExpression->printToStream(context, stream);
-  stream << " -> ";
+  stream << " ~> ";
   mTypeSpecifier->printToStream(context, stream);
 }

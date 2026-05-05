@@ -70,7 +70,7 @@ void IdentifierChain::printToStream(IRGenerationContext& context, iostream& stre
   // method name is `:`, not `.`. The receiver-type annotation prints itself
   // as `recv:Type`; we add the second `:method` to match the user-facing
   // form `recv:Type:method`.
-  stream << (mObjectExpression->isReceiverAnnotation() ? ":" : ".") << mName;
+  stream << (mObjectExpression->isReceiverAnnotation() ? "->" : ".") << mName;
 }
 
 const IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& context) const {
