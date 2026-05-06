@@ -13,15 +13,15 @@ package wisey.threads;
  *
  *   public void yourMethod() {
  *     // submit your worker on a new worker thread
- *     mWorkerThread.start(build(MWorker).onHeap() ~> MWorker*);
+ *     mWorkerThread->start(build(MWorker).onHeap() ~> MWorker*);
  *     // Do some work here in parallel with the new thread
  *     ....
  *     // Wait for the worker thread to finish and get its result
- *     MResultModel* result = mWorkerThread.awaitResult();
+ *     MResultModel* result = mWorkerThread->awaitResult();
  *     // Do something with the result
  *     ...
  *     // Reset CWorkerThread controller to reuse it
- *     mWorkerThread.reset();
+ *     mWorkerThread->reset();
  *   }
  * }
  * </pre>
@@ -32,13 +32,13 @@ package wisey.threads;
  * <pre>
  * model MWorker implements IWorker {
  *
- *   // This is called from a new thread created by CWorkerThread.start()
+ *   // This is called from a new thread created by CWorkerThread->start()
  *   public void work() override {
  *     // Do some work here and compute some value
  *     ...
  *     // Store work results into a model and send it to the caller thread
  *     MResultModel* result = build(MResultModel).withSomeValue(value).onHeap() ~> MResultModel*;
- *     thread.send(result);
+ *     thread->send(result);
  *   }
  * }
  * </pre>
@@ -137,9 +137,9 @@ controller CWorkerThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mContextManager:wisey.threads.CContextManager*->setContext(IThread.getTypeName() ~> string, thread);
+    mContextManager:wisey.threads.CContextManager*->setContext(IThread->getTypeName() ~> string, thread);
     mWorker:wisey.threads.IWorker*->work();
-    mContextManager:wisey.threads.CContextManager*->eraseContext(IThread.getTypeName() ~> string);
+    mContextManager:wisey.threads.CContextManager*->eraseContext(IThread->getTypeName() ~> string);
   }
 
   private controller CWorkerThreadRunner implements IThreadRunner {

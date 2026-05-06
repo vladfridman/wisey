@@ -29,7 +29,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     ICalculator* calculator = inject(ICalculator).withIndex(6).onHeap() ~> ICalculator*;
-    return mCalculator.calculate() ~> int;
+    return mCalculator->calculate() ~> int;
   }
 }
 

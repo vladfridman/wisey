@@ -37,15 +37,15 @@ controller CCallStack {
    * Print a stack trace for an exception.
    */
   public NString* reportException(IException exception) {
-    NString* message = NString.create() ~> NString*;
+    NString* message = NString->create() ~> NString*;
     message:wisey.lang.NString*->appendString("Unhandled exception ");
-    message:wisey.lang.NString*->appendString(MSystem.getOriginalObjectTypeName(exception) ~> string);
+    message:wisey.lang.NString*->appendString(MSystem->getOriginalObjectTypeName(exception) ~> string);
     message:wisey.lang.NString*->appendString("\n");
     for (int i = mIndex - 1; i >= 0; i--) {
       message:wisey.lang.NString*->appendString("  at ");
       message:wisey.lang.NString*->appendString(mCallInfo[i]);
       message:wisey.lang.NString*->appendString(":");
-      message:wisey.lang.NString*->appendNString(NString.createFromInt(mLineNumbers[i]) ~> NString*);
+      message:wisey.lang.NString*->appendNString(NString->createFromInt(mLineNumbers[i]) ~> NString*);
       message:wisey.lang.NString*->appendString(")\n");
     }
     return message;

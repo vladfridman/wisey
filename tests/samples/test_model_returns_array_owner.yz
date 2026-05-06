@@ -14,7 +14,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MElement* element = build(MElement).withArray(new int[5]).onHeap() ~> MElement*;
-    element.capture();
+    element->capture();
     return 1;
   }
 }

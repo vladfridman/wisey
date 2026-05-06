@@ -18,7 +18,7 @@ controller CService {
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MData* data = build(MData).onHeap() ~> MData*;
-    int result = CService.getResultFromData(data) ~> int;
+    int result = CService->getResultFromData(data) ~> int;
     data:systems.vos.wisey.compiler.tests.MData*->getResult();
     return result;
   }

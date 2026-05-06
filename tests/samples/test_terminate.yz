@@ -5,7 +5,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IProgram.terminate(3);
+    IProgram->terminate(3);
     return 0;
   }
 }

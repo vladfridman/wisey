@@ -13,7 +13,7 @@ import wisey.threads.CThreadPool;
  */
 controller CMandelbrot implements IProgram {
   // Thread pool for running workers that compute part of the mandelbrot map
-  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem->getProcessorCount());
 
   state immutable double[]* mCrb;
   state immutable double[]* mCib;
@@ -21,8 +21,8 @@ controller CMandelbrot implements IProgram {
   // Execution starts here, size of the mandelbrot map passed from command line through arguments
   public int run(immutable string[] arguments) override {
     int n = 6000;
-    if (arguments.getSize() ~> long >= 2) {
-      n = (NString.createFromString(arguments[1]) ~> NString*):NString*->toInt() ~> int;
+    if (arguments->getSize() ~> long >= 2) {
+      n = (NString->createFromString(arguments[1]) ~> NString*):NString*->toInt() ~> int;
 
     }
 
@@ -54,7 +54,7 @@ controller CMandelbrot implements IProgram {
     }
     mThreadPool:wisey.threads.CThreadPool*->waitAndStop();
 
-    CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut() ~> CBinaryStreamWriter*;
+    CBinaryStreamWriter* stream = CBinaryStreamWriter->openSystemOut() ~> CBinaryStreamWriter*;
     printout("P4\n" + n + " " + n + "\n");
     for (int i = 0; i < n; i++) {
       stream:wisey.io.CBinaryStreamWriter*->writeImmutable(results[i]:wisey.performance.testing.CMandelbrot.MResult*->getArray() ~> immutable byte[]);

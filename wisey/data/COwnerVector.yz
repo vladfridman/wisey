@@ -11,11 +11,11 @@ import wisey.lang.MSystem;
  *   public int run(immutable string[] arguments) override {
  *     MCar* tesla = build(MCar).withYear(2019).onHeap() ~> MCar*; 
  *     // tesla is null after this instruction because ownership has been passed to the list
- *     mOwnerVector.pushBack(tesla);
+ *     mOwnerVector->pushBack(tesla);
  *     // Get ownership back from the vector to the MCar object
- *     tesla = mOwnerVector.popBack();
+ *     tesla = mOwnerVector->popBack();
  *     // returns 2019
- *     return tesla.getYear();
+ *     return tesla->getYear();
  *   }
  * }
  * </pre>

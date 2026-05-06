@@ -15,7 +15,7 @@ interface IShape {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return IShape.bridgeToGetValue() ~> int;
+    return IShape->bridgeToGetValue() ~> int;
   }
 } 
 

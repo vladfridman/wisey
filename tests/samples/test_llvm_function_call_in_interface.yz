@@ -11,7 +11,7 @@ interface IMyInterface {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return IMyInterface.getValue(5) ~> ::llvm::i32;
+    return IMyInterface->getValue(5) ~> ::llvm::i32;
   }
 }
 

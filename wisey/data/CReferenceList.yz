@@ -11,10 +11,10 @@ import wisey.lang.CMemoryPool;
  *   public int run(immutable string[] arguments) override {
  *     MCar* tesla = build(MCar).withYear(2019).onHeap() ~> MCar*; 
  *     // tesla is not null after this because list only keeps a reference to the object
- *     mReferenceList.pushBack(tesla);
+ *     mReferenceList->pushBack(tesla);
  *     // This throws an exception: tesla owner reference can not be destroyed
  *     // because the reference list has a refrence to the object. Clear the list to fix.
- *     return mReferenceList.front().getYear();
+ *     return mReferenceList->front()->getYear();
  *   }
  * }
  * </pre>

@@ -6,7 +6,7 @@ import wisey.lang.MString;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MString* mstring = MString.createFromString("test") ~> MString*;
+    MString* mstring = MString->createFromString("test") ~> MString*;
     char[]* array = new char[5];
     array[0] = 't';
     array[1] = 'e';

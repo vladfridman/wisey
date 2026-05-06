@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
     MCar* toyota = build(MCar).withMake("Toyota").onHeap() ~> MCar*;
     MCar* bmw = build(MCar).withMake("BMW").onHeap() ~> MCar*;
     MCar* mercedes = build(MCar).withMake("Mercedes").onHeap() ~> MCar*;
-    CReferenceToReferenceMap* map = CReferenceToReferenceMap.create() ~> CReferenceToReferenceMap*;
+    CReferenceToReferenceMap* map = CReferenceToReferenceMap->create() ~> CReferenceToReferenceMap*;
 
     map:wisey.data.CReferenceToReferenceMap*->put(toyota:systems.vos.wisey.compiler.tests.MCar*->getMake() ~> string, toyota);
     map:wisey.data.CReferenceToReferenceMap*->put(bmw:systems.vos.wisey.compiler.tests.MCar*->getMake() ~> string, bmw);

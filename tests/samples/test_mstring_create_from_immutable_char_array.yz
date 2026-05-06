@@ -12,7 +12,7 @@ controller CProgram implements IProgram {
     array[1] = 'e';
     array[2] = 'f';
     immutable char[]* immutableArray = array;
-    MString* mstring = MString.createFromImmutableCharArray(immutableArray) ~> MString*;
+    MString* mstring = MString->createFromImmutableCharArray(immutableArray) ~> MString*;
     printout("mstring: " + mstring + " length: " + mstring:wisey.lang.MString*->getLength() ~> long + "\n");
     return (int) mstring:wisey.lang.MString*->getLength() ~> int;
   }

@@ -11,13 +11,13 @@ import wisey.threads.IWorker;
  */ 
 controller CHelloWorldMultiThreaded implements IProgram {
   // Initialize the thread pool controller based on the number availible processors
-  inject CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount() ~> long);
+  inject CThreadPool* mThreadPool.withPoolSize(MSystem->getProcessorCount() ~> long);
 
   /**
    * Command line parameters are passed to run() method in a form of an immutable array of strings
    */
   public int run(immutable string[] arguments) override {
-    printout("processor count: " + MSystem.getProcessorCount() ~> long + " \n");
+    printout("processor count: " + MSystem->getProcessorCount() ~> long + " \n");
     // Instantiate worker models that will then be executed in separate threads
     for (int i = 0; i < 10; i++) {
       MWorker* worker = build(MWorker).withThreadNumber(i).onHeap() ~> MWorker*;
@@ -37,7 +37,7 @@ controller CHelloWorldMultiThreaded implements IProgram {
     int mThreadNumber;
 
     public void work() override {
-      thread:wisey.threads.IThread->usleep(MSystem.getRandomNumber(0, 500) ~> int);
+      thread:wisey.threads.IThread->usleep(MSystem->getRandomNumber(0, 500) ~> int);
       printout("Hello world from thread " + mThreadNumber + "!\n");
     }
   }

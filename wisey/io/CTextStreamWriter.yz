@@ -11,13 +11,13 @@ import wisey.lang.NString;
  * Example:
  * <pre>
  * // Create text stream to a file
- * CTextStreamWriter* stream = CTextStreamWriter.open(NString.createFromString("test.txt"));
+ * CTextStreamWriter* stream = CTextStreamWriter->open(NString->createFromString("test.txt"));
  *
  * // write a line to a file
  * print(stream, "This is a test\n");
  *
  * // close the stream
- * stream.close();
+ * stream->close();
  * </pre>
  */
 controller CTextStreamWriter {

@@ -9,7 +9,7 @@ controller CProgram implements IProgram {
   }
 
   public int run(immutable string[] arguments) override {
-    return systems.vos.wisey.compiler.tests.CProgram.getValue() ~> ::llvm::i32;
+    return systems.vos.wisey.compiler.tests.CProgram->getValue() ~> ::llvm::i32;
   }
 }
 

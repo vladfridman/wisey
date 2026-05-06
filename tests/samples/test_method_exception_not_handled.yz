@@ -8,7 +8,7 @@ model MException implements IException {
   int mValue;
 
   public NString* report() override {
-    return NString.create() ~> NString*;
+    return NString->create() ~> NString*;
   }
 }
 
@@ -31,7 +31,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher.doSomething() ~> int;
+    return mCatcher->doSomething() ~> int;
   }
 }
 

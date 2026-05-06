@@ -11,9 +11,9 @@ import wisey.lang.CMemoryPool;
  *   public int run(immutable string[] arguments) override {
  *     MCar* tesla = build(MCar).withYear(2019).onHeap() ~> MCar*; 
  *     // tesla is null after this instruction because ownership has been passed to the list
- *     mOwnerList.pushBack(tesla);
+ *     mOwnerList->pushBack(tesla);
  *     // returns 2019
- *     return mOwnerList.front().getYear();
+ *     return mOwnerList->front()->getYear();
  *   }
  * }
  * </pre>

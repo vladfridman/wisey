@@ -16,19 +16,19 @@ model MString {
    * Creates an MString from a string literal
    */
   public static MString* createFromString(string input) {
-    return copyMemoryAndBuild(input, input.getLength() ~> long + 1) ~> MString*;
+    return copyMemoryAndBuild(input, input->getLength() ~> long + 1) ~> MString*;
   }
 
   /**
    * Creates an MString from a null terminated char array
    */
   public static MString* createFromCharArray(char[] input) {
-    if (input.getSize() ~> long == 0) {
+    if (input->getSize() ~> long == 0) {
       return copyMemoryAndBuild(input, 1) ~> MString*;
     }
-    long length = input[input.getSize() ~> long - 1] == '\0'
+    long length = input[input->getSize() ~> long - 1] == '\0'
       ? (long) ::llvm::function::strlen(input) + 1
-      : input.getSize() ~> long + 1;
+      : input->getSize() ~> long + 1;
     return copyMemoryAndBuild(input, length) ~> MString*;
   }
 
@@ -36,12 +36,12 @@ model MString {
    * Creates an MString from a null terminated immutable char array
    */
   public static MString* createFromImmutableCharArray(immutable char[] input) {
-    if (input.getSize() ~> long == 0) {
+    if (input->getSize() ~> long == 0) {
       return copyMemoryAndBuild(input, 1) ~> MString*;
     }
-    long length = input[input.getSize() ~> long - 1] == '\0'
+    long length = input[input->getSize() ~> long - 1] == '\0'
       ? (long) ::llvm::function::strlen(input) + 1
-      : input.getSize() ~> long + 1;
+      : input->getSize() ~> long + 1;
     return copyMemoryAndBuild(input, length) ~> MString*;
   }
 
@@ -49,14 +49,14 @@ model MString {
    * Creates NString equivalent
    */
   public NString* toNode() {
-    return NString.createFromImmutableCharArray(mContent) ~> NString*;
+    return NString->createFromImmutableCharArray(mContent) ~> NString*;
   }
 
   /**
    * Returns the string length
    */
   public long getLength() {
-    long size = mContent.getSize() ~> long;
+    long size = mContent->getSize() ~> long;
     return size ? size - 1 : 0l;
   }
 
@@ -64,9 +64,9 @@ model MString {
    * Creates a copy of the string
    */
   public MString* copy() {
-    long length = mContent.getSize() ~> long;
+    long length = mContent->getSize() ~> long;
     char[]* buffer = new char[length];
-    MSystem.copyMemory(buffer, mContent, length);
+    MSystem->copyMemory(buffer, mContent, length);
     return build(MString).withContent(buffer).onHeap() ~> MString*;
   }
 
@@ -114,7 +114,7 @@ model MString {
 
   private static MString* copyMemoryAndBuild(::llvm::i8::pointer source, long length) {
     char[]* buffer = new char[length];
-    MSystem.copyMemory(buffer, source, length - 1);
+    MSystem->copyMemory(buffer, source, length - 1);
     return build(MString).withContent(buffer).onHeap() ~> MString*;
   }
 }

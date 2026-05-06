@@ -9,13 +9,13 @@ import wisey.lang.NString;
  * Example:
  * <pre>
  * // Create binary stream to standard out
- * CBinaryStreamWriter* stream = CBinaryStreamWriter.openSystemOut();
+ * CBinaryStreamWriter* stream = CBinaryStreamWriter->openSystemOut();
  *
  * // write byte[] array into the stream 
- * stream.writeImmutable(array);
+ * stream->writeImmutable(array);
  *
  * // close the stream
- * stream.close();
+ * stream->close();
  * </pre>
  */
 controller CBinaryStreamWriter {
@@ -58,7 +58,7 @@ controller CBinaryStreamWriter {
       throw build(MStreamClosedException).onHeap() ~> MStreamClosedException*;
     }
 
-    ::llvm::function::fwrite(array, 1l, array.getSize() ~> long, mStream);
+    ::llvm::function::fwrite(array, 1l, array->getSize() ~> long, mStream);
   }
 
  
@@ -70,7 +70,7 @@ controller CBinaryStreamWriter {
       throw build(MStreamClosedException).onHeap() ~> MStreamClosedException*;
     }
 
-    ::llvm::function::fwrite(array, 1l, array.getSize() ~> long, mStream);
+    ::llvm::function::fwrite(array, 1l, array->getSize() ~> long, mStream);
   }
  
   /**

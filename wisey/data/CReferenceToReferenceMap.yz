@@ -11,9 +11,9 @@ package wisey.data;
  *     MCar* tesla = build(MCar).withMake(make).onHeap() ~> MCar*; 
  *     // Store entry in the map where key is "Tesla" and value is a reference to MCar
  *     // tesla is not null after this instruction, because the owner does not change
- *     mMap.put(tesla.getMake(), tesla);
+ *     mMap->put(tesla->getMake(), tesla);
  *     // Get a reference to the MCar object
- *     MCar teslaReference = mMap.get(make);
+ *     MCar teslaReference = mMap->get(make);
  *     return 0;
  *   }
  * }

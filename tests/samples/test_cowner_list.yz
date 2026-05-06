@@ -72,7 +72,7 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   public boolean compare(MCar left, MCar right) override {
-    return (MString.compareStrings(left:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string, right:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string) ~> int) < 0;
+    return (MString->compareStrings(left:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string, right:systems.vos.wisey.compiler.tests.MCar->getMake() ~> string) ~> int) < 0;
   }
 }
 

@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     char[]* array = new char[0];
-    MString* mstring = MString.createFromCharArray(array) ~> MString*;
+    MString* mstring = MString->createFromCharArray(array) ~> MString*;
     printout("mstring: " + mstring + " length: " + mstring:wisey.lang.MString*->getLength() ~> long + "\n");
     return (int) mstring:wisey.lang.MString*->getLength() ~> int;
   }

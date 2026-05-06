@@ -11,10 +11,10 @@ thread TDataThread sends MList<MData*>* {
     while(true) {
       for (int i = 0; i < 10; i++) {
         MResult* result = build(MResult).onHeap() ~> MResult*;
-        mList.append(result);
+        mList->append(result);
       }
-      thread.send(mList.getModel());
-      thread.sleep(10000);
+      thread->send(mList->getModel());
+      thread->sleep(10000);
     }
   }
 }
@@ -24,22 +24,22 @@ thread TUIThread sends boolean {
 
   public void run() {
     // start data fetching if neccessary
-    if (!mDataThread.isStarted()) {
-      mDataThread.start();
+    if (!mDataThread->isStarted()) {
+      mDataThread->start();
     }
 
     while (true) {
       // read data
-      if (!mDataThread.hasMessage()) {
+      if (!mDataThread->hasMessage()) {
         return;
       }
 
-      MList<MData*>* dataArray = mDataThread.getMessage() ~> MList<MData*>*;
+      MList<MData*>* dataArray = mDataThread->getMessage() ~> MList<MData*>*;
 
       // draw everything into GPU buffer
       render(dataArray);
 
-      thread.send(true);
+      thread->send(true);
     }
   }
 }
@@ -51,15 +51,15 @@ controller COrchestrator implements IOrchestrator {
   // This is called by native code. Returns 1 if the new frame was drawn 0 otherwise.
   public int vsync() {
 
-    if (!mUIThread.isStarted()) {
-      mUIThread.start();
+    if (!mUIThread->isStarted()) {
+      mUIThread->start();
     }
 
-    if (!mUIThread.hasMessage()) {
+    if (!mUIThread->hasMessage()) {
       // still processing previous frame
       return 0;
     }
 
-    return mUIThread.getMessage() ~> boolean;
+    return mUIThread->getMessage() ~> boolean;
   }
 }

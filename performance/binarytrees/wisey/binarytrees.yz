@@ -26,13 +26,13 @@ controller CBinaryTrees implements IProgram {
   // Memory pool where nodes of the long lived tree are allocated
   inject immediate CMemoryPool* mLongLivedPool;
   // Thread pool for running workers that allocate trees in parallel
-  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem->getProcessorCount());
   // Vector of worker objects
   inject immediate COwnerVector* mWorkers;
 
   // Execution starts here, maximum depth is passed from command line through arguments
   public int run(immutable string[] arguments) override {
-    int n = (NString.createFromString(arguments[1]) ~> NString*):NString*->toInt() ~> int;
+    int n = (NString->createFromString(arguments[1]) ~> NString*):NString*->toInt() ~> int;
 
     int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
     int stretchDepth = maxDepth + 1;
@@ -58,14 +58,14 @@ controller CBinaryTrees implements IProgram {
     mThreadPool:wisey.threads.CThreadPool*->start();
     MResult*[]* results = new MResult*[(maxDepth - MIN_DEPTH) / 2 + 1];
     int resultCount = 0;
-    while (resultCount < results.getSize() ~> long) {
+    while (resultCount < results->getSize() ~> long) {
       MResult* result = mThreadPool:wisey.threads.CThreadPool*->getResult() ~> MResult*;
       results[(result:wisey.data.CBinaryTrees.MResult*->getDepth() ~> int - MIN_DEPTH) / 2] = result;
       resultCount++;
     }
     mThreadPool:wisey.threads.CThreadPool*->waitAndStop();
 
-    for (int i = 0; i < results.getSize() ~> long; i++) {
+    for (int i = 0; i < results->getSize() ~> long; i++) {
       results[i]:wisey.data.CBinaryTrees.MResult*->printme();
     }
     printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode:wisey.data.CBinaryTrees.NTreeNode*->itemCheck() ~> int + "\n");
@@ -134,7 +134,7 @@ controller CBinaryTrees implements IProgram {
 
       int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
       for (int i = 1; i <= iterations; i++) {
-        check += (CBinaryTrees.bottomUpTree(mDepth, pool) ~> NTreeNode*):CBinaryTrees.NTreeNode*->itemCheck() ~> int;
+        check += (CBinaryTrees->bottomUpTree(mDepth, pool) ~> NTreeNode*):CBinaryTrees.NTreeNode*->itemCheck() ~> int;
       }
       thread:wisey.threads.IThread->send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap() ~> MResult*);
     }

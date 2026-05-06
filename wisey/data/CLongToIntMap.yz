@@ -6,13 +6,13 @@ package wisey.data;
  * Example:
  * <pre>
  * // Can be injected in a field as well
- * CLongToIntMap* map = CLongToIntMap.create() ~> CLongToIntMap*;
+ * CLongToIntMap* map = CLongToIntMap->create() ~> CLongToIntMap*;
  *
  * // put a key, value pair into the map
- * map.put(2l, 3);
+ * map->put(2l, 3);
  *
  * // clear the map
- * map.clear();
+ * map->clear();
  * </pre>
  */
 controller CLongToIntMap {

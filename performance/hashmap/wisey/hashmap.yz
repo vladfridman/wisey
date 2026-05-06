@@ -27,7 +27,7 @@ controller CHashmap implements IProgram {
 
     for (int i = 0; i < ARRAY_SIZE; i++) {
       array[i] = build(MElement).withKey(i).onHeap() ~> MElement*;
-      keys[i] = NString.createFromInt(i) ~> NString*;
+      keys[i] = NString->createFromInt(i) ~> NString*;
     }
     for (int i = 0; i < ARRAY_SIZE; i++) {
       mMap:wisey.data.CReferenceToReferenceMap*->put(keys[i]:wisey.lang.NString*->getContent() ~> char[], array[i]);

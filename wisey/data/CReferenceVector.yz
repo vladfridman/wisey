@@ -11,9 +11,9 @@ import wisey.lang.MSystem;
  *   public int run(immutable string[] arguments) override {
  *     MCar* tesla = build(MCar).withYear(2019).onHeap() ~> MCar*; 
  *     // tesla is not null after this because list only keeps a reference to the object
- *     mReferenceVector.pushBack(tesla);
+ *     mReferenceVector->pushBack(tesla);
  *     // Returns 2019
- *     return mReferenceVector.popBack().getYear();
+ *     return mReferenceVector->popBack()->getYear();
  *   } 
  * }
  * </pre>

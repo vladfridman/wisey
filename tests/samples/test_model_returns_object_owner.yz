@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MCar* car = build(MCar).withArray(null).onHeap() ~> MCar*;
-    car.capture();
+    car->capture();
     return 1;
   }
 }

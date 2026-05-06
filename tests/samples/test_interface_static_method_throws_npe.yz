@@ -21,7 +21,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MValueContainer* valueContainer = build(MValueContainer).withValue(7).onHeap() ~> MValueContainer*;
     MValueContainer* anotherContainer = valueContainer;
-    return IShape.getValue(valueContainer) ~> int;
+    return IShape->getValue(valueContainer) ~> int;
   }
 } 
 

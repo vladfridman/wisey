@@ -21,7 +21,7 @@ controller CProgram implements IProgram {
     MCar* car3 = build(MCar).withYear(2016).onPool(mPool) ~> MCar*;
     car1 = null;
     MCar* car4 = build(MCar).withYear(2015).onPool(mPool) ~> MCar*;
-    return car2.getYear() ~> int;
+    return car2->getYear() ~> int;
   }
 }
 

@@ -12,7 +12,7 @@ controller CService {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return CService.getValue() ~> int;
+    return CService->getValue() ~> int;
   }
 }
 

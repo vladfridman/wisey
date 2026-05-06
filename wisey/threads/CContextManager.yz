@@ -29,7 +29,7 @@ controller CContextManager {
     mContextNameToContextMap:wisey.data.CReferenceToReferenceMap*->put(contextName, context);
     CReferenceToReferenceMap objectNameToObjectMap = mContextToObjectMap:wisey.data.CReferenceToOwnerMap*->get(context) ~> CReferenceToReferenceMap;
     if (objectNameToObjectMap == null) {
-      mContextToObjectMap:wisey.data.CReferenceToOwnerMap*->put(context, CReferenceToOwnerMap.create() ~> CReferenceToOwnerMap*);
+      mContextToObjectMap:wisey.data.CReferenceToOwnerMap*->put(context, CReferenceToOwnerMap->create() ~> CReferenceToOwnerMap*);
     }
   }
 

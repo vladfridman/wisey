@@ -32,7 +32,7 @@ controller CCatcher {
       mThrower:systems.vos.wisey.compiler.tests.CThrower*->doThrow();
     } catch (MException* exception) {
       a = 2;
-      return exception.getValue() ~> int;
+      return exception->getValue() ~> int;
     }
     return 5;
   }
@@ -42,7 +42,7 @@ controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
   public int run(immutable string[] arguments) override {
-    return mCatcher.doTryCatch() ~> int;
+    return mCatcher->doTryCatch() ~> int;
   }
 }
 

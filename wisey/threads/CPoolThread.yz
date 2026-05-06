@@ -7,7 +7,7 @@ import wisey.lang.CMemoryPool;
  * <br/>
  * In its run method it constantly polls the thread pool for a new worker and when it finds it
  * it runs the work() method of the returned worker. The worker is responsible for sending 
- * a result back if there are any by calling thread.send(::wisey::model*) method. Once worker is 
+ * a result back if there are any by calling thread->send(::wisey::model*) method. Once worker is 
  * finished the thread waits for a new worker in the thread pool. 
  * The thread never ends until it is canceled through cancel() method.
  * <br/>
@@ -67,7 +67,7 @@ controller CPoolThread implements IThread {
 
   public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
-    mContextManager:wisey.threads.CContextManager*->setContext(IThread.getTypeName() ~> string, thread);
+    mContextManager:wisey.threads.CContextManager*->setContext(IThread->getTypeName() ~> string, thread);
     while (true) {
       IWorker* worker = mThreadPool:wisey.threads.CThreadPool->getWorker() ~> IWorker*;
       worker:wisey.threads.IWorker*->work();

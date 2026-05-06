@@ -8,7 +8,7 @@ controller CService {
   }
 
   public static int getCarYear(CService.MCar car) {
-    return car.getYear() ~> int;
+    return car->getYear() ~> int;
   }
 }
 

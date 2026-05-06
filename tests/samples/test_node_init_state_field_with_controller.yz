@@ -28,7 +28,7 @@ controller CProgram implements IProgram {
     IHasValue* car = build(MCar).onHeap() ~> MCar*;
     CService* service = inject(CService).onHeap() ~> CService*;
     NElement* element = build(NElement).withHasValue(service).onHeap() ~> NElement*;
-    return element.getValue() ~> int;
+    return element->getValue() ~> int;
   }
 }
 

@@ -24,7 +24,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
   // Thread pool for running workers process part of the input
-  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem.getProcessorCount());
+  inject immediate CThreadPool* mThreadPool.withPoolSize(MSystem->getProcessorCount());
 
   // Execution starts here, input data is read from standard input
   public int run(immutable string[] arguments) override {
@@ -34,14 +34,14 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     CFragment*[]* fragments = createFragments(sequence, fragmentLengths) ~> CFragment*[]*;
 
 
-    NString stringBuilder = NString.create() ~> NString*;
-    stringBuilder:wisey.lang.NString->appendNString(writeFrequencies((float) sequence.getSize(), fragments[0]) ~> NString*);
+    NString stringBuilder = NString->create() ~> NString*;
+    stringBuilder:wisey.lang.NString->appendNString(writeFrequencies((float) sequence->getSize(), fragments[0]) ~> NString*);
     stringBuilder:wisey.lang.NString->appendNString(
-      writeFrequencies((float) (sequence.getSize() ~> long) - 1.0,
+      writeFrequencies((float) (sequence->getSize() ~> long) - 1.0,
       sumTwoMaps(fragments[1], fragments[2]) ~> CFragment) ~> NString*);
 
     string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
-    for (int i = 0; i < nucleotideFragments.getSize() ~> long; i++) {
+    for (int i = 0; i < nucleotideFragments->getSize() ~> long; i++) {
       string nucleotideFragment = nucleotideFragments[i];
       stringBuilder:wisey.lang.NString->appendNString(writeCount(fragments, nucleotideFragment) ~> NString*);
     }
@@ -55,7 +55,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    */
   private CFragment*[]* createFragments(immutable byte[] sequence, int[] fragmentLengths) {
     int arrayIndex = 0;
-    for (int i = 0; i < fragmentLengths.getSize() ~> long; i++) {
+    for (int i = 0; i < fragmentLengths->getSize() ~> long; i++) {
       int fragmentLength = fragmentLengths[i];
       for (int index = 0; index < fragmentLength; index++) {
         int offset = index;
@@ -71,7 +71,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     }
     mThreadPool:wisey.threads.CThreadPool*->start();
     CFragment*[]* fragments = new CFragment*[arrayIndex];
-    for (int i = 0; i < fragments.getSize() ~> long; i++) {
+    for (int i = 0; i < fragments->getSize() ~> long; i++) {
       MFragmentWorkerResult* result = mThreadPool:wisey.threads.CThreadPool*->getResult() ~> MFragmentWorkerResult*;
       fragments[result:wisey.performance.testing.CKNucleotide.MFragmentWorkerResult*->getArrayIndex()] = result:wisey.performance.testing.CKNucleotide.MFragmentWorkerResult*->toController() ~> CFragment*;
     }
@@ -93,7 +93,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
      */
     public void work() override {
       CLongToIntMap map = inject(CFragmentWorkerContext).onHeap():CKNucleotide.CFragmentWorkerContext->getMap() ~> CLongToIntMap;
-      int lastIndex = (int) (mSequence.getSize() ~> long) - mFragmentLength + 1;
+      int lastIndex = (int) (mSequence->getSize() ~> long) - mFragmentLength + 1;
       for (int index = mOffset; index < lastIndex; index += mFragmentLength) {
         long key = 0;
         for (int i = index; i < index + mFragmentLength; i++) {
@@ -134,7 +134,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       CFragment* fragment = inject(CFragment)
         .withKeyLength(mKeyLength)
         .onHeap() ~> CFragment*;
-      for (int i = 0; i < mKeys.getSize() ~> long; i++) {
+      for (int i = 0; i < mKeys->getSize() ~> long; i++) {
         fragment:wisey.performance.testing.CKNucleotide.CFragment*->getMap():wisey.data.CLongToIntMap->put(mKeys[i], mValues[i]);
       }
       return fragment;
@@ -205,7 +205,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
   private CFragment sumTwoMaps(CFragment fragment1, CFragment fragment2) {
     long[]* keysArray = fragment2:wisey.performance.testing.CKNucleotide.CFragment->getMap():wisey.data.CLongToIntMap->getKeys() ~> long[]*;
     int[]* valuesArray = fragment2:wisey.performance.testing.CKNucleotide.CFragment->getMap():wisey.data.CLongToIntMap->getValues() ~> int[]*;
-    for (int i = 0; i < keysArray.getSize() ~> long; i++) {
+    for (int i = 0; i < keysArray->getSize() ~> long; i++) {
       long key = keysArray[i];
       fragment1:wisey.performance.testing.CKNucleotide.CFragment->getMap():wisey.data.CLongToIntMap->addTo(key, valuesArray[i]);
     }
@@ -219,7 +219,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     long[]* keysArray = frequencies:wisey.performance.testing.CKNucleotide.CFragment->getMap():wisey.data.CLongToIntMap->getKeys() ~> long[]*;
     int[]* valuesArray = frequencies:wisey.performance.testing.CKNucleotide.CFragment->getMap():wisey.data.CLongToIntMap->getValues() ~> int[]*;
     COwnerVector* vector = inject(COwnerVector).onHeap() ~> COwnerVector*;
-    for (int i = 0; i < keysArray.getSize() ~> long; i++) {
+    for (int i = 0; i < keysArray->getSize() ~> long; i++) {
       NKeyValuePair* pair = build(NKeyValuePair)
         .withKey(keysArray[i])
         .withValue(valuesArray[i])
@@ -227,7 +227,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       vector:wisey.data.COwnerVector*->pushBack(pair);
     }
     vector:wisey.data.COwnerVector*->sort(this);
-    NString* sb = NString.create() ~> NString*;
+    NString* sb = NString->create() ~> NString*;
     int keyLength = frequencies:wisey.performance.testing.CKNucleotide.CFragment->getKeyLength() ~> int;
     long entryCount = vector:wisey.data.COwnerVector*->getSize() ~> long;
     for (long i = 0l; i < entryCount; i++) {
@@ -251,12 +251,12 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     long scaled = (long) (value * 1000.0 + 0.5);
     long whole = scaled / 1000;
     long frac = scaled - whole * 1000;
-    NString* sb = NString.create() ~> NString*;
-    sb:wisey.lang.NString*->appendNString(NString.createFromLong(whole) ~> NString*);
+    NString* sb = NString->create() ~> NString*;
+    sb:wisey.lang.NString*->appendNString(NString->createFromLong(whole) ~> NString*);
     sb:wisey.lang.NString*->appendString(".");
     if (frac < 100) { sb:wisey.lang.NString*->appendString("0"); }
     if (frac < 10) { sb:wisey.lang.NString*->appendString("0"); }
-    sb:wisey.lang.NString*->appendNString(NString.createFromLong(frac) ~> NString*);
+    sb:wisey.lang.NString*->appendNString(NString->createFromLong(frac) ~> NString*);
     return sb;
   }
 
@@ -264,7 +264,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Compare function used for sorting of the NKeyValuePair vector.
    * Returns true when `left` should come before `right` — i.e., when
    * left's count is GREATER (descending order, matching Java's
-   * Comparator.reverseOrder() on getValue).
+   * Comparator->reverseOrder() on getValue).
    */
   private boolean compare(NKeyValuePair left, NKeyValuePair right) override {
     return left:wisey.performance.testing.CKNucleotide.NKeyValuePair->getValue() ~> int > right:wisey.performance.testing.CKNucleotide.NKeyValuePair->getValue() ~> int;
@@ -280,7 +280,7 @@ controller CKNucleotide implements IProgram, IObjectComparator {
       res[length - i - 1] = NUCLEOTIDES[(int) (key & 0x3)];
       key = key >> 2;
     }
-    return NString.createFromCharArray(res) ~> NString*;
+    return NString->createFromCharArray(res) ~> NString*;
   }
 
   /**
@@ -288,18 +288,18 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    */
   private NString* writeCount(CFragment*[] fragments, string nucleotideFragment) {
     byte[]* key = toCodesFromString(nucleotideFragment) ~> byte[]*;
-    long k = getKey(key, 0, (int) nucleotideFragment.getLength()) ~> long;
+    long k = getKey(key, 0, (int) nucleotideFragment->getLength()) ~> long;
     int count = 0;
-    for (int i = 0; i < fragments.getSize() ~> long; i++) {
+    for (int i = 0; i < fragments->getSize() ~> long; i++) {
       CFragment fragment = (CFragment) fragments[i];
-      if (fragment:wisey.performance.testing.CKNucleotide.CFragment->getKeyLength() ~> int == nucleotideFragment.getLength() ~> long) {
+      if (fragment:wisey.performance.testing.CKNucleotide.CFragment->getKeyLength() ~> int == nucleotideFragment->getLength() ~> long) {
         if (fragment:wisey.performance.testing.CKNucleotide.CFragment->getMap():wisey.data.CLongToIntMap->has(k)) {
           count += fragment:wisey.performance.testing.CKNucleotide.CFragment->getMap():wisey.data.CLongToIntMap->get(k) ~> int;
         }
       }
     }
 
-    NString* value = NString.createFromInt(count) ~> NString*;
+    NString* value = NString->createFromInt(count) ~> NString*;
     value:wisey.lang.NString*->appendString("\t");
     value:wisey.lang.NString*->appendString(nucleotideFragment);
     value:wisey.lang.NString*->appendString("\n");
@@ -310,10 +310,10 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Take nucleotide fragment and convert it to byte array of codes
    */
   private static byte[]* toCodesFromString(string input) {
-    NString* nstring = NString.createFromString(input) ~> NString*;
+    NString* nstring = NString->createFromString(input) ~> NString*;
     char[] nstringContent = nstring:wisey.lang.NString*->getContent() ~> char[];
-    byte[]* result = new byte[nstringContent.getSize() ~> long - 1];
-    for (int i = 0; i < nstringContent.getSize() ~> long - 1; i++) {
+    byte[]* result = new byte[nstringContent->getSize() ~> long - 1];
+    for (int i = 0; i < nstringContent->getSize() ~> long - 1; i++) {
       result[i] = CODES[(byte) nstringContent[i] & 0x7];
     }
     return result;
@@ -323,8 +323,8 @@ controller CKNucleotide implements IProgram, IObjectComparator {
    * Reads input data from standard input
    */
   private byte[]* read() {
-    NString* line = NString.create() ~> NString*;
-    CTextStreamReader* stream = CTextStreamReader.openSystemIn() ~> CTextStreamReader*;
+    NString* line = NString->create() ~> NString*;
+    CTextStreamReader* stream = CTextStreamReader->openSystemIn() ~> CTextStreamReader*;
     while ((line = stream:wisey.io.CTextStreamReader*->readLineIntoNString(line) ~> NString*) != null) {
       if (line:wisey.lang.NString*->startsWith(">THREE")) {
         break;
@@ -334,9 +334,9 @@ controller CKNucleotide implements IProgram, IObjectComparator {
     byte[]* bytes = new byte[1048576];
     long position = 0;
     while ((line = stream:wisey.io.CTextStreamReader*->readLineIntoNString(line) ~> NString*) != null && line:wisey.lang.NString*->charAt(0) ~> char != '>') {
-      if (line:wisey.lang.NString*->getLength() ~> long + position > bytes.getSize() ~> long) {
-        byte[]* newBytes = new byte[bytes.getSize() ~> long * 2];
-        MSystem.copyMemory(newBytes, bytes, position);
+      if (line:wisey.lang.NString*->getLength() ~> long + position > bytes->getSize() ~> long) {
+        byte[]* newBytes = new byte[bytes->getSize() ~> long * 2];
+        MSystem->copyMemory(newBytes, bytes, position);
         bytes = newBytes;
       }
       for (int i = 0; i < line:wisey.lang.NString*->getLength() ~> long; i++) {

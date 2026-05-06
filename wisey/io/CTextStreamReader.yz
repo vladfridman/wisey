@@ -9,13 +9,13 @@ import wisey.lang.NString;
  * Example:
  * <pre>
  * // Create text stream from standard input
- * CTextStreamReader* stream = CTextStreamReader.openSystemIn();
+ * CTextStreamReader* stream = CTextStreamReader->openSystemIn();
  *
  * // read a line from stream 
- * NString* line = stream.readLineIntoNString(line)
+ * NString* line = stream->readLineIntoNString(line)
  *
  * // close the stream
- * stream.close();
+ * stream->close();
  * </pre>
  */
 controller CTextStreamReader {
@@ -55,7 +55,7 @@ controller CTextStreamReader {
    * New line character will not be part of the returned string
    */
   public NString* readLine() throws MStreamClosedException {
-    NString* line = NString.create() ~> NString*;
+    NString* line = NString->create() ~> NString*;
     return readLineIntoNString(line) ~> NString*;
   }
 
@@ -72,7 +72,7 @@ controller CTextStreamReader {
     line:wisey.lang.NString*->clear();
     ::llvm::i8::pointer result = null;
     long length = 0;
-    long bufferSize = mBuffer.getSize() ~> long;
+    long bufferSize = mBuffer->getSize() ~> long;
     mBuffer[bufferSize - 1] = '\0';
 
     do {

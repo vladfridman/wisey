@@ -11,9 +11,9 @@ package wisey.data;
  *     MCar* tesla = build(MCar).withMake(make).onHeap() ~> MCar*; 
  *     // Store entry in the map where key is "Tesla" and value is the MCar object allocated above
  *     // tesla is null after this instruction
- *     mMap.put(tesla.getMake(), tesla);
+ *     mMap->put(tesla->getMake(), tesla);
  *     // Get ownership back from the map to the MCar object
- *     tesla = mMap.take(make);
+ *     tesla = mMap->take(make);
  *     return 0;
  *   }
  * }

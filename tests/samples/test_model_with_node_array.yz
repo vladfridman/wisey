@@ -14,7 +14,7 @@ model MMyModel {
   NContainer[][]* mArray;
 
   public int getValue() {
-    return mArray[3][3].getContent() ~> int;
+    return mArray[3][3]->getContent() ~> int;
   }
 }
 

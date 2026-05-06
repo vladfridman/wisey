@@ -13,7 +13,7 @@ model MShape {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return MShape.getSize() ~> int * 2;
+    return MShape->getSize() ~> int * 2;
   }
 }
 

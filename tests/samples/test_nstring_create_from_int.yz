@@ -6,7 +6,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NString* nstring = NString.createFromInt(12345) ~> NString*;
+    NString* nstring = NString->createFromInt(12345) ~> NString*;
     printout("Result: " + nstring + "\n");
     return (int) nstring:wisey.lang.NString*->getLength() ~> int;
   }

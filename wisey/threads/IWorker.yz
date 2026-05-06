@@ -11,7 +11,7 @@ interface IWorker {
   /**
    * Method where thread work happens. 
    *
-   * Results should be sent back to the calling thread through thread.send() method.
+   * Results should be sent back to the calling thread through thread->send() method.
    */
   void work() throws MThreadBoundaryException;
 }

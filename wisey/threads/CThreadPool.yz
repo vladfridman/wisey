@@ -7,20 +7,20 @@ package wisey.threads;
  *
  * <pre>
  * controller CYourController {
- *   inject CThreadPool* mThreadPool.withPoolSize(wisey.lang.MSystem.getProcessorCount());
+ *   inject CThreadPool* mThreadPool.withPoolSize(wisey.lang.MSystem->getProcessorCount());
  *
  *   public void yourMethod() {
  *     // submit your workers 
- *     mThreadPool.submit(build(MyWorker1).onHeap() ~> MyWorker1*);
- *     mThreadPool.submit(build(MyWorker2).onHeap() ~> MyWorker2*);
+ *     mThreadPool->submit(build(MyWorker1).onHeap() ~> MyWorker1*);
+ *     mThreadPool->submit(build(MyWorker2).onHeap() ~> MyWorker2*);
  *     ...
  *     // start threads on the thread pool, can also be called before workers are submitted
- *     mThreadPool.start();
- *     MyModel* result = mThreadPool.getResult();
+ *     mThreadPool->start();
+ *     MyModel* result = mThreadPool->getResult();
  *     // do something with the results
  *     ...
  *     // once all results are received stop the thread pool
- *     mThreadPool.waitAndStop();
+ *     mThreadPool->waitAndStop();
  *     // you can then reuse the CThreadPool controller by calling start() method again 
  *     // but this will create a new set of pool threads
  *   }
@@ -60,7 +60,7 @@ controller CThreadPool {
    * Wait for all pool threads to finish and stop the pool
    */
   public void waitAndStop() {
-    for (int i = 0; i < mThreads.getSize() ~> long; i++) {
+    for (int i = 0; i < mThreads->getSize() ~> long; i++) {
       mWorkers:wisey.threads.CThreadPool.CConcurrentModelOwnerQueue*->push(build(MEnder).onHeap() ~> MEnder*);
     }
     for (int i = 0; i < mPoolSize; i++) {

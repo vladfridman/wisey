@@ -12,7 +12,7 @@ node NNode {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return NNode.getValue() ~> int;
+    return NNode->getValue() ~> int;
   }
 }
 

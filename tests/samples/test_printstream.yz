@@ -7,8 +7,8 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CTextStreamWriter* stream = CTextStreamWriter.open(
-      NString.createFromString("build/test.txt") ~> NString*) ~> CTextStreamWriter*;
+    CTextStreamWriter* stream = CTextStreamWriter->open(
+      NString->createFromString("build/test.txt") ~> NString*) ~> CTextStreamWriter*;
     print(stream, "This is a test\n");
     stream:wisey.io.CTextStreamWriter*->close();
     return 1;

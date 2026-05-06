@@ -6,7 +6,7 @@ import wisey.lang.NString;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NString* nstring = NString.createFromString("lorem ipsum") ~> NString*;
+    NString* nstring = NString->createFromString("lorem ipsum") ~> NString*;
 
     return nstring:wisey.lang.NString*->startsWith("lorem") ~> boolean + nstring:wisey.lang.NString*->startsWith("ipsum") ~> boolean;
   }

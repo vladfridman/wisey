@@ -33,7 +33,7 @@ model MMainThreadWorker implements IWorker {
     }
     
     printerr("Main thread ended without a result\n");
-    IProgram.terminate(1);
+    IProgram->terminate(1);
 
     return 1;
   }
