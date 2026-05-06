@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+node NCar {
+  receive int mYear;
+
+  public int getYear() {
+    return mYear;
+  }
+}
+
+controller CProgram implements IProgram {
+  public int run(immutable string[] arguments) override {
+    region car_r;
+    NCar* car = build(NCar).withYear(2026) in car_r ~> NCar*;
+    return car:NCar*->getYear() ~> int;
+  }
+}
+
+bind(IProgram, CProgram);

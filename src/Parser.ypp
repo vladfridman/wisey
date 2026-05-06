@@ -252,6 +252,7 @@
 %token <string> TNODEIDENTIFIER TCONSTANTIDENTIFIER THEXADECIMAL
 
 %token <token> TANDOP TARROW TWAVEARROW TBIND TBITWISEANDBY TBITWISEORBY TBITWISEXORBY TBREAK TBUILD TCASE TCATCH TRECVCOLON
+%token <token> TREGION TIN
 %token <token> TCEQ TCGE TCLE TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDECBYOP TDIVIDEBY TDO 
 %token <token> TDOUBLECOLON TELIPSIS TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF
 %token <token> TIMMEDIATE TIMMUTABLE TIMPLEMENTS TIMPORT TINCOP TINCBYOP TINJECT TINSTANCEOF TINTERFACE  
@@ -289,7 +290,7 @@
 %type <constant_expression_vector> static_array_elements
 %type <block> block_item_list
 %type <program_file> program
-%type <statement> statement variable_declaration
+%type <statement> statement variable_declaration region_declaration
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> declaration expression_statement iteration_statement
 %type <statement> print_statement selection_statement 
@@ -1211,6 +1212,54 @@ block_item
 
 declaration
   : variable_declaration
+  | region_declaration
+  ;
+
+/*
+ * `region req_r;` — declares a named bag of memory bound to the enclosing
+ * scope. Phase A (no enforcement): desugars to a local
+ * `wisey.lang.CMemoryPool* req_r = inject(CMemoryPool).onHeap();`. Existing
+ * `.onPool(req_r)` and the new `... in req_r` builder suffix both target
+ * this pool. Later phases will add region kinds (bound/monotonic/frozen),
+ * the outlives-tree borrow checker, and `move ... into ...`.
+ */
+region_declaration
+  : TREGION TIDENTIFIER ';'
+    {
+      /*
+       * Three independent copies of `wisey.lang.CMemoryPool` because
+       * VariableDeclaration's owner-spec, the Injector's spec, and the
+       * TypeAnnotatedExpression's spec all delete-own their pointer.
+       * Sharing one would double-free at AST destruction.
+       */
+      auto declPkgHead = new Identifier("wisey", yylineno);
+      auto declPkgChain = new IdentifierChain(declPkgHead, "lang", false, yylineno);
+      auto declCtrlSpec =
+        new ControllerTypeSpecifierFull(declPkgChain, "CMemoryPool", yylineno);
+      auto ownerSpec = new ObjectOwnerTypeSpecifier(declCtrlSpec);
+
+      auto injPkgHead = new Identifier("wisey", yylineno);
+      auto injPkgChain = new IdentifierChain(injPkgHead, "lang", false, yylineno);
+      auto injCtrlSpec =
+        new ControllerTypeSpecifierFull(injPkgChain, "CMemoryPool", yylineno);
+      InjectionArgumentList argList;
+      auto injector = new Injector(injCtrlSpec, argList, yylineno);
+
+      // Wrap with `~> CMemoryPool*` so requireAnnotated passes — the call
+      // is an Injector, so without the wrapper VariableDeclaration would
+      // reject it as an unannotated call expression.
+      auto annPkgHead = new Identifier("wisey", yylineno);
+      auto annPkgChain = new IdentifierChain(annPkgHead, "lang", false, yylineno);
+      auto annCtrlSpec =
+        new ControllerTypeSpecifierFull(annPkgChain, "CMemoryPool", yylineno);
+      auto annOwnerSpec = new ObjectOwnerTypeSpecifier(annCtrlSpec);
+      auto annotated = new TypeAnnotatedExpression(injector, annOwnerSpec, yylineno);
+
+      auto identifier = new Identifier(*$2, yylineno);
+      $$ = VariableDeclaration::createWithAssignment(ownerSpec, identifier,
+                                                     annotated, yylineno);
+      delete $2;
+    }
   ;
 
 statement
@@ -1694,9 +1743,31 @@ pool_builder
     '.' TONPOOL '(' expression ')'
     { $$ = new PoolBuilder($3, *$5, $9, yylineno); delete $5; }
   | TBUILD '(' object_type_specifier_buildable ')' '.' TONPOOL '(' expression ')'
-    { 
-      BuilderArgumentList argumentList; 
-      $$ = new PoolBuilder($3, argumentList, $8, yylineno); 
+    {
+      BuilderArgumentList argumentList;
+      $$ = new PoolBuilder($3, argumentList, $8, yylineno);
+    }
+  /*
+   * `build(M).withX(1) in pool` — sugar for `.onPool(pool)`. The region
+   * is restricted to an identifier (local or field) here to avoid LALR(1)
+   * conflicts: `postfix_expression` is recursive and would clash with the
+   * pool_builder rule itself. Phase A limit; relax later if needed.
+   */
+  | TBUILD '(' object_type_specifier_buildable ')' builder_argument_list
+    TIN identifier
+    { $$ = new PoolBuilder($3, *$5, (IExpression*) $7, yylineno); delete $5; }
+  | TBUILD '(' object_type_specifier_buildable ')' TIN identifier
+    {
+      BuilderArgumentList argumentList;
+      $$ = new PoolBuilder($3, argumentList, (IExpression*) $6, yylineno);
+    }
+  | TBUILD '(' object_type_specifier_buildable ')' builder_argument_list
+    TIN field_identifier
+    { $$ = new PoolBuilder($3, *$5, $7, yylineno); delete $5; }
+  | TBUILD '(' object_type_specifier_buildable ')' TIN field_identifier
+    {
+      BuilderArgumentList argumentList;
+      $$ = new PoolBuilder($3, argumentList, $6, yylineno);
     }
   ;
 

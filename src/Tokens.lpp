@@ -104,6 +104,7 @@ WS  [ \t\v\n\f]
 "immutable"                   return TOKEN(TIMMUTABLE);
 "implements"                  return TOKEN(TIMPLEMENTS);
 "import"                      return TOKEN(TIMPORT);
+"in"                          return TOKEN(TIN);
 "inject"                      return TOKEN(TINJECT);
 "inScope"                     return TOKEN(TINSCOPE);
 "instanceof"                  return TOKEN(TINSTANCEOF);
@@ -124,6 +125,7 @@ WS  [ \t\v\n\f]
 "private"                     return TOKEN(TPRIVATE);
 "public"                      return TOKEN(TPUBLIC);
 "receive"                     return TOKEN(TRECEIVE);
+"region"                      return TOKEN(TREGION);
 "return"                      return TOKEN(TRETURN);
 "state"                       return TOKEN(TSTATE);
 "static"                      return TOKEN(TSTATIC);

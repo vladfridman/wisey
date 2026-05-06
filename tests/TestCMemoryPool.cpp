@@ -32,6 +32,10 @@ TEST_F(TestFileRunner, pooledNodeRunTest) {
   runFile("tests/samples/test_pooled_node.yz", 2017);
 }
 
+TEST_F(TestFileRunner, regionDeclarationRunTest) {
+  runFile("tests/samples/test_region_declaration.yz", 2026);
+}
+
 TEST_F(TestFileRunner, destructPoolBeforeObjectsRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_destruct_pool_before_objects.yz",
                                1,
