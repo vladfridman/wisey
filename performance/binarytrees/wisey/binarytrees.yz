@@ -134,7 +134,7 @@ controller CBinaryTrees implements IProgram {
 
       int iterations = 1 << (mMaxDepth - mDepth + CBinaryTrees.MIN_DEPTH);
       for (int i = 1; i <= iterations; i++) {
-        check += (CBinaryTrees->bottomUpTree(mDepth, pool) ~> NTreeNode*):CBinaryTrees.NTreeNode*->itemCheck() ~> int;
+        check += (CBinaryTrees->bottomUpTree(mDepth, pool) ~> NTreeNode*)->itemCheck() ~> int;
       }
       thread:wisey.threads.IThread->send(build(MResult).withIterations(iterations).withDepth(mDepth).withCheck(check).onHeap() ~> MResult*);
     }
