@@ -221,6 +221,7 @@ Value* StringType::callGetContent(IRGenerationContext& context,
   
   IdentifierChain* identifierChain = new IdentifierChain(new FakeExpression(object, type),
                                                          "getContent",
+                                                         true,
                                                          line);
   ExpressionList arguments;
   MethodCall* methodCall = MethodCall::create(identifierChain, arguments, line);

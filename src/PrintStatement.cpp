@@ -55,6 +55,7 @@ void PrintStatement::generateIR(IRGenerationContext& context) const {
   FakeExpression* fakeIdentifier = new FakeExpression(streamExpressionValue, streamExpressionType);
   IdentifierChain* identifierChain = new IdentifierChain(fakeIdentifier,
                                                          Names::getStreamMethodName(),
+                                                         true,
                                                          mLine);
   ExpressionList methodCallArguments;
   MethodCall* methodCall = MethodCall::create(identifierChain, methodCallArguments, mLine);

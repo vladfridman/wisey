@@ -372,6 +372,7 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   Identifier* identfier = new Identifier(ThreadExpression::THREAD, 0);
   IdentifierChain* methodIdentifier = new IdentifierChain(identfier,
                                                           Names::getGetContextManagerMethodName(),
+                                                          true,
                                                           0);
   ExpressionList callArguments;
   MethodCall* getContextManager = MethodCall::create(methodIdentifier, callArguments, 0);
@@ -389,6 +390,7 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   
   methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
                                          Names::getGetInstanceMethodName(),
+                                         true,
                                          0);
   Value* contextObjectName = IObjectType::getObjectNamePointer(controller->mScopeType, context);
   FakeExpression* contextName = new FakeExpression(contextObjectName, PrimitiveTypes::STRING);
@@ -428,6 +430,7 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
 
   methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
                                          Names::getSetInstanceMethodName(),
+                                         true,
                                          0);
   contextName = new FakeExpression(contextObjectName, PrimitiveTypes::STRING);
   objectName = new FakeExpression(objectNamePointer, PrimitiveTypes::STRING);

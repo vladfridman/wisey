@@ -68,27 +68,27 @@ struct IdentifierChainTest : public Test {
 TEST_F(IdentifierChainTest, isConstantTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));
-  IdentifierChain identifierChain(mockExpression, "test", 0);
-  
+  IdentifierChain identifierChain(mockExpression, "test", false, 0);
+
   EXPECT_FALSE(identifierChain.isConstant());
 }
 
 TEST_F(IdentifierChainTest, isAssignableTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));
-  IdentifierChain identifierChain(mockExpression, "test", 0);
-  
+  IdentifierChain identifierChain(mockExpression, "test", false, 0);
+
   EXPECT_FALSE(identifierChain.isAssignable());
 }
 
 TEST_F(IdentifierChainTest, printToStreamTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));
-  IdentifierChain identifierChain(mockExpression, "test", 0);
-  
+  IdentifierChain identifierChain(mockExpression, "test", false, 0);
+
   stringstream stringStream;
   identifierChain.printToStream(mContext, stringStream);
-  
+
   EXPECT_STREQ("systems.vos.wisey.compiler.test", stringStream.str().c_str());
 }
 
@@ -96,8 +96,8 @@ TEST_F(IdentifierChainTest, getTypeForUndefinedBaseTypeTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printUndefinedTypeExpression));
-  
-  IdentifierChain identifierChain(mockExpression, "lang", 0);
+
+  IdentifierChain identifierChain(mockExpression, "lang", false, 0);
   const IType* type = identifierChain.getType(mContext);
   
   EXPECT_TRUE(type->isPackage());
@@ -112,7 +112,7 @@ TEST_F(IdentifierChainTest, getTypeForPackageBaseTypeTest) {
   ON_CALL(mockType, isPackage()).WillByDefault(Return(true));
   EXPECT_CALL(mockType, die());
   
-  IdentifierChain identifierChain(mockExpression, "tests", 0);
+  IdentifierChain identifierChain(mockExpression, "tests", false, 0);
   const IType* type = identifierChain.getType(mContext);
   
   EXPECT_TRUE(type->isPackage());
@@ -130,9 +130,9 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeTest) {
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockMethodDescriptor, getParentObject()).WillByDefault(Return(&mockObjectType));
 
-  IdentifierChain identifierChain(mockExpression, "foo", 0);
+  IdentifierChain identifierChain(mockExpression, "foo", true, 0);
   const IType* type = identifierChain.getType(mContext);
-  
+
   EXPECT_EQ(&mockMethodDescriptor, type);
 }
 
@@ -143,7 +143,7 @@ TEST_F(IdentifierChainTest, getTypeForPrimitiveBaseTypeDeathTest) {
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   ON_CALL(mockObjectType, isPrimitive()).WillByDefault(Return(true));
   
-  IdentifierChain identifierChain(mockExpression, "foo", 5);
+  IdentifierChain identifierChain(mockExpression, "foo", true, 5);
   
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
@@ -161,7 +161,7 @@ TEST_F(IdentifierChainTest, generateIRForUndefinedBaseTypeDeathTest) {
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   
-  IdentifierChain identifierChain(mockExpression, "foo", 3);
+  IdentifierChain identifierChain(mockExpression, "foo", true, 3);
   Mock::AllowLeak(mockExpression);
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -182,7 +182,7 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeMethodNotFoundDeathTest) {
   ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
 
-  IdentifierChain identifierChain(mockExpression, "foo", 1);
+  IdentifierChain identifierChain(mockExpression, "foo", true, 1);
 
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
@@ -212,7 +212,7 @@ TEST_F(IdentifierChainTest, generateIRTest) {
   ON_CALL(mockMethodDescriptor, isPublic()).WillByDefault(Return(true));
   ON_CALL(*mockExpression, generateIR(_, _)).WillByDefault(Return(objectPointer));
 
-  IdentifierChain identifierChain(mockExpression, "foo", 0);
+  IdentifierChain identifierChain(mockExpression, "foo", true, 0);
   Value* result = identifierChain.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(objectPointer, result);
@@ -234,7 +234,7 @@ TEST_F(IdentifierChainTest, generateIRForPrivateMethodDeathTest) {
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
   Mock::AllowLeak(&mockMethodDescriptor);
-  IdentifierChain identifierChain(mockExpression, "foo", 3);
+  IdentifierChain identifierChain(mockExpression, "foo", true, 3);
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   

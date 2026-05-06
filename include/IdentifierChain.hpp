@@ -27,11 +27,12 @@ namespace wisey {
     
     const IExpression* mObjectExpression;
     const std::string mName;
+    bool mIsArrow;
     int mLine;
-    
+
   public:
-    
-    IdentifierChain(const IExpression* objectExpression, std::string name, int line);
+
+    IdentifierChain(const IExpression* objectExpression, std::string name, bool isArrow, int line);
     
     ~IdentifierChain();
     

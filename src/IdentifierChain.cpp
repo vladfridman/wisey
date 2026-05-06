@@ -20,8 +20,9 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-IdentifierChain::IdentifierChain(const IExpression* objectExpression, std::string name, int line) :
-mObjectExpression(objectExpression), mName(name), mLine(line) {
+IdentifierChain::IdentifierChain(const IExpression* objectExpression, std::string name,
+                                 bool isArrow, int line) :
+mObjectExpression(objectExpression), mName(name), mIsArrow(isArrow), mLine(line) {
 }
 
 IdentifierChain::~IdentifierChain() {
@@ -48,11 +49,26 @@ Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* as
 const IType* IdentifierChain::getType(IRGenerationContext& context) const {
   const IType* expressionType = mObjectExpression->getType(context);
   if (expressionType->isPackage() || expressionType == UndefinedType::UNDEFINED) {
+    if (mIsArrow && mLine > 0) {
+      context.reportError(mLine,
+                          "Package-path lookup '" + mName +
+                          "' must use '.' instead of '->'. "
+                          "'->' marks a method call; '.' is structural lookup "
+                          "(packages, inner types, constants).");
+      throw 1;
+    }
     stringstream stringStream;
     mObjectExpression->printToStream(context, stringStream);
     return context.getPackageType(stringStream.str() + "." + mName);
   }
-  
+
+  if (!mIsArrow && mLine > 0) {
+    context.reportError(mLine,
+                        "Method call '" + mName + "' must use '->' instead of '.'. "
+                        "'.' is reserved for structural lookup (packages, inner "
+                        "types, constants, builder/injector chains).");
+    throw 1;
+  }
   return getMethodDescriptor(context);
 }
 
@@ -66,11 +82,7 @@ bool IdentifierChain::isAssignable() const {
 
 void IdentifierChain::printToStream(IRGenerationContext& context, iostream& stream) const {
   mObjectExpression->printToStream(context, stream);
-  // When the receiver is annotated, the syntactic separator before the
-  // method name is `:`, not `.`. The receiver-type annotation prints itself
-  // as `recv:Type`; we add the second `:method` to match the user-facing
-  // form `recv:Type:method`.
-  stream << (mObjectExpression->isReceiverAnnotation() ? "->" : ".") << mName;
+  stream << (mIsArrow ? "->" : ".") << mName;
 }
 
 const IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& context) const {
