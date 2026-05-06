@@ -77,6 +77,17 @@ namespace wisey {
     virtual bool isReceiverAnnotation() const { return false; }
 
     /**
+     * Tells whether this expression is a `TypeAnnotatedExpression` — i.e., a
+     * postfix `expr ~> Type` form. Used by the receiver-annotation enforcement
+     * rule to exempt receivers that already have their type visible via a
+     * return-type annotation: in `(call() ~> T):T->method()` the `:T` would
+     * just repeat what `~> T` already says.
+     *
+     * Default: false. Overridden by `TypeAnnotatedExpression` to return true.
+     */
+    virtual bool isTypeAnnotated() const { return false; }
+
+    /**
      * Tells whether this expression is the literal identifier `this`. Used by
      * the receiver-annotation enforcement rule to exempt `this.method(...)` —
      * the enclosing type is already visible at the file scope so re-annotating

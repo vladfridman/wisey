@@ -92,6 +92,13 @@ void IExpression::requireReceiverAnnotated(IRGenerationContext& context,
   if (dottedReceiver->isReceiverAnnotation()) {
     return;
   }
+  // Exempt receivers that already carry a return-type annotation. In
+  // `(call() ~> T)->method()` the type going in is visible from `~> T`;
+  // adding `:T` would just repeat it. Reading rule: `~>` and `:` carry the
+  // same type information at this position; require one, not both.
+  if (dottedReceiver->isTypeAnnotated()) {
+    return;
+  }
   // Exempt `this.method(...)` — the enclosing type is right there in the file
   // and re-annotating it on every method call is pure boilerplate.
   if (dottedReceiver->isThisIdentifier()) {

@@ -51,6 +51,8 @@ namespace wisey {
 
     bool isAssignable() const override;
 
+    bool isTypeAnnotated() const override { return true; }
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
   };
